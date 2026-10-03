@@ -1,0 +1,250 @@
+{
+ "reported": {
+  "manufacturer": "samsung",
+  "model": "SM-N980F",
+  "device": "c1s",
+  "soc_manufacturer": null,
+  "soc_model": null,
+  "board_platform": "universal990",
+  "hardware": "exynos990",
+  "android": "11",
+  "sdk": "30",
+  "fingerprint": "samsung/c1sxx/c1s:11/RP1A.200720.012/N980FXXS3DUL2:user/release-keys",
+  "security_patch": "2021-12-01",
+  "page_size": null,
+  "abilist": "arm64-v8a,armeabi-v7a,armeabi",
+  "arm64_userspace": true
+ },
+ "cpu": {
+  "count": 8,
+  "topology": "2+2+4",
+  "clock_domains": [
+   {
+    "policy": "policy6",
+    "cpus": [
+     6,
+     7
+    ],
+    "max_mhz": 2730.0,
+    "governor": "energy_step",
+    "designs": [
+     "SAMSUNG:0x004"
+    ]
+   },
+   {
+    "policy": "policy4",
+    "cpus": [
+     4,
+     5
+    ],
+    "max_mhz": 2504.0,
+    "governor": "energy_step",
+    "designs": [
+     "CORTEX_A76"
+    ]
+   },
+   {
+    "policy": "policy0",
+    "cpus": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "max_mhz": 2002.0,
+    "governor": "energy_step",
+    "designs": [
+     "CORTEX_A55"
+    ]
+   }
+  ],
+  "tiers": "2+2+4",
+  "clusters": [
+   {
+    "cores": 2,
+    "cpus": [
+     6,
+     7
+    ],
+    "implementer": "0x53",
+    "part": "0x004",
+    "design": "SAMSUNG:0x004",
+    "design_source": "unlisted in linux cputype.h",
+    "max_mhz": 2730.0,
+    "efficiency_class": false,
+    "core_class": "unknown"
+   },
+   {
+    "cores": 2,
+    "cpus": [
+     4,
+     5
+    ],
+    "implementer": "0x41",
+    "part": "0xd0b",
+    "design": "CORTEX_A76",
+    "design_source": "linux cputype.h",
+    "max_mhz": 2504.0,
+    "efficiency_class": false,
+    "core_class": "performance"
+   },
+   {
+    "cores": 4,
+    "cpus": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "implementer": "0x41",
+    "part": "0xd05",
+    "design": "CORTEX_A55",
+    "design_source": "linux cputype.h",
+    "max_mhz": 2002.0,
+    "efficiency_class": true,
+    "core_class": "efficiency"
+   }
+  ],
+  "all_big_cores": false,
+  "max_mhz": 2730.0,
+  "features": [
+   "aes",
+   "asimd",
+   "asimddp",
+   "asimdhp",
+   "asimdrdm",
+   "atomics",
+   "cpuid",
+   "crc32",
+   "dcpop",
+   "evtstrm",
+   "fp",
+   "fphp",
+   "lrcpc",
+   "pmull",
+   "sha1",
+   "sha2"
+  ]
+ },
+ "gpu": {
+  "gles": "ARM, Mali-G77, OpenGL ES 3.2 v1.r26p0-01eac0.###other-sha0123456789ABCDEF0###",
+  "vulkan_device": "Mali-G77"
+ },
+ "npu": {
+  "runtimes_present": {
+   "samsung-enn-eden": [
+    "libeden_model.so",
+    "libeden_nn.so",
+    "libeden_nn_on_system.so",
+    "libeden_nn_on_vendor.so",
+    "libeden_osal.so",
+    "libeden_profiler.so",
+    "libeden_rt.so",
+    "libeden_rt_stub.edensdk.samsung.so",
+    "libeden_rt_stub_vendor.edensdk.samsung.so",
+    "libeden_ud_cpu.so",
+    "libeden_ud_dsp.so",
+    "libeden_ud_gpu.so",
+    "libeden_ud_npu.so",
+    "libeden_wrapper.so",
+    "libeden_wrapper_sdk.so",
+    "libeden_wrapper_system.so",
+    "libeden_xtool.so",
+    "libenn_dsp_dal.so",
+    "libenn_dsp_fw_graph_parser.so",
+    "libenn_dsp_kernels_cpu.so",
+    "vendor.samsung_slsi.hardware.eden_runtime@1.0-impl.so",
+    "vendor.samsung_slsi.hardware.eden_runtime@1.0.so"
+   ]
+  }
+ },
+ "memory": {
+  "mem_total_kib": 7622516,
+  "dumpsys_total_ram_kib": 7622516,
+  "ddr": {}
+ },
+ "state_at_probe": {
+  "battery_temp_c": 30.9,
+  "thermal": {
+   "status": 0,
+   "current": {
+    "AP": {
+     "c": 34.7,
+     "type": 0,
+     "status": 0
+    },
+    "BAT": {
+     "c": 30.9,
+     "type": 2,
+     "status": 0
+    },
+    "BLRB": {
+     "c": 32.1,
+     "type": 3,
+     "status": 0
+    },
+    "BLRF": {
+     "c": 32.2,
+     "type": 3,
+     "status": 0
+    },
+    "REALBAT": {
+     "c": 31.0,
+     "type": 2,
+     "status": 0
+    },
+    "USB": {
+     "c": 30.6,
+     "type": 4,
+     "status": 0
+    }
+   },
+   "cached": {
+    "AP": {
+     "c": 34.7,
+     "type": 0,
+     "status": 0
+    },
+    "BAT": {
+     "c": 30.9,
+     "type": 2,
+     "status": 0
+    },
+    "USB": {
+     "c": 30.6,
+     "type": 4,
+     "status": 0
+    },
+    "BLRB": {
+     "c": 32.1,
+     "type": 3,
+     "status": 0
+    },
+    "BLRF": {
+     "c": 32.2,
+     "type": 3,
+     "status": 0
+    },
+    "REALBAT": {
+     "c": 31.0,
+     "type": 2,
+     "status": 0
+    }
+   }
+  },
+  "fixed_performance_mode": "accepted"
+ },
+ "tooling": {
+  "simpleperf": {
+   "present": true,
+   "version": "1.build.N980FXXS3DUL2",
+   "perf_event_paranoid": 1
+  }
+ },
+ "staging": {
+  "adb_push_mib_s": 81.5,
+  "hf_fetch": [
+   "http=200 bytes=11422654 seconds=0.337777 speed_Bps=33817145"
+  ]
+ }
+}

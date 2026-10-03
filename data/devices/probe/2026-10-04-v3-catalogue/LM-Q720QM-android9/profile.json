@@ -1,0 +1,111 @@
+{
+ "reported": {
+  "manufacturer": "LGE",
+  "model": "LM-Q720",
+  "device": "cv7as",
+  "soc_manufacturer": null,
+  "soc_model": null,
+  "board_platform": "msm8953",
+  "hardware": "cv7as",
+  "android": "9",
+  "sdk": "28",
+  "fingerprint": "lge/cv7as/cv7as:9/PKQ1.190302.001/1929014125db0:user/release-keys",
+  "security_patch": "2019-10-01",
+  "page_size": null,
+  "abilist": "arm64-v8a,armeabi-v7a,armeabi",
+  "arm64_userspace": true
+ },
+ "cpu": {
+  "count": 8,
+  "topology": "8",
+  "clock_domains": [
+   {
+    "policy": "policy0",
+    "cpus": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7
+    ],
+    "max_mhz": 1804.8,
+    "governor": "schedutil",
+    "designs": [
+     "CORTEX_A53"
+    ]
+   }
+  ],
+  "tiers": "8",
+  "clusters": [
+   {
+    "cores": 8,
+    "cpus": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7
+    ],
+    "implementer": "0x41",
+    "part": "0xd03",
+    "design": "CORTEX_A53",
+    "design_source": "linux cputype.h",
+    "max_mhz": 1804.8,
+    "efficiency_class": true,
+    "core_class": "efficiency"
+   }
+  ],
+  "all_big_cores": false,
+  "max_mhz": 1804.8,
+  "features": [
+   "aes",
+   "asimd",
+   "crc32",
+   "evtstrm",
+   "fp",
+   "pmull",
+   "sha1",
+   "sha2"
+  ]
+ },
+ "gpu": {
+  "gles": "Qualcomm, Adreno (TM) 506, OpenGL ES 3.2 V@331.0 (GIT@50f1b2d, I1b05bd271c) (Date:03/26/19)",
+  "vulkan_device": "Adreno (TM) 506"
+ },
+ "npu": {
+  "runtimes_present": {}
+ },
+ "memory": {
+  "mem_total_kib": 2878756,
+  "dumpsys_total_ram_kib": 2878756,
+  "ddr": {}
+ },
+ "state_at_probe": {
+  "battery_temp_c": 30.6,
+  "thermal": {
+   "status": null,
+   "current": {},
+   "cached": {}
+  },
+  "fixed_performance_mode": "exit=255 Unknown command: set-fixed-performance-mode-enabled"
+ },
+ "tooling": {
+  "simpleperf": {
+   "present": true,
+   "version": null,
+   "perf_event_paranoid": 3
+  }
+ },
+ "staging": {
+  "adb_push_mib_s": 25.8,
+  "hf_fetch": [
+   "http=200 bytes=11422654 seconds=0.343870 speed_Bps=33217942"
+  ]
+ }
+}

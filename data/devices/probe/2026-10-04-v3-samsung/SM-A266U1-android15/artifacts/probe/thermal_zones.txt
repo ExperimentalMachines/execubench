@@ -1,0 +1,8 @@
+thermal_zone0  
+thermal_zone1  
+thermal_zone2  
+thermal_zone3  
+thermal_zone4  
+thermal_zone5  
+thermal_zone6  
+thermal_zone7  

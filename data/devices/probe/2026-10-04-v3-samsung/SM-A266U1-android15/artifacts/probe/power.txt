@@ -1,0 +1,8 @@
+  mWakefulness=Awake
+  mWakefulnessChanging=false
+  mIsPowered=true
+  mBatteryLevel=93
+  mBatteryLevelLow=false
+  mLowPowerStandbyActive=false
+  mIsPowered=true
+  mBatteryLevel=93

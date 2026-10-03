@@ -1,0 +1,1 @@
+GLES: Qualcomm, Adreno (TM) 730, OpenGL ES 3.2 V@0615.0 (GIT@5a00bbd4b7, I0f5aa60515, 1673930385) (Date:01/16/23)

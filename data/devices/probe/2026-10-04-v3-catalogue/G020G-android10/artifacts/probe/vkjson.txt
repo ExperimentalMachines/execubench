@@ -1,0 +1,5 @@
+            "apiVersion" : 4198487,
+            "deviceID" : 100730113,
+            "deviceName" : "Adreno (TM) 615",
+            "driverVersion" : 2149183488,
+            "vendorID" : 20803

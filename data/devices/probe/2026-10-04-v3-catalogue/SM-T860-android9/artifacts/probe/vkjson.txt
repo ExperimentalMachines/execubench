@@ -1,0 +1,5 @@
+            "apiVersion" : 4198487,
+            "deviceID" : 100925441,
+            "deviceName" : "Adreno (TM) 640",
+            "driverVersion" : 2149126144,
+            "vendorID" : 20803

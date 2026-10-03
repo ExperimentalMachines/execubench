@@ -1,0 +1,5 @@
+adsprpc-smd
+input
+ramdump_cdsp
+subsys_cdsp
+uinput

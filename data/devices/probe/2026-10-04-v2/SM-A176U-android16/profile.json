@@ -1,0 +1,225 @@
+{
+ "reported": {
+  "manufacturer": "samsung",
+  "model": "SM-A176U1",
+  "device": "a17x",
+  "soc_manufacturer": "Samsung",
+  "soc_model": "s5e8535",
+  "board_platform": "erd8535",
+  "hardware": "s5e8535",
+  "android": "16",
+  "sdk": "36",
+  "fingerprint": "samsung/a17xue/a17x:16/BP2A.250605.031.A3/A176U1UES5AZD2_OYM5AZD2:user/release-keys",
+  "security_patch": "2026-04-05",
+  "page_size": "4096",
+  "abilist": "arm64-v8a,armeabi-v7a,armeabi",
+  "arm64_userspace": true
+ },
+ "cpu": {
+  "count": 8,
+  "topology": "2+6",
+  "clock_domains": [
+   {
+    "policy": "policy6",
+    "cpus": [
+     6,
+     7
+    ],
+    "max_mhz": 2400.0,
+    "governor": "energy_aware",
+    "designs": [
+     "CORTEX_A78"
+    ]
+   },
+   {
+    "policy": "policy0",
+    "cpus": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5
+    ],
+    "max_mhz": 2002.0,
+    "governor": "energy_aware",
+    "designs": [
+     "CORTEX_A55"
+    ]
+   }
+  ],
+  "tiers": "2+6",
+  "clusters": [
+   {
+    "cores": 2,
+    "cpus": [
+     6,
+     7
+    ],
+    "implementer": "0x41",
+    "part": "0xd41",
+    "design": "CORTEX_A78",
+    "design_source": "linux cputype.h",
+    "max_mhz": 2400.0,
+    "efficiency_class": false,
+    "core_class": "performance"
+   },
+   {
+    "cores": 6,
+    "cpus": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5
+    ],
+    "implementer": "0x41",
+    "part": "0xd05",
+    "design": "CORTEX_A55",
+    "design_source": "linux cputype.h",
+    "max_mhz": 2002.0,
+    "efficiency_class": true,
+    "core_class": "efficiency"
+   }
+  ],
+  "all_big_cores": false,
+  "max_mhz": 2400.0,
+  "features": [
+   "aes",
+   "asimd",
+   "asimddp",
+   "asimdhp",
+   "asimdrdm",
+   "atomics",
+   "cpuid",
+   "crc32",
+   "dcpop",
+   "evtstrm",
+   "fp",
+   "fphp",
+   "lrcpc",
+   "pmull",
+   "sha1",
+   "sha2"
+  ]
+ },
+ "gpu": {
+  "gles": "ARM, Mali-G68, OpenGL ES 3.2 v1.r38p1-01eac0-mbs2v41_0.539cd8979cd8886a7402fd4324508287",
+  "vulkan_device": "Mali-G68"
+ },
+ "npu": {
+  "runtimes_present": {
+   "samsung-enn-eden": [
+    "libeden_nn_on_system.so",
+    "libeden_rt_stub.edensdk.samsung.so",
+    "libenn_wrapper_system.so",
+    "vendor.samsung_slsi.hardware.eden_runtime@1.0.so",
+    "vendor.samsung_slsi.hardware.enn_aux@1.0.so"
+   ]
+  }
+ },
+ "memory": {
+  "mem_total_kib": 3533192,
+  "dumpsys_total_ram_kib": 3533192,
+  "ddr": {
+   "props": {
+    "ro.boot.ddr_size": "4"
+   }
+  }
+ },
+ "state_at_probe": {
+  "battery_temp_c": 28.9,
+  "thermal": {
+   "status": 0,
+   "current": {
+    "AP": {
+     "c": 33.8,
+     "type": 0,
+     "status": 0
+    },
+    "BAT": {
+     "c": 28.9,
+     "type": 2,
+     "status": 0
+    },
+    "MAINBATRAW": {
+     "c": 28.9,
+     "type": 2,
+     "status": 0
+    },
+    "PA": {
+     "c": 32.2,
+     "type": 5,
+     "status": 0
+    },
+    "SKIN": {
+     "c": 31.2,
+     "type": 3,
+     "status": 0
+    },
+    "SUBBAT": {
+     "c": 0.0,
+     "type": 2,
+     "status": 0
+    },
+    "USB": {
+     "c": 29.0,
+     "type": 4,
+     "status": 0
+    }
+   },
+   "cached": {
+    "SUBBAT": {
+     "c": 0.0,
+     "type": 2,
+     "status": 0
+    },
+    "AP": {
+     "c": 33.8,
+     "type": 0,
+     "status": 0
+    },
+    "PA": {
+     "c": 32.2,
+     "type": 5,
+     "status": 0
+    },
+    "BAT": {
+     "c": 28.9,
+     "type": 2,
+     "status": 0
+    },
+    "USB": {
+     "c": 29.0,
+     "type": 4,
+     "status": 0
+    },
+    "SKIN": {
+     "c": 31.2,
+     "type": 3,
+     "status": 0
+    },
+    "MAINBATRAW": {
+     "c": 28.9,
+     "type": 2,
+     "status": 0
+    }
+   }
+  },
+  "fixed_performance_mode": "accepted"
+ },
+ "tooling": {
+  "simpleperf": {
+   "present": true,
+   "version": "1.build.A176U1UES5AZD2",
+   "perf_event_paranoid": -1
+  }
+ },
+ "staging": {
+  "adb_push_mib_s": 27.8,
+  "hf_fetch": [
+   "http=200 bytes=11422654 seconds=0.359868 speed_Bps=31741232"
+  ]
+ }
+}

@@ -1,0 +1,47 @@
+{
+ "arn": "arn:aws:devicefarm:us-west-2:<account>:job:733be749-de36-4847-ba64-a034b55b21dd/8a979433-95de-46e0-9971-b56c02b21c36/00014",
+ "counters": {
+  "errored": 0,
+  "failed": 0,
+  "passed": 3,
+  "skipped": 0,
+  "stopped": 0,
+  "total": 3,
+  "warned": 0
+ },
+ "created": "2026-10-04 07:21:37.906000+08:00",
+ "device": {
+  "arn": "arn:aws:devicefarm:us-west-2::device:C1FE022C814241559C05C0DAF39F44FB",
+  "cpu": {
+   "architecture": "arm64-v8a",
+   "clock": 2016.0,
+   "frequency": "MHz"
+  },
+  "fleetType": "PUBLIC",
+  "formFactor": "PHONE",
+  "heapSize": 512000000,
+  "image": "C1FE022C814241559C05C0DAF39F44FB",
+  "manufacturer": "Xiaomi",
+  "memory": 128000000000,
+  "model": "Xiaomi 13 Pro",
+  "modelId": "2210132G",
+  "name": "Xiaomi 13 Pro",
+  "os": "13",
+  "platform": "ANDROID",
+  "remoteAccessEnabled": true,
+  "resolution": {
+   "height": 3200,
+   "width": 1440
+  }
+ },
+ "deviceMinutes": {
+  "metered": 0.63,
+  "total": 0.93,
+  "unmetered": 0.0
+ },
+ "message": "Successful test lifecycle of Setup Test",
+ "name": "Xiaomi 13 Pro",
+ "result": "PASSED",
+ "status": "COMPLETED",
+ "videoCapture": false
+}

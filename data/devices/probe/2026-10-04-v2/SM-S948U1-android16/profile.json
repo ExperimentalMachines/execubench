@@ -1,0 +1,252 @@
+{
+ "reported": {
+  "manufacturer": "samsung",
+  "model": "SM-S948U1",
+  "device": "m3q",
+  "soc_manufacturer": "QTI",
+  "soc_model": "SM8850",
+  "board_platform": "canoe",
+  "hardware": "qcom",
+  "android": "16",
+  "sdk": "36",
+  "fingerprint": "samsung/m3quew/m3q:16/BP4A.251205.006/S948U1UEU1AZAB_OYM1AZAB:user/release-keys",
+  "security_patch": "2026-01-01",
+  "page_size": "4096",
+  "abilist": "arm64-v8a",
+  "arm64_userspace": true
+ },
+ "cpu": {
+  "count": 8,
+  "topology": "2+6",
+  "clock_domains": [
+   {
+    "policy": "policy6",
+    "cpus": [
+     6,
+     7
+    ],
+    "max_mhz": 4742.4,
+    "governor": "walt",
+    "designs": [
+     "QCOM:0x002"
+    ]
+   },
+   {
+    "policy": "policy0",
+    "cpus": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5
+    ],
+    "max_mhz": 3628.8,
+    "governor": "walt",
+    "designs": [
+     "QCOM:0x002"
+    ]
+   }
+  ],
+  "tiers": "2+6",
+  "clusters": [
+   {
+    "cores": 2,
+    "cpus": [
+     6,
+     7
+    ],
+    "implementer": "0x51",
+    "part": "0x002",
+    "design": "QCOM:0x002",
+    "design_source": "unlisted in linux cputype.h",
+    "max_mhz": 4742.4,
+    "efficiency_class": false,
+    "core_class": "performance"
+   },
+   {
+    "cores": 6,
+    "cpus": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5
+    ],
+    "implementer": "0x51",
+    "part": "0x002",
+    "design": "QCOM:0x002",
+    "design_source": "unlisted in linux cputype.h",
+    "max_mhz": 3628.8,
+    "efficiency_class": false,
+    "core_class": "performance"
+   }
+  ],
+  "all_big_cores": true,
+  "max_mhz": 4742.4,
+  "features": [
+   "aes",
+   "afp",
+   "asimd",
+   "asimddp",
+   "asimdfhm",
+   "asimdhp",
+   "asimdrdm",
+   "atomics",
+   "bf16",
+   "bti",
+   "cpuid",
+   "crc32",
+   "dcpodp",
+   "dcpop",
+   "dit",
+   "ecv",
+   "evtstrm",
+   "fcma",
+   "flagm",
+   "flagm2",
+   "fp",
+   "fphp",
+   "frint",
+   "i8mm",
+   "ilrcpc",
+   "jscvt",
+   "lrcpc",
+   "lrcpc3",
+   "paca",
+   "pacg",
+   "pmull",
+   "rng",
+   "rpres",
+   "sb",
+   "sha1",
+   "sha2",
+   "sha3",
+   "sha512",
+   "sm3",
+   "sm4",
+   "sme",
+   "smeb16f32",
+   "smef16f32",
+   "smef32f32",
+   "smei8i32",
+   "ssbs",
+   "sve",
+   "sve2",
+   "sveaes",
+   "svebf16",
+   "svei8mm",
+   "svepmull",
+   "svesha3",
+   "svesm4",
+   "uscat"
+  ]
+ },
+ "gpu": {
+  "gles": "Qualcomm, Adreno (TM) 840, OpenGL ES 3.2 V@0842.19.3 (GIT@bacff47b1e, I498f01ff61, 1763652273) (Date:11/20/25)",
+  "vulkan_device": "Adreno (TM) 840"
+ },
+ "npu": {
+  "runtimes_present": {
+   "qualcomm-qnn-snpe": [
+    "libSNPE.so",
+    "libSnpeCpu.so",
+    "libSnpeGpu.so",
+    "libSnpeHtpV81Stub.so",
+    "libnspextensiongenericqnnservice.so",
+    "libsnpe_dsp_domains_v3.so",
+    "libsnpe_wrapper.so"
+   ]
+  }
+ },
+ "memory": {
+  "mem_total_kib": 11389632,
+  "dumpsys_total_ram_kib": 11389632,
+  "ddr": {}
+ },
+ "state_at_probe": {
+  "battery_temp_c": 27.5,
+  "thermal": {
+   "status": 0,
+   "current": {
+    "AP": {
+     "c": 29.6,
+     "type": 0,
+     "status": 0
+    },
+    "BAT": {
+     "c": 27.6,
+     "type": 2,
+     "status": 0
+    },
+    "PA": {
+     "c": 29.2,
+     "type": 5,
+     "status": 0
+    },
+    "SKIN": {
+     "c": 29.7,
+     "type": 3,
+     "status": 0
+    },
+    "SUBBAT": {
+     "c": 0.0,
+     "type": 2,
+     "status": 0
+    },
+    "USB": {
+     "c": 28.0,
+     "type": 4,
+     "status": 0
+    }
+   },
+   "cached": {
+    "SUBBAT": {
+     "c": 0.0,
+     "type": 2,
+     "status": 0
+    },
+    "AP": {
+     "c": 48.5,
+     "type": 0,
+     "status": 0
+    },
+    "PA": {
+     "c": 44.1,
+     "type": 5,
+     "status": 0
+    },
+    "BAT": {
+     "c": 31.6,
+     "type": 2,
+     "status": 0
+    },
+    "USB": {
+     "c": 29.0,
+     "type": 4,
+     "status": 0
+    },
+    "SKIN": {
+     "c": 37.9,
+     "type": 3,
+     "status": 0
+    }
+   }
+  },
+  "fixed_performance_mode": "accepted"
+ },
+ "tooling": {
+  "simpleperf": {
+   "present": true,
+   "version": "1.build.S948U1UEU1AZAB",
+   "perf_event_paranoid": -1
+  }
+ },
+ "staging": {
+  "adb_push_mib_s": 29.6,
+  "hf_fetch": [
+   "http=200 bytes=11422654 seconds=0.349846 speed_Bps=32650520"
+  ]
+ }
+}

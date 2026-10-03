@@ -1,0 +1,6 @@
+	"apiVersion" : 4206592.0,
+				"apiVersion" : 4206823.0,
+				"deviceID" : 19923200.0,
+				"deviceName" : "Samsung Xclipse 530",
+				"driverVersion" : 8388608.0,
+				"vendorID" : 5197.0

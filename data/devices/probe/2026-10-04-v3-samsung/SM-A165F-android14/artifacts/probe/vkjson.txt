@@ -1,0 +1,6 @@
+	"apiVersion" : 4206592.0,
+				"apiVersion" : 4198577.0,
+				"deviceID" : 2425552912.0,
+				"deviceName" : "Mali-G57 MC2",
+				"driverVersion" : 134221824.0,
+				"vendorID" : 5045.0

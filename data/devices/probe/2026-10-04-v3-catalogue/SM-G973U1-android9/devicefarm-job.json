@@ -1,0 +1,47 @@
+{
+ "arn": "arn:aws:devicefarm:us-west-2:<account>:job:733be749-de36-4847-ba64-a034b55b21dd/8a979433-95de-46e0-9971-b56c02b21c36/00018",
+ "counters": {
+  "errored": 0,
+  "failed": 1,
+  "passed": 2,
+  "skipped": 0,
+  "stopped": 0,
+  "total": 3,
+  "warned": 0
+ },
+ "created": "2026-10-04 07:21:37.906000+08:00",
+ "device": {
+  "arn": "arn:aws:devicefarm:us-west-2::device:A7BA5D5470264C9E98C1A599B9BFFA73",
+  "cpu": {
+   "architecture": "arm64-v8a",
+   "clock": 1785.6,
+   "frequency": "MHz"
+  },
+  "fleetType": "PUBLIC",
+  "formFactor": "PHONE",
+  "heapSize": 512000000,
+  "image": "A7BA5D5470264C9E98C1A599B9BFFA73",
+  "manufacturer": "Samsung",
+  "memory": 128000000000,
+  "model": "Galaxy S10",
+  "modelId": "SM-G973U1",
+  "name": "Samsung Galaxy S10",
+  "os": "9",
+  "platform": "ANDROID",
+  "remoteAccessEnabled": true,
+  "resolution": {
+   "height": 3040,
+   "width": 1440
+  }
+ },
+ "deviceMinutes": {
+  "metered": 0.57,
+  "total": 0.99,
+  "unmetered": 0.0
+ },
+ "message": "Tests failed",
+ "name": "Samsung Galaxy S10",
+ "result": "FAILED",
+ "status": "COMPLETED",
+ "videoCapture": false
+}

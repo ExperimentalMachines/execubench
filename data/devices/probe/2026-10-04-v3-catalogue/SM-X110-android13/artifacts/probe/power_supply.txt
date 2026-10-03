@@ -1,0 +1,4 @@
+/sys/class/power_supply/battery/temp=<unreadable>
+/sys/class/power_supply/battery/capacity=<unreadable>
+/sys/class/power_supply/battery/status=<unreadable>
+/sys/class/power_supply/usb/online=1

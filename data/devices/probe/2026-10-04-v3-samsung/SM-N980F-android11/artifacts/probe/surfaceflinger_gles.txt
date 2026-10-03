@@ -1,0 +1,1 @@
+GLES: ARM, Mali-G77, OpenGL ES 3.2 v1.r26p0-01eac0.###other-sha0123456789ABCDEF0###

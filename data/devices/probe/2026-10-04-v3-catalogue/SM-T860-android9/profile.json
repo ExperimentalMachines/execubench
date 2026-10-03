@@ -1,0 +1,169 @@
+{
+ "reported": {
+  "manufacturer": "samsung",
+  "model": "SM-T860",
+  "device": "gts6lwifi",
+  "soc_manufacturer": null,
+  "soc_model": null,
+  "board_platform": "msmnile",
+  "hardware": "qcom",
+  "android": "9",
+  "sdk": "28",
+  "fingerprint": "samsung/gts6lwifixx/gts6lwifi:9/PPR1.180610.011/T860XXS1ASK1:user/release-keys",
+  "security_patch": "2019-11-01",
+  "page_size": null,
+  "abilist": "arm64-v8a,armeabi-v7a,armeabi",
+  "arm64_userspace": true
+ },
+ "cpu": {
+  "count": 8,
+  "topology": "1+3+4",
+  "clock_domains": [
+   {
+    "policy": "policy7",
+    "cpus": [
+     7
+    ],
+    "max_mhz": 2841.6,
+    "governor": "schedutil",
+    "designs": [
+     "KRYO_4XX_GOLD"
+    ]
+   },
+   {
+    "policy": "policy4",
+    "cpus": [
+     4,
+     5,
+     6
+    ],
+    "max_mhz": 2419.2,
+    "governor": "schedutil",
+    "designs": [
+     "KRYO_4XX_GOLD"
+    ]
+   },
+   {
+    "policy": "policy0",
+    "cpus": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "max_mhz": 1785.6,
+    "governor": "schedutil",
+    "designs": [
+     "KRYO_4XX_SILVER"
+    ]
+   }
+  ],
+  "tiers": "1+3+4",
+  "clusters": [
+   {
+    "cores": 1,
+    "cpus": [
+     7
+    ],
+    "implementer": "0x51",
+    "part": "0x804",
+    "design": "KRYO_4XX_GOLD",
+    "design_source": "linux cputype.h",
+    "max_mhz": 2841.6,
+    "efficiency_class": false,
+    "core_class": "performance"
+   },
+   {
+    "cores": 3,
+    "cpus": [
+     4,
+     5,
+     6
+    ],
+    "implementer": "0x51",
+    "part": "0x804",
+    "design": "KRYO_4XX_GOLD",
+    "design_source": "linux cputype.h",
+    "max_mhz": 2419.2,
+    "efficiency_class": false,
+    "core_class": "performance"
+   },
+   {
+    "cores": 4,
+    "cpus": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "implementer": "0x51",
+    "part": "0x805",
+    "design": "KRYO_4XX_SILVER",
+    "design_source": "linux cputype.h",
+    "max_mhz": 1785.6,
+    "efficiency_class": true,
+    "core_class": "efficiency"
+   }
+  ],
+  "all_big_cores": false,
+  "max_mhz": 2841.6,
+  "features": [
+   "aes",
+   "asimd",
+   "asimdhp",
+   "asimdrdm",
+   "atomics",
+   "cpuid",
+   "crc32",
+   "dcpop",
+   "evtstrm",
+   "fp",
+   "fphp",
+   "lrcpc",
+   "pmull",
+   "sha1",
+   "sha2"
+  ]
+ },
+ "gpu": {
+  "gles": "Qualcomm, Adreno (TM) 640, OpenGL ES 3.2 V@401.0 (GIT@ab3915a, If703410f3a, 1566895871) (Date:08/27/19)",
+  "vulkan_device": "Adreno (TM) 640"
+ },
+ "npu": {
+  "runtimes_present": {
+   "qualcomm-qnn-snpe": [
+    "libSNPE.so",
+    "libhexagon_nn_stub.so",
+    "libsnpe_dsp_domains_v2.so",
+    "libsnpe_wrapper.so"
+   ]
+  }
+ },
+ "memory": {
+  "mem_total_kib": 5583224,
+  "dumpsys_total_ram_kib": 5583224,
+  "ddr": {}
+ },
+ "state_at_probe": {
+  "battery_temp_c": 32.7,
+  "thermal": {
+   "status": null,
+   "current": {},
+   "cached": {}
+  },
+  "fixed_performance_mode": "exit=255 Unknown command: set-fixed-performance-mode-enabled"
+ },
+ "tooling": {
+  "simpleperf": {
+   "present": true,
+   "version": null,
+   "perf_event_paranoid": 3
+  }
+ },
+ "staging": {
+  "adb_push_mib_s": 36.6,
+  "hf_fetch": [
+   "http=200 bytes=11422654 seconds=0.346352 speed_Bps=32979899"
+  ]
+ }
+}

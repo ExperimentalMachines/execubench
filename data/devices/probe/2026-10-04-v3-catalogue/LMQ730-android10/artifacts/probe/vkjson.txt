@@ -1,0 +1,5 @@
+            "apiVersion" : 4198500,
+            "deviceID" : 571490328,
+            "deviceName" : "PowerVR Rogue GE8320",
+            "driverVersion" : 5425693,
+            "vendorID" : 4112

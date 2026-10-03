@@ -1,0 +1,47 @@
+{
+ "arn": "arn:aws:devicefarm:us-west-2:<account>:job:733be749-de36-4847-ba64-a034b55b21dd/b55d5a66-a5e8-4481-bcfb-dd151f9915ec/00013",
+ "counters": {
+  "errored": 0,
+  "failed": 0,
+  "passed": 3,
+  "skipped": 0,
+  "stopped": 0,
+  "total": 3,
+  "warned": 0
+ },
+ "created": "2026-10-04 07:14:08.971000+08:00",
+ "device": {
+  "arn": "arn:aws:devicefarm:us-west-2::device:B85CE06C394C4F05830F806798E35F91",
+  "cpu": {
+   "architecture": "arm64-v8a",
+   "clock": 1804.8,
+   "frequency": "MHz"
+  },
+  "fleetType": "PUBLIC",
+  "formFactor": "PHONE",
+  "heapSize": 512000000,
+  "image": "B85CE06C394C4F05830F806798E35F91",
+  "manufacturer": "Samsung",
+  "memory": 64000000000,
+  "model": "Samsung Galaxy A71",
+  "modelId": "SM-A715F/DS",
+  "name": "Samsung Galaxy A71",
+  "os": "11",
+  "platform": "ANDROID",
+  "remoteAccessEnabled": true,
+  "resolution": {
+   "height": 2400,
+   "width": 1080
+  }
+ },
+ "deviceMinutes": {
+  "metered": 0.64,
+  "total": 0.94,
+  "unmetered": 0.0
+ },
+ "message": "Successful test lifecycle of Setup Test",
+ "name": "Samsung Galaxy A71",
+ "result": "PASSED",
+ "status": "COMPLETED",
+ "videoCapture": false
+}

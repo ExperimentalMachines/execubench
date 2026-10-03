@@ -1,0 +1,47 @@
+{
+ "arn": "arn:aws:devicefarm:us-west-2:<account>:job:733be749-de36-4847-ba64-a034b55b21dd/8a979433-95de-46e0-9971-b56c02b21c36/00043",
+ "counters": {
+  "errored": 0,
+  "failed": 0,
+  "passed": 3,
+  "skipped": 0,
+  "stopped": 0,
+  "total": 3,
+  "warned": 0
+ },
+ "created": "2026-10-04 07:21:37.906000+08:00",
+ "device": {
+  "arn": "arn:aws:devicefarm:us-west-2::device:92C37E7B211947D6BA71637E8456B980",
+  "cpu": {
+   "architecture": "arm64-v8a",
+   "clock": 1785.6,
+   "frequency": "MHz"
+  },
+  "fleetType": "PUBLIC",
+  "formFactor": "TABLET",
+  "heapSize": 512000000,
+  "image": "92C37E7B211947D6BA71637E8456B980",
+  "manufacturer": "Samsung",
+  "memory": 128000000000,
+  "model": "Samsung Galaxy Tab S8",
+  "modelId": "SM-X700",
+  "name": "Samsung Galaxy Tab S8",
+  "os": "12",
+  "platform": "ANDROID",
+  "remoteAccessEnabled": true,
+  "resolution": {
+   "height": 2560,
+   "width": 1600
+  }
+ },
+ "deviceMinutes": {
+  "metered": 0.57,
+  "total": 0.86,
+  "unmetered": 0.0
+ },
+ "message": "Successful test lifecycle of Setup Test",
+ "name": "Samsung Galaxy Tab S8",
+ "result": "PASSED",
+ "status": "COMPLETED",
+ "videoCapture": false
+}

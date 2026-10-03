@@ -1,0 +1,47 @@
+{
+ "arn": "arn:aws:devicefarm:us-west-2:<account>:job:733be749-de36-4847-ba64-a034b55b21dd/8a979433-95de-46e0-9971-b56c02b21c36/00002",
+ "counters": {
+  "errored": 0,
+  "failed": 0,
+  "passed": 3,
+  "skipped": 0,
+  "stopped": 0,
+  "total": 3,
+  "warned": 0
+ },
+ "created": "2026-10-04 07:21:37.906000+08:00",
+ "device": {
+  "arn": "arn:aws:devicefarm:us-west-2::device:96552C5C5A6E4FC7820C6085622D5F03",
+  "cpu": {
+   "architecture": "arm64-v8a",
+   "clock": 2000.0,
+   "frequency": "MHz"
+  },
+  "fleetType": "PUBLIC",
+  "formFactor": "PHONE",
+  "heapSize": 512000000,
+  "image": "96552C5C5A6E4FC7820C6085622D5F03",
+  "manufacturer": "Xiaomi",
+  "memory": 64000000000,
+  "model": "Xiaomi Redmi Note 10 5G",
+  "modelId": "M2103K19G",
+  "name": "Xiaomi Redmi Note 10 5G",
+  "os": "11",
+  "platform": "ANDROID",
+  "remoteAccessEnabled": true,
+  "resolution": {
+   "height": 2400,
+   "width": 1080
+  }
+ },
+ "deviceMinutes": {
+  "metered": 0.62,
+  "total": 0.89,
+  "unmetered": 0.0
+ },
+ "message": "Successful test lifecycle of Setup Test",
+ "name": "Xiaomi Redmi Note 10 5G",
+ "result": "PASSED",
+ "status": "COMPLETED",
+ "videoCapture": false
+}

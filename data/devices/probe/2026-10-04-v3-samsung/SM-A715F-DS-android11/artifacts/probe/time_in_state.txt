@@ -1,0 +1,4 @@
+== /sys/devices/system/cpu/cpufreq/policy0
+cat: /sys/devices/system/cpu/cpufreq/policy0/stats/time_in_state: No such file or directory
+== /sys/devices/system/cpu/cpufreq/policy6
+cat: /sys/devices/system/cpu/cpufreq/policy6/stats/time_in_state: No such file or directory

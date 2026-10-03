@@ -1,0 +1,1 @@
+simpleperf E event_selection_set.cpp:312] Can't record kernel samples. Please try `-e cpu-cycles:u` instead.

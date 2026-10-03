@@ -1,0 +1,47 @@
+{
+ "arn": "arn:aws:devicefarm:us-west-2:<account>:job:733be749-de36-4847-ba64-a034b55b21dd/8a979433-95de-46e0-9971-b56c02b21c36/00010",
+ "counters": {
+  "errored": 0,
+  "failed": 0,
+  "passed": 3,
+  "skipped": 0,
+  "stopped": 0,
+  "total": 3,
+  "warned": 0
+ },
+ "created": "2026-10-04 07:21:37.906000+08:00",
+ "device": {
+  "arn": "arn:aws:devicefarm:us-west-2::device:DE5BD47FF3BD42C3A14BF7A6EFB1BFE7",
+  "cpu": {
+   "architecture": "arm64-v8a",
+   "clock": 1704.0,
+   "frequency": "MHz"
+  },
+  "fleetType": "PUBLIC",
+  "formFactor": "PHONE",
+  "heapSize": 512000000,
+  "image": "DE5BD47FF3BD42C3A14BF7A6EFB1BFE7",
+  "manufacturer": "Google",
+  "memory": 128000000000,
+  "model": "Google Pixel 8",
+  "modelId": "G9BQD",
+  "name": "Google Pixel 8",
+  "os": "15",
+  "platform": "ANDROID",
+  "remoteAccessEnabled": true,
+  "resolution": {
+   "height": 2400,
+   "width": 1080
+  }
+ },
+ "deviceMinutes": {
+  "metered": 0.43,
+  "total": 0.72,
+  "unmetered": 0.0
+ },
+ "message": "Successful test lifecycle of Setup Test",
+ "name": "Google Pixel 8",
+ "result": "PASSED",
+ "status": "COMPLETED",
+ "videoCapture": false
+}

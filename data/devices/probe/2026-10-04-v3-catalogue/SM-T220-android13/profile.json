@@ -1,0 +1,209 @@
+{
+ "reported": {
+  "manufacturer": "samsung",
+  "model": "SM-T220",
+  "device": "gta7litewifi",
+  "soc_manufacturer": "Mediatek",
+  "soc_model": "MT8768WT",
+  "board_platform": "mt6765",
+  "hardware": "mt6765",
+  "android": "13",
+  "sdk": "33",
+  "fingerprint": "samsung/gta7litewifixx/gta7litewifi:13/TP1A.220624.014/T220XXS2CWA6:user/release-keys",
+  "security_patch": "2023-01-01",
+  "page_size": null,
+  "abilist": "arm64-v8a,armeabi-v7a,armeabi",
+  "arm64_userspace": true
+ },
+ "cpu": {
+  "count": 8,
+  "topology": "4+4",
+  "clock_domains": [
+   {
+    "policy": "policy0",
+    "cpus": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "max_mhz": 2301.0,
+    "governor": "<unreadable>",
+    "designs": [
+     "CORTEX_A53"
+    ]
+   },
+   {
+    "policy": "policy4",
+    "cpus": [
+     4,
+     5,
+     6,
+     7
+    ],
+    "max_mhz": 1800.0,
+    "governor": "<unreadable>",
+    "designs": [
+     "CORTEX_A53"
+    ]
+   }
+  ],
+  "tiers": "4+4",
+  "clusters": [
+   {
+    "cores": 4,
+    "cpus": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "implementer": "0x41",
+    "part": "0xd03",
+    "design": "CORTEX_A53",
+    "design_source": "linux cputype.h",
+    "max_mhz": 2301.0,
+    "efficiency_class": true,
+    "core_class": "efficiency"
+   },
+   {
+    "cores": 4,
+    "cpus": [
+     4,
+     5,
+     6,
+     7
+    ],
+    "implementer": "0x41",
+    "part": "0xd03",
+    "design": "CORTEX_A53",
+    "design_source": "linux cputype.h",
+    "max_mhz": 1800.0,
+    "efficiency_class": true,
+    "core_class": "efficiency"
+   }
+  ],
+  "all_big_cores": false,
+  "max_mhz": 2301.0,
+  "features": [
+   "aes",
+   "asimd",
+   "cpuid",
+   "crc32",
+   "evtstrm",
+   "fp",
+   "pmull",
+   "sha1",
+   "sha2"
+  ]
+ },
+ "gpu": {
+  "gles": "Imagination Technologies, PowerVR Rogue GE8320, OpenGL ES 3.2 build 1.13@5776728",
+  "vulkan_device": "PowerVR Rogue GE8320"
+ },
+ "npu": {
+  "runtimes_present": {
+   "mediatek-neuron-apusys": [
+    "libapusys.so",
+    "libapusys_edma.so",
+    "libapuwareapusys.mtk.so",
+    "libapuwareapusys_v2.mtk.so",
+    "libneuron_graph_delegate.mtk.so",
+    "libneuronusdk_adapter.mtk.so",
+    "vendor.mediatek.hardware.apuware.apusys-V1-ndk.so",
+    "vendor.mediatek.hardware.apuware.apusys@1.0.so",
+    "vendor.mediatek.hardware.apuware.apusys@2.0.so",
+    "vendor.mediatek.hardware.apuware.apusys@2.1.so"
+   ]
+  }
+ },
+ "memory": {
+  "mem_total_kib": 2926644,
+  "dumpsys_total_ram_kib": 2926644,
+  "ddr": {}
+ },
+ "state_at_probe": {
+  "battery_temp_c": 28.0,
+  "thermal": {
+   "status": 0,
+   "current": {
+    "CPU": {
+     "c": 43.6,
+     "type": 0,
+     "status": 0
+    },
+    "GPU": {
+     "c": 43.6,
+     "type": 1,
+     "status": 0
+    },
+    "BATTERY": {
+     "c": 28.0,
+     "type": 2,
+     "status": 0
+    },
+    "SKIN": {
+     "c": 32.0,
+     "type": 3,
+     "status": 0
+    },
+    "POWER_AMPLIFIER": {
+     "c": -27.0,
+     "type": 5,
+     "status": 0
+    },
+    "NPU": {
+     "c": 43.6,
+     "type": 9,
+     "status": 0
+    }
+   },
+   "cached": {
+    "CPU": {
+     "c": 47.2,
+     "type": 0,
+     "status": 0
+    },
+    "GPU": {
+     "c": 47.2,
+     "type": 1,
+     "status": 0
+    },
+    "NPU": {
+     "c": 47.2,
+     "type": 9,
+     "status": 0
+    },
+    "SKIN": {
+     "c": 30.0,
+     "type": 3,
+     "status": 0
+    },
+    "BATTERY": {
+     "c": 24.0,
+     "type": 2,
+     "status": 0
+    },
+    "POWER_AMPLIFIER": {
+     "c": -27.0,
+     "type": 5,
+     "status": 0
+    }
+   }
+  },
+  "fixed_performance_mode": "accepted"
+ },
+ "tooling": {
+  "simpleperf": {
+   "present": true,
+   "version": "1.build.T220XXS2CWA6",
+   "perf_event_paranoid": -1
+  }
+ },
+ "staging": {
+  "adb_push_mib_s": 18.6,
+  "hf_fetch": [
+   "http=200 bytes=11422654 seconds=0.367905 speed_Bps=31047835"
+  ]
+ }
+}

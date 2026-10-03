@@ -1,0 +1,47 @@
+{
+ "arn": "arn:aws:devicefarm:us-west-2:<account>:job:733be749-de36-4847-ba64-a034b55b21dd/8a979433-95de-46e0-9971-b56c02b21c36/00039",
+ "counters": {
+  "errored": 0,
+  "failed": 0,
+  "passed": 3,
+  "skipped": 0,
+  "stopped": 0,
+  "total": 3,
+  "warned": 0
+ },
+ "created": "2026-10-04 07:21:37.906000+08:00",
+ "device": {
+  "arn": "arn:aws:devicefarm:us-west-2::device:653D5AB0CD6B4EA88DFAE9AD4386F608",
+  "cpu": {
+   "architecture": "arm64-v8a",
+   "clock": 2000.0,
+   "frequency": "MHz"
+  },
+  "fleetType": "PUBLIC",
+  "formFactor": "PHONE",
+  "heapSize": 512000000,
+  "image": "653D5AB0CD6B4EA88DFAE9AD4386F608",
+  "manufacturer": "Xiaomi",
+  "memory": 128000000000,
+  "model": "Xiaomi Redmi Note 13",
+  "modelId": "2312DRAABC",
+  "name": "Xiaomi Redmi Note 13",
+  "os": "15",
+  "platform": "ANDROID",
+  "remoteAccessEnabled": true,
+  "resolution": {
+   "height": 2400,
+   "width": 1080
+  }
+ },
+ "deviceMinutes": {
+  "metered": 0.53,
+  "total": 0.84,
+  "unmetered": 0.0
+ },
+ "message": "Successful test lifecycle of Setup Test",
+ "name": "Xiaomi Redmi Note 13",
+ "result": "PASSED",
+ "status": "COMPLETED",
+ "videoCapture": false
+}

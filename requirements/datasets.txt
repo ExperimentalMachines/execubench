@@ -1,0 +1,2 @@
+# Only for `execubench datasets stats` (reads the GSM8K parquet file).
+pyarrow==25.0.1

@@ -1,0 +1,1 @@
+Linux localhost 4.19.224-g0c0aa939c17e-ab8577202 #1 SMP PREEMPT Thu May 12 05:24:22 UTC 2022 aarch64

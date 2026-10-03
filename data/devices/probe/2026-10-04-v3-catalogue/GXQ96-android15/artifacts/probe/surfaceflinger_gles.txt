@@ -1,0 +1,3 @@
+ ------------RE GLES------------
+GLES: ARM, Mali-G715, OpenGL ES 3.2 v1.r50p0-00eac0.81b105a98eb8ea9f0949c962642acd8b
+vulkan_renderengine: false

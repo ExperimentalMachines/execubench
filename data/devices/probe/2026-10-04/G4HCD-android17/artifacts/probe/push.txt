@@ -1,0 +1,2 @@
+/tmp/push.bin: 1 file pushed. 74.5 MB/s (268435456 bytes in 3.437s)
+push_256MiB_seconds=3.536711177

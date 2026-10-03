@@ -1,0 +1,38 @@
+{
+ "appUpload": "arn:aws:devicefarm:us-west-2:<account>:upload:733be749-de36-4847-ba64-a034b55b21dd/fae11373-59d3-4f68-a4f3-863bb0bbfc8c",
+ "arn": "arn:aws:devicefarm:us-west-2:<account>:run:733be749-de36-4847-ba64-a034b55b21dd/8a979433-95de-46e0-9971-b56c02b21c36",
+ "billingMethod": "METERED",
+ "completedJobs": 48,
+ "counters": {
+  "errored": 0,
+  "failed": 5,
+  "passed": 139,
+  "skipped": 0,
+  "stopped": 0,
+  "total": 144,
+  "warned": 0
+ },
+ "created": "2026-10-04 07:21:37.893000+08:00",
+ "deviceMinutes": {
+  "metered": 25.33,
+  "total": 39.97,
+  "unmetered": 0.0
+ },
+ "devicePoolArn": "arn:aws:devicefarm:us-west-2:<account>:devicepool:733be749-de36-4847-ba64-a034b55b21dd/f295acd7-a945-43f2-9180-ecbe852fa86d",
+ "jobTimeoutMinutes": 15,
+ "name": "probe-v3-catalogue-2026-10-04",
+ "platform": "ANDROID_APP",
+ "radios": {
+  "bluetooth": false,
+  "gps": true,
+  "nfc": true,
+  "wifi": true
+ },
+ "result": "FAILED",
+ "started": "2026-10-04 07:21:37.893000+08:00",
+ "status": "COMPLETED",
+ "stopped": "2026-10-04 07:34:59.156000+08:00",
+ "testSpecArn": "arn:aws:devicefarm:us-west-2:<account>:upload:733be749-de36-4847-ba64-a034b55b21dd/9365c58b-262f-401c-a1f1-0cccdcb6d71f",
+ "totalJobs": 48,
+ "type": "APPIUM_PYTHON"
+}

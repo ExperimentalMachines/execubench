@@ -1,0 +1,1 @@
+Linux localhost 5.15.153-android13-3-30582756 #1 SMP PREEMPT Mon Apr 28 19:56:11 KST 2025 aarch64 Toybox

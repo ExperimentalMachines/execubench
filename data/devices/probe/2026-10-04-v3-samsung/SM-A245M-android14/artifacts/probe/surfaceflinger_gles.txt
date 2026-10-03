@@ -1,0 +1,2 @@
+ ------------RE GLES------------
+GLES: ARM, Mali-G57 MC2, OpenGL ES 3.2 v1.r32p1-01eac0.3d0f892e790e4319a235910ce1559a8a

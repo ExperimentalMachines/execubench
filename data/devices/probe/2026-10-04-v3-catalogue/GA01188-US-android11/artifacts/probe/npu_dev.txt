@@ -1,0 +1,10 @@
+abc-pcie-tpu_0
+adsprpc-smd
+adsprpc-smd-secure
+input
+msm_npu
+ramdump_cdsp
+ramdump_npu
+subsys_cdsp
+subsys_npu
+uinput

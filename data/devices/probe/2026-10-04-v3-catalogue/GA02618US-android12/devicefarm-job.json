@@ -1,0 +1,47 @@
+{
+ "arn": "arn:aws:devicefarm:us-west-2:<account>:job:733be749-de36-4847-ba64-a034b55b21dd/8a979433-95de-46e0-9971-b56c02b21c36/00037",
+ "counters": {
+  "errored": 0,
+  "failed": 0,
+  "passed": 3,
+  "skipped": 0,
+  "stopped": 0,
+  "total": 3,
+  "warned": 0
+ },
+ "created": "2026-10-04 07:21:37.906000+08:00",
+ "device": {
+  "arn": "arn:aws:devicefarm:us-west-2::device:BF6D74AEAE0148C48809DAAB5CAA2351",
+  "cpu": {
+   "architecture": "arm64-v8a",
+   "clock": 1804.8,
+   "frequency": "MHz"
+  },
+  "fleetType": "PUBLIC",
+  "formFactor": "PHONE",
+  "heapSize": 512000000,
+  "image": "BF6D74AEAE0148C48809DAAB5CAA2351",
+  "manufacturer": "Google",
+  "memory": 128000000000,
+  "model": "Google Pixel 5a 5G",
+  "modelId": "GA02618US",
+  "name": "Google Pixel 5a 5G",
+  "os": "12",
+  "platform": "ANDROID",
+  "remoteAccessEnabled": true,
+  "resolution": {
+   "height": 2400,
+   "width": 1080
+  }
+ },
+ "deviceMinutes": {
+  "metered": 0.43,
+  "total": 0.7,
+  "unmetered": 0.0
+ },
+ "message": "Successful test lifecycle of Setup Test",
+ "name": "Google Pixel 5a 5G",
+ "result": "PASSED",
+ "status": "COMPLETED",
+ "videoCapture": false
+}

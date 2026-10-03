@@ -1,0 +1,233 @@
+{
+ "reported": {
+  "manufacturer": "samsung",
+  "model": "SM-A556E",
+  "device": "a55x",
+  "soc_manufacturer": "Samsung",
+  "soc_model": "s5e8845",
+  "board_platform": "erd8845",
+  "hardware": "s5e8845",
+  "android": "14",
+  "sdk": "34",
+  "fingerprint": "samsung/a55xnsxx/a55x:14/UP1A.231005.007/A556EXXS1AXC3:user/release-keys",
+  "security_patch": "2024-03-01",
+  "page_size": null,
+  "abilist": "arm64-v8a",
+  "arm64_userspace": true
+ },
+ "cpu": {
+  "count": 8,
+  "topology": "4+4",
+  "clock_domains": [
+   {
+    "policy": "policy4",
+    "cpus": [
+     4,
+     5,
+     6,
+     7
+    ],
+    "max_mhz": 2750.0,
+    "governor": "energy_aware",
+    "designs": [
+     "CORTEX_A78"
+    ]
+   },
+   {
+    "policy": "policy0",
+    "cpus": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "max_mhz": 2050.0,
+    "governor": "energy_aware",
+    "designs": [
+     "CORTEX_A55"
+    ]
+   }
+  ],
+  "tiers": "4+4",
+  "clusters": [
+   {
+    "cores": 4,
+    "cpus": [
+     4,
+     5,
+     6,
+     7
+    ],
+    "implementer": "0x41",
+    "part": "0xd41",
+    "design": "CORTEX_A78",
+    "design_source": "linux cputype.h",
+    "max_mhz": 2750.0,
+    "efficiency_class": false,
+    "core_class": "performance"
+   },
+   {
+    "cores": 4,
+    "cpus": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "implementer": "0x41",
+    "part": "0xd05",
+    "design": "CORTEX_A55",
+    "design_source": "linux cputype.h",
+    "max_mhz": 2050.0,
+    "efficiency_class": true,
+    "core_class": "efficiency"
+   }
+  ],
+  "all_big_cores": false,
+  "max_mhz": 2750.0,
+  "features": [
+   "aes",
+   "asimd",
+   "asimddp",
+   "asimdhp",
+   "asimdrdm",
+   "atomics",
+   "cpuid",
+   "crc32",
+   "dcpop",
+   "evtstrm",
+   "fp",
+   "fphp",
+   "lrcpc",
+   "pmull",
+   "sha1",
+   "sha2"
+  ]
+ },
+ "gpu": {
+  "gles": "Samsung Electronics Co., Ltd., ANGLE (Samsung Xclipse 530) on Vulkan 1.3.231, OpenGL ES 3.2 ANGLE git hash: 4ae132631265",
+  "vulkan_device": "Samsung Xclipse 530"
+ },
+ "npu": {
+  "runtimes_present": {
+   "samsung-enn-eden": [
+    "libeden_nn_on_system.so",
+    "libeden_rt_stub.edensdk.samsung.so",
+    "libenn_common_utils.so",
+    "libenn_cpu_operators.so",
+    "libenn_engine.so",
+    "libenn_engine_lib.so",
+    "libenn_gc_vendor.so",
+    "libenn_klm_vendor.so",
+    "libenn_model.so",
+    "libenn_public_api_cpp.so",
+    "libenn_public_api_cpp_lib.so",
+    "libenn_seva_vendor.so",
+    "libenn_user.samsung_slsi.so",
+    "libenn_user_driver_cpu.so",
+    "libenn_user_driver_gpu.so",
+    "libenn_user_driver_gpu_lib.so",
+    "libenn_user_driver_unified.so",
+    "libenn_user_lib.so",
+    "libenn_wrapper.so",
+    "libenn_wrapper_system.so",
+    "vendor.samsung_slsi.hardware.eden_runtime@1.0.so",
+    "vendor.samsung_slsi.hardware.enn_aidl-V1-ndk.so",
+    "vendor.samsung_slsi.hardware.enn_aux@1.0.so"
+   ]
+  }
+ },
+ "memory": {
+  "mem_total_kib": 7611940,
+  "dumpsys_total_ram_kib": 7611940,
+  "ddr": {
+   "props": {
+    "ro.boot.ddr_size": "8"
+   }
+  }
+ },
+ "state_at_probe": {
+  "battery_temp_c": 31.1,
+  "thermal": {
+   "status": 0,
+   "current": {
+    "AP": {
+     "c": 34.2,
+     "type": 0,
+     "status": 0
+    },
+    "BAT": {
+     "c": 31.1,
+     "type": 2,
+     "status": 0
+    },
+    "PA": {
+     "c": 32.8,
+     "type": 5,
+     "status": 0
+    },
+    "SKIN": {
+     "c": 33.0,
+     "type": 3,
+     "status": 0
+    },
+    "SUBBAT": {
+     "c": 0.0,
+     "type": 2,
+     "status": 0
+    },
+    "USB": {
+     "c": 31.5,
+     "type": 4,
+     "status": 0
+    }
+   },
+   "cached": {
+    "SUBBAT": {
+     "c": 0.0,
+     "type": 2,
+     "status": 0
+    },
+    "AP": {
+     "c": 27.4,
+     "type": 0,
+     "status": 0
+    },
+    "PA": {
+     "c": 25.4,
+     "type": 5,
+     "status": 0
+    },
+    "BAT": {
+     "c": 22.5,
+     "type": 2,
+     "status": 0
+    },
+    "USB": {
+     "c": 22.7,
+     "type": 4,
+     "status": 0
+    },
+    "SKIN": {
+     "c": 27.4,
+     "type": 3,
+     "status": 0
+    }
+   }
+  },
+  "fixed_performance_mode": "accepted"
+ },
+ "tooling": {
+  "simpleperf": {
+   "present": true,
+   "version": "1.build.A556EXXS1AXC3",
+   "perf_event_paranoid": -1
+  }
+ },
+ "staging": {
+  "adb_push_mib_s": 28.8,
+  "hf_fetch": [
+   "http=200 bytes=11422654 seconds=0.324076 speed_Bps=35246837"
+  ]
+ }
+}

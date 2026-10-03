@@ -1,0 +1,6 @@
+== /sys/devices/system/cpu/cpufreq/policy0
+affected_cpus=0 1 2 3 4 5 6 7
+related_cpus=0 1 2 3 4 5 6 7
+cpuinfo_max_freq=1804800
+cpuinfo_min_freq=652800
+scaling_governor=schedutil

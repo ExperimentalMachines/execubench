@@ -1,0 +1,47 @@
+{
+ "arn": "arn:aws:devicefarm:us-west-2:<account>:job:733be749-de36-4847-ba64-a034b55b21dd/86b8ddf5-d1b1-4b54-a199-f6ebbab3fe18/00018",
+ "counters": {
+  "errored": 0,
+  "failed": 0,
+  "passed": 3,
+  "skipped": 0,
+  "stopped": 0,
+  "total": 3,
+  "warned": 0
+ },
+ "created": "2026-10-04 06:17:42.290000+08:00",
+ "device": {
+  "arn": "arn:aws:devicefarm:us-west-2::device:536B9FDAEAA14A11B504A3ECC86DA717",
+  "cpu": {
+   "architecture": "arm64-v8a",
+   "clock": 3628.8,
+   "frequency": "MHz"
+  },
+  "fleetType": "PUBLIC",
+  "formFactor": "PHONE",
+  "heapSize": 512000000,
+  "image": "536B9FDAEAA14A11B504A3ECC86DA717",
+  "manufacturer": "Samsung",
+  "memory": 256000000000,
+  "model": "Samsung Galaxy S26 Ultra",
+  "modelId": "SM-S948U1",
+  "name": "Samsung Galaxy S26 Ultra",
+  "os": "16",
+  "platform": "ANDROID",
+  "remoteAccessEnabled": true,
+  "resolution": {
+   "height": 2340,
+   "width": 1080
+  }
+ },
+ "deviceMinutes": {
+  "metered": 0.36,
+  "total": 0.64,
+  "unmetered": 0.0
+ },
+ "message": "Successful test lifecycle of Setup Test",
+ "name": "Samsung Galaxy S26 Ultra",
+ "result": "PASSED",
+ "status": "COMPLETED",
+ "videoCapture": true
+}

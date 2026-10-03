@@ -1,0 +1,47 @@
+{
+ "arn": "arn:aws:devicefarm:us-west-2:<account>:job:733be749-de36-4847-ba64-a034b55b21dd/8a979433-95de-46e0-9971-b56c02b21c36/00041",
+ "counters": {
+  "errored": 0,
+  "failed": 0,
+  "passed": 3,
+  "skipped": 0,
+  "stopped": 0,
+  "total": 3,
+  "warned": 0
+ },
+ "created": "2026-10-04 07:21:37.906000+08:00",
+ "device": {
+  "arn": "arn:aws:devicefarm:us-west-2::device:FDC03E6FE25C4A56BF42003B99DA39C4",
+  "cpu": {
+   "architecture": "arm64-v8a",
+   "clock": 1803.0,
+   "frequency": "MHz"
+  },
+  "fleetType": "PUBLIC",
+  "formFactor": "PHONE",
+  "heapSize": 512000000,
+  "image": "FDC03E6FE25C4A56BF42003B99DA39C4",
+  "manufacturer": "Google",
+  "memory": 128000000000,
+  "model": "Google Pixel 7 Pro",
+  "modelId": "GE2AE",
+  "name": "Google Pixel 7 Pro",
+  "os": "13",
+  "platform": "ANDROID",
+  "remoteAccessEnabled": true,
+  "resolution": {
+   "height": 2340,
+   "width": 1080
+  }
+ },
+ "deviceMinutes": {
+  "metered": 0.49,
+  "total": 0.76,
+  "unmetered": 0.0
+ },
+ "message": "Successful test lifecycle of Setup Test",
+ "name": "Google Pixel 7 Pro",
+ "result": "PASSED",
+ "status": "COMPLETED",
+ "videoCapture": false
+}

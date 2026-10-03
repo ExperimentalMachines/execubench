@@ -1,0 +1,10 @@
+# Lint, tests, schema validation, Hub scans and Device Farm plumbing.
+boto3==1.43.108
+botocore[crt]==1.43.108
+huggingface_hub==2.1.1
+jsonschema==4.26.0
+referencing==0.37.0
+rfc3339-validator==0.1.4
+pyyaml==6.0.3
+pytest==9.1.1
+ruff==0.16.10

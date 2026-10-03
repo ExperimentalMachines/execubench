@@ -1,0 +1,1 @@
+Linux localhost 5.4.147-qgki-24701031-abA736BXXU2AVG3 #1 SMP PREEMPT Thu Jul 21 16:59:58 KST 2022 aarch64

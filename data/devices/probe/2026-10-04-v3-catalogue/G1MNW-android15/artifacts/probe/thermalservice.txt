@@ -1,0 +1,106 @@
+IsStatusOverride: false
+ThermalEventListeners:
+	callbacks: 10
+	killed: false
+	broadcasts count: -1
+ThermalStatusListeners:
+	callbacks: 8
+	killed: false
+	broadcasts count: -1
+Thermal Status: 0
+Cached temperatures:
+	Temperature{mValue=63.000004, mType=0, mName=LITTLE, mStatus=0}
+	Temperature{mValue=25.675001, mType=-1, mName=neutral_therm, mStatus=0}
+	Temperature{mValue=51.0, mType=-1, mName=thb_hda, mStatus=0}
+	Temperature{mValue=23.919, mType=-1, mName=disp_therm, mStatus=0}
+	Temperature{mValue=30.659002, mType=-1, mName=soc_therm, mStatus=0}
+	Temperature{mValue=23.591002, mType=-1, mName=quiet_therm, mStatus=0}
+	Temperature{mValue=24.6483, mType=-1, mName=VIRTUAL-SKIN-CHARGE, mStatus=0}
+	Temperature{mValue=23.380001, mType=-1, mName=cam_therm, mStatus=0}
+	Temperature{mValue=4.9333205, mType=-1, mName=VIRTUAL-BTS-WINDOW-PARTIAL, mStatus=0}
+	Temperature{mValue=22.6, mType=2, mName=battery, mStatus=0}
+	Temperature{mValue=72.0, mType=0, mName=BIG, mStatus=0}
+	Temperature{mValue=49.000004, mType=1, mName=G3D, mStatus=0}
+	Temperature{mValue=63.000004, mType=0, mName=MID, mStatus=0}
+	Temperature{mValue=44.000004, mType=9, mName=TPU, mStatus=0}
+	Temperature{mValue=-1.71, mType=-1, mName=USB-MINUS-NEUTRAL, mStatus=0}
+	Temperature{mValue=22.888, mType=-1, mName=north_therm, mStatus=0}
+	Temperature{mValue=26.213902, mType=5, mName=cellular-emergency, mStatus=0}
+	Temperature{mValue=27.854002, mType=-1, mName=charge_therm, mStatus=0}
+	Temperature{mValue=26.213902, mType=3, mName=VIRTUAL-SKIN, mStatus=0}
+	Temperature{mValue=25.593353, mType=-1, mName=VIRTUAL-SKIN-FRONT, mStatus=0}
+	Temperature{mValue=23.965002, mType=-1, mName=usb_pwr_therm, mStatus=0}
+	Temperature{mValue=0.374, mType=-1, mName=USB-MINUS-QUIET, mStatus=0}
+	Temperature{mValue=22.084942, mType=-1, mName=VIRTUAL-SKIN-SPEAKER, mStatus=0}
+HAL Ready: true
+HAL connection:
+	ThermalHAL AIDL 2  connected: yes
+Current temperatures from HAL:
+	Temperature{mValue=40.0, mType=1, mName=G3D, mStatus=0}
+	Temperature{mValue=50.000004, mType=0, mName=MID, mStatus=0}
+	Temperature{mValue=46.000004, mType=0, mName=LITTLE, mStatus=0}
+	Temperature{mValue=0.0, mType=-1, mName=VIRTUAL-USB-UI-SUB0, mStatus=0}
+	Temperature{mValue=1.0, mType=4, mName=VIRTUAL-USB-THROTTLING, mStatus=0}
+	Temperature{mValue=0.0, mType=-1, mName=VIRTUAL-USB-THROTTLING-SUB0, mStatus=0}
+	Temperature{mValue=0.55600005, mType=-1, mName=USB-MINUS-QUIET, mStatus=0}
+	Temperature{mValue=-1.848, mType=-1, mName=USB-MINUS-NEUTRAL, mStatus=0}
+	Temperature{mValue=31.00865, mType=-1, mName=VIRTUAL-SKIN-FRONT, mStatus=0}
+	Temperature{mValue=31.305002, mType=-1, mName=quiet_therm, mStatus=0}
+	Temperature{mValue=30.727432, mType=-1, mName=VIRTUAL-SKIN-CHARGE, mStatus=0}
+	Temperature{mValue=51.0, mType=-1, mName=thb_hda, mStatus=0}
+	Temperature{mValue=28.270641, mType=-1, mName=VIRTUAL-SKIN-SPEAKER, mStatus=0}
+	Temperature{mValue=32.640003, mType=-1, mName=soc_therm, mStatus=0}
+	Temperature{mValue=30.882002, mType=-1, mName=cam_therm, mStatus=0}
+	Temperature{mValue=31.852861, mType=3, mName=VIRTUAL-SKIN, mStatus=0}
+	Temperature{mValue=0.51166826, mType=-1, mName=USB_QUIET_RFFE, mStatus=0}
+	Temperature{mValue=31.861002, mType=-1, mName=usb_pwr_therm, mStatus=0}
+	Temperature{mValue=43.000004, mType=0, mName=BIG, mStatus=0}
+	Temperature{mValue=6.3528204, mType=-1, mName=VIRTUAL-BTS-WINDOW-PARTIAL, mStatus=0}
+	Temperature{mValue=30.348001, mType=-1, mName=north_therm, mStatus=0}
+	Temperature{mValue=39.0, mType=9, mName=TPU, mStatus=0}
+	Temperature{mValue=30.600002, mType=2, mName=battery, mStatus=0}
+	Temperature{mValue=31.852861, mType=5, mName=cellular-emergency, mStatus=0}
+	Temperature{mValue=1.0, mType=4, mName=VIRTUAL-USB-UI, mStatus=0}
+	Temperature{mValue=33.709003, mType=-1, mName=neutral_therm, mStatus=0}
+	Temperature{mValue=31.483002, mType=-1, mName=disp_therm, mStatus=1}
+	Temperature{mValue=33.642002, mType=-1, mName=charge_therm, mStatus=0}
+Current cooling devices from HAL:
+	CoolingDevice{mValue=0, mType=5, mName=gxp-cooling}
+	CoolingDevice{mValue=0, mType=5, mName=tpu_cooling}
+	CoolingDevice{mValue=0, mType=1, mName=usbc-port}
+	CoolingDevice{mValue=0, mType=2, mName=thermal-cpufreq-1}
+	CoolingDevice{mValue=0, mType=1, mName=chg_mdis}
+	CoolingDevice{mValue=0, mType=3, mName=thermal-gpufreq-0}
+	CoolingDevice{mValue=0, mType=2, mName=thermal-cpufreq-2}
+	CoolingDevice{mValue=0, mType=2, mName=thermal-cpufreq-0}
+Temperature static thresholds from HAL:
+	TemperatureThreshold{mType=1, mName=G3D, mHotThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=0, mName=MID, mHotThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=0, mName=LITTLE, mHotThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=-1, mName=VIRTUAL-USB-UI-SUB0, mHotThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=4, mName=VIRTUAL-USB-THROTTLING, mHotThrottlingThresholds=[NaN, NaN, NaN, NaN, 4.0, NaN, NaN], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=-1, mName=VIRTUAL-USB-THROTTLING-SUB0, mHotThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=-1, mName=USB-MINUS-QUIET, mHotThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=-1, mName=USB-MINUS-NEUTRAL, mHotThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=-1, mName=VIRTUAL-SKIN-FRONT, mHotThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=-1, mName=quiet_therm, mHotThrottlingThresholds=[NaN, 34.6, NaN, NaN, NaN, NaN, NaN], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=-1, mName=VIRTUAL-SKIN-CHARGE, mHotThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=-1, mName=thb_hda, mHotThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=-1, mName=VIRTUAL-SKIN-SPEAKER, mHotThrottlingThresholds=[NaN, 37.0, NaN, NaN, NaN, NaN, NaN], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=-1, mName=soc_therm, mHotThrottlingThresholds=[NaN, 47.2, NaN, NaN, NaN, NaN, NaN], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=-1, mName=cam_therm, mHotThrottlingThresholds=[NaN, 33.7, NaN, NaN, NaN, NaN, NaN], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=3, mName=VIRTUAL-SKIN, mHotThrottlingThresholds=[NaN, 39.0, 43.0, 45.0, 46.5, 52.0, 55.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=-1, mName=USB_QUIET_RFFE, mHotThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=-1, mName=usb_pwr_therm, mHotThrottlingThresholds=[NaN, 35.0, NaN, NaN, NaN, NaN, NaN], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=0, mName=BIG, mHotThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=-1, mName=VIRTUAL-BTS-WINDOW-PARTIAL, mHotThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=-1, mName=north_therm, mHotThrottlingThresholds=[NaN, 32.1, NaN, NaN, NaN, NaN, NaN], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=9, mName=TPU, mHotThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=2, mName=battery, mHotThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, 60.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=5, mName=cellular-emergency, mHotThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, 54.0, NaN], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=4, mName=VIRTUAL-USB-UI, mHotThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, 4.0, NaN], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=-1, mName=neutral_therm, mHotThrottlingThresholds=[NaN, 44.1, NaN, NaN, NaN, NaN, NaN], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=-1, mName=disp_therm, mHotThrottlingThresholds=[NaN, 31.7, NaN, NaN, NaN, NaN, NaN], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=-1, mName=charge_therm, mHotThrottlingThresholds=[NaN, 48.4, NaN, NaN, NaN, NaN, NaN], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+Temperature headroom thresholds:
+[NaN, 0.8, 0.93333334, 1.0, 1.05, 1.2333333, 1.3333334]

@@ -1,0 +1,11 @@
+  mWakefulness=Awake
+  mWakefulnessChanging=false
+  mIsPowered=true
+  mBatteryLevel=100
+  mBatteryLevelCriticalLow=false
+  mBatteryLevelWhenDreamStarted=0
+  mLowPowerModeEnabled=false
+  mBatteryLevelLow=false
+  mLowPowerModeSetting=false
+  mAutoLowPowerModeConfigured=false
+  mAutoLowPowerModeSnoozing=false

@@ -1,0 +1,53 @@
+Current Battery Service state:
+  AC powered: false
+  USB powered: true
+  Wireless powered: false
+  Dock powered: false
+  Max charging current: 0
+  Max charging voltage: 0
+  Charge counter: 4937000
+  status: 5
+  health: 2
+  present: true
+  level: 100
+  scale: 100
+  voltage: 4315
+  temperature: 340
+  technology: Li-ion
+  batteryMiscEvent: 983040
+  batteryCurrentEvent: 536870912
+  mSecPlugTypeSummary: 2
+  LED Charging: true
+  LED Low Battery: true
+  current now: 7
+  charge counter: 4937000
+  Adaptive Fast Charging Settings: true
+  Super Fast Charging Settings: false
+FEATURE_WIRELESS_FAST_CHARGER_CONTROL: true
+  mWasUsedWirelessFastChargerPreviously: false
+  mWirelessFastChargingSettingsEnable: true
+LLB CAL: 20241125
+LLB MAN: 20241125
+LLB CURRENT: YEAR2026M10D3
+LLB DIFF: 96
+  mSavedBatteryBeginningDate: 0
+SEC_FEATURE_BATTERY_FULL_CAPACITY: true
+  mFullCapacityEnable: false
+FEATURE_HICCUP_CONTROL: true
+FEATURE_SUPPORTED_DAILY_BOARD: false
+SEC_FEATURE_BATTERY_LIFE_EXTENDER: false
+SEC_FEATURE_USE_WIRELESS_POWER_SHARING: true
+ mProtectBatteryMode: 0
+ mProtectionThreshold: 80
+ mLtcHighThreshold: 95
+ mLtcHighSocDuration: 10080
+ mLtcReleaseThreshold: 75
+[Not Battery Adaptive Protect Mode]
+BatteryInfoBackUp
+  mSavedBatteryMaxTemp: 416
+  mSavedBatteryMaxCurrent: 6331
+  mSavedBatteryUsage: 275555
+  mSavedFullStatusDuration: 702807
+  mSavedBatteryAsoc: 99
+  mSavedBatteryBsoh: 100.00
+  FEATURE_SAVE_BATTERY_CYCLE: true

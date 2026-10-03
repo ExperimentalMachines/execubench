@@ -1,0 +1,4529 @@
+{
+    "devices": [
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:BF6D74AEAE0148C48809DAAB5CAA2351",
+            "name": "Google Pixel 5a 5G",
+            "manufacturer": "Google",
+            "model": "Google Pixel 5a 5G",
+            "modelId": "GA02618US",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "12",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 1804.8
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2400
+            },
+            "heapSize": 512000000,
+            "memory": 128000000000,
+            "image": "BF6D74AEAE0148C48809DAAB5CAA2351",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:C1D4B8084115445DA3866CA8BD739804",
+            "name": "Samsung Galaxy A53 5G",
+            "manufacturer": "Samsung",
+            "model": "Samsung Galaxy A53 5G",
+            "modelId": "SM-A536U1",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "12",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 2002.0
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2400
+            },
+            "heapSize": 512000000,
+            "memory": 128000000000,
+            "image": "C1D4B8084115445DA3866CA8BD739804",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:E80AD79C51044211B5A229C9741B29C4",
+            "name": "Apple iPhone 6s",
+            "manufacturer": "Apple",
+            "model": "iPhone 6s",
+            "modelId": "A1688",
+            "formFactor": "PHONE",
+            "platform": "IOS",
+            "os": "15.8.2",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 750,
+                "height": 1334
+            },
+            "heapSize": 0,
+            "memory": 16000000000,
+            "image": "E80AD79C51044211B5A229C9741B29C4",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:AC2E189FD1154D05BFCC187783715555",
+            "name": "Google Pixel 8",
+            "manufacturer": "Google",
+            "model": "Google Pixel 8",
+            "modelId": "G9BQD",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "14",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 1704.0
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2400
+            },
+            "heapSize": 512000000,
+            "memory": 128000000000,
+            "image": "AC2E189FD1154D05BFCC187783715555",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:8A93AC0AF20F4D31914095FA9DC505BC",
+            "name": "Apple iPhone 12",
+            "manufacturer": "Apple",
+            "model": "Apple iPhone 12",
+            "modelId": "{MGH63,MGH73,MGH93}",
+            "formFactor": "PHONE",
+            "platform": "IOS",
+            "os": "26.6",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 1170,
+                "height": 2532
+            },
+            "heapSize": 0,
+            "memory": 64000000000,
+            "image": "8A93AC0AF20F4D31914095FA9DC505BC",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:653D5AB0CD6B4EA88DFAE9AD4386F608",
+            "name": "Xiaomi Redmi Note 13",
+            "manufacturer": "Xiaomi",
+            "model": "Xiaomi Redmi Note 13",
+            "modelId": "2312DRAABC",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "15",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 2000.0
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2400
+            },
+            "heapSize": 512000000,
+            "memory": 128000000000,
+            "image": "653D5AB0CD6B4EA88DFAE9AD4386F608",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:092D78E7B4694568812D5FF0711CD346",
+            "name": "Samsung Galaxy S25",
+            "manufacturer": "Samsung",
+            "model": "Samsung Galaxy S25",
+            "modelId": "SM-S931U1",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "16",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 3532.8
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2340
+            },
+            "heapSize": 512000000,
+            "memory": 128000000000,
+            "image": "092D78E7B4694568812D5FF0711CD346",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:C3481B68E9EA4202BBF6F9D215E9AE5F",
+            "name": "Apple iPhone 16",
+            "manufacturer": "Apple",
+            "model": "Apple iPhone 16",
+            "modelId": "A3081",
+            "formFactor": "PHONE",
+            "platform": "IOS",
+            "os": "18.0",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 1179,
+                "height": 2556
+            },
+            "heapSize": 0,
+            "memory": 128000000000,
+            "image": "C3481B68E9EA4202BBF6F9D215E9AE5F",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:64808E728BD14BE9A6225C7C4D4AAA74",
+            "name": "Google Pixel 6 (Unlocked)",
+            "manufacturer": "Google",
+            "model": "Google Pixel 6",
+            "modelId": "Pixel 6",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "12",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 1803.0
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2400
+            },
+            "heapSize": 512000000,
+            "memory": 128000000000,
+            "image": "64808E728BD14BE9A6225C7C4D4AAA74",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:11E27BF80323455C855874FC3CC710DA",
+            "name": "Google Pixel 5 (Unlocked)",
+            "manufacturer": "Google",
+            "model": "Pixel 5",
+            "modelId": "{Pixel 5}",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "12",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 1804.8
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2340
+            },
+            "heapSize": 512000000,
+            "memory": 64000000000,
+            "image": "11E27BF80323455C855874FC3CC710DA",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:957B5C9899FA40859FE030DABB3CB0ED",
+            "name": "Apple iPad Pro 13 (2025) (11\")",
+            "manufacturer": "Apple",
+            "model": "Apple iPad Pro 13 (2025) (11\")",
+            "modelId": "A3360",
+            "formFactor": "TABLET",
+            "platform": "IOS",
+            "os": "26.4",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 2064,
+                "height": 2752
+            },
+            "heapSize": 0,
+            "memory": 256000000000,
+            "image": "957B5C9899FA40859FE030DABB3CB0ED",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:B5B8A501E7284D7FB15E6335C98A3F42",
+            "name": "Samsung Galaxy S23 Ultra",
+            "manufacturer": "Samsung",
+            "model": "Samsung Galaxy S23 Ultra",
+            "modelId": "SM-S918U1",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "13",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 2016.0
+            },
+            "resolution": {
+                "width": 1440,
+                "height": 3088
+            },
+            "heapSize": 512000000,
+            "memory": 256000000000,
+            "image": "B5B8A501E7284D7FB15E6335C98A3F42",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:65B6E559AC3F4D61A00C03E958F3D3E1",
+            "name": "Samsung Galaxy S24 Ultra",
+            "manufacturer": "Samsung",
+            "model": "Samsung Galaxy S24 Ultra",
+            "modelId": "SM-S928U1",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "14",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 2265.6
+            },
+            "resolution": {
+                "width": 1440,
+                "height": 3120
+            },
+            "heapSize": 512000000,
+            "memory": 256000000000,
+            "image": "65B6E559AC3F4D61A00C03E958F3D3E1",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:82768D0E82984EB9B9C8CB599FAAB629",
+            "name": "Google Pixel 11 Pro XL",
+            "manufacturer": "Google",
+            "model": "Google Pixel 11 Pro XL",
+            "modelId": "G4HCD",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "17",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 2649.0
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2404
+            },
+            "heapSize": 512000000,
+            "memory": 256000000000,
+            "image": "82768D0E82984EB9B9C8CB599FAAB629",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:6E6BC082EF9E4495839268F02AE0AF53",
+            "name": "Samsung Galaxy S22 Ultra 5G",
+            "manufacturer": "Samsung",
+            "model": "Samsung Galaxy S22 Ultra 5G",
+            "modelId": "SM-S908U1",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "12",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 1785.6
+            },
+            "resolution": {
+                "width": 1440,
+                "height": 3088
+            },
+            "heapSize": 512000000,
+            "memory": 128000000000,
+            "image": "6E6BC082EF9E4495839268F02AE0AF53",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:F070C2816A9A444EB28ED624EDE7F789",
+            "name": "Google Pixel 2 XL",
+            "manufacturer": "Google",
+            "model": "Pixel 2 XL",
+            "modelId": "Google Pixel 2 XL",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "8.1.0",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 1900.8
+            },
+            "resolution": {
+                "width": 1440,
+                "height": 2880
+            },
+            "heapSize": 512000000,
+            "memory": 64000000000,
+            "image": "F070C2816A9A444EB28ED624EDE7F789",
+            "remoteAccessEnabled": false,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:BDC0E688BC0F4CE7BEE056028DB32001",
+            "name": "Apple iPhone 7",
+            "manufacturer": "Apple",
+            "model": "iPhone 7",
+            "modelId": "{MNC22,MNAP2,MN8X2,MN9D2,NN9D2}",
+            "formFactor": "PHONE",
+            "platform": "IOS",
+            "os": "15.8.4",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 750,
+                "height": 1334
+            },
+            "heapSize": 0,
+            "memory": 32000000000,
+            "image": "BDC0E688BC0F4CE7BEE056028DB32001",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:49DF63F491EE48C1B5B3944104705D62",
+            "name": "Google Pixel 8a",
+            "manufacturer": "Google",
+            "model": "Google Pixel 8a",
+            "modelId": "GKV4X",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "14",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 1704.0
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2400
+            },
+            "heapSize": 512000000,
+            "memory": 128000000000,
+            "image": "49DF63F491EE48C1B5B3944104705D62",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:92C37E7B211947D6BA71637E8456B980",
+            "name": "Samsung Galaxy Tab S8",
+            "manufacturer": "Samsung",
+            "model": "Samsung Galaxy Tab S8",
+            "modelId": "SM-X700",
+            "formFactor": "TABLET",
+            "platform": "ANDROID",
+            "os": "12",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 1785.6
+            },
+            "resolution": {
+                "width": 1600,
+                "height": 2560
+            },
+            "heapSize": 512000000,
+            "memory": 128000000000,
+            "image": "92C37E7B211947D6BA71637E8456B980",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:DF55D3152CC94B6BAC3FA52333390D86",
+            "name": "Samsung Galaxy S25 Ultra",
+            "manufacturer": "Samsung",
+            "model": "Samsung Galaxy S25 Ultra",
+            "modelId": "SM-S938U1",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "15",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 3532.8
+            },
+            "resolution": {
+                "width": 1440,
+                "height": 3120
+            },
+            "heapSize": 512000000,
+            "memory": 128000000000,
+            "image": "DF55D3152CC94B6BAC3FA52333390D86",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:45CA0C2042C84B70AF9F5502643B6E08",
+            "name": "Apple iPhone 16 Plus",
+            "manufacturer": "Apple",
+            "model": "Apple iPhone 16 Plus",
+            "modelId": "A3082",
+            "formFactor": "PHONE",
+            "platform": "IOS",
+            "os": "18.3.1",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 1290,
+                "height": 2796
+            },
+            "heapSize": 0,
+            "memory": 128000000000,
+            "image": "45CA0C2042C84B70AF9F5502643B6E08",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:B199BFDD617B46C192A60F137B0D376F",
+            "name": "Google Pixel 10 Pro",
+            "manufacturer": "Google",
+            "model": "Google Pixel 10 Pro",
+            "modelId": "G4QUR",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "16",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 2246.0
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2410
+            },
+            "heapSize": 512000000,
+            "memory": 128000000000,
+            "image": "B199BFDD617B46C192A60F137B0D376F",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:ACC7D48AD78B4FFAA4E3C09B488391E3",
+            "name": "Apple iPad 9th gen (2021)",
+            "manufacturer": "Apple",
+            "model": "Apple iPad 9th gen (2021)",
+            "modelId": "A2602",
+            "formFactor": "TABLET",
+            "platform": "IOS",
+            "os": "16.1",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 1620,
+                "height": 2160
+            },
+            "heapSize": 0,
+            "memory": 64000000000,
+            "image": "ACC7D48AD78B4FFAA4E3C09B488391E3",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:D0088A2C7BB34361AA9725F11A6587C1",
+            "name": "Google Pixel 4 (Unlocked)",
+            "manufacturer": "Google",
+            "model": "Google Pixel 4 (Unlocked)",
+            "modelId": "{GA01188-US}",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "11",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 1785.6
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2280
+            },
+            "heapSize": 512000000,
+            "memory": 64000000000,
+            "image": "D0088A2C7BB34361AA9725F11A6587C1",
+            "remoteAccessEnabled": false,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:F1F430887AA74E3DA0C5BE398644D897",
+            "name": "Samsung Galaxy A25",
+            "manufacturer": "Samsung",
+            "model": "Samsung Galaxy A25",
+            "modelId": "SM-A256E",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "14",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 2002.0
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2340
+            },
+            "heapSize": 512000000,
+            "memory": 128000000000,
+            "image": "F1F430887AA74E3DA0C5BE398644D897",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:0C72A127F7594A59AC54A35E4D2FCF1C",
+            "name": "Google Pixel 8 Pro",
+            "manufacturer": "Google",
+            "model": "Google Pixel 8 Pro",
+            "modelId": "G1MNW",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "14",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 1704.0
+            },
+            "resolution": {
+                "width": 1008,
+                "height": 2244
+            },
+            "heapSize": 512000000,
+            "memory": 128000000000,
+            "image": "0C72A127F7594A59AC54A35E4D2FCF1C",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:1DA66BB0A625454CBF96D3CDE68F818C",
+            "name": "Samsung Galaxy Tab A 10.1\"",
+            "manufacturer": "Samsung",
+            "model": "Samsung Galaxy Tab A 10.1\"",
+            "modelId": "{SM-T580,SM-T510}",
+            "formFactor": "TABLET",
+            "platform": "ANDROID",
+            "os": "10",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "armeabi-v7a",
+                "clock": 1586.0
+            },
+            "resolution": {
+                "width": 1200,
+                "height": 1920
+            },
+            "heapSize": 512000000,
+            "memory": 16000000000,
+            "image": "1DA66BB0A625454CBF96D3CDE68F818C",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:465BC52EFDF448A587EB301FB32591AF",
+            "name": "Samsung Galaxy Tab S11",
+            "manufacturer": "Samsung",
+            "model": "Samsung Galaxy Tab S11",
+            "modelId": "SM-X730",
+            "formFactor": "TABLET",
+            "platform": "ANDROID",
+            "os": "16",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 2400.0
+            },
+            "resolution": {
+                "width": 1600,
+                "height": 2560
+            },
+            "heapSize": 512000000,
+            "memory": 256000000000,
+            "image": "465BC52EFDF448A587EB301FB32591AF",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:48B22A0786BF41538C7F6099EB84926E",
+            "name": "Samsung Galaxy Tab S7",
+            "manufacturer": "Samsung",
+            "model": "Samsung Galaxy Tab S7",
+            "modelId": "{SM-T870}",
+            "formFactor": "TABLET",
+            "platform": "ANDROID",
+            "os": "11",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 1804.8
+            },
+            "resolution": {
+                "width": 1600,
+                "height": 2560
+            },
+            "heapSize": 512000000,
+            "memory": 512000000000,
+            "image": "48B22A0786BF41538C7F6099EB84926E",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:6200F380A4874FEB9C72EED72B863B67",
+            "name": "Apple iPhone 17 Pro",
+            "manufacturer": "Apple",
+            "model": "Apple iPhone 17 Pro",
+            "modelId": "A3256",
+            "formFactor": "PHONE",
+            "platform": "IOS",
+            "os": "26.3.1",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 1206,
+                "height": 2622
+            },
+            "heapSize": 0,
+            "memory": 256000000000,
+            "image": "6200F380A4874FEB9C72EED72B863B67",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:C4C36DDFA36D455FAEF708CD80A499A7",
+            "name": "Apple iPad Pro 12.9\" (2021)",
+            "manufacturer": "Apple",
+            "model": "Apple iPad Pro 12.9\" (2021)",
+            "modelId": "A2378",
+            "formFactor": "TABLET",
+            "platform": "IOS",
+            "os": "15.6.1",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 2048,
+                "height": 2732
+            },
+            "heapSize": 0,
+            "memory": 128000000000,
+            "image": "C4C36DDFA36D455FAEF708CD80A499A7",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:B305CE1C08874111AE3617F1C94AAA93",
+            "name": "Apple iPhone 11",
+            "manufacturer": "Apple",
+            "model": "Apple iPhone 11",
+            "modelId": "{MWJF2,MWKM2,NWKN2,NWKN2,MHCP3}",
+            "formFactor": "PHONE",
+            "platform": "IOS",
+            "os": "18.6.2",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 828,
+                "height": 1792
+            },
+            "heapSize": 0,
+            "memory": 64000000000,
+            "image": "B305CE1C08874111AE3617F1C94AAA93",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:D5DB962D8EED4B6292BBDCE243C46859",
+            "name": "Apple iPhone 14",
+            "manufacturer": "Apple",
+            "model": "Apple iPhone 14",
+            "modelId": "A2649",
+            "formFactor": "PHONE",
+            "platform": "IOS",
+            "os": "17.6.1",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 1170,
+                "height": 2532
+            },
+            "heapSize": 0,
+            "memory": 128000000000,
+            "image": "D5DB962D8EED4B6292BBDCE243C46859",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:E10A10A4F8AD4DA6926C1A03E4BF854F",
+            "name": "Samsung Galaxy A16",
+            "manufacturer": "Samsung",
+            "model": "Samsung Galaxy A16",
+            "modelId": "SM-A165F",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "14",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 2000.0
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2340
+            },
+            "heapSize": 512000000,
+            "memory": 128000000000,
+            "image": "E10A10A4F8AD4DA6926C1A03E4BF854F",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:1BE3F573D4EC41F5A0AFC690CC800FD4",
+            "name": "Samsung Galaxy Tab A7 Lite",
+            "manufacturer": "Samsung",
+            "model": "Samsung Galaxy Tab A7 Lite",
+            "modelId": "SM-T220",
+            "formFactor": "TABLET",
+            "platform": "ANDROID",
+            "os": "13",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 2301.0
+            },
+            "resolution": {
+                "width": 800,
+                "height": 1340
+            },
+            "heapSize": 512000000,
+            "memory": 64000000000,
+            "image": "1BE3F573D4EC41F5A0AFC690CC800FD4",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:48ADED4A6DB843089925C1F7A8BC6F1D",
+            "name": "Apple iPhone 13",
+            "manufacturer": "Apple",
+            "model": "iPhone 13",
+            "modelId": "A2482",
+            "formFactor": "PHONE",
+            "platform": "IOS",
+            "os": "15.0.2",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 1170,
+                "height": 2532
+            },
+            "heapSize": 0,
+            "memory": 64000000000,
+            "image": "48ADED4A6DB843089925C1F7A8BC6F1D",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:83E901AC5416446DB5C502008C90B308",
+            "name": "Samsung Galaxy Tab S9",
+            "manufacturer": "Samsung",
+            "model": "Samsung Galaxy Tab S9",
+            "modelId": "SM-X710",
+            "formFactor": "TABLET",
+            "platform": "ANDROID",
+            "os": "13",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 2016.0
+            },
+            "resolution": {
+                "width": 1600,
+                "height": 2560
+            },
+            "heapSize": 512000000,
+            "memory": 128000000000,
+            "image": "83E901AC5416446DB5C502008C90B308",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:8FB0AFF9C23241A0BBE046EDA21DC58F",
+            "name": "Apple iPhone 13",
+            "manufacturer": "Apple",
+            "model": "iPhone 13",
+            "modelId": "A2482",
+            "formFactor": "PHONE",
+            "platform": "IOS",
+            "os": "16.0.2",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 1170,
+                "height": 2532
+            },
+            "heapSize": 0,
+            "memory": 64000000000,
+            "image": "8FB0AFF9C23241A0BBE046EDA21DC58F",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:5777B309C7DD4F02868613B15D8CCE54",
+            "name": "Apple iPhone 14",
+            "manufacturer": "Apple",
+            "model": "Apple iPhone 14",
+            "modelId": "A2649",
+            "formFactor": "PHONE",
+            "platform": "IOS",
+            "os": "16.1",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 1170,
+                "height": 2532
+            },
+            "heapSize": 0,
+            "memory": 128000000000,
+            "image": "5777B309C7DD4F02868613B15D8CCE54",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:049D8D2FD8644F7FB5BA2D9214E99ED9",
+            "name": "Xiaomi Redmi Note 13+",
+            "manufacturer": "Xiaomi",
+            "model": "Xiaomi Redmi Note 13+",
+            "modelId": "23090RA98G",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "15",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 2000.0
+            },
+            "resolution": {
+                "width": 1220,
+                "height": 2712
+            },
+            "heapSize": 512000000,
+            "memory": 256000000000,
+            "image": "049D8D2FD8644F7FB5BA2D9214E99ED9",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:AA37B3CCF18646768076F8A9E40760A1",
+            "name": "Samsung Galaxy S22+ 5G",
+            "manufacturer": "Samsung",
+            "model": "Samsung Galaxy S22+ 5G",
+            "modelId": "SM-S906U1",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "12",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 1785.6
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2340
+            },
+            "heapSize": 512000000,
+            "memory": 128000000000,
+            "image": "AA37B3CCF18646768076F8A9E40760A1",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:79F9A58D576F4D2AB1A8AAF683201ADB",
+            "name": "Samsung Galaxy A14 5G",
+            "manufacturer": "Samsung",
+            "model": "Samsung Galaxy A14 5G",
+            "modelId": "SM-A146U1",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "13",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 2000.0
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2408
+            },
+            "heapSize": 512000000,
+            "memory": 64000000000,
+            "image": "79F9A58D576F4D2AB1A8AAF683201ADB",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:352F084CFD5243C3A6D9FF08DB909207",
+            "name": "Samsung Galaxy A73 5G",
+            "manufacturer": "Samsung",
+            "model": "Samsung Galaxy A73 5G",
+            "modelId": "SM-A736B",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "12",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 1804.8
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2400
+            },
+            "heapSize": 512000000,
+            "memory": 128000000000,
+            "image": "352F084CFD5243C3A6D9FF08DB909207",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:C84A6FF8998D4760BFF8F36200F2BED5",
+            "name": "Apple iPhone 14",
+            "manufacturer": "Apple",
+            "model": "Apple iPhone 14",
+            "modelId": "A2649",
+            "formFactor": "PHONE",
+            "platform": "IOS",
+            "os": "18.6.2",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 1170,
+                "height": 2532
+            },
+            "heapSize": 0,
+            "memory": 128000000000,
+            "image": "C84A6FF8998D4760BFF8F36200F2BED5",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:B581CB032FB243778741BAE3FFA901D1",
+            "name": "Google Pixel 10",
+            "manufacturer": "Google",
+            "model": "Google Pixel 10",
+            "modelId": "GLBW0",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "17",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 2246.0
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2424
+            },
+            "heapSize": 512000000,
+            "memory": 128000000000,
+            "image": "B581CB032FB243778741BAE3FFA901D1",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:B85CE06C394C4F05830F806798E35F91",
+            "name": "Samsung Galaxy A71",
+            "manufacturer": "Samsung",
+            "model": "Samsung Galaxy A71",
+            "modelId": "SM-A715F/DS",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "11",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 1804.8
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2400
+            },
+            "heapSize": 512000000,
+            "memory": 64000000000,
+            "image": "B85CE06C394C4F05830F806798E35F91",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:D7629B1012CE4734A653A08F0C906F09",
+            "name": "Apple iPhone 13 Pro",
+            "manufacturer": "Apple",
+            "model": "Apple iPhone 13 Pro",
+            "modelId": "A2483",
+            "formFactor": "PHONE",
+            "platform": "IOS",
+            "os": "15.2",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 1170,
+                "height": 2532
+            },
+            "heapSize": 0,
+            "memory": 64000000000,
+            "image": "D7629B1012CE4734A653A08F0C906F09",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:3D4CBC528B7D4523941002B86DE919E7",
+            "name": "Samsung Galaxy A24 4G",
+            "manufacturer": "Samsung",
+            "model": "Samsung Galaxy A24 4G",
+            "modelId": "SM-A245M",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "14",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 2000.0
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2340
+            },
+            "heapSize": 512000000,
+            "memory": 128000000000,
+            "image": "3D4CBC528B7D4523941002B86DE919E7",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:D68E5F854EC44935A8E4B348467FC3F9",
+            "name": "Samsung A51",
+            "manufacturer": "Samsung",
+            "model": "Samsung A51",
+            "modelId": "{SM-A515F,SM-A515U1}",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "10",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 1742.0
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2400
+            },
+            "heapSize": 512000000,
+            "memory": 128000000000,
+            "image": "D68E5F854EC44935A8E4B348467FC3F9",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:F38F4144412747B1B1271DA89C6E19D6",
+            "name": "Google Pixel 9 Pro",
+            "manufacturer": "Google",
+            "model": "Google Pixel 9 Pro",
+            "modelId": "GEC77",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "15",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 1950.0
+            },
+            "resolution": {
+                "width": 960,
+                "height": 2142
+            },
+            "heapSize": 512000000,
+            "memory": 128000000000,
+            "image": "F38F4144412747B1B1271DA89C6E19D6",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:90C71CE33598459E9266A61A095FC1E3",
+            "name": "Apple iPad Air 13 (2025)",
+            "manufacturer": "Apple",
+            "model": "Apple iPad Air 13 (2025)",
+            "modelId": "A3271",
+            "formFactor": "TABLET",
+            "platform": "IOS",
+            "os": "18.4.1",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 2048,
+                "height": 2732
+            },
+            "heapSize": 0,
+            "memory": 128000000000,
+            "image": "90C71CE33598459E9266A61A095FC1E3",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:4597BABB55ED408395DDFC6FCC458ACB",
+            "name": "Apple iPhone 12",
+            "manufacturer": "Apple",
+            "model": "Apple iPhone 12",
+            "modelId": "{MGH63,MGH73,MGH93}",
+            "formFactor": "PHONE",
+            "platform": "IOS",
+            "os": "17.5.1",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 1170,
+                "height": 2532
+            },
+            "heapSize": 0,
+            "memory": 64000000000,
+            "image": "4597BABB55ED408395DDFC6FCC458ACB",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:A9474A8588194075AB3C43B8706132FE",
+            "name": "Apple iPhone Air",
+            "manufacturer": "Apple",
+            "model": "Apple iPhone Air",
+            "modelId": "A3260",
+            "formFactor": "PHONE",
+            "platform": "IOS",
+            "os": "26.3.1",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 1260,
+                "height": 2736
+            },
+            "heapSize": 0,
+            "memory": 256000000000,
+            "image": "A9474A8588194075AB3C43B8706132FE",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:8CEAE5F634954F51BBE746628DBE576E",
+            "name": "Apple iPhone 13",
+            "manufacturer": "Apple",
+            "model": "iPhone 13",
+            "modelId": "A2482",
+            "formFactor": "PHONE",
+            "platform": "IOS",
+            "os": "17.6.1",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 1170,
+                "height": 2532
+            },
+            "heapSize": 0,
+            "memory": 64000000000,
+            "image": "8CEAE5F634954F51BBE746628DBE576E",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:3D9D3DF8F5E6491A9BCEFE9B84759D8C",
+            "name": "Apple iPhone 12",
+            "manufacturer": "Apple",
+            "model": "Apple iPhone 12",
+            "modelId": "{MGH63,MGH73,MGH93}",
+            "formFactor": "PHONE",
+            "platform": "IOS",
+            "os": "18.5",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 1170,
+                "height": 2532
+            },
+            "heapSize": 0,
+            "memory": 64000000000,
+            "image": "3D9D3DF8F5E6491A9BCEFE9B84759D8C",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:EAEC0822E91744B1872AEC2BB7D78AC1",
+            "name": "Apple iPad (2022)",
+            "manufacturer": "Apple",
+            "model": "Apple iPad (2022)",
+            "modelId": "A2696",
+            "formFactor": "TABLET",
+            "platform": "IOS",
+            "os": "16.4",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 1640,
+                "height": 2360
+            },
+            "heapSize": 0,
+            "memory": 64000000000,
+            "image": "EAEC0822E91744B1872AEC2BB7D78AC1",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:C4CF33CD7ED849C19336C793089582B3",
+            "name": "Apple iPad Pro 12.9\" (2022)",
+            "manufacturer": "Apple",
+            "model": "Apple iPad Pro 12.9\" (2022)",
+            "modelId": "A2436",
+            "formFactor": "TABLET",
+            "platform": "IOS",
+            "os": "16.5",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 2048,
+                "height": 2732
+            },
+            "heapSize": 0,
+            "memory": 128000000000,
+            "image": "C4CF33CD7ED849C19336C793089582B3",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:227606CD0C64408D82A74A73E6E3C766",
+            "name": "Apple iPhone SE (2020)",
+            "manufacturer": "Apple",
+            "model": "iPhone SE (2020)",
+            "modelId": "{MX9P2,MX9N2,MHGE3}",
+            "formFactor": "PHONE",
+            "platform": "IOS",
+            "os": "15.0.2",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 750,
+                "height": 1334
+            },
+            "heapSize": 0,
+            "memory": 64000000000,
+            "image": "227606CD0C64408D82A74A73E6E3C766",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:D4E3318DCE9C41DFA2669BCF6FB3E2CC",
+            "name": "LG Stylo 6",
+            "manufacturer": "LG",
+            "model": "LG Stylo 6",
+            "modelId": "LMQ730",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "10",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 2301.0
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2460
+            },
+            "heapSize": 256000000,
+            "memory": 64000000000,
+            "image": "D4E3318DCE9C41DFA2669BCF6FB3E2CC",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:C1302B64CEB7409787C701BE4856FEEB",
+            "name": "Google Pixel 6 Pro (Unlocked)",
+            "manufacturer": "Google",
+            "model": "Google Pixel 6 Pro",
+            "modelId": "Pixel 6 Pro",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "17",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 1803.0
+            },
+            "resolution": {
+                "width": 1440,
+                "height": 3120
+            },
+            "heapSize": 512000000,
+            "memory": 128000000000,
+            "image": "C1302B64CEB7409787C701BE4856FEEB",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:7DFDC08BBD284E8EAF9F47680FB60C0D",
+            "name": "Google Pixel 3a XL",
+            "manufacturer": "Google",
+            "model": "Google Pixel 3a XL",
+            "modelId": "G020C",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "12",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 1708.8
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2160
+            },
+            "heapSize": 512000000,
+            "memory": 64000000000,
+            "image": "7DFDC08BBD284E8EAF9F47680FB60C0D",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:A571183F1FF74A798C9C5DA2AEC820D8",
+            "name": "Google Pixel 8a",
+            "manufacturer": "Google",
+            "model": "Google Pixel 8a",
+            "modelId": "GKV4X",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "17",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 1704.0
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2400
+            },
+            "heapSize": 512000000,
+            "memory": 128000000000,
+            "image": "A571183F1FF74A798C9C5DA2AEC820D8",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:601095261F73476B92209274AD22553A",
+            "name": "Google Pixel 10 Pro XL",
+            "manufacturer": "Google",
+            "model": "Google Pixel 10 Pro XL",
+            "modelId": "GUL82",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "16",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 2246.0
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2404
+            },
+            "heapSize": 512000000,
+            "memory": 256000000000,
+            "image": "601095261F73476B92209274AD22553A",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:E904D19E4C8E4580AEC5ACCFCFDCB357",
+            "name": "Apple iPhone 14 Pro Max",
+            "manufacturer": "Apple",
+            "model": "Apple iPhone 14 Pro Max",
+            "modelId": "A2651",
+            "formFactor": "PHONE",
+            "platform": "IOS",
+            "os": "26.5",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 1290,
+                "height": 2796
+            },
+            "heapSize": 0,
+            "memory": 128000000000,
+            "image": "E904D19E4C8E4580AEC5ACCFCFDCB357",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:8E67C9887B684DFFB4923521A1AB2A04",
+            "name": "Google Pixel Tablet",
+            "manufacturer": "Google",
+            "model": "Google Pixel Tablet",
+            "modelId": "GTU8P",
+            "formFactor": "TABLET",
+            "platform": "ANDROID",
+            "os": "16",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 1803.0
+            },
+            "resolution": {
+                "width": 1600,
+                "height": 2560
+            },
+            "heapSize": 512000000,
+            "memory": 128000000000,
+            "image": "8E67C9887B684DFFB4923521A1AB2A04",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:75AA6D8A42B94601A18F5ED7BDBEA699",
+            "name": "Google Pixel 7a",
+            "manufacturer": "Google",
+            "model": "Google Pixel 7a",
+            "modelId": "GWKK3",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "13",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 1803.0
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2400
+            },
+            "heapSize": 512000000,
+            "memory": 128000000000,
+            "image": "75AA6D8A42B94601A18F5ED7BDBEA699",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:ECE1E6B96465457EB276CCBA1448C1B4",
+            "name": "Google Pixel 4 (Unlocked)",
+            "manufacturer": "Google",
+            "model": "Google Pixel 4 (Unlocked)",
+            "modelId": "{GA01188-US}",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "10",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 1785.6
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2280
+            },
+            "heapSize": 512000000,
+            "memory": 64000000000,
+            "image": "ECE1E6B96465457EB276CCBA1448C1B4",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:84080C95870F4550B8613806B3BAF1DE",
+            "name": "Samsung Galaxy S22 5G",
+            "manufacturer": "Samsung",
+            "model": "Samsung Galaxy S22 5G",
+            "modelId": "SM-S901U1",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "13",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 1785.6
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2340
+            },
+            "heapSize": 512000000,
+            "memory": 128000000000,
+            "image": "84080C95870F4550B8613806B3BAF1DE",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:C1FE022C814241559C05C0DAF39F44FB",
+            "name": "Xiaomi 13 Pro",
+            "manufacturer": "Xiaomi",
+            "model": "Xiaomi 13 Pro",
+            "modelId": "2210132G",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "13",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 2016.0
+            },
+            "resolution": {
+                "width": 1440,
+                "height": 3200
+            },
+            "heapSize": 512000000,
+            "memory": 128000000000,
+            "image": "C1FE022C814241559C05C0DAF39F44FB",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:88535AECC5554E218B497CDCA53D654F",
+            "name": "Google Pixel 8a",
+            "manufacturer": "Google",
+            "model": "Google Pixel 8a",
+            "modelId": "GKV4X",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "15",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 1704.0
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2400
+            },
+            "heapSize": 512000000,
+            "memory": 128000000000,
+            "image": "88535AECC5554E218B497CDCA53D654F",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:10C84C97B24C4933A61F197B41535C49",
+            "name": "Apple iPhone 15",
+            "manufacturer": "Apple",
+            "model": "Apple iPhone 15",
+            "modelId": "A2846",
+            "formFactor": "PHONE",
+            "platform": "IOS",
+            "os": "18.5",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 1179,
+                "height": 2556
+            },
+            "heapSize": 0,
+            "memory": 128000000000,
+            "image": "10C84C97B24C4933A61F197B41535C49",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:FF4BB2BCF06C4D9DA03B4215CBEC8A22",
+            "name": "Apple iPad (2022)",
+            "manufacturer": "Apple",
+            "model": "Apple iPad (2022)",
+            "modelId": "A2696",
+            "formFactor": "TABLET",
+            "platform": "IOS",
+            "os": "27.0",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 1640,
+                "height": 2360
+            },
+            "heapSize": 0,
+            "memory": 64000000000,
+            "image": "FF4BB2BCF06C4D9DA03B4215CBEC8A22",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:59BA4A879C904058B7831D902B82C22A",
+            "name": "Google Pixel 9 Pro XL",
+            "manufacturer": "Google",
+            "model": "Google Pixel 9 Pro XL",
+            "modelId": "GZC4K",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "15",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 1950.0
+            },
+            "resolution": {
+                "width": 1008,
+                "height": 2244
+            },
+            "heapSize": 512000000,
+            "memory": 128000000000,
+            "image": "59BA4A879C904058B7831D902B82C22A",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:C2F2BF5633994E75942BE2EB246C2709",
+            "name": "Samsung Galaxy S26",
+            "manufacturer": "Samsung",
+            "model": "Samsung Galaxy S26",
+            "modelId": "SM-S942U1",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "16",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 3628.8
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2340
+            },
+            "heapSize": 512000000,
+            "memory": 256000000000,
+            "image": "C2F2BF5633994E75942BE2EB246C2709",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:D01CF86149334AEF867B2A8E0B91A815",
+            "name": "Samsung Galaxy Note20",
+            "manufacturer": "Samsung",
+            "model": "Samsung Galaxy Note20",
+            "modelId": "SM-N980F",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "11",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 2002.0
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2400
+            },
+            "heapSize": 512000000,
+            "memory": 256000000000,
+            "image": "D01CF86149334AEF867B2A8E0B91A815",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:0029CB20FD15413E80088D250ACDB0DD",
+            "name": "Samsung Galaxy S25+",
+            "manufacturer": "Samsung",
+            "model": "Samsung Galaxy S25+",
+            "modelId": "SM-S936U1",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "15",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 3532.8
+            },
+            "resolution": {
+                "width": 1440,
+                "height": 3120
+            },
+            "heapSize": 512000000,
+            "memory": 128000000000,
+            "image": "0029CB20FD15413E80088D250ACDB0DD",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:EF75ABC511764AD397782D0AEE780A2F",
+            "name": "Samsung Galaxy S23",
+            "manufacturer": "Samsung",
+            "model": "Samsung Galaxy S23",
+            "modelId": "SM-S911U1",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "14",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 2016.0
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2340
+            },
+            "heapSize": 512000000,
+            "memory": 128000000000,
+            "image": "EF75ABC511764AD397782D0AEE780A2F",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:BE575EC42407464981CA1DA389DEFF11",
+            "name": "Apple iPad Air (2022)",
+            "manufacturer": "Apple",
+            "model": "Apple iPad Air (2022)",
+            "modelId": "A2589",
+            "formFactor": "TABLET",
+            "platform": "IOS",
+            "os": "15.4.1",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 1640,
+                "height": 2360
+            },
+            "heapSize": 0,
+            "memory": 64000000000,
+            "image": "BE575EC42407464981CA1DA389DEFF11",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:B852927205CC421CA8F5666B180EFEC2",
+            "name": "Google Pixel 6 Pro (Unlocked)",
+            "manufacturer": "Google",
+            "model": "Google Pixel 6 Pro",
+            "modelId": "Pixel 6 Pro",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "12",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 1803.0
+            },
+            "resolution": {
+                "width": 1440,
+                "height": 3120
+            },
+            "heapSize": 512000000,
+            "memory": 128000000000,
+            "image": "B852927205CC421CA8F5666B180EFEC2",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:96552C5C5A6E4FC7820C6085622D5F03",
+            "name": "Xiaomi Redmi Note 10 5G",
+            "manufacturer": "Xiaomi",
+            "model": "Xiaomi Redmi Note 10 5G",
+            "modelId": "M2103K19G",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "11",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 2000.0
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2400
+            },
+            "heapSize": 512000000,
+            "memory": 64000000000,
+            "image": "96552C5C5A6E4FC7820C6085622D5F03",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:0A5D934CFF7E4B5BB2612E922588C354",
+            "name": "Apple iPad (2025)",
+            "manufacturer": "Apple",
+            "model": "Apple iPad (2025)",
+            "modelId": "A3356",
+            "formFactor": "TABLET",
+            "platform": "IOS",
+            "os": "18.3.2",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 1640,
+                "height": 2360
+            },
+            "heapSize": 0,
+            "memory": 128000000000,
+            "image": "0A5D934CFF7E4B5BB2612E922588C354",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:9769808870C54DD798C7985DA7515A05",
+            "name": "Apple iPhone SE (2022)",
+            "manufacturer": "Apple",
+            "model": "Apple iPhone SE (2022)",
+            "modelId": "A2595",
+            "formFactor": "PHONE",
+            "platform": "IOS",
+            "os": "16.4",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 750,
+                "height": 1334
+            },
+            "heapSize": 0,
+            "memory": 64000000000,
+            "image": "9769808870C54DD798C7985DA7515A05",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:2768CFB13CD64F6BABCB0D6048A399FF",
+            "name": "Apple iPhone 11 Pro",
+            "manufacturer": "Apple",
+            "model": "Apple iPhone 11 Pro",
+            "modelId": "{MWCH2,MWCJ2,3F870,MWAM2,MWKD2}",
+            "formFactor": "PHONE",
+            "platform": "IOS",
+            "os": "15.5",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 1125,
+                "height": 2436
+            },
+            "heapSize": 0,
+            "memory": 64000000000,
+            "image": "2768CFB13CD64F6BABCB0D6048A399FF",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:0E9FDB061D55402E8B440DDC52089E2A",
+            "name": "Apple iPhone XR",
+            "manufacturer": "Apple",
+            "model": "iPhone XR",
+            "modelId": "{NT312,MRYR2,MT472,NRY42,MRYW2}",
+            "formFactor": "PHONE",
+            "platform": "IOS",
+            "os": "16.4",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 828,
+                "height": 1792
+            },
+            "heapSize": 0,
+            "memory": 64000000000,
+            "image": "0E9FDB061D55402E8B440DDC52089E2A",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:41D8FBEEF3A447C3924F64EF73DBFF7C",
+            "name": "Apple iPad (2022)",
+            "manufacturer": "Apple",
+            "model": "Apple iPad (2022)",
+            "modelId": "A2696",
+            "formFactor": "TABLET",
+            "platform": "IOS",
+            "os": "17.3.1",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 1640,
+                "height": 2360
+            },
+            "heapSize": 0,
+            "memory": 64000000000,
+            "image": "41D8FBEEF3A447C3924F64EF73DBFF7C",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:0E887F2806644478AA7AA4B931AC2E38",
+            "name": "Apple iPhone 14 Pro",
+            "manufacturer": "Apple",
+            "model": "Apple iPhone 14 Pro",
+            "modelId": "A2650",
+            "formFactor": "PHONE",
+            "platform": "IOS",
+            "os": "16.1",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 1179,
+                "height": 2556
+            },
+            "heapSize": 0,
+            "memory": 128000000000,
+            "image": "0E887F2806644478AA7AA4B931AC2E38",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:BA9311E29F364E12B7AF859033205F07",
+            "name": "Apple iPhone 14 Pro",
+            "manufacturer": "Apple",
+            "model": "Apple iPhone 14 Pro",
+            "modelId": "A2650",
+            "formFactor": "PHONE",
+            "platform": "IOS",
+            "os": "27.0",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 1179,
+                "height": 2556
+            },
+            "heapSize": 0,
+            "memory": 128000000000,
+            "image": "BA9311E29F364E12B7AF859033205F07",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:3D8FC46FCD034EF8B617E538C1651422",
+            "name": "Apple iPhone 16",
+            "manufacturer": "Apple",
+            "model": "Apple iPhone 16",
+            "modelId": "A3081",
+            "formFactor": "PHONE",
+            "platform": "IOS",
+            "os": "18.6.2",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 1179,
+                "height": 2556
+            },
+            "heapSize": 0,
+            "memory": 128000000000,
+            "image": "3D8FC46FCD034EF8B617E538C1651422",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:E86BDD6A40FB4235957517589B2DA368",
+            "name": "Samsung Galaxy S9+ (Unlocked)",
+            "manufacturer": "Samsung",
+            "model": "Galaxy S9+ (Unlocked)",
+            "modelId": "{SM-G965U1,SM-G965U}",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "8.0.0",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 1766.4
+            },
+            "resolution": {
+                "width": 1440,
+                "height": 2960
+            },
+            "heapSize": 512000000,
+            "memory": 64000000000,
+            "image": "E86BDD6A40FB4235957517589B2DA368",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:59E09144E91047E79D2DD8A36664B5A8",
+            "name": "Samsung Galaxy S21 Ultra",
+            "manufacturer": "Samsung",
+            "model": "Samsung Galaxy S21 Ultra",
+            "modelId": "SM-G998U1",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "12",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 1804.8
+            },
+            "resolution": {
+                "width": 1440,
+                "height": 3200
+            },
+            "heapSize": 512000000,
+            "memory": 64000000000,
+            "image": "59E09144E91047E79D2DD8A36664B5A8",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:E8F3D749F33E4EFF9D9E3BB97F5FC820",
+            "name": "Samsung Galaxy A36",
+            "manufacturer": "Samsung",
+            "model": "Samsung Galaxy A36",
+            "modelId": "SM-A366U1",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "15",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 1804.8
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2340
+            },
+            "heapSize": 512000000,
+            "memory": 128000000000,
+            "image": "E8F3D749F33E4EFF9D9E3BB97F5FC820",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:920248AD35CD42CA95BDA38A17F7BB5C",
+            "name": "Samsung Galaxy S23+",
+            "manufacturer": "Samsung",
+            "model": "Samsung Galaxy S23+",
+            "modelId": "SM-S916U1",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "13",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 2016.0
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2340
+            },
+            "heapSize": 512000000,
+            "memory": 256000000000,
+            "image": "920248AD35CD42CA95BDA38A17F7BB5C",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:FE809921D72C48798B9F7DEFF547F79C",
+            "name": "Samsung A51",
+            "manufacturer": "Samsung",
+            "model": "Samsung A51",
+            "modelId": "{SM-A515F,SM-A515U1}",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "13",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 1742.0
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2400
+            },
+            "heapSize": 512000000,
+            "memory": 128000000000,
+            "image": "FE809921D72C48798B9F7DEFF547F79C",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:BDC041923A734F7F8170378941969348",
+            "name": "Apple iPhone 15 Pro Max",
+            "manufacturer": "Apple",
+            "model": "Apple iPhone 15 Pro Max",
+            "modelId": "A2849",
+            "formFactor": "PHONE",
+            "platform": "IOS",
+            "os": "17.3.1",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 1290,
+                "height": 2796
+            },
+            "heapSize": 0,
+            "memory": 256000000000,
+            "image": "BDC041923A734F7F8170378941969348",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:1448A5E7D535476689E48A3968514F5C",
+            "name": "Apple iPhone 14 Pro Max",
+            "manufacturer": "Apple",
+            "model": "Apple iPhone 14 Pro Max",
+            "modelId": "A2651",
+            "formFactor": "PHONE",
+            "platform": "IOS",
+            "os": "16.6",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 1290,
+                "height": 2796
+            },
+            "heapSize": 0,
+            "memory": 128000000000,
+            "image": "1448A5E7D535476689E48A3968514F5C",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:CF74189AC40647639F9D55CC2DD233C9",
+            "name": "Samsung Galaxy Tab A9",
+            "manufacturer": "Samsung",
+            "model": "Samsung Galaxy Tab A9",
+            "modelId": "SM-X110",
+            "formFactor": "TABLET",
+            "platform": "ANDROID",
+            "os": "13",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 2000.0
+            },
+            "resolution": {
+                "width": 800,
+                "height": 1340
+            },
+            "heapSize": 512000000,
+            "memory": 64000000000,
+            "image": "CF74189AC40647639F9D55CC2DD233C9",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:6D89F408709B4D3BBBBB17696A24B141",
+            "name": "Google Pixel 9",
+            "manufacturer": "Google",
+            "model": "Google Pixel 9",
+            "modelId": "GUR25",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "16",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 1950.0
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2424
+            },
+            "heapSize": 512000000,
+            "memory": 128000000000,
+            "image": "6D89F408709B4D3BBBBB17696A24B141",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:46B723563F784126A2CBDE0D3123B0B8",
+            "name": "Google Pixel Tablet",
+            "manufacturer": "Google",
+            "model": "Google Pixel Tablet",
+            "modelId": "GTU8P",
+            "formFactor": "TABLET",
+            "platform": "ANDROID",
+            "os": "17",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 1803.0
+            },
+            "resolution": {
+                "width": 1600,
+                "height": 2560
+            },
+            "heapSize": 512000000,
+            "memory": 128000000000,
+            "image": "46B723563F784126A2CBDE0D3123B0B8",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:43B81A7172C34E4E94A7CB3BE27FF5AA",
+            "name": "Samsung Galaxy A36",
+            "manufacturer": "Samsung",
+            "model": "Samsung Galaxy A36",
+            "modelId": "SM-A366U1",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "16",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 1804.8
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2340
+            },
+            "heapSize": 512000000,
+            "memory": 128000000000,
+            "image": "43B81A7172C34E4E94A7CB3BE27FF5AA",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:4395393F427444FFA0291C71E1F2235C",
+            "name": "Apple iPhone SE (2022)",
+            "manufacturer": "Apple",
+            "model": "Apple iPhone SE (2022)",
+            "modelId": "A2595",
+            "formFactor": "PHONE",
+            "platform": "IOS",
+            "os": "15.4.1",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 750,
+                "height": 1334
+            },
+            "heapSize": 0,
+            "memory": 64000000000,
+            "image": "4395393F427444FFA0291C71E1F2235C",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:30FFDD10560948EABAF2288A9BF0397C",
+            "name": "Apple iPad Air 11 (2024)",
+            "manufacturer": "Apple",
+            "model": "Apple iPad Air 11 (2024)",
+            "modelId": "A2902",
+            "formFactor": "TABLET",
+            "platform": "IOS",
+            "os": "26.1",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 1640,
+                "height": 2360
+            },
+            "heapSize": 0,
+            "memory": 128000000000,
+            "image": "30FFDD10560948EABAF2288A9BF0397C",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:E0BD1EDDDF1B4E1A8FF5668759831BD6",
+            "name": "Samsung Galaxy S24",
+            "manufacturer": "Samsung",
+            "model": "Samsung Galaxy S24",
+            "modelId": "SM-S921U1",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "14",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 2265.6
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2340
+            },
+            "heapSize": 512000000,
+            "memory": 128000000000,
+            "image": "E0BD1EDDDF1B4E1A8FF5668759831BD6",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:97CC75E55F194BCDA74602B97AC50FE3",
+            "name": "Apple iPhone 11",
+            "manufacturer": "Apple",
+            "model": "Apple iPhone 11",
+            "modelId": "{MWJF2,MWKM2,NWKN2,NWKN2,MHCP3}",
+            "formFactor": "PHONE",
+            "platform": "IOS",
+            "os": "16.3",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 828,
+                "height": 1792
+            },
+            "heapSize": 0,
+            "memory": 64000000000,
+            "image": "97CC75E55F194BCDA74602B97AC50FE3",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:D8E7D3452FE945ABBC7AF12CFBEB8655",
+            "name": "Apple iPhone 12 Mini",
+            "manufacturer": "Apple",
+            "model": "Apple iPhone 12 Mini",
+            "modelId": "{MG8G3,MG8J3}",
+            "formFactor": "PHONE",
+            "platform": "IOS",
+            "os": "16.5",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2340
+            },
+            "heapSize": 0,
+            "memory": 64000000000,
+            "image": "D8E7D3452FE945ABBC7AF12CFBEB8655",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:E1F3149FDC33484D824BCFF66003E609",
+            "name": "Google Pixel 3 XL",
+            "manufacturer": "Google",
+            "model": "Google Pixel 3 XL",
+            "modelId": "Pixel 3 XL",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "9",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 1766.4
+            },
+            "resolution": {
+                "width": 1440,
+                "height": 2960
+            },
+            "heapSize": 512000000,
+            "memory": 64000000000,
+            "image": "E1F3149FDC33484D824BCFF66003E609",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:1E0935897A8E4AAF806577E545D30C27",
+            "name": "Apple iPad Pro 11\" (2022)",
+            "manufacturer": "Apple",
+            "model": "Apple iPad Pro 11\" (2022)",
+            "modelId": "A2759",
+            "formFactor": "TABLET",
+            "platform": "IOS",
+            "os": "16.3",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 1668,
+                "height": 2388
+            },
+            "heapSize": 0,
+            "memory": 128000000000,
+            "image": "1E0935897A8E4AAF806577E545D30C27",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:03EBD9AA02DE495DA907B4186802985C",
+            "name": "Google Pixel 11 Pro",
+            "manufacturer": "Google",
+            "model": "Google Pixel 11 Pro",
+            "modelId": "G7SWN",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "17",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 2649.0
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2410
+            },
+            "heapSize": 512000000,
+            "memory": 256000000000,
+            "image": "03EBD9AA02DE495DA907B4186802985C",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:BCDA2B2CE0B54ABEA1F8B34A54A2752C",
+            "name": "Google Pixel 9",
+            "manufacturer": "Google",
+            "model": "Google Pixel 9",
+            "modelId": "GUR25",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "15",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 1950.0
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2424
+            },
+            "heapSize": 512000000,
+            "memory": 128000000000,
+            "image": "BCDA2B2CE0B54ABEA1F8B34A54A2752C",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:BD033A4151EB4C06BB755BBB0715C3C9",
+            "name": "Samsung Galaxy S21",
+            "manufacturer": "Samsung",
+            "model": "Samsung Galaxy S21",
+            "modelId": "SM-G991U1",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "12",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 1804.8
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2400
+            },
+            "heapSize": 512000000,
+            "memory": 64000000000,
+            "image": "BD033A4151EB4C06BB755BBB0715C3C9",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:70F2DF2C58B54312BF4A036ADCF16790",
+            "name": "Apple iPhone 14 Pro Max",
+            "manufacturer": "Apple",
+            "model": "Apple iPhone 14 Pro Max",
+            "modelId": "A2651",
+            "formFactor": "PHONE",
+            "platform": "IOS",
+            "os": "16.2",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 1290,
+                "height": 2796
+            },
+            "heapSize": 0,
+            "memory": 128000000000,
+            "image": "70F2DF2C58B54312BF4A036ADCF16790",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:D48BBC9AF1644AEFBAC7B431CAE21DD6",
+            "name": "Samsung Galaxy A13 5G",
+            "manufacturer": "Samsung",
+            "model": "Samsung Galaxy A13 5G",
+            "modelId": "SM-A136U1",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "11",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "armeabi-v7a",
+                "clock": 2000.0
+            },
+            "resolution": {
+                "width": 720,
+                "height": 1600
+            },
+            "heapSize": 512000000,
+            "memory": 64000000000,
+            "image": "D48BBC9AF1644AEFBAC7B431CAE21DD6",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:AF4C1CAB1B064035859D5C70136FA869",
+            "name": "Samsung Galaxy A35",
+            "manufacturer": "Samsung",
+            "model": "Samsung Galaxy A35",
+            "modelId": "SM-A356U1",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "14",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 2002.0
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2340
+            },
+            "heapSize": 512000000,
+            "memory": 128000000000,
+            "image": "AF4C1CAB1B064035859D5C70136FA869",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:E05780F151C14A9E9135E20F3EA3AC2A",
+            "name": "Apple iPad mini (2024)",
+            "manufacturer": "Apple",
+            "model": "Apple iPad mini (2024)",
+            "modelId": "A2993",
+            "formFactor": "TABLET",
+            "platform": "IOS",
+            "os": "18.6",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 1488,
+                "height": 2266
+            },
+            "heapSize": 0,
+            "memory": 128000000000,
+            "image": "E05780F151C14A9E9135E20F3EA3AC2A",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:B41483BA3CF640D0A02303758EDEE3C1",
+            "name": "Apple iPhone 13 Pro Max",
+            "manufacturer": "Apple",
+            "model": "Apple iPhone 13 Pro Max",
+            "modelId": "A2484",
+            "formFactor": "PHONE",
+            "platform": "IOS",
+            "os": "17.3",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 1284,
+                "height": 2778
+            },
+            "heapSize": 0,
+            "memory": 64000000000,
+            "image": "B41483BA3CF640D0A02303758EDEE3C1",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:297E84F959BA411FBB8D5F42817177FF",
+            "name": "Apple iPhone 16 Pro",
+            "manufacturer": "Apple",
+            "model": "Apple iPhone 16 Pro",
+            "modelId": "A3083",
+            "formFactor": "PHONE",
+            "platform": "IOS",
+            "os": "26.0",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 1206,
+                "height": 2622
+            },
+            "heapSize": 0,
+            "memory": 128000000000,
+            "image": "297E84F959BA411FBB8D5F42817177FF",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:A3BCACFADDCF4D5E9D7B8F8AC06EED2C",
+            "name": "Google Pixel 8 Pro",
+            "manufacturer": "Google",
+            "model": "Google Pixel 8 Pro",
+            "modelId": "G1MNW",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "15",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 1704.0
+            },
+            "resolution": {
+                "width": 1008,
+                "height": 2244
+            },
+            "heapSize": 512000000,
+            "memory": 128000000000,
+            "image": "A3BCACFADDCF4D5E9D7B8F8AC06EED2C",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:1EFFB9D61D5445E589895487C2C4A1BE",
+            "name": "Apple iPhone 14 Pro Max",
+            "manufacturer": "Apple",
+            "model": "Apple iPhone 14 Pro Max",
+            "modelId": "A2651",
+            "formFactor": "PHONE",
+            "platform": "IOS",
+            "os": "18.6",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 1290,
+                "height": 2796
+            },
+            "heapSize": 0,
+            "memory": 128000000000,
+            "image": "1EFFB9D61D5445E589895487C2C4A1BE",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:E7BBB129D46045BDB337036160AAF62F",
+            "name": "Google Pixel 3 XL",
+            "manufacturer": "Google",
+            "model": "Google Pixel 3 XL",
+            "modelId": "Pixel 3 XL",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "10",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 1766.4
+            },
+            "resolution": {
+                "width": 1440,
+                "height": 2960
+            },
+            "heapSize": 512000000,
+            "memory": 64000000000,
+            "image": "E7BBB129D46045BDB337036160AAF62F",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:51BB2182882E4475B28AFFE33B2C32AE",
+            "name": "Apple iPhone 14 Pro",
+            "manufacturer": "Apple",
+            "model": "Apple iPhone 14 Pro",
+            "modelId": "A2650",
+            "formFactor": "PHONE",
+            "platform": "IOS",
+            "os": "17.3.1",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 1179,
+                "height": 2556
+            },
+            "heapSize": 0,
+            "memory": 128000000000,
+            "image": "51BB2182882E4475B28AFFE33B2C32AE",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:5CE4E149706441559D8B359A37417AC9",
+            "name": "Samsung Galaxy S22 5G",
+            "manufacturer": "Samsung",
+            "model": "Samsung Galaxy S22 5G",
+            "modelId": "SM-S901U1",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "12",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 1785.6
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2340
+            },
+            "heapSize": 512000000,
+            "memory": 128000000000,
+            "image": "5CE4E149706441559D8B359A37417AC9",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:C5DDD26CF7CD4A9BB5995E392492582D",
+            "name": "Apple iPhone 16e",
+            "manufacturer": "Apple",
+            "model": "Apple iPhone 16e",
+            "modelId": "A3408",
+            "formFactor": "PHONE",
+            "platform": "IOS",
+            "os": "18.3.2",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 1170,
+                "height": 2532
+            },
+            "heapSize": 0,
+            "memory": 128000000000,
+            "image": "C5DDD26CF7CD4A9BB5995E392492582D",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:168FDB4305C44550B3341DC945802FE1",
+            "name": "Google Pixel 7",
+            "manufacturer": "Google",
+            "model": "Google Pixel 7",
+            "modelId": "GQML3",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "13",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 1803.0
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2400
+            },
+            "heapSize": 512000000,
+            "memory": 128000000000,
+            "image": "168FDB4305C44550B3341DC945802FE1",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:65AE1188F36D4C7684B6C90EFC63E9F2",
+            "name": "Apple iPhone 12",
+            "manufacturer": "Apple",
+            "model": "Apple iPhone 12",
+            "modelId": "{MGH63,MGH73,MGH93}",
+            "formFactor": "PHONE",
+            "platform": "IOS",
+            "os": "16.6.1",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 1170,
+                "height": 2532
+            },
+            "heapSize": 0,
+            "memory": 64000000000,
+            "image": "65AE1188F36D4C7684B6C90EFC63E9F2",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:9925BE912BAB41E486DAE529E633C214",
+            "name": "Apple iPhone 15",
+            "manufacturer": "Apple",
+            "model": "Apple iPhone 15",
+            "modelId": "A2846",
+            "formFactor": "PHONE",
+            "platform": "IOS",
+            "os": "18.0",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 1179,
+                "height": 2556
+            },
+            "heapSize": 0,
+            "memory": 128000000000,
+            "image": "9925BE912BAB41E486DAE529E633C214",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:B0A15C4D9D554A6AA2FC221560DFC850",
+            "name": "Google Pixel 9a",
+            "manufacturer": "Google",
+            "model": "Google Pixel 9a",
+            "modelId": "GXQ96",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "15",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 1950.0
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2424
+            },
+            "heapSize": 512000000,
+            "memory": 128000000000,
+            "image": "B0A15C4D9D554A6AA2FC221560DFC850",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:4CA59708F26141C191EEDFD3AA91C911",
+            "name": "Samsung Galaxy S24+",
+            "manufacturer": "Samsung",
+            "model": "Samsung Galaxy S24+",
+            "modelId": "SM-S926U1",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "14",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 2265.6
+            },
+            "resolution": {
+                "width": 1440,
+                "height": 3120
+            },
+            "heapSize": 512000000,
+            "memory": 256000000000,
+            "image": "4CA59708F26141C191EEDFD3AA91C911",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:2EFF1E0D1C734B68A8F584C6CF9D617A",
+            "name": "LG Stylo 5",
+            "manufacturer": "LG",
+            "model": "LG Stylo 5",
+            "modelId": "{LM-Q720QM}",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "9",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 1804.8
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2160
+            },
+            "heapSize": 384000000,
+            "memory": 32000000000,
+            "image": "2EFF1E0D1C734B68A8F584C6CF9D617A",
+            "remoteAccessEnabled": false,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:876125E44C784FCD9A31D40F1E37E11F",
+            "name": "Google Pixel 10",
+            "manufacturer": "Google",
+            "model": "Google Pixel 10",
+            "modelId": "GLBW0",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "16",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 2246.0
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2424
+            },
+            "heapSize": 512000000,
+            "memory": 128000000000,
+            "image": "876125E44C784FCD9A31D40F1E37E11F",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:F30C04464C40471CA1DD9C66B12F837F",
+            "name": "Apple iPad Air 11 (2025)",
+            "manufacturer": "Apple",
+            "model": "Apple iPad Air 11 (2025)",
+            "modelId": "A3270",
+            "formFactor": "TABLET",
+            "platform": "IOS",
+            "os": "18.3.2",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 1640,
+                "height": 2360
+            },
+            "heapSize": 0,
+            "memory": 128000000000,
+            "image": "F30C04464C40471CA1DD9C66B12F837F",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:A7BA5D5470264C9E98C1A599B9BFFA73",
+            "name": "Samsung Galaxy S10",
+            "manufacturer": "Samsung",
+            "model": "Galaxy S10",
+            "modelId": "SM-G973U1",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "9",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 1785.6
+            },
+            "resolution": {
+                "width": 1440,
+                "height": 3040
+            },
+            "heapSize": 512000000,
+            "memory": 128000000000,
+            "image": "A7BA5D5470264C9E98C1A599B9BFFA73",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:47F07CB507F04E229BF67180FC1786F2",
+            "name": "Google Pixel 3",
+            "manufacturer": "Google",
+            "model": "Google Pixel 3",
+            "modelId": "Pixel 3",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "10",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 1766.4
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2160
+            },
+            "heapSize": 512000000,
+            "memory": 64000000000,
+            "image": "47F07CB507F04E229BF67180FC1786F2",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:94D6E95F3E114FFBA13C488241621118",
+            "name": "Apple iPhone 15 Pro",
+            "manufacturer": "Apple",
+            "model": "Apple iPhone 15 Pro",
+            "modelId": "A2848",
+            "formFactor": "PHONE",
+            "platform": "IOS",
+            "os": "18.1",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 1179,
+                "height": 2556
+            },
+            "heapSize": 0,
+            "memory": 128000000000,
+            "image": "94D6E95F3E114FFBA13C488241621118",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:A44117C230F54DE9B764ECA82881320A",
+            "name": "Samsung Galaxy Tab S6 (WiFi)",
+            "manufacturer": "Samsung",
+            "model": "Samsung Galaxy Tab S6",
+            "modelId": "SM-T860",
+            "formFactor": "TABLET",
+            "platform": "ANDROID",
+            "os": "9",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 1785.6
+            },
+            "resolution": {
+                "width": 1600,
+                "height": 2560
+            },
+            "heapSize": 512000000,
+            "memory": 128000000000,
+            "image": "A44117C230F54DE9B764ECA82881320A",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:71E9AED7A95C4B81A2E35684B4EAA785",
+            "name": "Samsung Galaxy S21 Ultra",
+            "manufacturer": "Samsung",
+            "model": "Samsung Galaxy S21 Ultra",
+            "modelId": "SM-G998U1",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "11",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 1804.8
+            },
+            "resolution": {
+                "width": 1440,
+                "height": 3200
+            },
+            "heapSize": 512000000,
+            "memory": 64000000000,
+            "image": "71E9AED7A95C4B81A2E35684B4EAA785",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:DE5BD47FF3BD42C3A14BF7A6EFB1BFE7",
+            "name": "Google Pixel 8",
+            "manufacturer": "Google",
+            "model": "Google Pixel 8",
+            "modelId": "G9BQD",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "15",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 1704.0
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2400
+            },
+            "heapSize": 512000000,
+            "memory": 128000000000,
+            "image": "DE5BD47FF3BD42C3A14BF7A6EFB1BFE7",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:E97BDAB516AF43E497C3B009AF49E254",
+            "name": "Google Pixel 11",
+            "manufacturer": "Google",
+            "model": "Google Pixel 11",
+            "modelId": "GUJ0N",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "17",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 2649.0
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2424
+            },
+            "heapSize": 512000000,
+            "memory": 256000000000,
+            "image": "E97BDAB516AF43E497C3B009AF49E254",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:072C9E2FC37C42F58124982CA15EE097",
+            "name": "Xiaomi 13",
+            "manufacturer": "Xiaomi",
+            "model": "Xiaomi 13",
+            "modelId": "2211133G",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "13",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 2016.0
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2400
+            },
+            "heapSize": 512000000,
+            "memory": 128000000000,
+            "image": "072C9E2FC37C42F58124982CA15EE097",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:9B74AD95597D4BF39827A4EAD83B9F6D",
+            "name": "Samsung Galaxy A15",
+            "manufacturer": "Samsung",
+            "model": "Samsung Galaxy A15",
+            "modelId": "SM-A156U1",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "14",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 2000.0
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2340
+            },
+            "heapSize": 512000000,
+            "memory": 128000000000,
+            "image": "9B74AD95597D4BF39827A4EAD83B9F6D",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:CE68825ABE5A4740B56F10111FD47844",
+            "name": "Samsung Galaxy S9 (Unlocked)",
+            "manufacturer": "Samsung",
+            "model": "Galaxy S9 (Unlocked)",
+            "modelId": "SM-G960U1",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "9",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 1766.4
+            },
+            "resolution": {
+                "width": 1440,
+                "height": 2960
+            },
+            "heapSize": 512000000,
+            "memory": 64000000000,
+            "image": "CE68825ABE5A4740B56F10111FD47844",
+            "remoteAccessEnabled": false,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:D90C481A1E514635A3526724DC492978",
+            "name": "Apple iPhone 17 Pro Max",
+            "manufacturer": "Apple",
+            "model": "Apple iPhone 17 Pro Max ",
+            "modelId": "A3257",
+            "formFactor": "PHONE",
+            "platform": "IOS",
+            "os": "26.3.1",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 1320,
+                "height": 2868
+            },
+            "heapSize": 0,
+            "memory": 256000000000,
+            "image": "D90C481A1E514635A3526724DC492978",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:83756E458FA04CFA8321B1DD2AA184AA",
+            "name": "Apple iPhone 15 Plus",
+            "manufacturer": "Apple",
+            "model": "Apple iPhone 15 Plus",
+            "modelId": "A2847",
+            "formFactor": "PHONE",
+            "platform": "IOS",
+            "os": "17.4.1",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 1290,
+                "height": 2796
+            },
+            "heapSize": 0,
+            "memory": 128000000000,
+            "image": "83756E458FA04CFA8321B1DD2AA184AA",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:9B6D337E1A54488BBAD058C9D618FAF6",
+            "name": "Apple iPad 9th gen (2021)",
+            "manufacturer": "Apple",
+            "model": "Apple iPad 9th gen (2021)",
+            "modelId": "A2602",
+            "formFactor": "TABLET",
+            "platform": "IOS",
+            "os": "15.0.2",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 1620,
+                "height": 2160
+            },
+            "heapSize": 0,
+            "memory": 64000000000,
+            "image": "9B6D337E1A54488BBAD058C9D618FAF6",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:F063FF959B0046ED85AF87F52918BF8D",
+            "name": "Apple iPhone X",
+            "manufacturer": "Apple",
+            "model": "iPhone X",
+            "modelId": "{}",
+            "formFactor": "PHONE",
+            "platform": "IOS",
+            "os": "16.7.11",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 1125,
+                "height": 2436
+            },
+            "heapSize": 0,
+            "memory": 256000000000,
+            "image": "F063FF959B0046ED85AF87F52918BF8D",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:947B3E7A5B0F42EEAD0873D311C2D397",
+            "name": "Apple iPhone 13 Mini",
+            "manufacturer": "Apple",
+            "model": "Apple iPhone 13 Mini",
+            "modelId": "A2481",
+            "formFactor": "PHONE",
+            "platform": "IOS",
+            "os": "16.6",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2340
+            },
+            "heapSize": 0,
+            "memory": 64000000000,
+            "image": "947B3E7A5B0F42EEAD0873D311C2D397",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:B4DE46FAB5214DC2885012065D9B3C48",
+            "name": "Google Pixel 3a XL",
+            "manufacturer": "Google",
+            "model": "Google Pixel 3a XL",
+            "modelId": "G020C",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "11",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 1708.8
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2160
+            },
+            "heapSize": 512000000,
+            "memory": 64000000000,
+            "image": "B4DE46FAB5214DC2885012065D9B3C48",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:E18871D0130540BD939134AD050BDF77",
+            "name": "Apple iPad Air (2022)",
+            "manufacturer": "Apple",
+            "model": "Apple iPad Air (2022)",
+            "modelId": "A2589",
+            "formFactor": "TABLET",
+            "platform": "IOS",
+            "os": "16.6",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 1640,
+                "height": 2360
+            },
+            "heapSize": 0,
+            "memory": 64000000000,
+            "image": "E18871D0130540BD939134AD050BDF77",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:CBCBF5D8221F486B8B65F1E8B57B1ACD",
+            "name": "Samsung Galaxy A54",
+            "manufacturer": "Samsung",
+            "model": "Samsung Galaxy A54",
+            "modelId": "SM-A546U1",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "13",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 2002.0
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2340
+            },
+            "heapSize": 512000000,
+            "memory": 128000000000,
+            "image": "CBCBF5D8221F486B8B65F1E8B57B1ACD",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:D2DAF364C1C14EEF973729F71B3B6CE4",
+            "name": "Apple iPad Pro 12.9\" (2022)",
+            "manufacturer": "Apple",
+            "model": "Apple iPad Pro 12.9\" (2022)",
+            "modelId": "A2436",
+            "formFactor": "TABLET",
+            "platform": "IOS",
+            "os": "17.6.1",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 2048,
+                "height": 2732
+            },
+            "heapSize": 0,
+            "memory": 128000000000,
+            "image": "D2DAF364C1C14EEF973729F71B3B6CE4",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:BB7C2918101A47C88C79DD8F20071AD8",
+            "name": "Google Pixel 5 (Unlocked)",
+            "manufacturer": "Google",
+            "model": "Pixel 5",
+            "modelId": "{Pixel 5}",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "11",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 1804.8
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2340
+            },
+            "heapSize": 512000000,
+            "memory": 64000000000,
+            "image": "BB7C2918101A47C88C79DD8F20071AD8",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:1701F9C3608A4F3B860E42CFFB549534",
+            "name": "Google Pixel 7",
+            "manufacturer": "Google",
+            "model": "Google Pixel 7",
+            "modelId": "GQML3",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "14",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 1803.0
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2400
+            },
+            "heapSize": 512000000,
+            "memory": 128000000000,
+            "image": "1701F9C3608A4F3B860E42CFFB549534",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:AF0C356EC2C448C6895B94D9BAF0ABE9",
+            "name": "Samsung Galaxy S26+",
+            "manufacturer": "Samsung",
+            "model": "Samsung Galaxy S26+",
+            "modelId": "SM-S947U1",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "16",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 3628.8
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2340
+            },
+            "heapSize": 512000000,
+            "memory": 256000000000,
+            "image": "AF0C356EC2C448C6895B94D9BAF0ABE9",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:E591CE2B21134255AB58944913C2E1C5",
+            "name": "Apple iPhone 13",
+            "manufacturer": "Apple",
+            "model": "iPhone 13",
+            "modelId": "A2482",
+            "formFactor": "PHONE",
+            "platform": "IOS",
+            "os": "18.5",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 1170,
+                "height": 2532
+            },
+            "heapSize": 0,
+            "memory": 64000000000,
+            "image": "E591CE2B21134255AB58944913C2E1C5",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:C00EB4C85AEF441195453AFA2D93122A",
+            "name": "Samsung Galaxy A17",
+            "manufacturer": "Samsung",
+            "model": "Samsung Galaxy A17",
+            "modelId": "SM-A176U",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "16",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 2002.0
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2340
+            },
+            "heapSize": 512000000,
+            "memory": 128000000000,
+            "image": "C00EB4C85AEF441195453AFA2D93122A",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:C611C518EE83479381F68F1763EA6971",
+            "name": "Apple iPhone 14 Plus",
+            "manufacturer": "Apple",
+            "model": "Apple iPhone 14 Plus",
+            "modelId": "A2632",
+            "formFactor": "PHONE",
+            "platform": "IOS",
+            "os": "16.1",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 1284,
+                "height": 2778
+            },
+            "heapSize": 0,
+            "memory": 128000000000,
+            "image": "C611C518EE83479381F68F1763EA6971",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:08F72C60B7B24959BF218606D3F29E69",
+            "name": "Apple iPhone 17",
+            "manufacturer": "Apple",
+            "model": "Apple iPhone 17",
+            "modelId": "A3258",
+            "formFactor": "PHONE",
+            "platform": "IOS",
+            "os": "26.3.1",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 1206,
+                "height": 2622
+            },
+            "heapSize": 0,
+            "memory": 256000000000,
+            "image": "08F72C60B7B24959BF218606D3F29E69",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:164880D2759E4F6F97AEBEE3E8BE82FF",
+            "name": "Samsung Galaxy A34",
+            "manufacturer": "Samsung",
+            "model": "Samsung Galaxy A34",
+            "modelId": "SM-A346B",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "13",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 2000.0
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2340
+            },
+            "heapSize": 512000000,
+            "memory": 128000000000,
+            "image": "164880D2759E4F6F97AEBEE3E8BE82FF",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:F4301BD8EB4A488DBD7DD245CECDFAE0",
+            "name": "Google Pixel 6 (Unlocked)",
+            "manufacturer": "Google",
+            "model": "Google Pixel 6",
+            "modelId": "Pixel 6",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "13",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 1803.0
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2400
+            },
+            "heapSize": 512000000,
+            "memory": 128000000000,
+            "image": "F4301BD8EB4A488DBD7DD245CECDFAE0",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:773F2AFE54674A91B30CDD652C01A7B8",
+            "name": "Google Pixel 9 Pro XL",
+            "manufacturer": "Google",
+            "model": "Google Pixel 9 Pro XL",
+            "modelId": "GZC4K",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "17",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 1950.0
+            },
+            "resolution": {
+                "width": 1008,
+                "height": 2244
+            },
+            "heapSize": 512000000,
+            "memory": 128000000000,
+            "image": "773F2AFE54674A91B30CDD652C01A7B8",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:310C75606BFC4C7CAF00A943C588DCB8",
+            "name": "Samsung Galaxy S21",
+            "manufacturer": "Samsung",
+            "model": "Samsung Galaxy S21",
+            "modelId": "SM-G991U1",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "11",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 1804.8
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2400
+            },
+            "heapSize": 512000000,
+            "memory": 64000000000,
+            "image": "310C75606BFC4C7CAF00A943C588DCB8",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:EEED8AB9E08F4B6C862F982EDA0A0C34",
+            "name": "Apple iPhone 16",
+            "manufacturer": "Apple",
+            "model": "Apple iPhone 16",
+            "modelId": "A3081",
+            "formFactor": "PHONE",
+            "platform": "IOS",
+            "os": "26.0",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 1179,
+                "height": 2556
+            },
+            "heapSize": 0,
+            "memory": 128000000000,
+            "image": "EEED8AB9E08F4B6C862F982EDA0A0C34",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:EB3EBEBD9E6D4ED2A1A69A0399AC25E5",
+            "name": "Apple iPhone 16 Pro",
+            "manufacturer": "Apple",
+            "model": "Apple iPhone 16 Pro",
+            "modelId": "A3083",
+            "formFactor": "PHONE",
+            "platform": "IOS",
+            "os": "18.3.1",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 1206,
+                "height": 2622
+            },
+            "heapSize": 0,
+            "memory": 128000000000,
+            "image": "EB3EBEBD9E6D4ED2A1A69A0399AC25E5",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:979824405FD947B09740F775EB4C808A",
+            "name": "Samsung Galaxy A26",
+            "manufacturer": "Samsung",
+            "model": "Samsung Galaxy A26",
+            "modelId": "SM-A266U1",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "15",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 2002.0
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2340
+            },
+            "heapSize": 512000000,
+            "memory": 128000000000,
+            "image": "979824405FD947B09740F775EB4C808A",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:BC43DC9386D040D79D3802CF8AA00A96",
+            "name": "Google Pixel 4a",
+            "manufacturer": "Google",
+            "model": "Google Pixel 4a",
+            "modelId": "{Pixel 4a}",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "11",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 1804.8
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2340
+            },
+            "heapSize": 512000000,
+            "memory": 128000000000,
+            "image": "BC43DC9386D040D79D3802CF8AA00A96",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:C2B3E436BB134046AF6D50DDFC2C14F1",
+            "name": "Apple iPhone 16 Pro Max",
+            "manufacturer": "Apple",
+            "model": "Apple iPhone 16 Pro Max",
+            "modelId": "A3084",
+            "formFactor": "PHONE",
+            "platform": "IOS",
+            "os": "18.3.1",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 1320,
+                "height": 2868
+            },
+            "heapSize": 0,
+            "memory": 256000000000,
+            "image": "C2B3E436BB134046AF6D50DDFC2C14F1",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:DDE56F8D80FF46958B1BC0DB837C8C59",
+            "name": "Apple iPhone 15",
+            "manufacturer": "Apple",
+            "model": "Apple iPhone 15",
+            "modelId": "A2846",
+            "formFactor": "PHONE",
+            "platform": "IOS",
+            "os": "17.2.1",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 1179,
+                "height": 2556
+            },
+            "heapSize": 0,
+            "memory": 128000000000,
+            "image": "DDE56F8D80FF46958B1BC0DB837C8C59",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:7C9905944C544D278C5D9B6FBD93D5ED",
+            "name": "Apple iPad mini (6th gen)",
+            "manufacturer": "Apple",
+            "model": "Apple iPad mini (6th gen)",
+            "modelId": "A2567",
+            "formFactor": "TABLET",
+            "platform": "IOS",
+            "os": "15.1",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 1488,
+                "height": 2266
+            },
+            "heapSize": 0,
+            "memory": 64000000000,
+            "image": "7C9905944C544D278C5D9B6FBD93D5ED",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:19F541D91804473F821D58650C059458",
+            "name": "Apple iPhone 14",
+            "manufacturer": "Apple",
+            "model": "Apple iPhone 14",
+            "modelId": "A2649",
+            "formFactor": "PHONE",
+            "platform": "IOS",
+            "os": "27.0",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 1170,
+                "height": 2532
+            },
+            "heapSize": 0,
+            "memory": 128000000000,
+            "image": "19F541D91804473F821D58650C059458",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:F1C3B0D61013491A8EE2FA19FAA80306",
+            "name": "Google Pixel 3a",
+            "manufacturer": "Google",
+            "model": "Google Pixel 3a",
+            "modelId": "G020G",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "10",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 1708.8
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2220
+            },
+            "heapSize": 512000000,
+            "memory": 64000000000,
+            "image": "F1C3B0D61013491A8EE2FA19FAA80306",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:FDC03E6FE25C4A56BF42003B99DA39C4",
+            "name": "Google Pixel 7 Pro",
+            "manufacturer": "Google",
+            "model": "Google Pixel 7 Pro",
+            "modelId": "GE2AE",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "13",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 1803.0
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2340
+            },
+            "heapSize": 512000000,
+            "memory": 128000000000,
+            "image": "FDC03E6FE25C4A56BF42003B99DA39C4",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:1E6779ED62864AA8A2F7EB6CCFB0C40E",
+            "name": "Xiaomi 12",
+            "manufacturer": "Xiaomi",
+            "model": "Xiaomi 12",
+            "modelId": "2201123G",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "12",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 1785.6
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2400
+            },
+            "heapSize": 512000000,
+            "memory": 128000000000,
+            "image": "1E6779ED62864AA8A2F7EB6CCFB0C40E",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:907F0D40CD8C4599BD1EE68EBC6EDBC9",
+            "name": "Samsung Galaxy S20 (Unlocked)",
+            "manufacturer": "Samsung",
+            "model": "Samsung Galaxy S20 (Unlocked)",
+            "modelId": "{SM-G981U1}",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "13",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 1804.8
+            },
+            "resolution": {
+                "width": 1440,
+                "height": 3200
+            },
+            "heapSize": 512000000,
+            "memory": 128000000000,
+            "image": "907F0D40CD8C4599BD1EE68EBC6EDBC9",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:095A27676116466584F0071460D04960",
+            "name": "Samsung Galaxy A56",
+            "manufacturer": "Samsung",
+            "model": "Samsung Galaxy A56",
+            "modelId": "SM-A566U1",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "15",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 1950.0
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2340
+            },
+            "heapSize": 512000000,
+            "memory": 128000000000,
+            "image": "095A27676116466584F0071460D04960",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:69977E819F314BD481F194580E8EFC16",
+            "name": "Samsung Galaxy S25",
+            "manufacturer": "Samsung",
+            "model": "Samsung Galaxy S25",
+            "modelId": "SM-S931U1",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "15",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 3532.8
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2340
+            },
+            "heapSize": 512000000,
+            "memory": 128000000000,
+            "image": "69977E819F314BD481F194580E8EFC16",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:8F34E9CA28E24BBA8BE706956ED39404",
+            "name": "Apple iPhone 8",
+            "manufacturer": "Apple",
+            "model": "iPhone 8",
+            "modelId": "{A1863,MQ6Y2,MQ6W2,MQ722,MQ842}",
+            "formFactor": "PHONE",
+            "platform": "IOS",
+            "os": "16.7.11",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 750,
+                "height": 1334
+            },
+            "heapSize": 0,
+            "memory": 64000000000,
+            "image": "8F34E9CA28E24BBA8BE706956ED39404",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:D3EA897CCCC7410D9FC5FB4C6582444B",
+            "name": "Apple iPhone 15 Pro",
+            "manufacturer": "Apple",
+            "model": "Apple iPhone 15 Pro",
+            "modelId": "A2848",
+            "formFactor": "PHONE",
+            "platform": "IOS",
+            "os": "17.3.1",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 1179,
+                "height": 2556
+            },
+            "heapSize": 0,
+            "memory": 128000000000,
+            "image": "D3EA897CCCC7410D9FC5FB4C6582444B",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:536B9FDAEAA14A11B504A3ECC86DA717",
+            "name": "Samsung Galaxy S26 Ultra",
+            "manufacturer": "Samsung",
+            "model": "Samsung Galaxy S26 Ultra",
+            "modelId": "SM-S948U1",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "16",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 3628.8
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2340
+            },
+            "heapSize": 512000000,
+            "memory": 256000000000,
+            "image": "536B9FDAEAA14A11B504A3ECC86DA717",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:5E8C278AD52644FA89F56B2605294F99",
+            "name": "Apple iPhone 14",
+            "manufacturer": "Apple",
+            "model": "Apple iPhone 14",
+            "modelId": "A2649",
+            "formFactor": "PHONE",
+            "platform": "IOS",
+            "os": "16.6.1",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 1170,
+                "height": 2532
+            },
+            "heapSize": 0,
+            "memory": 128000000000,
+            "image": "5E8C278AD52644FA89F56B2605294F99",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:7150669B660F4773B2A92F29483F444F",
+            "name": "Samsung Galaxy A55",
+            "manufacturer": "Samsung",
+            "model": "Samsung Galaxy A55",
+            "modelId": "SM-A556U1",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "14",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 2050.0
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2340
+            },
+            "heapSize": 512000000,
+            "memory": 128000000000,
+            "image": "7150669B660F4773B2A92F29483F444F",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:2B7F33356BAF4902BA6944D21490EB5F",
+            "name": "Samsung Galaxy S23",
+            "manufacturer": "Samsung",
+            "model": "Samsung Galaxy S23",
+            "modelId": "SM-S911U1",
+            "formFactor": "PHONE",
+            "platform": "ANDROID",
+            "os": "13",
+            "cpu": {
+                "frequency": "MHz",
+                "architecture": "arm64-v8a",
+                "clock": 2016.0
+            },
+            "resolution": {
+                "width": 1080,
+                "height": 2340
+            },
+            "heapSize": 512000000,
+            "memory": 128000000000,
+            "image": "2B7F33356BAF4902BA6944D21490EB5F",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:DA4173B905884C2DA13C0D88ED325F8C",
+            "name": "Apple iPad Air 11 (2024)",
+            "manufacturer": "Apple",
+            "model": "Apple iPad Air 11 (2024)",
+            "modelId": "A2902",
+            "formFactor": "TABLET",
+            "platform": "IOS",
+            "os": "18.3.1",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 1640,
+                "height": 2360
+            },
+            "heapSize": 0,
+            "memory": 128000000000,
+            "image": "DA4173B905884C2DA13C0D88ED325F8C",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        },
+        {
+            "arn": "arn:aws:devicefarm:us-west-2::device:1AAD5029D97D44FBA04D25E4A50DFA6D",
+            "name": "Apple iPhone 13 Pro Max",
+            "manufacturer": "Apple",
+            "model": "Apple iPhone 13 Pro Max",
+            "modelId": "A2484",
+            "formFactor": "PHONE",
+            "platform": "IOS",
+            "os": "15.1",
+            "cpu": {
+                "frequency": "Hz",
+                "architecture": "arm64e",
+                "clock": 0.0
+            },
+            "resolution": {
+                "width": 1284,
+                "height": 2778
+            },
+            "heapSize": 0,
+            "memory": 64000000000,
+            "image": "1AAD5029D97D44FBA04D25E4A50DFA6D",
+            "remoteAccessEnabled": true,
+            "fleetType": "PUBLIC",
+            "availability": "HIGHLY_AVAILABLE"
+        }
+    ]
+}

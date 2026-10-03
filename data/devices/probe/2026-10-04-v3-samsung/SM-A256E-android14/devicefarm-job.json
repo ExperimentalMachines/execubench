@@ -1,0 +1,47 @@
+{
+ "arn": "arn:aws:devicefarm:us-west-2:<account>:job:733be749-de36-4847-ba64-a034b55b21dd/b55d5a66-a5e8-4481-bcfb-dd151f9915ec/00004",
+ "counters": {
+  "errored": 0,
+  "failed": 0,
+  "passed": 3,
+  "skipped": 0,
+  "stopped": 0,
+  "total": 3,
+  "warned": 0
+ },
+ "created": "2026-10-04 07:14:08.971000+08:00",
+ "device": {
+  "arn": "arn:aws:devicefarm:us-west-2::device:F1F430887AA74E3DA0C5BE398644D897",
+  "cpu": {
+   "architecture": "arm64-v8a",
+   "clock": 2002.0,
+   "frequency": "MHz"
+  },
+  "fleetType": "PUBLIC",
+  "formFactor": "PHONE",
+  "heapSize": 512000000,
+  "image": "F1F430887AA74E3DA0C5BE398644D897",
+  "manufacturer": "Samsung",
+  "memory": 128000000000,
+  "model": "Samsung Galaxy A25",
+  "modelId": "SM-A256E",
+  "name": "Samsung Galaxy A25",
+  "os": "14",
+  "platform": "ANDROID",
+  "remoteAccessEnabled": true,
+  "resolution": {
+   "height": 2340,
+   "width": 1080
+  }
+ },
+ "deviceMinutes": {
+  "metered": 0.57,
+  "total": 0.9,
+  "unmetered": 0.0
+ },
+ "message": "Successful test lifecycle of Setup Test",
+ "name": "Samsung Galaxy A25",
+ "result": "PASSED",
+ "status": "COMPLETED",
+ "videoCapture": false
+}

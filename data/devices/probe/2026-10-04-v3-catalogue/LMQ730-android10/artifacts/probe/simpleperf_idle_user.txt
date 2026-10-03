@@ -1,0 +1,1 @@
+simpleperf E command.cpp:54] Unknown option for stat command: '--per-core'. Try `simpleperf help stat`

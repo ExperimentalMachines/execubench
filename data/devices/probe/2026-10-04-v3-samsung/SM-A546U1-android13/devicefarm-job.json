@@ -1,0 +1,47 @@
+{
+ "arn": "arn:aws:devicefarm:us-west-2:<account>:job:733be749-de36-4847-ba64-a034b55b21dd/b55d5a66-a5e8-4481-bcfb-dd151f9915ec/00007",
+ "counters": {
+  "errored": 0,
+  "failed": 0,
+  "passed": 3,
+  "skipped": 0,
+  "stopped": 0,
+  "total": 3,
+  "warned": 0
+ },
+ "created": "2026-10-04 07:14:08.971000+08:00",
+ "device": {
+  "arn": "arn:aws:devicefarm:us-west-2::device:CBCBF5D8221F486B8B65F1E8B57B1ACD",
+  "cpu": {
+   "architecture": "arm64-v8a",
+   "clock": 2002.0,
+   "frequency": "MHz"
+  },
+  "fleetType": "PUBLIC",
+  "formFactor": "PHONE",
+  "heapSize": 512000000,
+  "image": "CBCBF5D8221F486B8B65F1E8B57B1ACD",
+  "manufacturer": "Samsung",
+  "memory": 128000000000,
+  "model": "Samsung Galaxy A54",
+  "modelId": "SM-A546U1",
+  "name": "Samsung Galaxy A54",
+  "os": "13",
+  "platform": "ANDROID",
+  "remoteAccessEnabled": true,
+  "resolution": {
+   "height": 2340,
+   "width": 1080
+  }
+ },
+ "deviceMinutes": {
+  "metered": 0.51,
+  "total": 0.83,
+  "unmetered": 0.0
+ },
+ "message": "Successful test lifecycle of Setup Test",
+ "name": "Samsung Galaxy A54",
+ "result": "PASSED",
+ "status": "COMPLETED",
+ "videoCapture": false
+}

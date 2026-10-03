@@ -1,0 +1,2 @@
+    Connection{0xb400007b5ab1ec70, VSyncRequest::SingleSuppressCallback}
+GLES: Qualcomm, Adreno (TM) 730, OpenGL ES 3.2 V@0615.0 (GIT@14346e4fbf, I5a600b858e, 1652378231) (Date:05/12/22)

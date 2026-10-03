@@ -1,0 +1,156 @@
+# Published specifications: what chip and phone makers state, with a URL and a date.
+#
+# Rules (docs/METRICS.md, "Provenance classes"):
+# - Only maker sources here. A secondary source (Wikipedia, GSMArena, Notebookcheck,
+#   NanoReview) may appear only with `secondary: true`, and none does at present.
+# - Units exactly as printed. Qualcomm prints DRAM limits in MHz without saying MT/s; we do
+#   not convert them.
+# - `checked_by` lists who opened the source and confirmed the value: `claude` (this repo's
+#   maintainer agent), `codex` (independent review, gpt-6.1-sol). P2 requires two checkers on
+#   every value before publication.
+# - Anything a phone reports about itself (cores, clocks, GPU renderer, MemTotal) is NOT
+#   here: it comes from the probe. A value here never overrides a probe reading; a mismatch
+#   is listed in docs/DEVICES.md.
+# - Absent key = unknown. No vendor reviewed publishes a BF16 or FP16 TFLOPS figure for any
+#   of these chips, nor a DRAM bus width, so neither appears.
+
+retrieved: 2026-10-04
+
+socs:
+  SM8850:
+    marketing_name: Snapdragon 8 Elite Gen 5
+    source: https://www.qualcomm.com/content/dam/qcomm-martech/dm-assets/documents/Snapdragon-8-Elite-Gen-5-product-brief.pdf
+    process_node: 3 nm
+    cpu_published: "2 Prime cores up to 4.74 GHz + 6 Performance cores up to 3.62 GHz, third-generation Oryon"
+    memory_supported: "LPDDR5X, up to 5300MHz (as printed)"
+    npu_name: Qualcomm Hexagon NPU
+    checked_by: [codex]
+  SM8750:
+    marketing_name: Snapdragon 8 Elite
+    source: https://docs.qualcomm.com/doc/87-83196-1/87-83196-1_REV_D_Snapdragon_8_Elite_Mobile_Platform_Product_Brief.pdf
+    part_numbers: [SM8750-AB, SM8750-AC]
+    process_node: 3 nm
+    cpu_published: "Prime core up to 4.47 GHz (a 4.32 GHz version also exists); Performance cores up to 3.53 GHz; core counts not enumerated"
+    memory_supported: "LP-DDR5x memory, up to 5300 MHz (as printed)"
+    npu_name: Qualcomm Hexagon NPU
+    checked_by: [claude, codex]
+  SM8650:
+    marketing_name: Snapdragon 8 Gen 3
+    source: https://docs.qualcomm.com/bundle/publicresource/87-71408-1_REV_D_Snapdragon_8_gen_3_Mobile_Platform_Product_Brief.pdf
+    process_node: 4 nm
+    cpu_published: "1 Prime up to 3.4 GHz + 5 Performance up to 3.2 GHz + 2 Efficiency up to 2.3 GHz (frequencies rounded up, per Qualcomm)"
+    memory_supported: "LPDDR5X, up to 4800 MHz (as printed)"
+    npu_name: Qualcomm Hexagon NPU
+    checked_by: [codex]
+  SM8550:
+    marketing_name: Snapdragon 8 Gen 2
+    source: https://www.qualcomm.com/content/dam/qcomm-martech/dm-assets/images/company/news-media/media-center/press-kits/summit-2022/day-1/documents/Snapdragon_8_Gen_2_Product_Brief.pdf
+    process_node: 4 nm
+    cpu_published: "1 Prime + 4 Performance + 3 Efficiency; launch brief up to 3.2/2.8/2.0 GHz; Qualcomm's current page distinguishes 3.36 GHz and 3.19 GHz versions"
+    cpu_published_source: https://www.qualcomm.com/smartphones/products/8-series/snapdragon-8-gen-2-mobile-platform
+    memory_supported: "LPDDR5X, up to 4200 MHz (as printed)"
+    npu_name: Qualcomm Hexagon NPU
+    checked_by: [codex]
+  SM6475:
+    marketing_name: Snapdragon 6 Gen 3
+    source: https://www.qualcomm.com/content/dam/qcomm-martech/dm-assets/documents/Snapdragon-6-Gen-3-Product-Brief.pdf
+    part_numbers: [SM6475-AB]
+    process_node: 4 nm
+    cpu_published: "4 Performance up to 2.4 GHz + 4 Efficiency up to 1.8 GHz"
+    memory_supported: "LPDDR4X up to 2100 MHz; LPDDR5 up to 3200 MHz (as printed)"
+    npu_name: Qualcomm Hexagon NPU
+    checked_by: [codex]
+  Tensor G6:
+    marketing_name: Google Tensor G6
+    source: https://support.google.com/pixelphone/answer/7158570?hl=en
+    note: "Google publishes neither process node nor CPU configuration in the reviewed material; the probe's 1+4+2 C1-Ultra/C1-Pro reading is device evidence only"
+    npu_name: Google TPU
+    checked_by: [codex]
+  Tensor G5:
+    marketing_name: Google Tensor G5
+    source: https://blog.google/intl/en-in/products/hardware/5-reasons-why-google-tensor-g5-is-a-game-changer-for-pixel/
+    process_node: "3 nm (TSMC)"
+    npu_name: Google TPU
+    checked_by: [claude, codex]
+  Tensor G4:
+    marketing_name: Google Tensor G4
+    source: https://blog.google/products-and-platforms/devices/pixel/google-pixel-9-pro-xl/
+    npu_name: Google TPU
+    checked_by: [codex]
+  MT6991:
+    # The part code alone does not separate the Dimensity 9400 (prime up to 3.62 GHz) from
+    # the 9400+ (up to 3.73 GHz). The Tab S11 probe reads 3730 MHz, and Samsung names the
+    # 9400+ for that tablet, so the Tab S11 entry below pins the plus.
+    marketing_name: MediaTek Dimensity 9400+
+    source: https://www.mediatek.com/products/smartphones/mediatek-dimensity-9400-plus
+    process_node: "3 nm (TSMC second generation, as stated for the Dimensity 9400)"
+    process_node_source: https://www.mediatek.com/products/smartphones/mediatek-dimensity-9400
+    cpu_published: "1x Cortex-X925 up to 3.73GHz, 3x Cortex-X4, 4x Cortex-A720"
+    memory_supported: "LPDDR5X, up to 10667 Mbps"
+    gpu_published: Arm Immortalis-G925 MC12
+    npu_name: MediaTek NPU 890
+    checked_by: [claude, codex]
+  MT6886:
+    marketing_name: MediaTek Dimensity 7200-Ultra
+    source: https://www.mi.com/global/product/redmi-note-13-pro-plus-5g/specs/
+    note: "Xiaomi names the 7200-Ultra for this phone; no maker source ties MT6886 to the Ultra variant explicitly"
+    process_node: 4 nm
+    cpu_published: "2x Cortex-A715 + 6x Cortex-A510, up to 2.8 GHz"
+    gpu_published: Mali-G610 MC4
+    checked_by: [codex]
+  s5e8855:
+    marketing_name: Samsung Exynos 1580
+    source: https://semiconductor.samsung.com/processor/mobile-processor/exynos-1580/
+    process_node: "4 nm EUV"
+    cpu_published: "1 Cortex-A720 at 2.9 GHz + 3 Cortex-A720 at 2.6 GHz + 4 Cortex-A520 at 1.95 GHz"
+    gpu_published: Samsung Xclipse 540
+    npu_name: Samsung NPU
+    npu_tops: {value: 14.7, note: "'up to 14.7 TOPS'; precision and dense or sparse not stated, so never label it INT8"}
+    checked_by: [claude, codex]
+  s5e8535:
+    marketing_name: Samsung Exynos 1330
+    source: https://semiconductor.samsung.com/processor/mobile-processor/exynos-1330/
+    process_node: 5 nm
+    cpu_published: "2 Cortex-A78 at 2.4 GHz + 6 Cortex-A55 at 2.0 GHz"
+    gpu_published: Mali-G68 MP2
+    checked_by: [codex]
+
+# Phones: the maker's name for the chip in that phone, and marketed RAM for that model code.
+# RAM is GB as marketed (10^9-ish, as phone makers use it); MemTotal from the probe is GiB
+# and smaller, because firmware and carve-outs are excluded.
+phones:
+  SM-S948U1: {name: Samsung Galaxy S26 Ultra, soc: SM8850, soc_in_phone: "Snapdragon 8 Elite Gen 5 for Galaxy", ram_gb: "12 (256/512 GB storage); 16 (1 TB)", source: "https://news.samsung.com/us/samsung-unveils-galaxy-s26-series-most-intuitive-galaxy-ai-phone-yet/", checked_by: [codex]}
+  SM-S942U1: {name: Samsung Galaxy S26, soc: SM8850, soc_in_phone: "Snapdragon 8 Elite Gen 5 for Galaxy", ram_gb: "12", source: "https://news.samsung.com/us/samsung-unveils-galaxy-s26-series-most-intuitive-galaxy-ai-phone-yet/", checked_by: [codex]}
+  SM-S938U1: {name: Samsung Galaxy S25 Ultra, soc: SM8750, soc_in_phone: "Snapdragon 8 Elite for Galaxy", ram_gb: "12", source: "https://images.samsung.com/is/content/samsung/assets/us/business/mobile/phones/galaxy-s25/02052025/S25_Series_B2B_Spec_Sheet_HRc.pdf", checked_by: [codex]}
+  SM-S931U1: {name: Samsung Galaxy S25, soc: SM8750, soc_in_phone: "Snapdragon 8 Elite for Galaxy", ram_gb: "12", source: "https://images.samsung.com/is/content/samsung/assets/us/business/mobile/phones/galaxy-s25/02052025/S25_Series_B2B_Spec_Sheet_HRc.pdf", checked_by: [codex]}
+  SM-S928U1: {name: Samsung Galaxy S24 Ultra, soc: SM8650, soc_in_phone: "Snapdragon 8 Gen 3 for Galaxy", ram_gb: "12", source: "https://www.samsung.com/us/support/answer/ANS10000756/", checked_by: [codex]}
+  SM-X710: {name: Samsung Galaxy Tab S9, soc: SM8550, soc_in_phone: "Snapdragon 8 Gen 2 for Galaxy", ram_gb: "8 (128 GB storage); 12 (256 GB)", source: "https://www.samsung.com/us/support/answer/ANS10003691/", checked_by: [codex]}
+  2211133G: {name: Xiaomi 13, soc: SM8550, soc_in_phone: "Snapdragon 8 Gen 2", ram_gb: "8 or 12 (global listing)", source: "https://www.mi.com/global/product/xiaomi-13/specs/", memory_type_in_phone: LPDDR5X, memory_rate_in_phone: 8533, checked_by: [codex]}
+  SM-A366U1: {name: Samsung Galaxy A36, soc: SM6475, soc_in_phone: "Snapdragon 6 Gen 3", ram_gb: "6", source: "https://news.samsung.com/us/samsung-new-galaxy-a56-a36-a26-5g-marks-step-forward-with-ai-for-everyone/", checked_by: [codex]}
+  GUJ0N: {name: Google Pixel 11, soc: Tensor G6, ram_gb: "12", source: "https://support.google.com/pixelphone/answer/7158570?hl=en", checked_by: [codex]}
+  G7SWN: {name: Google Pixel 11 Pro, soc: Tensor G6, ram_gb: "12 (256 GB storage); 16 (512 GB, 1 TB)", source: "https://support.google.com/pixelphone/answer/7158570?hl=en", checked_by: [codex]}
+  G4HCD: {name: Google Pixel 11 Pro XL, soc: Tensor G6, ram_gb: "12 (256 GB storage); 16 (512 GB, 1 TB)", source: "https://support.google.com/pixelphone/answer/7158570?hl=en", checked_by: [codex]}
+  GLBW0: {name: Google Pixel 10, soc: Tensor G5, ram_gb: "12", source: "https://support.google.com/pixelphone/answer/7158570?hl=en", checked_by: [codex]}
+  G4QUR: {name: Google Pixel 10 Pro, soc: Tensor G5, ram_gb: "16", source: "https://support.google.com/pixelphone/answer/7158570?hl=en", checked_by: [codex]}
+  GUL82: {name: Google Pixel 10 Pro XL, soc: Tensor G5, ram_gb: "16", source: "https://support.google.com/pixelphone/answer/7158570?hl=en", checked_by: [codex]}
+  GUR25: {name: Google Pixel 9, soc: Tensor G4, ram_gb: "12", source: "https://support.google.com/pixelphone/answer/7158570?hl=en", note: "Google lists GUR25 for non-US markets (G2YBB is the US code); Device Farm's hosting region says nothing about a handset's sales region", checked_by: [codex]}
+  SM-X730: {name: Samsung Galaxy Tab S11, soc: MT6991, soc_in_phone: "MediaTek Dimensity 9400+ (MT6991)", ram_gb: "12", source: "https://www.samsung.com/us/tablets/", checked_by: [codex]}
+  23090RA98G: {name: Xiaomi Redmi Note 13 Pro+ 5G, name_on_device_farm: Xiaomi Redmi Note 13+, soc: MT6886, soc_in_phone: "Dimensity 7200-Ultra", ram_gb: "8 or 12 (global listing)", memory_type_in_phone: "LPDDR5", source: "https://www.mi.com/global/product/redmi-note-13-pro-plus-5g/specs/", checked_by: [codex]}
+  SM-A566U1: {name: Samsung Galaxy A56, soc: s5e8855, soc_in_phone: "Exynos 1580", ram_gb: "8", source: "https://news.samsung.com/us/samsung-new-galaxy-a56-a36-a26-5g-marks-step-forward-with-ai-for-everyone/", checked_by: [codex]}
+  SM-A176U: {name: Samsung Galaxy A17, model_code_reported: SM-A176U1, soc: s5e8535, soc_in_phone: "Exynos 1330", ram_gb: "4", source: "https://news.samsung.com/us/samsung-welcomes-galaxy-a17-5g-galaxy-tab-a11-galaxy-ecosystem/", checked_by: [codex]}
+
+# How a probe's platform report maps to the keys above. Device evidence, not a vendor table:
+# Qualcomm part numbers come from ro.soc.model, the rest from the codename or platform.
+platform_to_soc:
+  SM8850: SM8850
+  SM8750: SM8750
+  SM8650: SM8650
+  SM8550: SM8550
+  SM6475: SM6475
+  "Tensor G6": Tensor G6
+  "Tensor G5": Tensor G5
+  "Tensor G4": Tensor G4
+  MT6991: MT6991
+  MT6886: MT6886
+  s5e8855: s5e8855
+  s5e8535: s5e8535

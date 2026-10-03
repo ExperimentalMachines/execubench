@@ -1,0 +1,47 @@
+{
+ "arn": "arn:aws:devicefarm:us-west-2:<account>:job:733be749-de36-4847-ba64-a034b55b21dd/8a979433-95de-46e0-9971-b56c02b21c36/00017",
+ "counters": {
+  "errored": 0,
+  "failed": 1,
+  "passed": 2,
+  "skipped": 0,
+  "stopped": 0,
+  "total": 3,
+  "warned": 0
+ },
+ "created": "2026-10-04 07:21:37.906000+08:00",
+ "device": {
+  "arn": "arn:aws:devicefarm:us-west-2::device:CE68825ABE5A4740B56F10111FD47844",
+  "cpu": {
+   "architecture": "arm64-v8a",
+   "clock": 1766.4,
+   "frequency": "MHz"
+  },
+  "fleetType": "PUBLIC",
+  "formFactor": "PHONE",
+  "heapSize": 512000000,
+  "image": "CE68825ABE5A4740B56F10111FD47844",
+  "manufacturer": "Samsung",
+  "memory": 64000000000,
+  "model": "Galaxy S9 (Unlocked)",
+  "modelId": "SM-G960U1",
+  "name": "Samsung Galaxy S9 (Unlocked)",
+  "os": "9",
+  "platform": "ANDROID",
+  "remoteAccessEnabled": false,
+  "resolution": {
+   "height": 2960,
+   "width": 1440
+  }
+ },
+ "deviceMinutes": {
+  "metered": 0.64,
+  "total": 1.01,
+  "unmetered": 0.0
+ },
+ "message": "Tests failed",
+ "name": "Samsung Galaxy S9 (Unlocked)",
+ "result": "FAILED",
+ "status": "COMPLETED",
+ "videoCapture": false
+}

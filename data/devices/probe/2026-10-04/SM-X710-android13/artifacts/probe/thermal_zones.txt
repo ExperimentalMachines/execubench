@@ -1,0 +1,95 @@
+thermal_zone0 pa 27000
+thermal_zone1 pa1 27000
+thermal_zone10 mmw3 -273000
+thermal_zone11 mmw_pa1 30317
+thermal_zone12 mmw_pa2 27000
+thermal_zone13 mmw_pa3 27000
+thermal_zone14 mmw_ific0 27000
+thermal_zone15 epm0 -273000
+thermal_zone16 epm1 -273000
+thermal_zone17 epm2 -273000
+thermal_zone18 epm3 -273000
+thermal_zone19 epm4 -273000
+thermal_zone2 bcl_warn -273000
+thermal_zone20 epm5 -273000
+thermal_zone21 epm6 -273000
+thermal_zone22 epm7 -273000
+thermal_zone23 sdr_mmw_therm 27000
+thermal_zone24 sub1_modem_cfg -273000
+thermal_zone25 sub1_lte_cc -273000
+thermal_zone26 sub1_mcg_fr1_cc -273000
+thermal_zone27 sub1_mcg_fr2_cc -273000
+thermal_zone28 sub1_scg_fr1_cc -273000
+thermal_zone29 sub1_scg_fr2_cc -273000
+thermal_zone3 sdr0_pa 27000
+thermal_zone30 aoss-0 36800
+thermal_zone31 cpuss-0 40000
+thermal_zone32 cpuss-1 38800
+thermal_zone33 cpuss-2 40000
+thermal_zone34 cpuss-3 39200
+thermal_zone35 cpu-1-0 42000
+thermal_zone36 cpu-1-1 40400
+thermal_zone37 cpu-1-2 38400
+thermal_zone38 cpu-1-3 38400
+thermal_zone39 cpu-1-4 40000
+thermal_zone4 sdr0 27000
+thermal_zone40 cpu-1-5 40000
+thermal_zone41 cpu-1-6 38000
+thermal_zone42 cpu-1-7 38800
+thermal_zone43 cpu-1-8 48400
+thermal_zone44 cpu-1-9 45600
+thermal_zone45 cpu-1-10 47600
+thermal_zone46 aoss-1 37800
+thermal_zone47 cpu-0-0 39800
+thermal_zone48 cpu-0-1 38600
+thermal_zone49 cpu-0-2 39000
+thermal_zone5 sdr1_pa 27000
+thermal_zone50 nspss-0 36300
+thermal_zone51 nspss-1 36300
+thermal_zone52 nspss-2 35100
+thermal_zone53 nspss-3 35100
+thermal_zone54 video 38600
+thermal_zone55 ddr 39000
+thermal_zone56 mdmss-0 36300
+thermal_zone57 mdmss-1 34700
+thermal_zone58 mdmss-2 34700
+thermal_zone59 mdmss-3 36300
+thermal_zone6 sdr1 27000
+thermal_zone60 camera-0 35100
+thermal_zone61 camera-1 35900
+thermal_zone62 aoss-2 37400
+thermal_zone63 gpuss-0 34700
+thermal_zone64 gpuss-1 34700
+thermal_zone65 gpuss-2 34700
+thermal_zone66 gpuss-3 34300
+thermal_zone67 gpuss-4 37400
+thermal_zone68 gpuss-5 37100
+thermal_zone69 gpuss-6 35500
+thermal_zone7 mmw0 -273000
+thermal_zone70 gpuss-7 35100
+thermal_zone71 pm8550_tz 35398
+thermal_zone72 pm8550-bcl-lvl0 0
+thermal_zone73 pm8550-bcl-lvl1 0
+thermal_zone74 pm8550-bcl-lvl2 0
+thermal_zone75 pm8550b_tz 
+thermal_zone76 pm8550b_lite_tz 
+thermal_zone77 pm8550b-ibat-lvl0 
+thermal_zone78 pm8550b-ibat-lvl1 
+thermal_zone79 pm8550b-bcl-lvl0 
+thermal_zone8 mmw1 27000
+thermal_zone80 pm8550b-bcl-lvl1 
+thermal_zone81 pm8550b-bcl-lvl2 
+thermal_zone82 socd 0
+thermal_zone83 pm8550ve_f_tz 26168
+thermal_zone84 pm8550vs_c_tz 32589
+thermal_zone85 pm8550vs_d_tz 28576
+thermal_zone86 pm8550vs_e_tz 29579
+thermal_zone87 pm8550vs_g_tz 28442
+thermal_zone88 pmr735d_k_tz 37000
+thermal_zone89 pmr735d_l_tz 
+thermal_zone9 mmw2 -273000
+thermal_zone90 pm8010m_tz 
+thermal_zone91 pm8010n_tz 
+thermal_zone92 xo-therm 30978
+thermal_zone93 ac 35900
+thermal_zone94 battery 28600

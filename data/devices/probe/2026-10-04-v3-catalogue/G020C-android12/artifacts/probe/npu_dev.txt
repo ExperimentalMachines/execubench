@@ -1,0 +1,7 @@
+adsprpc-smd
+adsprpc-smd-secure
+hbtp_input
+input
+ramdump_cdsp
+subsys_cdsp
+uinput

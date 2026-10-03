@@ -1,0 +1,375 @@
+{
+ "reported": {
+  "manufacturer": "Google",
+  "model": "Pixel 4",
+  "device": "flame",
+  "soc_manufacturer": null,
+  "soc_model": null,
+  "board_platform": "msmnile",
+  "hardware": "flame",
+  "android": "11",
+  "sdk": "30",
+  "fingerprint": "google/flame/flame:11/RQ3A.211001.001/7641976:user/release-keys",
+  "security_patch": "2021-10-01",
+  "page_size": null,
+  "abilist": "arm64-v8a,armeabi-v7a,armeabi",
+  "arm64_userspace": true
+ },
+ "cpu": {
+  "count": 8,
+  "topology": "1+3+4",
+  "clock_domains": [
+   {
+    "policy": "policy7",
+    "cpus": [
+     7
+    ],
+    "max_mhz": 2841.6,
+    "governor": "schedutil",
+    "designs": [
+     "KRYO_4XX_GOLD"
+    ]
+   },
+   {
+    "policy": "policy4",
+    "cpus": [
+     4,
+     5,
+     6
+    ],
+    "max_mhz": 2419.2,
+    "governor": "schedutil",
+    "designs": [
+     "KRYO_4XX_GOLD"
+    ]
+   },
+   {
+    "policy": "policy0",
+    "cpus": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "max_mhz": 1785.6,
+    "governor": "schedutil",
+    "designs": [
+     "KRYO_4XX_SILVER"
+    ]
+   }
+  ],
+  "tiers": "1+3+4",
+  "clusters": [
+   {
+    "cores": 1,
+    "cpus": [
+     7
+    ],
+    "implementer": "0x51",
+    "part": "0x804",
+    "design": "KRYO_4XX_GOLD",
+    "design_source": "linux cputype.h",
+    "max_mhz": 2841.6,
+    "efficiency_class": false,
+    "core_class": "performance"
+   },
+   {
+    "cores": 3,
+    "cpus": [
+     4,
+     5,
+     6
+    ],
+    "implementer": "0x51",
+    "part": "0x804",
+    "design": "KRYO_4XX_GOLD",
+    "design_source": "linux cputype.h",
+    "max_mhz": 2419.2,
+    "efficiency_class": false,
+    "core_class": "performance"
+   },
+   {
+    "cores": 4,
+    "cpus": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "implementer": "0x51",
+    "part": "0x805",
+    "design": "KRYO_4XX_SILVER",
+    "design_source": "linux cputype.h",
+    "max_mhz": 1785.6,
+    "efficiency_class": true,
+    "core_class": "efficiency"
+   }
+  ],
+  "all_big_cores": false,
+  "max_mhz": 2841.6,
+  "features": [
+   "aes",
+   "asimd",
+   "asimddp",
+   "asimdhp",
+   "asimdrdm",
+   "atomics",
+   "cpuid",
+   "crc32",
+   "dcpop",
+   "evtstrm",
+   "fp",
+   "fphp",
+   "lrcpc",
+   "pmull",
+   "sha1",
+   "sha2"
+  ]
+ },
+ "gpu": {
+  "gles": "Qualcomm, Adreno (TM) 640, OpenGL ES 3.2 V@0490.0 (GIT@85da404, I46ff5fc46f, 1606794520) (Date:11/30/20)",
+  "vulkan_device": "Adreno (TM) 640"
+ },
+ "npu": {
+  "runtimes_present": {
+   "google-edgetpu": [
+    "libdarwinn_client.so",
+    "libdarwinn_compiler.so",
+    "vendor.google.darwinn.service@1.0.so"
+   ],
+   "qualcomm-qnn-snpe": [
+    "libhalide_hexagon_host.so",
+    "libhexagon_nn_stub.so",
+    "libhta_hexagon_runtime.so"
+   ]
+  }
+ },
+ "memory": {
+  "mem_total_kib": 5596800,
+  "dumpsys_total_ram_kib": 5596800,
+  "ddr": {
+   "raw": "6GB,Micron,LPDDR4X",
+   "size": "6GB",
+   "vendor": "Micron",
+   "type": "LPDDR4X",
+   "props": {
+    "ro.boot.ddr_size": "6GB",
+    "ro.boot.ddr_info": "Micron"
+   }
+  }
+ },
+ "state_at_probe": {
+  "battery_temp_c": 29.7,
+  "thermal": {
+   "status": 0,
+   "current": {
+    "battery": {
+     "c": 29.7,
+     "type": 2,
+     "status": 0
+    },
+    "bcl-virt-monitor": {
+     "c": 1.0,
+     "type": -1,
+     "status": 0
+    },
+    "chg-therm": {
+     "c": 32.955,
+     "type": -1,
+     "status": 0
+    },
+    "cpu-0-0-usr": {
+     "c": 37.300003,
+     "type": 0,
+     "status": 0
+    },
+    "cpu-0-1-usr": {
+     "c": 36.9,
+     "type": 0,
+     "status": 0
+    },
+    "cpu-0-2-usr": {
+     "c": 37.600002,
+     "type": 0,
+     "status": 0
+    },
+    "cpu-0-3-usr": {
+     "c": 37.300003,
+     "type": 0,
+     "status": 0
+    },
+    "cpu-1-0-usr": {
+     "c": 37.300003,
+     "type": 0,
+     "status": 0
+    },
+    "cpu-1-1-usr": {
+     "c": 38.0,
+     "type": 0,
+     "status": 0
+    },
+    "cpu-1-2-usr": {
+     "c": 37.600002,
+     "type": 0,
+     "status": 0
+    },
+    "cpu-1-3-usr": {
+     "c": 37.600002,
+     "type": 0,
+     "status": 0
+    },
+    "gpuss-0-usr": {
+     "c": 35.7,
+     "type": 1,
+     "status": 0
+    },
+    "gpuss-1-usr": {
+     "c": 35.300003,
+     "type": 1,
+     "status": 0
+    },
+    "pa-therm": {
+     "c": 31.511002,
+     "type": 5,
+     "status": 0
+    },
+    "quiet-therm": {
+     "c": 32.045002,
+     "type": 3,
+     "status": 0
+    },
+    "rcam-therm": {
+     "c": 30.630001,
+     "type": -1,
+     "status": 0
+    },
+    "s2mpg01_tz": {
+     "c": 30.534002,
+     "type": 9,
+     "status": 0
+    },
+    "sdm-therm-monitor": {
+     "c": 31.295002,
+     "type": 3,
+     "status": 0
+    },
+    "usbc-therm-monitor": {
+     "c": 30.032001,
+     "type": 4,
+     "status": 0
+    }
+   },
+   "cached": {
+    "cpu-0-0-usr": {
+     "c": 50.300003,
+     "type": 0,
+     "status": 0
+    },
+    "cpu-0-1-usr": {
+     "c": 50.300003,
+     "type": 0,
+     "status": 0
+    },
+    "cpu-0-2-usr": {
+     "c": 50.300003,
+     "type": 0,
+     "status": 0
+    },
+    "cpu-0-3-usr": {
+     "c": 49.2,
+     "type": 0,
+     "status": 0
+    },
+    "sdm-therm-monitor": {
+     "c": 27.480001,
+     "type": 3,
+     "status": 0
+    },
+    "s2mpg01_tz": {
+     "c": 27.033,
+     "type": 9,
+     "status": 0
+    },
+    "pa-therm": {
+     "c": 26.357,
+     "type": 5,
+     "status": 0
+    },
+    "cpu-1-0-usr": {
+     "c": 52.600002,
+     "type": 0,
+     "status": 0
+    },
+    "cpu-1-1-usr": {
+     "c": 57.300003,
+     "type": 0,
+     "status": 0
+    },
+    "cpu-1-2-usr": {
+     "c": 63.000004,
+     "type": 0,
+     "status": 0
+    },
+    "cpu-1-3-usr": {
+     "c": 53.000004,
+     "type": 0,
+     "status": 0
+    },
+    "battery": {
+     "c": 23.7,
+     "type": 2,
+     "status": 0
+    },
+    "chg-therm": {
+     "c": 29.354002,
+     "type": -1,
+     "status": 0
+    },
+    "gpuss-0-usr": {
+     "c": 41.100002,
+     "type": 1,
+     "status": 0
+    },
+    "usbc-therm-monitor": {
+     "c": 24.476002,
+     "type": 4,
+     "status": 0
+    },
+    "gpuss-1-usr": {
+     "c": 42.300003,
+     "type": 1,
+     "status": 0
+    },
+    "rcam-therm": {
+     "c": 25.444002,
+     "type": -1,
+     "status": 0
+    },
+    "bcl-virt-monitor": {
+     "c": 1.0,
+     "type": -1,
+     "status": 0
+    },
+    "quiet-therm": {
+     "c": 29.137001,
+     "type": 3,
+     "status": 0
+    }
+   }
+  },
+  "fixed_performance_mode": "exit=255 Failed to set FIXED_PERFORMANCE mode"
+ },
+ "tooling": {
+  "simpleperf": {
+   "present": true,
+   "version": "1.build.7641976",
+   "perf_event_paranoid": -1
+  }
+ },
+ "staging": {
+  "adb_push_mib_s": 25.8,
+  "hf_fetch": [
+   "http=200 bytes=11422654 seconds=0.364088 speed_Bps=31373332"
+  ]
+ }
+}

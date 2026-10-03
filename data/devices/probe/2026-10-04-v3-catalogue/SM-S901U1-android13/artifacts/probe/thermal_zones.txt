@@ -1,0 +1,78 @@
+thermal_zone0 pa 32302
+thermal_zone1 pa1 -40000
+thermal_zone10 mmw2 0
+thermal_zone11 mmw3 27000
+thermal_zone12 mmw_pa1 27000
+thermal_zone13 mmw_pa2 32274
+thermal_zone14 mmw_pa3 -40000
+thermal_zone15 mmw-ific0 27000
+thermal_zone16 sub1-modem-cfg -273000
+thermal_zone17 sub1-lte-cc -273000
+thermal_zone18 sub1_mcg_fr1_cc -273000
+thermal_zone19 sub1_mcg_fr2_cc -273000
+thermal_zone2 bcl-warn -273000
+thermal_zone20 sub1_scg_fr1_cc -273000
+thermal_zone21 sub1_scg_fr2_cc -273000
+thermal_zone22 sdr0-pa 27000
+thermal_zone23 sdr1-pa 0
+thermal_zone24 aoss-0 40100
+thermal_zone25 cpuss-0 40800
+thermal_zone26 cpuss-1 40500
+thermal_zone27 cpuss-2 40100
+thermal_zone28 cpuss-3 41200
+thermal_zone29 cpu-1-0 40500
+thermal_zone3 sdr0-pa0 
+thermal_zone30 cpu-1-1 40100
+thermal_zone31 cpu-1-2 39500
+thermal_zone32 cpu-1-3 41200
+thermal_zone33 cpu-1-4 39800
+thermal_zone34 cpu-1-5 39800
+thermal_zone35 cpu-1-6 39800
+thermal_zone36 cpu-1-7 39800
+thermal_zone37 cpu-1-8 40100
+thermal_zone38 gpuss-0 38800
+thermal_zone39 gpuss-1 38800
+thermal_zone4 sdr0 27000
+thermal_zone40 aoss-1 39300
+thermal_zone41 cpu-0-0 39000
+thermal_zone42 cpu-0-1 39600
+thermal_zone43 cpu-0-2 40000
+thermal_zone44 cpu-0-3 40300
+thermal_zone45 nspss-0 38300
+thermal_zone46 nspss-1 37600
+thermal_zone47 nspss-2 37900
+thermal_zone48 video 38300
+thermal_zone49 ddr 39300
+thermal_zone5 sdr1-pa0 
+thermal_zone50 mdmss-0 38600
+thermal_zone51 mdmss-1 37600
+thermal_zone52 mdmss-2 37600
+thermal_zone53 mdmss-3 39000
+thermal_zone54 camera-0 36600
+thermal_zone55 camera-1 37200
+thermal_zone56 mx-pe 0
+thermal_zone57 isense_trim 0
+thermal_zone58 pm8350_tz 33825
+thermal_zone59 pm8350c_tz 37000
+thermal_zone6 sdr1 27000
+thermal_zone60 pm8350c-bcl-lvl0 0
+thermal_zone61 pm8350c-bcl-lvl1 0
+thermal_zone62 pm8350c-bcl-lvl2 0
+thermal_zone63 pm8350b_tz 
+thermal_zone64 pm8350b-ibat-lvl0 
+thermal_zone65 pm8350b-ibat-lvl1 
+thermal_zone66 pm8350b-bcl-lvl0 
+thermal_zone67 pm8350b-bcl-lvl1 
+thermal_zone68 pm8350b-bcl-lvl2 
+thermal_zone69 socd 
+thermal_zone7 sdr-mmw-therm 27000
+thermal_zone70 pmr735a_tz 30213
+thermal_zone71 pmr735b_tz 30347
+thermal_zone72 pm8450_tz 37000
+thermal_zone73 xo-therm 34584
+thermal_zone74 usb-therm 29900
+thermal_zone75 wpc-therm 29200
+thermal_zone76 ac 28800
+thermal_zone77 battery 28800
+thermal_zone8 mmw0 0
+thermal_zone9 mmw1 0

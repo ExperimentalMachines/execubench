@@ -1,0 +1,3 @@
+source: https://github.com/torvalds/linux/blob/a74306e2e676f9775457366fc047a660fbf02f26/arch/arm64/include/asm/cputype.h
+fetched_utc: 2026-10-03T22:22:14Z
+sha256: 1e69376999a1a2aaab777756d577d6d302c6857182a466c60e7bbb1db39b32da

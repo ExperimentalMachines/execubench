@@ -1,0 +1,47 @@
+{
+ "arn": "arn:aws:devicefarm:us-west-2:<account>:job:733be749-de36-4847-ba64-a034b55b21dd/86b8ddf5-d1b1-4b54-a199-f6ebbab3fe18/00017",
+ "counters": {
+  "errored": 0,
+  "failed": 0,
+  "passed": 3,
+  "skipped": 0,
+  "stopped": 0,
+  "total": 3,
+  "warned": 0
+ },
+ "created": "2026-10-04 06:17:42.290000+08:00",
+ "device": {
+  "arn": "arn:aws:devicefarm:us-west-2::device:601095261F73476B92209274AD22553A",
+  "cpu": {
+   "architecture": "arm64-v8a",
+   "clock": 2246.0,
+   "frequency": "MHz"
+  },
+  "fleetType": "PUBLIC",
+  "formFactor": "PHONE",
+  "heapSize": 512000000,
+  "image": "601095261F73476B92209274AD22553A",
+  "manufacturer": "Google",
+  "memory": 256000000000,
+  "model": "Google Pixel 10 Pro XL",
+  "modelId": "GUL82",
+  "name": "Google Pixel 10 Pro XL",
+  "os": "16",
+  "platform": "ANDROID",
+  "remoteAccessEnabled": true,
+  "resolution": {
+   "height": 2404,
+   "width": 1080
+  }
+ },
+ "deviceMinutes": {
+  "metered": 0.53,
+  "total": 0.87,
+  "unmetered": 0.0
+ },
+ "message": "Successful test lifecycle of Setup Test",
+ "name": "Google Pixel 10 Pro XL",
+ "result": "PASSED",
+ "status": "COMPLETED",
+ "videoCapture": true
+}

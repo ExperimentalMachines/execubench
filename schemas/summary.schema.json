@@ -1,0 +1,340 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/ExperimentalMachines/execubench/schemas/summary.schema.json",
+  "title": "Summary cell",
+  "description": "One published cell: a model file on a device model under one track and dataset (or speed bucket). Recomputed from request records by `execubench summarize`; never edited by hand.",
+  "type": "object",
+  "required": [
+    "model",
+    "tokenizer_sha256",
+    "device_id",
+    "track",
+    "dataset",
+    "protocol_sha256",
+    "runtime",
+    "jobs",
+    "device_units",
+    "days",
+    "n"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "model": {
+      "$ref": "common.schema.json#/$defs/model_ref"
+    },
+    "device_id": {
+      "type": "string"
+    },
+    "track": {
+      "enum": [
+        "speed",
+        "quality",
+        "long-context",
+        "agreement"
+      ]
+    },
+    "dataset": {
+      "type": "string"
+    },
+    "prompt_bucket": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "jobs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+    "device_units": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+    "n": {
+      "type": "integer"
+    },
+    "excluded": {
+      "type": "object",
+      "description": "Requests left out of timing percentiles, by reason (they still count for quality)",
+      "additionalProperties": {
+        "type": "integer"
+      }
+    },
+    "quality": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "metric": {
+          "type": "string"
+        },
+        "accuracy": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "ci95": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "attempted": {
+          "type": "integer"
+        },
+        "correct": {
+          "type": "integer"
+        },
+        "format_failures": {
+          "type": "integer"
+        },
+        "truncated": {
+          "type": "integer"
+        },
+        "tool_call_valid_rate": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "tool_call_correct_rate": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "null_reason": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "tool_decision_vs_label_rate": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "tool_decision_vs_own_rate": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "retrieval_gain": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "eligible": {
+          "type": "integer"
+        },
+        "ineligible": {
+          "type": "integer"
+        }
+      }
+    },
+    "timing": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "ttft_ms": {
+          "$ref": "common.schema.json#/$defs/percentiles"
+        },
+        "client_ttft_ms": {
+          "$ref": "common.schema.json#/$defs/percentiles"
+        },
+        "prefill_tps": {
+          "$ref": "common.schema.json#/$defs/percentiles"
+        },
+        "decode_tps": {
+          "$ref": "common.schema.json#/$defs/percentiles"
+        },
+        "e2e_ms": {
+          "$ref": "common.schema.json#/$defs/percentiles"
+        },
+        "prefill_tokens": {
+          "$ref": "common.schema.json#/$defs/percentiles"
+        }
+      }
+    },
+    "memory": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "rss_sampled_peak_mib": {
+          "$ref": "common.schema.json#/$defs/percentiles"
+        },
+        "rss_mean_mib": {
+          "$ref": "common.schema.json#/$defs/percentiles"
+        },
+        "process_hwm_mib_per_job": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "thermal": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "battery_temp_c_start": {
+          "$ref": "common.schema.json#/$defs/percentiles"
+        },
+        "battery_temp_c_end": {
+          "$ref": "common.schema.json#/$defs/percentiles"
+        },
+        "thermal_event_requests": {
+          "type": "integer"
+        },
+        "clock_drop_requests": {
+          "type": "integer"
+        },
+        "thermal_status_max": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        }
+      }
+    },
+    "agreement": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "description": "Agreement track: byte-identical outputs versus the reference phone and versus the x86 host run of the same .pte",
+      "additionalProperties": false,
+      "properties": {
+        "reference_device_id": {
+          "type": "string"
+        },
+        "identical_vs_reference": {
+          "type": "integer"
+        },
+        "identical_vs_host": {
+          "type": "integer"
+        },
+        "compared": {
+          "type": "integer"
+        }
+      }
+    },
+    "tokenizer_sha256": {
+      "$ref": "common.schema.json#/$defs/sha256"
+    },
+    "decode_target": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "protocol_sha256": {
+      "$ref": "common.schema.json#/$defs/sha256",
+      "description": "Hash of the protocol block (fixed performance mode, cooldown, warm-up, sampling period)"
+    },
+    "runtime": {
+      "type": "object",
+      "required": [
+        "executorch",
+        "apk_sha256",
+        "threads",
+        "kv_reuse"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "executorch": {
+          "type": "string"
+        },
+        "apk_sha256": {
+          "$ref": "common.schema.json#/$defs/sha256"
+        },
+        "threads": {
+          "type": "integer"
+        },
+        "kv_reuse": {
+          "enum": [
+            "off",
+            "on"
+          ]
+        }
+      }
+    },
+    "days": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "format": "date"
+      },
+      "description": "Distinct UTC dates of the jobs behind the cell"
+    },
+    "interval": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "method": {
+          "enum": [
+            "wilson",
+            "cluster-bootstrap-jobs",
+            "bootstrap-conversations",
+            "bootstrap-prompts",
+            "none"
+          ]
+        },
+        "resamples": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "lo": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "hi": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "per_job_medians": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "number"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,13 @@
+boost
+policy0
+policy6
+== /sys/devices/system/cpu/cpufreq/policy0
+affected_cpus=0 1 2 3 4 5
+cpuinfo_max_freq=3628800
+cpuinfo_min_freq=384000
+scaling_governor=walt
+== /sys/devices/system/cpu/cpufreq/policy6
+affected_cpus=6 7
+cpuinfo_max_freq=4742400
+cpuinfo_min_freq=768000
+scaling_governor=walt

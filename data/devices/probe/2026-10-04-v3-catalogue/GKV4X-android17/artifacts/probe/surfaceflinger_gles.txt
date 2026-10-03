@@ -1,0 +1,3 @@
+ ------------RE GLES (Ganesh)------------
+GLES: ARM, Mali-G715, OpenGL ES 3.2 v1.r54p3-00eac0.d6609729a0c2466c24fd0530143c8edf
+vulkan_renderengine: false

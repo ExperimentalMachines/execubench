@@ -1,0 +1,47 @@
+{
+ "arn": "arn:aws:devicefarm:us-west-2:<account>:job:733be749-de36-4847-ba64-a034b55b21dd/b55d5a66-a5e8-4481-bcfb-dd151f9915ec/00011",
+ "counters": {
+  "errored": 0,
+  "failed": 0,
+  "passed": 3,
+  "skipped": 0,
+  "stopped": 0,
+  "total": 3,
+  "warned": 0
+ },
+ "created": "2026-10-04 07:14:08.971000+08:00",
+ "device": {
+  "arn": "arn:aws:devicefarm:us-west-2::device:E10A10A4F8AD4DA6926C1A03E4BF854F",
+  "cpu": {
+   "architecture": "arm64-v8a",
+   "clock": 2000.0,
+   "frequency": "MHz"
+  },
+  "fleetType": "PUBLIC",
+  "formFactor": "PHONE",
+  "heapSize": 512000000,
+  "image": "E10A10A4F8AD4DA6926C1A03E4BF854F",
+  "manufacturer": "Samsung",
+  "memory": 128000000000,
+  "model": "Samsung Galaxy A16",
+  "modelId": "SM-A165F",
+  "name": "Samsung Galaxy A16",
+  "os": "14",
+  "platform": "ANDROID",
+  "remoteAccessEnabled": true,
+  "resolution": {
+   "height": 2340,
+   "width": 1080
+  }
+ },
+ "deviceMinutes": {
+  "metered": 0.6,
+  "total": 0.9,
+  "unmetered": 0.0
+ },
+ "message": "Successful test lifecycle of Setup Test",
+ "name": "Samsung Galaxy A16",
+ "result": "PASSED",
+ "status": "COMPLETED",
+ "videoCapture": false
+}

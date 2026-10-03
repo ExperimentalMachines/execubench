@@ -1,0 +1,47 @@
+{
+ "arn": "arn:aws:devicefarm:us-west-2:<account>:job:733be749-de36-4847-ba64-a034b55b21dd/7af87807-ce27-4e13-872a-6ef48ed066fe/00015",
+ "counters": {
+  "errored": 0,
+  "failed": 0,
+  "passed": 3,
+  "skipped": 0,
+  "stopped": 0,
+  "total": 3,
+  "warned": 0
+ },
+ "created": "2026-10-04 06:25:17.699000+08:00",
+ "device": {
+  "arn": "arn:aws:devicefarm:us-west-2::device:83E901AC5416446DB5C502008C90B308",
+  "cpu": {
+   "architecture": "arm64-v8a",
+   "clock": 2016.0,
+   "frequency": "MHz"
+  },
+  "fleetType": "PUBLIC",
+  "formFactor": "TABLET",
+  "heapSize": 512000000,
+  "image": "83E901AC5416446DB5C502008C90B308",
+  "manufacturer": "Samsung",
+  "memory": 128000000000,
+  "model": "Samsung Galaxy Tab S9",
+  "modelId": "SM-X710",
+  "name": "Samsung Galaxy Tab S9",
+  "os": "13",
+  "platform": "ANDROID",
+  "remoteAccessEnabled": true,
+  "resolution": {
+   "height": 2560,
+   "width": 1600
+  }
+ },
+ "deviceMinutes": {
+  "metered": 0.46,
+  "total": 0.75,
+  "unmetered": 0.0
+ },
+ "message": "Successful test lifecycle of Setup Test",
+ "name": "Samsung Galaxy Tab S9",
+ "result": "PASSED",
+ "status": "COMPLETED",
+ "videoCapture": true
+}

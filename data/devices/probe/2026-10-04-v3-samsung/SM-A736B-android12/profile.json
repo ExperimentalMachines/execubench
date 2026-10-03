@@ -1,0 +1,220 @@
+{
+ "reported": {
+  "manufacturer": "samsung",
+  "model": "SM-A736B",
+  "device": "a73xq",
+  "soc_manufacturer": "QTI",
+  "soc_model": "SM7325",
+  "board_platform": "lahaina",
+  "hardware": "qcom",
+  "android": "12",
+  "sdk": "31",
+  "fingerprint": "samsung/a73xqxx/a73xq:12/SP1A.210812.016/A736BXXU2AVG3:user/release-keys",
+  "security_patch": "2022-08-01",
+  "page_size": null,
+  "abilist": "arm64-v8a,armeabi-v7a,armeabi",
+  "arm64_userspace": true
+ },
+ "cpu": {
+  "count": 8,
+  "topology": "3+1+4",
+  "clock_domains": [
+   {
+    "policy": "policy4",
+    "cpus": [
+     4,
+     5,
+     6
+    ],
+    "max_mhz": 2400.0,
+    "governor": "schedutil",
+    "designs": [
+     "CORTEX_A78"
+    ]
+   },
+   {
+    "policy": "policy7",
+    "cpus": [
+     7
+    ],
+    "max_mhz": 2400.0,
+    "governor": "schedutil",
+    "designs": [
+     "CORTEX_A78"
+    ]
+   },
+   {
+    "policy": "policy0",
+    "cpus": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "max_mhz": 1804.8,
+    "governor": "schedutil",
+    "designs": [
+     "CORTEX_A55"
+    ]
+   }
+  ],
+  "tiers": "4+4",
+  "clusters": [
+   {
+    "cores": 4,
+    "cpus": [
+     4,
+     5,
+     6,
+     7
+    ],
+    "implementer": "0x41",
+    "part": "0xd41",
+    "design": "CORTEX_A78",
+    "design_source": "linux cputype.h",
+    "max_mhz": 2400.0,
+    "efficiency_class": false,
+    "core_class": "performance"
+   },
+   {
+    "cores": 4,
+    "cpus": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "implementer": "0x41",
+    "part": "0xd05",
+    "design": "CORTEX_A55",
+    "design_source": "linux cputype.h",
+    "max_mhz": 1804.8,
+    "efficiency_class": true,
+    "core_class": "efficiency"
+   }
+  ],
+  "all_big_cores": false,
+  "max_mhz": 2400.0,
+  "features": [
+   "aes",
+   "asimd",
+   "asimddp",
+   "asimdhp",
+   "asimdrdm",
+   "atomics",
+   "cpuid",
+   "crc32",
+   "dcpop",
+   "evtstrm",
+   "fp",
+   "fphp",
+   "lrcpc",
+   "pmull",
+   "sha1",
+   "sha2"
+  ]
+ },
+ "gpu": {
+  "gles": "Qualcomm, Adreno (TM) 642L, OpenGL ES 3.2 V@0530.0 (GIT@cac6e6f805, I5187d04b75, 1637574833) (Date:11/22/21)",
+  "vulkan_device": "Adreno (TM) 642L"
+ },
+ "npu": {
+  "runtimes_present": {
+   "qualcomm-qnn-snpe": [
+    "libSNPE.so",
+    "libsnpe_dsp_domains_v3.so",
+    "libsnpe_dsp_domains_v3_system.so",
+    "libsnpe_wrapper.so"
+   ]
+  }
+ },
+ "memory": {
+  "mem_total_kib": 7477180,
+  "dumpsys_total_ram_kib": 7477180,
+  "ddr": {}
+ },
+ "state_at_probe": {
+  "battery_temp_c": 31.3,
+  "thermal": {
+   "status": 0,
+   "current": {
+    "AP": {
+     "c": 33.4,
+     "type": 0,
+     "status": 0
+    },
+    "BAT": {
+     "c": 31.3,
+     "type": 2,
+     "status": 0
+    },
+    "PA": {
+     "c": 31.7,
+     "type": 5,
+     "status": 0
+    },
+    "SKIN": {
+     "c": 30.7,
+     "type": 3,
+     "status": 0
+    },
+    "SUBBAT": {
+     "c": 0.0,
+     "type": 2,
+     "status": 0
+    },
+    "USB": {
+     "c": 0.0,
+     "type": 4,
+     "status": 0
+    }
+   },
+   "cached": {
+    "SUBBAT": {
+     "c": 0.0,
+     "type": 2,
+     "status": 0
+    },
+    "AP": {
+     "c": 33.4,
+     "type": 0,
+     "status": 0
+    },
+    "PA": {
+     "c": 31.7,
+     "type": 5,
+     "status": 0
+    },
+    "BAT": {
+     "c": 31.3,
+     "type": 2,
+     "status": 0
+    },
+    "USB": {
+     "c": 0.0,
+     "type": 4,
+     "status": 0
+    },
+    "SKIN": {
+     "c": 30.7,
+     "type": 3,
+     "status": 0
+    }
+   }
+  },
+  "fixed_performance_mode": "accepted"
+ },
+ "tooling": {
+  "simpleperf": {
+   "present": true,
+   "version": "1.build.A736BXXU2AVG3",
+   "perf_event_paranoid": -1
+  }
+ },
+ "staging": {
+  "adb_push_mib_s": 26.5,
+  "hf_fetch": [
+   "http=200 bytes=11422654 seconds=0.343704 speed_Bps=33233986"
+  ]
+ }
+}

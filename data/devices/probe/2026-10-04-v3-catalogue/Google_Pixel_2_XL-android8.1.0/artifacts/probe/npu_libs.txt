@@ -1,0 +1,5 @@
+android.hardware.tv.input@1.0.so
+libinput.so
+libinputflinger.so
+libinputservice.so
+ls: /vendor/lib64/libhexagon_nn_controller.so: Permission denied

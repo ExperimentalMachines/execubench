@@ -1,0 +1,5 @@
+android.hardware.tv.input@1.0.so
+libhexagon_nn_stub.so
+libinput.so
+libinputflinger.so
+libinputservice.so

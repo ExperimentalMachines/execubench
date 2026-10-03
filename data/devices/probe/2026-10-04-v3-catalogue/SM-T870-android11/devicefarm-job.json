@@ -1,0 +1,47 @@
+{
+ "arn": "arn:aws:devicefarm:us-west-2:<account>:job:733be749-de36-4847-ba64-a034b55b21dd/8a979433-95de-46e0-9971-b56c02b21c36/00032",
+ "counters": {
+  "errored": 0,
+  "failed": 0,
+  "passed": 3,
+  "skipped": 0,
+  "stopped": 0,
+  "total": 3,
+  "warned": 0
+ },
+ "created": "2026-10-04 07:21:37.906000+08:00",
+ "device": {
+  "arn": "arn:aws:devicefarm:us-west-2::device:48B22A0786BF41538C7F6099EB84926E",
+  "cpu": {
+   "architecture": "arm64-v8a",
+   "clock": 1804.8,
+   "frequency": "MHz"
+  },
+  "fleetType": "PUBLIC",
+  "formFactor": "TABLET",
+  "heapSize": 512000000,
+  "image": "48B22A0786BF41538C7F6099EB84926E",
+  "manufacturer": "Samsung",
+  "memory": 512000000000,
+  "model": "Samsung Galaxy Tab S7",
+  "modelId": "{SM-T870}",
+  "name": "Samsung Galaxy Tab S7",
+  "os": "11",
+  "platform": "ANDROID",
+  "remoteAccessEnabled": true,
+  "resolution": {
+   "height": 2560,
+   "width": 1600
+  }
+ },
+ "deviceMinutes": {
+  "metered": 0.52,
+  "total": 0.79,
+  "unmetered": 0.0
+ },
+ "message": "Successful test lifecycle of Setup Test",
+ "name": "Samsung Galaxy Tab S7",
+ "result": "PASSED",
+ "status": "COMPLETED",
+ "videoCapture": false
+}

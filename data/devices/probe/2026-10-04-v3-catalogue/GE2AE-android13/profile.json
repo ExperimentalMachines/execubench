@@ -1,0 +1,573 @@
+{
+ "reported": {
+  "manufacturer": "Google",
+  "model": "Pixel 7 Pro",
+  "device": "cheetah",
+  "soc_manufacturer": "Google",
+  "soc_model": "GS201",
+  "board_platform": "gs201",
+  "hardware": "cheetah",
+  "android": "13",
+  "sdk": "33",
+  "fingerprint": "google/cheetah/cheetah:13/TQ3A.230901.001/10750268:user/release-keys",
+  "security_patch": "2023-09-01",
+  "page_size": null,
+  "abilist": "arm64-v8a",
+  "arm64_userspace": true
+ },
+ "cpu": {
+  "count": 8,
+  "topology": "2+2+4",
+  "clock_domains": [
+   {
+    "policy": "policy6",
+    "cpus": [
+     6,
+     7
+    ],
+    "max_mhz": 2850.0,
+    "governor": "sched_pixel",
+    "designs": [
+     "CORTEX_X1"
+    ]
+   },
+   {
+    "policy": "policy4",
+    "cpus": [
+     4,
+     5
+    ],
+    "max_mhz": 2348.0,
+    "governor": "sched_pixel",
+    "designs": [
+     "CORTEX_A78"
+    ]
+   },
+   {
+    "policy": "policy0",
+    "cpus": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "max_mhz": 1803.0,
+    "governor": "sched_pixel",
+    "designs": [
+     "CORTEX_A55"
+    ]
+   }
+  ],
+  "tiers": "2+2+4",
+  "clusters": [
+   {
+    "cores": 2,
+    "cpus": [
+     6,
+     7
+    ],
+    "implementer": "0x41",
+    "part": "0xd44",
+    "design": "CORTEX_X1",
+    "design_source": "linux cputype.h",
+    "max_mhz": 2850.0,
+    "efficiency_class": false,
+    "core_class": "performance"
+   },
+   {
+    "cores": 2,
+    "cpus": [
+     4,
+     5
+    ],
+    "implementer": "0x41",
+    "part": "0xd41",
+    "design": "CORTEX_A78",
+    "design_source": "linux cputype.h",
+    "max_mhz": 2348.0,
+    "efficiency_class": false,
+    "core_class": "performance"
+   },
+   {
+    "cores": 4,
+    "cpus": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "implementer": "0x41",
+    "part": "0xd05",
+    "design": "CORTEX_A55",
+    "design_source": "linux cputype.h",
+    "max_mhz": 1803.0,
+    "efficiency_class": true,
+    "core_class": "efficiency"
+   }
+  ],
+  "all_big_cores": false,
+  "max_mhz": 2850.0,
+  "features": [
+   "aes",
+   "asimd",
+   "asimddp",
+   "asimdhp",
+   "asimdrdm",
+   "atomics",
+   "cpuid",
+   "crc32",
+   "dcpop",
+   "evtstrm",
+   "fp",
+   "fphp",
+   "lrcpc",
+   "pmull",
+   "sha1",
+   "sha2"
+  ]
+ },
+ "gpu": {
+  "gles": "ARM, Mali-G710, OpenGL ES 3.2 v1.r38p1-01eac0.55eb2d40cce8f18c0f57f61c686a946f",
+  "vulkan_device": "Mali-G710"
+ },
+ "npu": {
+  "runtimes_present": {
+   "google-edgetpu": [
+    "com.google.edgetpu_app_service-V2-ndk.so",
+    "com.google.edgetpu_vendor_service-V2-ndk.so",
+    "libdarwinn_hal.so",
+    "libedgetpu_client.google.so",
+    "libedgetpu_tflite_compiler.so",
+    "libedgetpu_util.so"
+   ]
+  }
+ },
+ "memory": {
+  "mem_total_kib": 11691816,
+  "dumpsys_total_ram_kib": 11691816,
+  "ddr": {
+   "raw": "12GB,Hynix,LPDDR5,0607",
+   "size": "12GB",
+   "vendor": "Hynix",
+   "type": "LPDDR5",
+   "props": {
+    "ro.boot.ddr_size": "12GB",
+    "ro.boot.ddr_info": "Hynix"
+   }
+  }
+ },
+ "state_at_probe": {
+  "battery_temp_c": 31.5,
+  "thermal": {
+   "status": 0,
+   "current": {
+    "soft_ocp_cpu1": {
+     "c": 0.0,
+     "type": 7,
+     "status": 0
+    },
+    "soft_ocp_cpu2": {
+     "c": 0.0,
+     "type": 7,
+     "status": 0
+    },
+    "smpl_gm": {
+     "c": 0.0,
+     "type": 6,
+     "status": 0
+    },
+    "vdroop2": {
+     "c": 0.0,
+     "type": 6,
+     "status": 0
+    },
+    "USB-MINUS-NEUTRAL": {
+     "c": -0.66800004,
+     "type": -1,
+     "status": 0
+    },
+    "BCL_AUDIO_BAACL": {
+     "c": 0.0,
+     "type": 6,
+     "status": 0
+    },
+    "gnss_tcxo_therm": {
+     "c": 33.197002,
+     "type": -1,
+     "status": 0
+    },
+    "BCL_BATOILO_TPU_LOW_TEMP": {
+     "c": 0.0,
+     "type": 7,
+     "status": 0
+    },
+    "BCL_TPU_LOW_TEMP": {
+     "c": -315000.0,
+     "type": 7,
+     "status": 0
+    },
+    "soc": {
+     "c": 21.0,
+     "type": 8,
+     "status": 0
+    },
+    "ocp_tpu": {
+     "c": 0.0,
+     "type": 7,
+     "status": 0
+    },
+    "FLASH_LED_REDUCE": {
+     "c": 0.0,
+     "type": -1,
+     "status": 0
+    },
+    "battery": {
+     "c": 31.500002,
+     "type": 2,
+     "status": 0
+    },
+    "TPU": {
+     "c": 39.0,
+     "type": 9,
+     "status": 0
+    },
+    "BCL_BATOILO_GPU": {
+     "c": 0.0,
+     "type": 7,
+     "status": 0
+    },
+    "battery_cycle": {
+     "c": 18.0,
+     "type": 6,
+     "status": 0
+    },
+    "G3D": {
+     "c": 39.0,
+     "type": 1,
+     "status": 0
+    },
+    "BIG": {
+     "c": 40.0,
+     "type": 0,
+     "status": 0
+    },
+    "BCL_BATOILO_TPU": {
+     "c": 0.0,
+     "type": 7,
+     "status": 0
+    },
+    "BCL_GPU_LOW_TEMP": {
+     "c": -315000.0,
+     "type": 7,
+     "status": 0
+    },
+    "LITTLE": {
+     "c": 41.000004,
+     "type": 0,
+     "status": 0
+    },
+    "BCL_BATOILO_GPU_LOW_TEMP": {
+     "c": 0.0,
+     "type": 7,
+     "status": 0
+    },
+    "USB-MINUS-USB2": {
+     "c": 0.044000003,
+     "type": -1,
+     "status": 0
+    },
+    "usb_pwr_therm2": {
+     "c": 32.596,
+     "type": -1,
+     "status": 0
+    },
+    "critical-battery-cell": {
+     "c": 0.0,
+     "type": 6,
+     "status": 0
+    },
+    "MID": {
+     "c": 40.0,
+     "type": 0,
+     "status": 0
+    },
+    "VIRTUAL-USB-UI": {
+     "c": 0.0,
+     "type": 4,
+     "status": 0
+    },
+    "neutral_therm": {
+     "c": 33.308002,
+     "type": -1,
+     "status": 0
+    },
+    "cellular-emergency": {
+     "c": 32.39168,
+     "type": 5,
+     "status": 0
+    },
+    "quiet_therm": {
+     "c": 32.039,
+     "type": -1,
+     "status": 1
+    },
+    "VIRTUAL-SKIN-CHARGE": {
+     "c": 32.3942,
+     "type": -1,
+     "status": 0
+    },
+    "VIRTUAL-SKIN": {
+     "c": 32.39168,
+     "type": 3,
+     "status": 0
+    },
+    "vdroop1": {
+     "c": 0.0,
+     "type": 6,
+     "status": 0
+    },
+    "VIRTUAL-USB-THROTTLING": {
+     "c": 0.0,
+     "type": 4,
+     "status": 0
+    },
+    "qi_therm": {
+     "c": 34.911003,
+     "type": -1,
+     "status": 0
+    },
+    "ocp_gpu": {
+     "c": 0.0,
+     "type": 7,
+     "status": 0
+    },
+    "disp_therm": {
+     "c": 32.351,
+     "type": -1,
+     "status": 0
+    },
+    "usb_pwr_therm": {
+     "c": 32.640003,
+     "type": -1,
+     "status": 0
+    },
+    "batoilo": {
+     "c": 0.0,
+     "type": 7,
+     "status": 0
+    }
+   },
+   "cached": {
+    "smpl_gm": {
+     "c": 0.0,
+     "type": 6,
+     "status": 0
+    },
+    "LITTLE": {
+     "c": 70.0,
+     "type": 0,
+     "status": 0
+    },
+    "critical-battery-cell": {
+     "c": 0.0,
+     "type": 6,
+     "status": 0
+    },
+    "ocp_gpu": {
+     "c": 0.0,
+     "type": 7,
+     "status": 0
+    },
+    "ocp_tpu": {
+     "c": 0.0,
+     "type": 7,
+     "status": 0
+    },
+    "neutral_therm": {
+     "c": 34.822002,
+     "type": -1,
+     "status": 0
+    },
+    "BCL_BATOILO_GPU": {
+     "c": 0.0,
+     "type": 7,
+     "status": 0
+    },
+    "BCL_BATOILO_TPU": {
+     "c": 0.0,
+     "type": 7,
+     "status": 0
+    },
+    "VIRTUAL-USB-UI": {
+     "c": 0.0,
+     "type": 4,
+     "status": 0
+    },
+    "disp_therm": {
+     "c": 32.974003,
+     "type": -1,
+     "status": 0
+    },
+    "FLASH_LED_REDUCE": {
+     "c": 0.0,
+     "type": -1,
+     "status": 0
+    },
+    "soft_ocp_cpu1": {
+     "c": 0.0,
+     "type": 7,
+     "status": 0
+    },
+    "soft_ocp_cpu2": {
+     "c": 0.0,
+     "type": 7,
+     "status": 0
+    },
+    "battery_cycle": {
+     "c": 18.0,
+     "type": 6,
+     "status": 0
+    },
+    "quiet_therm": {
+     "c": 32.863003,
+     "type": -1,
+     "status": 1
+    },
+    "BCL_GPU_LOW_TEMP": {
+     "c": -321000.0,
+     "type": 7,
+     "status": 0
+    },
+    "BCL_AUDIO_BAACL": {
+     "c": 0.0,
+     "type": 6,
+     "status": 0
+    },
+    "VIRTUAL-SKIN-CHARGE": {
+     "c": 33.7166,
+     "type": -1,
+     "status": 0
+    },
+    "batoilo": {
+     "c": 0.0,
+     "type": 7,
+     "status": 0
+    },
+    "battery": {
+     "c": 32.100002,
+     "type": 2,
+     "status": 0
+    },
+    "BIG": {
+     "c": 75.0,
+     "type": 0,
+     "status": 0
+    },
+    "G3D": {
+     "c": 54.000004,
+     "type": 1,
+     "status": 0
+    },
+    "MID": {
+     "c": 68.0,
+     "type": 0,
+     "status": 0
+    },
+    "TPU": {
+     "c": 54.000004,
+     "type": 9,
+     "status": 0
+    },
+    "soc": {
+     "c": 21.0,
+     "type": 8,
+     "status": 0
+    },
+    "USB-MINUS-USB2": {
+     "c": -0.045,
+     "type": -1,
+     "status": 0
+    },
+    "usb_pwr_therm2": {
+     "c": 33.553,
+     "type": -1,
+     "status": 0
+    },
+    "vdroop1": {
+     "c": 0.0,
+     "type": 6,
+     "status": 0
+    },
+    "vdroop2": {
+     "c": 0.0,
+     "type": 6,
+     "status": 0
+    },
+    "BCL_BATOILO_GPU_LOW_TEMP": {
+     "c": 0.0,
+     "type": 7,
+     "status": 0
+    },
+    "USB-MINUS-NEUTRAL": {
+     "c": -1.314,
+     "type": -1,
+     "status": 0
+    },
+    "BCL_TPU_LOW_TEMP": {
+     "c": -321000.0,
+     "type": 7,
+     "status": 0
+    },
+    "qi_therm": {
+     "c": 37.159,
+     "type": -1,
+     "status": 0
+    },
+    "cellular-emergency": {
+     "c": 33.776222,
+     "type": 5,
+     "status": 0
+    },
+    "gnss_tcxo_therm": {
+     "c": 35.133003,
+     "type": -1,
+     "status": 0
+    },
+    "VIRTUAL-SKIN": {
+     "c": 37.023117,
+     "type": 3,
+     "status": 0
+    },
+    "usb_pwr_therm": {
+     "c": 33.508003,
+     "type": -1,
+     "status": 0
+    },
+    "VIRTUAL-USB-THROTTLING": {
+     "c": 0.0,
+     "type": 4,
+     "status": 0
+    },
+    "BCL_BATOILO_TPU_LOW_TEMP": {
+     "c": 0.0,
+     "type": 7,
+     "status": 0
+    }
+   }
+  },
+  "fixed_performance_mode": "accepted"
+ },
+ "tooling": {
+  "simpleperf": {
+   "present": true,
+   "version": "1.build.10750268",
+   "perf_event_paranoid": -1
+  }
+ },
+ "staging": {
+  "adb_push_mib_s": 26.0,
+  "hf_fetch": [
+   "http=200 bytes=11422654 seconds=0.351959 speed_Bps=32454501"
+  ]
+ }
+}

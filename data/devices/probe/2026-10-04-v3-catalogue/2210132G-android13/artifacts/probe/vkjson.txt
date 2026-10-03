@@ -1,0 +1,6 @@
+	"apiVersion" : 4206592.0,
+				"apiVersion" : 4206720.0,
+				"deviceID" : 1124403713.0,
+				"deviceName" : "Adreno (TM) 740",
+				"driverVersion" : 2150252544.0,
+				"vendorID" : 20803.0

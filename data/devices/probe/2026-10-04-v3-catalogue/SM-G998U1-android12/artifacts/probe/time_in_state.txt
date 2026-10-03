@@ -1,0 +1,12 @@
+== /sys/devices/system/cpu/cpufreq/policy0
+300000 0
+403200 0
+499200 0
+== /sys/devices/system/cpu/cpufreq/policy4
+710400 4187483
+844800 1812
+960000 1085
+== /sys/devices/system/cpu/cpufreq/policy7
+844800 4188448
+960000 108
+1075200 91

@@ -1,0 +1,47 @@
+{
+ "arn": "arn:aws:devicefarm:us-west-2:<account>:job:733be749-de36-4847-ba64-a034b55b21dd/8a979433-95de-46e0-9971-b56c02b21c36/00009",
+ "counters": {
+  "errored": 0,
+  "failed": 0,
+  "passed": 3,
+  "skipped": 0,
+  "stopped": 0,
+  "total": 3,
+  "warned": 0
+ },
+ "created": "2026-10-04 07:21:37.906000+08:00",
+ "device": {
+  "arn": "arn:aws:devicefarm:us-west-2::device:6E6BC082EF9E4495839268F02AE0AF53",
+  "cpu": {
+   "architecture": "arm64-v8a",
+   "clock": 1785.6,
+   "frequency": "MHz"
+  },
+  "fleetType": "PUBLIC",
+  "formFactor": "PHONE",
+  "heapSize": 512000000,
+  "image": "6E6BC082EF9E4495839268F02AE0AF53",
+  "manufacturer": "Samsung",
+  "memory": 128000000000,
+  "model": "Samsung Galaxy S22 Ultra 5G",
+  "modelId": "SM-S908U1",
+  "name": "Samsung Galaxy S22 Ultra 5G",
+  "os": "12",
+  "platform": "ANDROID",
+  "remoteAccessEnabled": true,
+  "resolution": {
+   "height": 3088,
+   "width": 1440
+  }
+ },
+ "deviceMinutes": {
+  "metered": 0.59,
+  "total": 0.91,
+  "unmetered": 0.0
+ },
+ "message": "Successful test lifecycle of Setup Test",
+ "name": "Samsung Galaxy S22 Ultra 5G",
+ "result": "PASSED",
+ "status": "COMPLETED",
+ "videoCapture": false
+}

@@ -1,0 +1,47 @@
+{
+ "arn": "arn:aws:devicefarm:us-west-2:<account>:job:733be749-de36-4847-ba64-a034b55b21dd/8a979433-95de-46e0-9971-b56c02b21c36/00030",
+ "counters": {
+  "errored": 0,
+  "failed": 0,
+  "passed": 3,
+  "skipped": 0,
+  "stopped": 0,
+  "total": 3,
+  "warned": 0
+ },
+ "created": "2026-10-04 07:21:37.906000+08:00",
+ "device": {
+  "arn": "arn:aws:devicefarm:us-west-2::device:0029CB20FD15413E80088D250ACDB0DD",
+  "cpu": {
+   "architecture": "arm64-v8a",
+   "clock": 3532.8,
+   "frequency": "MHz"
+  },
+  "fleetType": "PUBLIC",
+  "formFactor": "PHONE",
+  "heapSize": 512000000,
+  "image": "0029CB20FD15413E80088D250ACDB0DD",
+  "manufacturer": "Samsung",
+  "memory": 128000000000,
+  "model": "Samsung Galaxy S25+",
+  "modelId": "SM-S936U1",
+  "name": "Samsung Galaxy S25+",
+  "os": "15",
+  "platform": "ANDROID",
+  "remoteAccessEnabled": true,
+  "resolution": {
+   "height": 3120,
+   "width": 1440
+  }
+ },
+ "deviceMinutes": {
+  "metered": 0.4,
+  "total": 0.68,
+  "unmetered": 0.0
+ },
+ "message": "Successful test lifecycle of Setup Test",
+ "name": "Samsung Galaxy S25+",
+ "result": "PASSED",
+ "status": "COMPLETED",
+ "videoCapture": false
+}

@@ -1,0 +1,1 @@
+GLES: Imagination Technologies, PowerVR Rogue GE8320, OpenGL ES 3.2 build 1.13@5776728

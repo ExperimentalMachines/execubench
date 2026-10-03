@@ -1,0 +1,47 @@
+{
+ "arn": "arn:aws:devicefarm:us-west-2:<account>:job:733be749-de36-4847-ba64-a034b55b21dd/7af87807-ce27-4e13-872a-6ef48ed066fe/00002",
+ "counters": {
+  "errored": 0,
+  "failed": 0,
+  "passed": 3,
+  "skipped": 0,
+  "stopped": 0,
+  "total": 3,
+  "warned": 0
+ },
+ "created": "2026-10-04 06:25:17.699000+08:00",
+ "device": {
+  "arn": "arn:aws:devicefarm:us-west-2::device:C00EB4C85AEF441195453AFA2D93122A",
+  "cpu": {
+   "architecture": "arm64-v8a",
+   "clock": 2002.0,
+   "frequency": "MHz"
+  },
+  "fleetType": "PUBLIC",
+  "formFactor": "PHONE",
+  "heapSize": 512000000,
+  "image": "C00EB4C85AEF441195453AFA2D93122A",
+  "manufacturer": "Samsung",
+  "memory": 128000000000,
+  "model": "Samsung Galaxy A17",
+  "modelId": "SM-A176U",
+  "name": "Samsung Galaxy A17",
+  "os": "16",
+  "platform": "ANDROID",
+  "remoteAccessEnabled": true,
+  "resolution": {
+   "height": 2340,
+   "width": 1080
+  }
+ },
+ "deviceMinutes": {
+  "metered": 0.51,
+  "total": 0.81,
+  "unmetered": 0.0
+ },
+ "message": "Successful test lifecycle of Setup Test",
+ "name": "Samsung Galaxy A17",
+ "result": "PASSED",
+ "status": "COMPLETED",
+ "videoCapture": true
+}

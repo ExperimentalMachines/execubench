@@ -1,0 +1,6 @@
+input
+memlog-4-npu-fil
+npu_throughput
+npu_throughput_max
+uinput
+vertex10

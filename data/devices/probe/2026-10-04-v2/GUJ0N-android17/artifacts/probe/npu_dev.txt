@@ -1,0 +1,10 @@
+acd-audio_input_bulk_rx
+acd-audio_input_bulk_tx
+acd-audio_input_tuning
+acd-audio_output_tuning
+acd-audio_output_tuning_ext
+edgetpu
+edgetpu-limited
+edgetpu-soc
+input
+uinput

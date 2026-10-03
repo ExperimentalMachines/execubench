@@ -1,0 +1,5 @@
+adsprpc-smd
+adsprpc-smd-secure
+hbtp_input
+input
+uinput

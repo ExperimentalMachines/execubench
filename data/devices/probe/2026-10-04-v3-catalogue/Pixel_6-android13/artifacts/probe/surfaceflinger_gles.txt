@@ -1,0 +1,1 @@
+GLES: ARM, Mali-G78, OpenGL ES 3.2 v1.r36p0-01eac0.ecf5cbce9c793f75e7a31c960ecf9020

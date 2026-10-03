@@ -1,0 +1,4 @@
+/sys/class/power_supply/battery/temp=301
+/sys/class/power_supply/battery/capacity=76
+/sys/class/power_supply/battery/status=Charging
+/sys/class/power_supply/usb/online=0

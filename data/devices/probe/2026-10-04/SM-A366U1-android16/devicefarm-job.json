@@ -1,0 +1,47 @@
+{
+ "arn": "arn:aws:devicefarm:us-west-2:<account>:job:733be749-de36-4847-ba64-a034b55b21dd/86b8ddf5-d1b1-4b54-a199-f6ebbab3fe18/00014",
+ "counters": {
+  "errored": 0,
+  "failed": 0,
+  "passed": 3,
+  "skipped": 0,
+  "stopped": 0,
+  "total": 3,
+  "warned": 0
+ },
+ "created": "2026-10-04 06:17:42.290000+08:00",
+ "device": {
+  "arn": "arn:aws:devicefarm:us-west-2::device:43B81A7172C34E4E94A7CB3BE27FF5AA",
+  "cpu": {
+   "architecture": "arm64-v8a",
+   "clock": 1804.8,
+   "frequency": "MHz"
+  },
+  "fleetType": "PUBLIC",
+  "formFactor": "PHONE",
+  "heapSize": 512000000,
+  "image": "43B81A7172C34E4E94A7CB3BE27FF5AA",
+  "manufacturer": "Samsung",
+  "memory": 128000000000,
+  "model": "Samsung Galaxy A36",
+  "modelId": "SM-A366U1",
+  "name": "Samsung Galaxy A36",
+  "os": "16",
+  "platform": "ANDROID",
+  "remoteAccessEnabled": true,
+  "resolution": {
+   "height": 2340,
+   "width": 1080
+  }
+ },
+ "deviceMinutes": {
+  "metered": 0.51,
+  "total": 0.82,
+  "unmetered": 0.0
+ },
+ "message": "Successful test lifecycle of Setup Test",
+ "name": "Samsung Galaxy A36",
+ "result": "PASSED",
+ "status": "COMPLETED",
+ "videoCapture": true
+}

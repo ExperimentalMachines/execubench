@@ -1,0 +1,21 @@
+IsStatusOverride: false
+ThermalEventListeners:
+	callbacks: 1
+	killed: false
+	broadcasts count: -1
+ThermalStatusListeners:
+	callbacks: 5
+	killed: false
+	broadcasts count: -1
+Thermal Status: 0
+Cached temperatures:
+HAL Ready: true
+HAL connection:
+	ThermalHAL 2.0 connected: yes
+Current temperatures from HAL:
+Current cooling devices from HAL:
+	CoolingDevice{mValue=0, mType=2, mName=thermal-cpufreq-1}
+	CoolingDevice{mValue=0, mType=2, mName=thermal-cpufreq-2}
+	CoolingDevice{mValue=0, mType=2, mName=thermal-cpufreq-0}
+	CoolingDevice{mValue=0, mType=3, mName=thermal-devfreq-0}
+Temperature static thresholds from HAL:

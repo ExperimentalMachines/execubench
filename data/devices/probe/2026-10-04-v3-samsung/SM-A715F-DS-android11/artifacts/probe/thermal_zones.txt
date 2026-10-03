@@ -1,0 +1,65 @@
+thermal_zone0 pm6150-tz -274000
+thermal_zone1 pm6150-ibat-lvl0 
+thermal_zone10 pm6150l-tz -274000
+thermal_zone11 pm6150l-vph-lvl0 
+thermal_zone12 pm6150l-vph-lvl1 
+thermal_zone13 pm6150l-vph-lvl2 
+thermal_zone14 pm6150l-bcl-lvl0 
+thermal_zone15 pm6150l-bcl-lvl1 
+thermal_zone16 pm6150l-bcl-lvl2 
+thermal_zone17 aoss-0-usr 37000
+thermal_zone18 cpu-0-0-usr 39000
+thermal_zone19 cpu-0-1-usr 38700
+thermal_zone2 pm6150-ibat-lvl1 
+thermal_zone20 cpu-0-2-usr 39300
+thermal_zone21 cpu-0-3-usr 39000
+thermal_zone22 cpu-0-4-usr 38700
+thermal_zone23 cpu-0-5-usr 37700
+thermal_zone24 cpuss-0-usr 34800
+thermal_zone25 cpuss-1-usr 39000
+thermal_zone26 cpu-1-0-usr 37700
+thermal_zone27 cpu-1-1-usr 37700
+thermal_zone28 cpu-1-2-usr 36700
+thermal_zone29 cpu-1-3-usr 37400
+thermal_zone3 pm6150-vbat-lvl0 
+thermal_zone30 gpuss-0-usr 32900
+thermal_zone31 gpuss-1-usr 35800
+thermal_zone32 aoss-1-usr 36500
+thermal_zone33 cwlan-usr 35900
+thermal_zone34 audio-usr 37200
+thermal_zone35 ddr-usr 35900
+thermal_zone36 q6-hvx-usr 36200
+thermal_zone37 camera-usr 36900
+thermal_zone38 mdm-core-usr 35200
+thermal_zone39 mdm-dsp-usr 36200
+thermal_zone4 pm6150-vbat-lvl1 
+thermal_zone40 npu-usr 36500
+thermal_zone41 video-usr 36500
+thermal_zone42 xo-therm-adc 31772
+thermal_zone43 rf-pa0-therm-adc 31896
+thermal_zone44 rf-pa1-therm-adc 31718
+thermal_zone45 lmh-dcvs-00 75000
+thermal_zone46 lmh-dcvs-01 75000
+thermal_zone47 gpuss-max-step 35100
+thermal_zone48 cpu-0-max-step 37000
+thermal_zone49 cpu-1-max-step 37000
+thermal_zone5 pm6150-vbat-lvl2 
+thermal_zone50 cpu-0-0-step 35800
+thermal_zone51 cpu-0-1-step 36400
+thermal_zone52 cpu-0-2-step 37000
+thermal_zone53 cpu-0-3-step 35800
+thermal_zone54 cpu-0-4-step 36100
+thermal_zone55 cpu-0-5-step 35400
+thermal_zone56 cpu-1-0-step 35400
+thermal_zone57 cpu-1-1-step 35800
+thermal_zone58 cpu-1-2-step 34800
+thermal_zone59 cpu-1-3-step 34500
+thermal_zone6 pm6150-bcl-lvl0 
+thermal_zone60 cpu-1-0-lowf 35400
+thermal_zone61 npu-step 35900
+thermal_zone62 q6-hvx-step 35200
+thermal_zone63 ac 31300
+thermal_zone64 battery 30500
+thermal_zone7 pm6150-bcl-lvl1 
+thermal_zone8 pm6150-bcl-lvl2 
+thermal_zone9 soc 

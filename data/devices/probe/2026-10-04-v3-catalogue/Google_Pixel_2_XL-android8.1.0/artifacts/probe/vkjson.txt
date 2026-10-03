@@ -1,0 +1,5 @@
+				"apiVersion":	4194353,
+				"driverVersion":	93622907,
+				"vendorID":	20803,
+				"deviceID":	84148225,
+				"deviceName":	"Adreno (TM) 540",

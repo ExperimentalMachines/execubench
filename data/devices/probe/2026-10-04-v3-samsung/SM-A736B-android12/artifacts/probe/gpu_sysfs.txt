@@ -1,0 +1,6 @@
+/sys/class/kgsl/kgsl-3d0/gpu_model=Adreno642Lv1
+/sys/class/kgsl/kgsl-3d0/max_gpuclk=550000000
+/sys/class/kgsl/kgsl-3d0/devfreq/max_freq=550000000
+/sys/kernel/gpu/gpu_model=Adreno642Lv1
+/sys/kernel/gpu/gpu_max_clock=550
+/sys/class/misc/mali0/device/gpuinfo=<unreadable>

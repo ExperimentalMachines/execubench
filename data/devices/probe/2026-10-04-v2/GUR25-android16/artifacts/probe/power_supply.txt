@@ -1,0 +1,4 @@
+/sys/class/power_supply/battery/temp=292
+/sys/class/power_supply/battery/capacity=100
+/sys/class/power_supply/battery/status=Full
+/sys/class/power_supply/usb/online=1

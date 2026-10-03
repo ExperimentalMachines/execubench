@@ -1,0 +1,86 @@
+thermal_zone0 aoss0-usr 38600
+thermal_zone1 cpu-0-0-usr 41700
+thermal_zone10 cpu-1-3-usr 40500
+thermal_zone11 cpu-1-4-usr 40500
+thermal_zone12 cpu-1-5-usr 40900
+thermal_zone13 cpu-1-6-usr 40500
+thermal_zone14 cpu-1-7-usr 40100
+thermal_zone15 gpuss-0-usr 37800
+thermal_zone16 aoss-1-usr 38000
+thermal_zone17 cwlan-usr 36800
+thermal_zone18 video-usr 38700
+thermal_zone19 ddr-usr 38000
+thermal_zone2 cpu-0-1-usr 40500
+thermal_zone20 q6-hvx-usr 38700
+thermal_zone21 camera-usr 37600
+thermal_zone22 cmpss-usr 38700
+thermal_zone23 npu-usr 38000
+thermal_zone24 gpuss-1-usr 38400
+thermal_zone25 gpuss-max-step 38000
+thermal_zone26 apc-0-max-step 40900
+thermal_zone27 apc-1-max-step 40100
+thermal_zone28 pop-mem-step 37600
+thermal_zone29 cpu-0-0-step 40900
+thermal_zone3 cpu-0-2-usr 40100
+thermal_zone30 cpu-0-1-step 40100
+thermal_zone31 cpu-0-2-step 40100
+thermal_zone32 cpu-0-3-step 39700
+thermal_zone33 cpu-1-0-step 38600
+thermal_zone34 cpu-1-1-step 40100
+thermal_zone35 cpu-1-2-step 38200
+thermal_zone36 cpu-1-3-step 39300
+thermal_zone37 cpu-1-4-step 39000
+thermal_zone38 cpu-1-5-step 39300
+thermal_zone39 cpu-1-6-step 39300
+thermal_zone4 cpu-0-3-usr 40500
+thermal_zone40 cpu-1-7-step 39000
+thermal_zone41 cwlan-step 36400
+thermal_zone42 video-step 38000
+thermal_zone43 ddr-step 37200
+thermal_zone44 q6-hvx-step 38400
+thermal_zone45 camera-step 36800
+thermal_zone46 cmpss-step 37600
+thermal_zone47 npu-step 37600
+thermal_zone48 modem-lte-sub6-pa1 35000
+thermal_zone49 modem-lte-sub6-pa2 -40000
+thermal_zone5 cpuss-0-usr 40100
+thermal_zone50 modem-mmw0-usr -273000
+thermal_zone51 modem-mmw1-usr -273000
+thermal_zone52 modem-mmw2-usr -273000
+thermal_zone53 modem-mmw3-usr -273000
+thermal_zone54 modem-skin-usr 35000
+thermal_zone55 modem-wifi-usr 33000
+thermal_zone56 modem-ambient-usr 34000
+thermal_zone57 modem-0-usr 35000
+thermal_zone58 modem-1-usr 35000
+thermal_zone59 modem-streamer-usr -273000
+thermal_zone6 cpuss-1-usr 39300
+thermal_zone60 modem-mmw0-mod-usr -273000
+thermal_zone61 modem-mmw1-mod-usr 
+thermal_zone62 modem-mmw2-mod-usr 
+thermal_zone63 modem-mmw3-mod-usr 
+thermal_zone64 pm8150_tz 37327
+thermal_zone65 pm8150b-ibat-lvl0 
+thermal_zone66 pm8150b-ibat-lvl1 
+thermal_zone67 pm8150b-vbat-lvl0 
+thermal_zone68 pm8150b-vbat-lvl1 
+thermal_zone69 pm8150b-vbat-lvl2 
+thermal_zone7 cpu-1-0-usr 37400
+thermal_zone70 pm8150b-bcl-lvl0 
+thermal_zone71 pm8150b-bcl-lvl1 
+thermal_zone72 pm8150b-bcl-lvl2 
+thermal_zone73 soc 
+thermal_zone74 pm8150l_tz 38755
+thermal_zone75 pm8150l-vph-lvl0 3886
+thermal_zone76 pm8150l-vph-lvl1 3836
+thermal_zone77 pm8150l-vph-lvl2 3886
+thermal_zone78 pm8150l-bcl-lvl0 -274000
+thermal_zone79 pm8150l-bcl-lvl1 -274000
+thermal_zone8 cpu-1-1-usr 39300
+thermal_zone80 pm8150l-bcl-lvl2 -274000
+thermal_zone81 xo-therm-usr -40000
+thermal_zone82 usb-therm 32600
+thermal_zone83 wpc-therm 31900
+thermal_zone84 ac 35900
+thermal_zone85 battery 31900
+thermal_zone9 cpu-1-2-usr 37400

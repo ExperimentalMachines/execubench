@@ -1,0 +1,47 @@
+{
+ "arn": "arn:aws:devicefarm:us-west-2:<account>:job:733be749-de36-4847-ba64-a034b55b21dd/8a979433-95de-46e0-9971-b56c02b21c36/00023",
+ "counters": {
+  "errored": 0,
+  "failed": 0,
+  "passed": 3,
+  "skipped": 0,
+  "stopped": 0,
+  "total": 3,
+  "warned": 0
+ },
+ "created": "2026-10-04 07:21:37.906000+08:00",
+ "device": {
+  "arn": "arn:aws:devicefarm:us-west-2::device:F38F4144412747B1B1271DA89C6E19D6",
+  "cpu": {
+   "architecture": "arm64-v8a",
+   "clock": 1950.0,
+   "frequency": "MHz"
+  },
+  "fleetType": "PUBLIC",
+  "formFactor": "PHONE",
+  "heapSize": 512000000,
+  "image": "F38F4144412747B1B1271DA89C6E19D6",
+  "manufacturer": "Google",
+  "memory": 128000000000,
+  "model": "Google Pixel 9 Pro",
+  "modelId": "GEC77",
+  "name": "Google Pixel 9 Pro",
+  "os": "15",
+  "platform": "ANDROID",
+  "remoteAccessEnabled": true,
+  "resolution": {
+   "height": 2142,
+   "width": 960
+  }
+ },
+ "deviceMinutes": {
+  "metered": 0.31,
+  "total": 0.6,
+  "unmetered": 0.0
+ },
+ "message": "Successful test lifecycle of Setup Test",
+ "name": "Google Pixel 9 Pro",
+ "result": "PASSED",
+ "status": "COMPLETED",
+ "videoCapture": false
+}

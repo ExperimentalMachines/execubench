@@ -1,0 +1,27 @@
+# The v1 device standard (docs/DEVICES.md, "The standard set"). Keys are device_model_id
+# (Device Farm model id + Android version) so a firmware update does not drop a phone from
+# the standard; each job records the build it actually ran on.
+tiers:
+  A:
+    description: "Vendor coverage set: one phone per SoC vendor, where the full quality selection runs"
+    devices:
+      sm-s938u1-android15: "Galaxy S25 Ultra, Snapdragon 8 Elite for Galaxy; same chip as the previous standard"
+      glbw0-android16: "Pixel 10, Tensor G5; same chip as the previous standard"
+      sm-x730-android16: "Galaxy Tab S11, Dimensity 9400+; replaces the Tab S10+ (Dimensity 9300+), which Device Farm does not offer; a tablet"
+      sm-a566u1-android15: "Galaxy A56, Exynos 1580; the newest Exynos on Device Farm; mid-range, not a stand-in for the Exynos 2500"
+  A+:
+    description: "Current generation"
+    devices:
+      sm-s948u1-android16: "Galaxy S26 Ultra, Snapdragon 8 Elite Gen 5 for Galaxy"
+      guj0n-android17: "Pixel 11, Tensor G6"
+  B:
+    description: "Mid-range reach and the memory floor"
+    devices:
+      sm-a366u1-android16: "Galaxy A36, Snapdragon 6 Gen 3, 6 GB; no i8mm"
+      23090ra98g-android15: "Redmi Note 13 Pro+ 5G, Dimensity 7200-Ultra, 8 GB"
+      sm-a176u-android16: "Galaxy A17, Exynos 1330, 4 GB; the memory floor"
+  C:
+    description: "Anchors to earlier work"
+    devices:
+      sm-s928u1-android14: "Galaxy S24 Ultra, Snapdragon 8 Gen 3; the chip of the 2026-09-21 OpenWeights cross-chip rerun"
+      gur25-android16: "Pixel 9, Tensor G4"

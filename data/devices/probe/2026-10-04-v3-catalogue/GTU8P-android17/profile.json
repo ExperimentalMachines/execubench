@@ -1,0 +1,345 @@
+{
+ "reported": {
+  "manufacturer": "Google",
+  "model": "Pixel Tablet",
+  "device": "tangorpro",
+  "soc_manufacturer": "Google",
+  "soc_model": "GS201",
+  "board_platform": "gs201",
+  "hardware": "tangorpro",
+  "android": "17",
+  "sdk": "37",
+  "fingerprint": "google/tangorpro/tangorpro:17/CP2A.260605.012/15430684:user/release-keys",
+  "security_patch": "2026-06-05",
+  "page_size": "4096",
+  "abilist": "arm64-v8a",
+  "arm64_userspace": true
+ },
+ "cpu": {
+  "count": 8,
+  "topology": "2+2+4",
+  "clock_domains": [
+   {
+    "policy": "policy6",
+    "cpus": [
+     6,
+     7
+    ],
+    "max_mhz": 2850.0,
+    "governor": "sched_pixel",
+    "designs": [
+     "CORTEX_X1"
+    ]
+   },
+   {
+    "policy": "policy4",
+    "cpus": [
+     4,
+     5
+    ],
+    "max_mhz": 2348.0,
+    "governor": "sched_pixel",
+    "designs": [
+     "CORTEX_A78"
+    ]
+   },
+   {
+    "policy": "policy0",
+    "cpus": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "max_mhz": 1803.0,
+    "governor": "sched_pixel",
+    "designs": [
+     "CORTEX_A55"
+    ]
+   }
+  ],
+  "tiers": "2+2+4",
+  "clusters": [
+   {
+    "cores": 2,
+    "cpus": [
+     6,
+     7
+    ],
+    "implementer": "0x41",
+    "part": "0xd44",
+    "design": "CORTEX_X1",
+    "design_source": "linux cputype.h",
+    "max_mhz": 2850.0,
+    "efficiency_class": false,
+    "core_class": "performance"
+   },
+   {
+    "cores": 2,
+    "cpus": [
+     4,
+     5
+    ],
+    "implementer": "0x41",
+    "part": "0xd41",
+    "design": "CORTEX_A78",
+    "design_source": "linux cputype.h",
+    "max_mhz": 2348.0,
+    "efficiency_class": false,
+    "core_class": "performance"
+   },
+   {
+    "cores": 4,
+    "cpus": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "implementer": "0x41",
+    "part": "0xd05",
+    "design": "CORTEX_A55",
+    "design_source": "linux cputype.h",
+    "max_mhz": 1803.0,
+    "efficiency_class": true,
+    "core_class": "efficiency"
+   }
+  ],
+  "all_big_cores": false,
+  "max_mhz": 2850.0,
+  "features": [
+   "aes",
+   "asimd",
+   "asimddp",
+   "asimdhp",
+   "asimdrdm",
+   "atomics",
+   "cpuid",
+   "crc32",
+   "dcpop",
+   "evtstrm",
+   "fp",
+   "fphp",
+   "lrcpc",
+   "pmull",
+   "sha1",
+   "sha2"
+  ]
+ },
+ "gpu": {
+  "gles": "ARM, Mali-G710, OpenGL ES 3.2 v1.r54p3-00eac0.1848e3b066182d5bb5a345ab256f13ee",
+  "vulkan_device": "Mali-G710"
+ },
+ "npu": {
+  "runtimes_present": {
+   "google-edgetpu": [
+    "com.google.edgetpu.tachyon-ndk.so",
+    "com.google.edgetpu_app_service-V3-ndk.so",
+    "com.google.edgetpu_vendor_service-V2-ndk.so",
+    "libdarwinn_hal.so",
+    "libedgetpu_client.google.so",
+    "libedgetpu_tachyon.google.so",
+    "libedgetpu_tflite_compiler.so",
+    "libedgetpu_util.so"
+   ]
+  }
+ },
+ "memory": {
+  "mem_total_kib": 7619840,
+  "dumpsys_total_ram_kib": 7619840,
+  "ddr": {
+   "raw": "8GiB,Samsung,LPDDR5,0108",
+   "size": "8GiB",
+   "vendor": "Samsung",
+   "type": "LPDDR5",
+   "props": {
+    "ro.boot.ddr_size": "8GiB",
+    "ro.boot.ddr_info": "Samsung"
+   }
+  }
+ },
+ "state_at_probe": {
+  "battery_temp_c": 29.8,
+  "thermal": {
+   "status": 0,
+   "current": {
+    "ISP": {
+     "c": 40.0,
+     "type": 9,
+     "status": 0
+    },
+    "G3D": {
+     "c": 39.0,
+     "type": 1,
+     "status": 0
+    },
+    "LITTLE": {
+     "c": 44.000004,
+     "type": 0,
+     "status": 0
+    },
+    "VIRTUAL-SKIN": {
+     "c": 31.964931,
+     "type": 3,
+     "status": 0
+    },
+    "quiet_therm": {
+     "c": 32.863003,
+     "type": -1,
+     "status": 0
+    },
+    "AUR": {
+     "c": 39.0,
+     "type": 9,
+     "status": 0
+    },
+    "TPU": {
+     "c": 39.0,
+     "type": 9,
+     "status": 0
+    },
+    "usb_pwr_therm2": {
+     "c": 31.928001,
+     "type": -1,
+     "status": 0
+    },
+    "BIG": {
+     "c": 44.000004,
+     "type": 0,
+     "status": 0
+    },
+    "usb_pwr_therm": {
+     "c": 30.570002,
+     "type": -1,
+     "status": 0
+    },
+    "battery": {
+     "c": 29.800001,
+     "type": 2,
+     "status": 0
+    },
+    "MID": {
+     "c": 47.000004,
+     "type": 0,
+     "status": 0
+    },
+    "neutral_therm": {
+     "c": 34.198,
+     "type": -1,
+     "status": 0
+    },
+    "VIRTUAL-USB-UI": {
+     "c": 0.0,
+     "type": 4,
+     "status": 0
+    },
+    "disp_therm": {
+     "c": 31.327002,
+     "type": -1,
+     "status": 0
+    },
+    "charger_skin_therm": {
+     "c": 32.573,
+     "type": -1,
+     "status": 0
+    }
+   },
+   "cached": {
+    "LITTLE": {
+     "c": 61.000004,
+     "type": 0,
+     "status": 0
+    },
+    "neutral_therm": {
+     "c": 30.125002,
+     "type": -1,
+     "status": 0
+    },
+    "charger_skin_therm": {
+     "c": 25.933,
+     "type": -1,
+     "status": 0
+    },
+    "VIRTUAL-USB-UI": {
+     "c": 0.0,
+     "type": 4,
+     "status": 0
+    },
+    "disp_therm": {
+     "c": 23.755001,
+     "type": -1,
+     "status": 0
+    },
+    "quiet_therm": {
+     "c": 27.361002,
+     "type": -1,
+     "status": 0
+    },
+    "battery": {
+     "c": 22.400002,
+     "type": 2,
+     "status": 0
+    },
+    "AUR": {
+     "c": 42.000004,
+     "type": 9,
+     "status": 0
+    },
+    "BIG": {
+     "c": 76.0,
+     "type": 0,
+     "status": 0
+    },
+    "G3D": {
+     "c": 42.000004,
+     "type": 1,
+     "status": 0
+    },
+    "ISP": {
+     "c": 47.000004,
+     "type": 9,
+     "status": 0
+    },
+    "MID": {
+     "c": 58.000004,
+     "type": 0,
+     "status": 0
+    },
+    "TPU": {
+     "c": 42.000004,
+     "type": 9,
+     "status": 0
+    },
+    "usb_pwr_therm2": {
+     "c": 25.160002,
+     "type": -1,
+     "status": 0
+    },
+    "VIRTUAL-SKIN": {
+     "c": 25.345963,
+     "type": 3,
+     "status": 0
+    },
+    "usb_pwr_therm": {
+     "c": 22.958,
+     "type": -1,
+     "status": 0
+    }
+   }
+  },
+  "fixed_performance_mode": "accepted"
+ },
+ "tooling": {
+  "simpleperf": {
+   "present": true,
+   "version": "1.build.15430684",
+   "perf_event_paranoid": -1
+  }
+ },
+ "staging": {
+  "adb_push_mib_s": 26.7,
+  "hf_fetch": [
+   "http=200 bytes=11422654 seconds=0.417114 speed_Bps=27384969"
+  ]
+ }
+}

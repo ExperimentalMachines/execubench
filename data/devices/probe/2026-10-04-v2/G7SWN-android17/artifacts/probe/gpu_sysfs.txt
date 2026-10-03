@@ -1,0 +1,1 @@
+/sys/class/kgsl/kgsl-3d0/gpu_model=/sys/class/kgsl/kgsl-3d0/max_gpuclk=/sys/class/kgsl/kgsl-3d0/devfreq/max_freq=/sys/kernel/gpu/gpu_model=/sys/kernel/gpu/gpu_max_clock=/sys/class/misc/mali0/device/gpuinfo=/proc/gpufreq/gpufreq_opp_dump=

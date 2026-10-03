@@ -1,0 +1,47 @@
+{
+ "arn": "arn:aws:devicefarm:us-west-2:<account>:job:733be749-de36-4847-ba64-a034b55b21dd/8a979433-95de-46e0-9971-b56c02b21c36/00001",
+ "counters": {
+  "errored": 0,
+  "failed": 0,
+  "passed": 3,
+  "skipped": 0,
+  "stopped": 0,
+  "total": 3,
+  "warned": 0
+ },
+ "created": "2026-10-04 07:21:37.906000+08:00",
+ "device": {
+  "arn": "arn:aws:devicefarm:us-west-2::device:E7BBB129D46045BDB337036160AAF62F",
+  "cpu": {
+   "architecture": "arm64-v8a",
+   "clock": 1766.4,
+   "frequency": "MHz"
+  },
+  "fleetType": "PUBLIC",
+  "formFactor": "PHONE",
+  "heapSize": 512000000,
+  "image": "E7BBB129D46045BDB337036160AAF62F",
+  "manufacturer": "Google",
+  "memory": 64000000000,
+  "model": "Google Pixel 3 XL",
+  "modelId": "Pixel 3 XL",
+  "name": "Google Pixel 3 XL",
+  "os": "10",
+  "platform": "ANDROID",
+  "remoteAccessEnabled": true,
+  "resolution": {
+   "height": 2960,
+   "width": 1440
+  }
+ },
+ "deviceMinutes": {
+  "metered": 0.39,
+  "total": 0.69,
+  "unmetered": 0.0
+ },
+ "message": "Successful test lifecycle of Setup Test",
+ "name": "Google Pixel 3 XL",
+ "result": "PASSED",
+ "status": "COMPLETED",
+ "videoCapture": false
+}

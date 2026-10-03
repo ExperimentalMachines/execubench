@@ -1,0 +1,226 @@
+{
+ "reported": {
+  "manufacturer": "Xiaomi",
+  "model": "2210132G",
+  "device": "nuwa",
+  "soc_manufacturer": "QTI",
+  "soc_model": "SM8550",
+  "board_platform": "kalama",
+  "hardware": "qcom",
+  "android": "13",
+  "sdk": "33",
+  "fingerprint": "Xiaomi/nuwa_in/nuwa:13/TKQ1.220905.001/V14.0.2.0.TMBINXM:user/release-keys",
+  "security_patch": "2023-01-01",
+  "page_size": null,
+  "abilist": "arm64-v8a,armeabi-v7a,armeabi",
+  "arm64_userspace": true
+ },
+ "cpu": {
+  "count": 8,
+  "topology": "1+4+3",
+  "clock_domains": [
+   {
+    "policy": "policy7",
+    "cpus": [
+     7
+    ],
+    "max_mhz": 3187.2,
+    "governor": "walt",
+    "designs": [
+     "CORTEX_X3"
+    ]
+   },
+   {
+    "policy": "policy3",
+    "cpus": [
+     3,
+     4,
+     5,
+     6
+    ],
+    "max_mhz": 2803.2,
+    "governor": "walt",
+    "designs": [
+     "CORTEX_A710",
+     "CORTEX_A715"
+    ]
+   },
+   {
+    "policy": "policy0",
+    "cpus": [
+     0,
+     1,
+     2
+    ],
+    "max_mhz": 2016.0,
+    "governor": "walt",
+    "designs": [
+     "CORTEX_A510"
+    ]
+   }
+  ],
+  "tiers": "1+2+2+3",
+  "clusters": [
+   {
+    "cores": 1,
+    "cpus": [
+     7
+    ],
+    "implementer": "0x41",
+    "part": "0xd4e",
+    "design": "CORTEX_X3",
+    "design_source": "linux cputype.h",
+    "max_mhz": 3187.2,
+    "efficiency_class": false,
+    "core_class": "performance"
+   },
+   {
+    "cores": 2,
+    "cpus": [
+     3,
+     4
+    ],
+    "implementer": "0x41",
+    "part": "0xd4d",
+    "design": "CORTEX_A715",
+    "design_source": "linux cputype.h",
+    "max_mhz": 2803.2,
+    "efficiency_class": false,
+    "core_class": "performance"
+   },
+   {
+    "cores": 2,
+    "cpus": [
+     5,
+     6
+    ],
+    "implementer": "0x41",
+    "part": "0xd47",
+    "design": "CORTEX_A710",
+    "design_source": "linux cputype.h",
+    "max_mhz": 2803.2,
+    "efficiency_class": false,
+    "core_class": "performance"
+   },
+   {
+    "cores": 3,
+    "cpus": [
+     0,
+     1,
+     2
+    ],
+    "implementer": "0x41",
+    "part": "0xd46",
+    "design": "CORTEX_A510",
+    "design_source": "linux cputype.h",
+    "max_mhz": 2016.0,
+    "efficiency_class": true,
+    "core_class": "efficiency"
+   }
+  ],
+  "all_big_cores": false,
+  "max_mhz": 3187.2,
+  "features": [
+   "aes",
+   "asimd",
+   "asimddp",
+   "asimdfhm",
+   "asimdhp",
+   "asimdrdm",
+   "atomics",
+   "bf16",
+   "bti",
+   "cpuid",
+   "crc32",
+   "dcpodp",
+   "dcpop",
+   "dit",
+   "evtstrm",
+   "fcma",
+   "flagm",
+   "flagm2",
+   "fp",
+   "fphp",
+   "frint",
+   "i8mm",
+   "ilrcpc",
+   "jscvt",
+   "lrcpc",
+   "paca",
+   "pacg",
+   "pmull",
+   "sb",
+   "sha1",
+   "sha2",
+   "sha3",
+   "sha512",
+   "sm3",
+   "sm4",
+   "ssbs",
+   "uscat"
+  ]
+ },
+ "gpu": {
+  "gles": "Qualcomm, Adreno (TM) 740, OpenGL ES 3.2 V@0676.10 (GIT@1224f8a8cb, I4e6d656646, 1672220570) (Date:12/28/22)",
+  "vulkan_device": "Adreno (TM) 740"
+ },
+ "npu": {
+  "runtimes_present": {
+   "qualcomm-qnn-snpe": [
+    "libCOSNet_spatial_qnn_quantized.so",
+    "libQnnChrometraceProfilingReader.so",
+    "libQnnCpu.so",
+    "libQnnGpu.so",
+    "libQnnGpuNetRunExtensions.so",
+    "libQnnGpuProfilingReader.so",
+    "libQnnHtp.so",
+    "libQnnHtpNetRunExtensions.so",
+    "libQnnHtpPrepare.so",
+    "libQnnHtpProfilingReader.so",
+    "libQnnHtpV73CalculatorStub.so",
+    "libQnnHtpV73Stub.so",
+    "libQnnSaver.so",
+    "libQnnSystem.so",
+    "libSNPE.so",
+    "libSnpeDspV65Stub.so",
+    "libSnpeDspV66Stub.so",
+    "libSnpeHta.so",
+    "libSnpeHtpPrepare.so",
+    "libSnpeHtpV68Stub.so",
+    "libSnpeHtpV69Stub.so",
+    "libSnpeHtpV73Stub.so",
+    "libcalculator_htp.so",
+    "libhalide_hexagon_host.so",
+    "libhta_hexagon_runtime_snpe.so",
+    "libqnnengine.so"
+   ]
+  }
+ },
+ "memory": {
+  "mem_total_kib": 11427580,
+  "dumpsys_total_ram_kib": 11427580,
+  "ddr": {}
+ },
+ "state_at_probe": {
+  "battery_temp_c": 30.5,
+  "thermal": {
+   "status": 0,
+   "current": {},
+   "cached": {}
+  },
+  "fixed_performance_mode": "accepted"
+ },
+ "tooling": {
+  "simpleperf": {
+   "present": true,
+   "version": "1.build.V14.0.2.0.TMBINXM",
+   "perf_event_paranoid": -1
+  }
+ },
+ "staging": {
+  "adb_push_mib_s": 27.5,
+  "hf_fetch": [
+   "http=200 bytes=11422654 seconds=0.366161 speed_Bps=31195714"
+  ]
+ }
+}

@@ -1,0 +1,5 @@
+            "apiVersion" : 4198531,
+            "deviceID" : 2424307729,
+            "deviceName" : "Mali-G77",
+            "driverVersion" : 109051904,
+            "vendorID" : 5045

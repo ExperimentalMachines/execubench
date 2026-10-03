@@ -1,0 +1,214 @@
+{
+ "reported": {
+  "manufacturer": "samsung",
+  "model": "<redacted>",
+  "device": "gta9wifi",
+  "soc_manufacturer": "Mediatek",
+  "soc_model": "MT8781V/NA",
+  "board_platform": "mt6789",
+  "hardware": "mt8781",
+  "android": "13",
+  "sdk": "33",
+  "fingerprint": "samsung/gta9wifixx/gta9wifi:13/TP1A.220624.014/X110XXU1AWHH:user/release-keys",
+  "security_patch": "2023-08-01",
+  "page_size": null,
+  "abilist": "arm64-v8a,armeabi-v7a,armeabi",
+  "arm64_userspace": true
+ },
+ "cpu": {
+  "count": 8,
+  "topology": "2+6",
+  "clock_domains": [
+   {
+    "policy": "policy6",
+    "cpus": [
+     6,
+     7
+    ],
+    "max_mhz": 2200.0,
+    "governor": "sugov_ext",
+    "designs": [
+     "CORTEX_A76"
+    ]
+   },
+   {
+    "policy": "policy0",
+    "cpus": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5
+    ],
+    "max_mhz": 2000.0,
+    "governor": "<unreadable>",
+    "designs": [
+     "CORTEX_A55"
+    ]
+   }
+  ],
+  "tiers": "2+6",
+  "clusters": [
+   {
+    "cores": 2,
+    "cpus": [
+     6,
+     7
+    ],
+    "implementer": "0x41",
+    "part": "0xd0b",
+    "design": "CORTEX_A76",
+    "design_source": "linux cputype.h",
+    "max_mhz": 2200.0,
+    "efficiency_class": false,
+    "core_class": "performance"
+   },
+   {
+    "cores": 6,
+    "cpus": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5
+    ],
+    "implementer": "0x41",
+    "part": "0xd05",
+    "design": "CORTEX_A55",
+    "design_source": "linux cputype.h",
+    "max_mhz": 2000.0,
+    "efficiency_class": true,
+    "core_class": "efficiency"
+   }
+  ],
+  "all_big_cores": false,
+  "max_mhz": 2200.0,
+  "features": [
+   "aes",
+   "asimd",
+   "asimddp",
+   "asimdhp",
+   "asimdrdm",
+   "atomics",
+   "cpuid",
+   "crc32",
+   "dcpop",
+   "evtstrm",
+   "fp",
+   "fphp",
+   "lrcpc",
+   "pmull",
+   "sha1",
+   "sha2"
+  ]
+ },
+ "gpu": {
+  "gles": "ARM, Mali-G57 MC2, OpenGL ES 3.2 v1.r32p1-01eac0.3d0f892e790e4319a235910ce1559a8a",
+  "vulkan_device": "Mali-G57 MC2"
+ },
+ "npu": {
+  "runtimes_present": {
+   "mediatek-neuron-apusys": [
+    "APUWareApusysServer.so",
+    "libapusys.so",
+    "libapusys_edma.so",
+    "libapuwareapusys.mtk.so",
+    "libapuwareapusys_v2.mtk.so",
+    "libneuron_adapter_mgvi.so",
+    "libneuron_graph_delegate.mtk.so",
+    "libneuron_platform.so",
+    "libneuron_runtime.5.so",
+    "libneuronusdk_adapter.mtk.so",
+    "vendor.mediatek.hardware.apuware.apusys-V1-ndk.so",
+    "vendor.mediatek.hardware.apuware.apusys@1.0.so",
+    "vendor.mediatek.hardware.apuware.apusys@2.0.so",
+    "vendor.mediatek.hardware.apuware.apusys@2.1.so"
+   ]
+  }
+ },
+ "memory": {
+  "mem_total_kib": 3831228,
+  "dumpsys_total_ram_kib": 3831228,
+  "ddr": {
+   "props": {
+    "ro.boot.ddr_size": "4096MB"
+   }
+  }
+ },
+ "state_at_probe": {
+  "battery_temp_c": 28.0,
+  "thermal": {
+   "status": 0,
+   "current": {
+    "CPU": {
+     "c": 40.135,
+     "type": 0,
+     "status": 0
+    },
+    "GPU": {
+     "c": 40.135,
+     "type": 1,
+     "status": 0
+    },
+    "BATTERY": {
+     "c": 29.0,
+     "type": 2,
+     "status": 0
+    },
+    "SKIN": {
+     "c": 32.315,
+     "type": 3,
+     "status": 0
+    },
+    "NPU": {
+     "c": 40.257,
+     "type": 9,
+     "status": 0
+    }
+   },
+   "cached": {
+    "CPU": {
+     "c": 44.369,
+     "type": 0,
+     "status": 0
+    },
+    "GPU": {
+     "c": 44.369,
+     "type": 1,
+     "status": 0
+    },
+    "NPU": {
+     "c": 44.491,
+     "type": 9,
+     "status": 0
+    },
+    "SKIN": {
+     "c": 29.4,
+     "type": 3,
+     "status": 0
+    },
+    "BATTERY": {
+     "c": 21.0,
+     "type": 2,
+     "status": 0
+    }
+   }
+  },
+  "fixed_performance_mode": "accepted"
+ },
+ "tooling": {
+  "simpleperf": {
+   "present": true,
+   "version": "1.build.X110XXU1AWHH",
+   "perf_event_paranoid": -1
+  }
+ },
+ "staging": {
+  "adb_push_mib_s": 19.3,
+  "hf_fetch": [
+   "http=200 bytes=11422654 seconds=0.360980 speed_Bps=31643453"
+  ]
+ }
+}

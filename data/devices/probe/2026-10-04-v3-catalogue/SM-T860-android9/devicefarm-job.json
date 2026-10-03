@@ -1,0 +1,47 @@
+{
+ "arn": "arn:aws:devicefarm:us-west-2:<account>:job:733be749-de36-4847-ba64-a034b55b21dd/8a979433-95de-46e0-9971-b56c02b21c36/00046",
+ "counters": {
+  "errored": 0,
+  "failed": 1,
+  "passed": 2,
+  "skipped": 0,
+  "stopped": 0,
+  "total": 3,
+  "warned": 0
+ },
+ "created": "2026-10-04 07:21:37.906000+08:00",
+ "device": {
+  "arn": "arn:aws:devicefarm:us-west-2::device:A44117C230F54DE9B764ECA82881320A",
+  "cpu": {
+   "architecture": "arm64-v8a",
+   "clock": 1785.6,
+   "frequency": "MHz"
+  },
+  "fleetType": "PUBLIC",
+  "formFactor": "TABLET",
+  "heapSize": 512000000,
+  "image": "A44117C230F54DE9B764ECA82881320A",
+  "manufacturer": "Samsung",
+  "memory": 128000000000,
+  "model": "Samsung Galaxy Tab S6",
+  "modelId": "SM-T860",
+  "name": "Samsung Galaxy Tab S6 (WiFi)",
+  "os": "9",
+  "platform": "ANDROID",
+  "remoteAccessEnabled": true,
+  "resolution": {
+   "height": 2560,
+   "width": 1600
+  }
+ },
+ "deviceMinutes": {
+  "metered": 0.49,
+  "total": 0.8,
+  "unmetered": 0.0
+ },
+ "message": "Tests failed",
+ "name": "Samsung Galaxy Tab S6 (WiFi)",
+ "result": "FAILED",
+ "status": "COMPLETED",
+ "videoCapture": false
+}

@@ -1,0 +1,142 @@
+{
+ "reported": {
+  "manufacturer": "Google",
+  "model": "Pixel 2 XL",
+  "device": "taimen",
+  "soc_manufacturer": null,
+  "soc_model": null,
+  "board_platform": "msm8998",
+  "hardware": "taimen",
+  "android": "8.1.0",
+  "sdk": "27",
+  "fingerprint": "google/taimen/taimen:8.1.0/OPM2.171026.006.C1/4769658:user/release-keys",
+  "security_patch": "2018-06-05",
+  "page_size": null,
+  "abilist": "arm64-v8a,armeabi-v7a,armeabi",
+  "arm64_userspace": true
+ },
+ "cpu": {
+  "count": 8,
+  "topology": "4+4",
+  "clock_domains": [
+   {
+    "policy": "policy4",
+    "cpus": [
+     4,
+     5,
+     6,
+     7
+    ],
+    "max_mhz": 2457.6,
+    "governor": "schedutil",
+    "designs": [
+     "?"
+    ]
+   },
+   {
+    "policy": "policy0",
+    "cpus": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "max_mhz": 1900.8,
+    "governor": "schedutil",
+    "designs": [
+     "?"
+    ]
+   }
+  ],
+  "tiers": "4+4",
+  "clusters": [
+   {
+    "cores": 4,
+    "cpus": [
+     4,
+     5,
+     6,
+     7
+    ],
+    "implementer": null,
+    "part": null,
+    "design": null,
+    "design_source": "unlisted in linux cputype.h",
+    "max_mhz": 2457.6,
+    "efficiency_class": false,
+    "core_class": "unknown"
+   },
+   {
+    "cores": 4,
+    "cpus": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "implementer": null,
+    "part": null,
+    "design": null,
+    "design_source": "unlisted in linux cputype.h",
+    "max_mhz": 1900.8,
+    "efficiency_class": false,
+    "core_class": "unknown"
+   }
+  ],
+  "all_big_cores": null,
+  "max_mhz": 2457.6,
+  "features": [
+   "aes",
+   "asimd",
+   "crc32",
+   "evtstrm",
+   "fp",
+   "pmull",
+   "sha1",
+   "sha2"
+  ]
+ },
+ "gpu": {
+  "gles": "Qualcomm, Adreno (TM) 540, OpenGL ES 3.2 V@258.0 (GIT@594927b, I916dfac403) (Date:10/11/17)",
+  "vulkan_device": "Adreno (TM) 540"
+ },
+ "npu": {
+  "runtimes_present": {
+   "qualcomm-qnn-snpe": [
+    "ls: /vendor/lib64/libhexagon_nn_controller.so: Permission denied"
+   ]
+  }
+ },
+ "memory": {
+  "mem_total_kib": 3735464,
+  "dumpsys_total_ram_kib": 3735464,
+  "ddr": {
+   "props": {
+    "ro.boot.ddr_size": "4096MB",
+    "ro.boot.ddr_info": "MICRON"
+   }
+  }
+ },
+ "state_at_probe": {
+  "battery_temp_c": 31.0,
+  "thermal": {
+   "status": null,
+   "current": {},
+   "cached": {}
+  },
+  "fixed_performance_mode": "exit=255 Unknown command: set-fixed-performance-mode-enabled"
+ },
+ "tooling": {
+  "simpleperf": {
+   "present": true,
+   "version": null,
+   "perf_event_paranoid": 3
+  }
+ },
+ "staging": {
+  "adb_push_mib_s": 11.0,
+  "hf_fetch": [
+   "http=200 bytes=11422654 seconds=0.355062 speed_Bps=32170871"
+  ]
+ }
+}

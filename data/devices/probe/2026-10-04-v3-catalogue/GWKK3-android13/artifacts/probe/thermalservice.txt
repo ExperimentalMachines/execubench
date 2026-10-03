@@ -1,0 +1,148 @@
+IsStatusOverride: false
+ThermalEventListeners:
+	callbacks: 9
+	killed: false
+	broadcasts count: -1
+ThermalStatusListeners:
+	callbacks: 4
+	killed: false
+	broadcasts count: -1
+Thermal Status: 0
+Cached temperatures:
+	Temperature{mValue=0.0, mType=6, mName=smpl_gm, mStatus=0}
+	Temperature{mValue=79.0, mType=0, mName=LITTLE, mStatus=0}
+	Temperature{mValue=1.0, mType=6, mName=critical-battery-cell, mStatus=0}
+	Temperature{mValue=0.0, mType=7, mName=ocp_gpu, mStatus=0}
+	Temperature{mValue=0.0, mType=7, mName=ocp_tpu, mStatus=0}
+	Temperature{mValue=34.933002, mType=-1, mName=neutral_therm, mStatus=0}
+	Temperature{mValue=0.0, mType=7, mName=BCL_BATOILO_GPU, mStatus=0}
+	Temperature{mValue=0.0, mType=7, mName=BCL_BATOILO_TPU, mStatus=0}
+	Temperature{mValue=0.0, mType=4, mName=VIRTUAL-USB-UI, mStatus=0}
+	Temperature{mValue=31.483002, mType=-1, mName=disp_therm, mStatus=0}
+	Temperature{mValue=1.0, mType=-1, mName=FLASH_LED_REDUCE, mStatus=0}
+	Temperature{mValue=32.635212, mType=-1, mName=VIRTUAL-SKIN-HINT, mStatus=0}
+	Temperature{mValue=0.0, mType=7, mName=soft_ocp_cpu1, mStatus=0}
+	Temperature{mValue=0.0, mType=7, mName=soft_ocp_cpu2, mStatus=0}
+	Temperature{mValue=920.0, mType=6, mName=battery_cycle, mStatus=0}
+	Temperature{mValue=32.306, mType=-1, mName=quiet_therm, mStatus=0}
+	Temperature{mValue=-315000.0, mType=7, mName=BCL_GPU_LOW_TEMP, mStatus=0}
+	Temperature{mValue=0.0, mType=6, mName=BCL_AUDIO_BAACL, mStatus=0}
+	Temperature{mValue=33.865, mType=-1, mName=skin_therm1, mStatus=1}
+	Temperature{mValue=37.114002, mType=-1, mName=skin_therm2, mStatus=0}
+	Temperature{mValue=32.635212, mType=-1, mName=VIRTUAL-SKIN-CHARGE, mStatus=0}
+	Temperature{mValue=0.0, mType=7, mName=batoilo, mStatus=0}
+	Temperature{mValue=31.500002, mType=2, mName=battery, mStatus=0}
+	Temperature{mValue=87.00001, mType=0, mName=BIG, mStatus=0}
+	Temperature{mValue=55.000004, mType=1, mName=G3D, mStatus=0}
+	Temperature{mValue=78.0, mType=0, mName=MID, mStatus=0}
+	Temperature{mValue=56.000004, mType=9, mName=TPU, mStatus=0}
+	Temperature{mValue=1.0, mType=8, mName=soc, mStatus=0}
+	Temperature{mValue=31.060001, mType=-1, mName=usb_pwr_therm2, mStatus=0}
+	Temperature{mValue=0.0, mType=6, mName=vdroop1, mStatus=0}
+	Temperature{mValue=0.0, mType=6, mName=vdroop2, mStatus=0}
+	Temperature{mValue=0.0, mType=7, mName=BCL_BATOILO_GPU_LOW_TEMP, mStatus=0}
+	Temperature{mValue=-315000.0, mType=7, mName=BCL_TPU_LOW_TEMP, mStatus=0}
+	Temperature{mValue=32.635212, mType=5, mName=cellular-emergency, mStatus=0}
+	Temperature{mValue=34.733, mType=-1, mName=gnss_tcxo_therm, mStatus=0}
+	Temperature{mValue=32.635212, mType=3, mName=VIRTUAL-SKIN, mStatus=0}
+	Temperature{mValue=34.24906, mType=-1, mName=VIRTUAL-SKIN-CHARGE-WLC, mStatus=0}
+	Temperature{mValue=30.971, mType=-1, mName=usb_pwr_therm, mStatus=0}
+	Temperature{mValue=0.0, mType=4, mName=VIRTUAL-USB-THROTTLING, mStatus=0}
+	Temperature{mValue=0.0, mType=7, mName=BCL_BATOILO_TPU_LOW_TEMP, mStatus=0}
+	Temperature{mValue=-6.143, mType=-1, mName=USB-MINUS-SKIN2, mStatus=0}
+HAL Ready: true
+HAL connection:
+	ThermalHAL 2.0 connected: yes
+Current temperatures from HAL:
+	Temperature{mValue=0.0, mType=7, mName=soft_ocp_cpu1, mStatus=0}
+	Temperature{mValue=0.0, mType=7, mName=soft_ocp_cpu2, mStatus=0}
+	Temperature{mValue=1.0, mType=-1, mName=FLASH_LED_REDUCE, mStatus=0}
+	Temperature{mValue=0.0, mType=7, mName=ocp_tpu, mStatus=0}
+	Temperature{mValue=0.0, mType=7, mName=ocp_gpu, mStatus=0}
+	Temperature{mValue=0.0, mType=6, mName=smpl_gm, mStatus=0}
+	Temperature{mValue=0.0, mType=6, mName=vdroop2, mStatus=0}
+	Temperature{mValue=0.0, mType=4, mName=VIRTUAL-USB-THROTTLING, mStatus=0}
+	Temperature{mValue=0.0, mType=6, mName=vdroop1, mStatus=0}
+	Temperature{mValue=0.0, mType=6, mName=BCL_AUDIO_BAACL, mStatus=0}
+	Temperature{mValue=31.461002, mType=-1, mName=gnss_tcxo_therm, mStatus=0}
+	Temperature{mValue=0.0, mType=7, mName=BCL_BATOILO_TPU_LOW_TEMP, mStatus=0}
+	Temperature{mValue=-296000.0, mType=7, mName=BCL_TPU_LOW_TEMP, mStatus=0}
+	Temperature{mValue=1.0, mType=8, mName=soc, mStatus=0}
+	Temperature{mValue=30.37, mType=-1, mName=usb_pwr_therm2, mStatus=0}
+	Temperature{mValue=40.0, mType=0, mName=MID, mStatus=0}
+	Temperature{mValue=1.0, mType=6, mName=critical-battery-cell, mStatus=0}
+	Temperature{mValue=38.0, mType=1, mName=G3D, mStatus=0}
+	Temperature{mValue=39.0, mType=0, mName=BIG, mStatus=0}
+	Temperature{mValue=0.0, mType=7, mName=BCL_BATOILO_TPU, mStatus=0}
+	Temperature{mValue=-296000.0, mType=7, mName=BCL_GPU_LOW_TEMP, mStatus=0}
+	Temperature{mValue=41.000004, mType=0, mName=LITTLE, mStatus=0}
+	Temperature{mValue=0.0, mType=7, mName=BCL_BATOILO_GPU_LOW_TEMP, mStatus=0}
+	Temperature{mValue=0.0, mType=4, mName=VIRTUAL-USB-UI, mStatus=0}
+	Temperature{mValue=31.527002, mType=-1, mName=neutral_therm, mStatus=0}
+	Temperature{mValue=29.792673, mType=5, mName=cellular-emergency, mStatus=0}
+	Temperature{mValue=29.600002, mType=2, mName=battery, mStatus=0}
+	Temperature{mValue=40.0, mType=9, mName=TPU, mStatus=0}
+	Temperature{mValue=0.0, mType=7, mName=BCL_BATOILO_GPU, mStatus=0}
+	Temperature{mValue=920.0, mType=6, mName=battery_cycle, mStatus=0}
+	Temperature{mValue=30.303001, mType=-1, mName=quiet_therm, mStatus=0}
+	Temperature{mValue=29.792673, mType=-1, mName=VIRTUAL-SKIN-CHARGE, mStatus=0}
+	Temperature{mValue=29.792673, mType=-1, mName=VIRTUAL-SKIN-HINT, mStatus=0}
+	Temperature{mValue=29.792673, mType=3, mName=VIRTUAL-SKIN, mStatus=0}
+	Temperature{mValue=-2.605, mType=-1, mName=USB-MINUS-SKIN2, mStatus=0}
+	Temperature{mValue=30.592001, mType=-1, mName=disp_therm, mStatus=0}
+	Temperature{mValue=31.104002, mType=-1, mName=skin_therm1, mStatus=1}
+	Temperature{mValue=30.414001, mType=-1, mName=usb_pwr_therm, mStatus=0}
+	Temperature{mValue=0.0, mType=7, mName=batoilo, mStatus=0}
+	Temperature{mValue=33.019, mType=-1, mName=skin_therm2, mStatus=0}
+	Temperature{mValue=31.774271, mType=-1, mName=VIRTUAL-SKIN-CHARGE-WLC, mStatus=0}
+Current cooling devices from HAL:
+	CoolingDevice{mValue=0, mType=1, mName=dc_icl}
+	CoolingDevice{mValue=0, mType=5, mName=tpu_cooling}
+	CoolingDevice{mValue=0, mType=1, mName=usbc-port}
+	CoolingDevice{mValue=0, mType=2, mName=thermal-cpufreq-1}
+	CoolingDevice{mValue=0, mType=1, mName=fcc}
+	CoolingDevice{mValue=0, mType=3, mName=thermal-gpufreq-0}
+	CoolingDevice{mValue=0, mType=2, mName=thermal-cpufreq-2}
+	CoolingDevice{mValue=0, mType=2, mName=thermal-cpufreq-0}
+Temperature static thresholds from HAL:
+	{.type = BCL_CURRENT, .name = soft_ocp_cpu1, .hotThrottlingThresholds = [NaN, NaN, NaN, NaN, 8000.0, NaN, NaN], .coldThrottlingThresholds = [NaN, NaN, NaN, NaN, NaN, NaN, NaN], .vrThrottlingThreshold = NaN}
+	{.type = BCL_CURRENT, .name = soft_ocp_cpu2, .hotThrottlingThresholds = [NaN, NaN, NaN, NaN, 12000.0, NaN, NaN], .coldThrottlingThresholds = [NaN, NaN, NaN, NaN, NaN, NaN, NaN], .vrThrottlingThreshold = NaN}
+	{.type = UNKNOWN, .name = FLASH_LED_REDUCE, .hotThrottlingThresholds = [NaN, NaN, NaN, NaN, 3.0, NaN, NaN], .coldThrottlingThresholds = [NaN, NaN, NaN, NaN, NaN, NaN, NaN], .vrThrottlingThreshold = NaN}
+	{.type = BCL_CURRENT, .name = ocp_tpu, .hotThrottlingThresholds = [NaN, NaN, NaN, NaN, 12000.0, NaN, NaN], .coldThrottlingThresholds = [NaN, NaN, NaN, NaN, NaN, NaN, NaN], .vrThrottlingThreshold = NaN}
+	{.type = BCL_CURRENT, .name = ocp_gpu, .hotThrottlingThresholds = [NaN, NaN, NaN, NaN, 12000.0, NaN, NaN], .coldThrottlingThresholds = [NaN, NaN, NaN, NaN, NaN, NaN, NaN], .vrThrottlingThreshold = NaN}
+	{.type = BCL_VOLTAGE, .name = smpl_gm, .hotThrottlingThresholds = [NaN, NaN, NaN, NaN, 1100.0, NaN, NaN], .coldThrottlingThresholds = [NaN, NaN, NaN, NaN, NaN, NaN, NaN], .vrThrottlingThreshold = NaN}
+	{.type = BCL_VOLTAGE, .name = vdroop2, .hotThrottlingThresholds = [NaN, NaN, NaN, NaN, 1200.0, NaN, NaN], .coldThrottlingThresholds = [NaN, NaN, NaN, NaN, NaN, NaN, NaN], .vrThrottlingThreshold = NaN}
+	{.type = USB_PORT, .name = VIRTUAL-USB-THROTTLING, .hotThrottlingThresholds = [NaN, NaN, NaN, NaN, 2.0, NaN, NaN], .coldThrottlingThresholds = [NaN, NaN, NaN, NaN, NaN, NaN, NaN], .vrThrottlingThreshold = NaN}
+	{.type = BCL_VOLTAGE, .name = vdroop1, .hotThrottlingThresholds = [NaN, NaN, NaN, NaN, 1000.0, NaN, NaN], .coldThrottlingThresholds = [NaN, NaN, NaN, NaN, NaN, NaN, NaN], .vrThrottlingThreshold = NaN}
+	{.type = BCL_VOLTAGE, .name = BCL_AUDIO_BAACL, .hotThrottlingThresholds = [NaN, NaN, NaN, NaN, 2.0, NaN, NaN], .coldThrottlingThresholds = [NaN, NaN, NaN, NaN, NaN, NaN, NaN], .vrThrottlingThreshold = NaN}
+	{.type = UNKNOWN, .name = gnss_tcxo_therm, .hotThrottlingThresholds = [NaN, NaN, NaN, NaN, NaN, NaN, NaN], .coldThrottlingThresholds = [NaN, NaN, NaN, NaN, NaN, NaN, NaN], .vrThrottlingThreshold = NaN}
+	{.type = BCL_CURRENT, .name = BCL_BATOILO_TPU_LOW_TEMP, .hotThrottlingThresholds = [NaN, NaN, NaN, NaN, 3.0, NaN, NaN], .coldThrottlingThresholds = [NaN, NaN, NaN, NaN, NaN, NaN, NaN], .vrThrottlingThreshold = NaN}
+	{.type = BCL_CURRENT, .name = BCL_TPU_LOW_TEMP, .hotThrottlingThresholds = [NaN, NaN, NaN, NaN, 13000.0, NaN, NaN], .coldThrottlingThresholds = [NaN, NaN, NaN, NaN, NaN, NaN, NaN], .vrThrottlingThreshold = NaN}
+	{.type = BCL_PERCENTAGE, .name = soc, .hotThrottlingThresholds = [NaN, NaN, 80.0, NaN, NaN, NaN, NaN], .coldThrottlingThresholds = [NaN, NaN, NaN, NaN, NaN, NaN, NaN], .vrThrottlingThreshold = NaN}
+	{.type = UNKNOWN, .name = usb_pwr_therm2, .hotThrottlingThresholds = [NaN, NaN, NaN, NaN, NaN, NaN, NaN], .coldThrottlingThresholds = [NaN, NaN, NaN, NaN, NaN, NaN, NaN], .vrThrottlingThreshold = NaN}
+	{.type = CPU, .name = MID, .hotThrottlingThresholds = [NaN, NaN, NaN, NaN, NaN, NaN, NaN], .coldThrottlingThresholds = [NaN, NaN, NaN, NaN, NaN, NaN, NaN], .vrThrottlingThreshold = NaN}
+	{.type = BCL_VOLTAGE, .name = critical-battery-cell, .hotThrottlingThresholds = [NaN, NaN, NaN, NaN, NaN, 3.0, NaN], .coldThrottlingThresholds = [NaN, NaN, NaN, NaN, NaN, NaN, NaN], .vrThrottlingThreshold = NaN}
+	{.type = GPU, .name = G3D, .hotThrottlingThresholds = [NaN, NaN, NaN, NaN, NaN, NaN, NaN], .coldThrottlingThresholds = [NaN, NaN, NaN, NaN, NaN, NaN, NaN], .vrThrottlingThreshold = NaN}
+	{.type = CPU, .name = BIG, .hotThrottlingThresholds = [NaN, NaN, NaN, NaN, NaN, NaN, NaN], .coldThrottlingThresholds = [NaN, NaN, NaN, NaN, NaN, NaN, NaN], .vrThrottlingThreshold = NaN}
+	{.type = BCL_CURRENT, .name = BCL_BATOILO_TPU, .hotThrottlingThresholds = [NaN, NaN, NaN, NaN, 2.0, NaN, NaN], .coldThrottlingThresholds = [NaN, NaN, NaN, NaN, NaN, NaN, NaN], .vrThrottlingThreshold = NaN}
+	{.type = BCL_CURRENT, .name = BCL_GPU_LOW_TEMP, .hotThrottlingThresholds = [NaN, NaN, NaN, NaN, 13000.0, NaN, NaN], .coldThrottlingThresholds = [NaN, NaN, NaN, NaN, NaN, NaN, NaN], .vrThrottlingThreshold = NaN}
+	{.type = CPU, .name = LITTLE, .hotThrottlingThresholds = [NaN, NaN, NaN, NaN, NaN, NaN, NaN], .coldThrottlingThresholds = [NaN, NaN, NaN, NaN, NaN, NaN, NaN], .vrThrottlingThreshold = NaN}
+	{.type = BCL_CURRENT, .name = BCL_BATOILO_GPU_LOW_TEMP, .hotThrottlingThresholds = [NaN, NaN, NaN, NaN, 3.0, NaN, NaN], .coldThrottlingThresholds = [NaN, NaN, NaN, NaN, NaN, NaN, NaN], .vrThrottlingThreshold = NaN}
+	{.type = USB_PORT, .name = VIRTUAL-USB-UI, .hotThrottlingThresholds = [NaN, NaN, NaN, NaN, NaN, 2.0, NaN], .coldThrottlingThresholds = [NaN, NaN, NaN, NaN, NaN, NaN, NaN], .vrThrottlingThreshold = NaN}
+	{.type = UNKNOWN, .name = neutral_therm, .hotThrottlingThresholds = [NaN, NaN, NaN, NaN, NaN, NaN, NaN], .coldThrottlingThresholds = [NaN, NaN, NaN, NaN, NaN, NaN, NaN], .vrThrottlingThreshold = NaN}
+	{.type = POWER_AMPLIFIER, .name = cellular-emergency, .hotThrottlingThresholds = [NaN, NaN, NaN, NaN, NaN, 54.0, NaN], .coldThrottlingThresholds = [NaN, NaN, NaN, NaN, NaN, NaN, NaN], .vrThrottlingThreshold = NaN}
+	{.type = BATTERY, .name = battery, .hotThrottlingThresholds = [NaN, NaN, NaN, NaN, NaN, NaN, 60.0], .coldThrottlingThresholds = [NaN, NaN, NaN, NaN, NaN, NaN, NaN], .vrThrottlingThreshold = NaN}
+	{.type = NPU, .name = TPU, .hotThrottlingThresholds = [NaN, NaN, NaN, NaN, NaN, NaN, NaN], .coldThrottlingThresholds = [NaN, NaN, NaN, NaN, NaN, NaN, NaN], .vrThrottlingThreshold = NaN}
+	{.type = BCL_CURRENT, .name = BCL_BATOILO_GPU, .hotThrottlingThresholds = [NaN, NaN, NaN, NaN, 2.0, NaN, NaN], .coldThrottlingThresholds = [NaN, NaN, NaN, NaN, NaN, NaN, NaN], .vrThrottlingThreshold = NaN}
+	{.type = BCL_VOLTAGE, .name = battery_cycle, .hotThrottlingThresholds = [NaN, NaN, NaN, NaN, NaN, NaN, NaN], .coldThrottlingThresholds = [NaN, NaN, NaN, NaN, NaN, NaN, NaN], .vrThrottlingThreshold = NaN}
+	{.type = UNKNOWN, .name = quiet_therm, .hotThrottlingThresholds = [NaN, NaN, NaN, NaN, NaN, NaN, NaN], .coldThrottlingThresholds = [NaN, NaN, NaN, NaN, NaN, NaN, NaN], .vrThrottlingThreshold = NaN}
+	{.type = UNKNOWN, .name = VIRTUAL-SKIN-CHARGE, .hotThrottlingThresholds = [NaN, 35.0, 39.0, 43.0, 45.0, 47.0, 55.0], .coldThrottlingThresholds = [NaN, NaN, NaN, NaN, NaN, NaN, NaN], .vrThrottlingThreshold = NaN}
+	{.type = UNKNOWN, .name = VIRTUAL-SKIN-HINT, .hotThrottlingThresholds = [NaN, 37.0, 43.0, 45.0, 47.0, 52.0, 55.0], .coldThrottlingThresholds = [NaN, NaN, NaN, NaN, NaN, NaN, NaN], .vrThrottlingThreshold = NaN}
+	{.type = SKIN, .name = VIRTUAL-SKIN, .hotThrottlingThresholds = [NaN, 39.0, 43.0, 45.0, 47.0, 52.0, 55.0], .coldThrottlingThresholds = [NaN, NaN, NaN, NaN, NaN, NaN, NaN], .vrThrottlingThreshold = NaN}
+	{.type = UNKNOWN, .name = USB-MINUS-SKIN2, .hotThrottlingThresholds = [NaN, 7.0, NaN, NaN, NaN, NaN, NaN], .coldThrottlingThresholds = [NaN, NaN, NaN, NaN, NaN, NaN, NaN], .vrThrottlingThreshold = NaN}
+	{.type = UNKNOWN, .name = disp_therm, .hotThrottlingThresholds = [NaN, NaN, NaN, NaN, NaN, NaN, NaN], .coldThrottlingThresholds = [NaN, NaN, NaN, NaN, NaN, NaN, NaN], .vrThrottlingThreshold = NaN}
+	{.type = UNKNOWN, .name = skin_therm1, .hotThrottlingThresholds = [NaN, 27.9, NaN, NaN, NaN, NaN, NaN], .coldThrottlingThresholds = [NaN, NaN, NaN, NaN, NaN, NaN, NaN], .vrThrottlingThreshold = NaN}
+	{.type = UNKNOWN, .name = usb_pwr_therm, .hotThrottlingThresholds = [NaN, 40.0, NaN, NaN, NaN, NaN, NaN], .coldThrottlingThresholds = [NaN, NaN, NaN, NaN, NaN, NaN, NaN], .vrThrottlingThreshold = NaN}
+	{.type = BCL_CURRENT, .name = batoilo, .hotThrottlingThresholds = [NaN, NaN, NaN, NaN, 5000.0, NaN, NaN], .coldThrottlingThresholds = [NaN, NaN, NaN, NaN, NaN, NaN, NaN], .vrThrottlingThreshold = NaN}
+	{.type = UNKNOWN, .name = skin_therm2, .hotThrottlingThresholds = [NaN, NaN, NaN, NaN, NaN, NaN, NaN], .coldThrottlingThresholds = [NaN, NaN, NaN, NaN, NaN, NaN, NaN], .vrThrottlingThreshold = NaN}
+	{.type = UNKNOWN, .name = VIRTUAL-SKIN-CHARGE-WLC, .hotThrottlingThresholds = [NaN, 35.0, 39.0, 43.0, 45.0, 47.0, 55.0], .coldThrottlingThresholds = [NaN, NaN, NaN, NaN, NaN, NaN, NaN], .vrThrottlingThreshold = NaN}

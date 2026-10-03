@@ -1,0 +1,8 @@
+== /sys/devices/system/cpu/cpufreq/policy0
+300000 0
+403200 0
+480000 0
+== /sys/devices/system/cpu/cpufreq/policy4
+825600 10730557
+902400 1860
+979200 2020

@@ -1,0 +1,24 @@
+policy0
+policy2
+policy5
+policy7
+== /sys/devices/system/cpu/cpufreq/policy0
+affected_cpus=0 1
+cpuinfo_max_freq=2246000
+cpuinfo_min_freq=268000
+scaling_governor=sched_pixel
+== /sys/devices/system/cpu/cpufreq/policy2
+affected_cpus=2 3 4
+cpuinfo_max_freq=3052000
+cpuinfo_min_freq=177000
+scaling_governor=sched_pixel
+== /sys/devices/system/cpu/cpufreq/policy5
+affected_cpus=5 6
+cpuinfo_max_freq=3052000
+cpuinfo_min_freq=177000
+scaling_governor=sched_pixel
+== /sys/devices/system/cpu/cpufreq/policy7
+affected_cpus=7
+cpuinfo_max_freq=3782000
+cpuinfo_min_freq=266000
+scaling_governor=sched_pixel

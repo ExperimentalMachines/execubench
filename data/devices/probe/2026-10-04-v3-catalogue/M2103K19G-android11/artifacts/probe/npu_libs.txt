@@ -1,0 +1,14 @@
+android.hardware.input.classifier@1.0.so
+android.hardware.input.common@1.0.so
+android.hardware.tv.input@1.0.so
+libapuwareapusys.mtk.so
+libinput.so
+libinputflinger.so
+libinputflinger_base.so
+libinputreader.so
+libinputreporter.so
+libinputservice.so
+libneuron_opencv_delegate.mtk.so
+libneuronusdk_adapter.mtk.so
+libsecurity_device_credential_sdk.so
+vendor.mediatek.hardware.apuware.apusys@1.0.so

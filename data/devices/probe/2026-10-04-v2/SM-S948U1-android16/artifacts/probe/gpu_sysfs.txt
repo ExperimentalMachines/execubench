@@ -1,0 +1,3 @@
+/sys/class/kgsl/kgsl-3d0/gpu_model=Adreno840v2/sys/class/kgsl/kgsl-3d0/max_gpuclk=1300000000
+/sys/class/kgsl/kgsl-3d0/devfreq/max_freq=/sys/kernel/gpu/gpu_model=Adreno840v2/sys/kernel/gpu/gpu_max_clock=1300
+/sys/class/misc/mali0/device/gpuinfo=/proc/gpufreq/gpufreq_opp_dump=

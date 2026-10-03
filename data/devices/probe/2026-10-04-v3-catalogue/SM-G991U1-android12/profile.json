@@ -1,0 +1,294 @@
+{
+ "reported": {
+  "manufacturer": "samsung",
+  "model": "SM-G991U1",
+  "device": "o1q",
+  "soc_manufacturer": "QTI",
+  "soc_model": "SM8350",
+  "board_platform": "lahaina",
+  "hardware": "qcom",
+  "android": "12",
+  "sdk": "31",
+  "fingerprint": "samsung/o1quew/o1q:12/SP1A.210812.016/G991U1UES5CVF5:user/release-keys",
+  "security_patch": "2022-07-01",
+  "page_size": null,
+  "abilist": "arm64-v8a,armeabi-v7a,armeabi",
+  "arm64_userspace": true
+ },
+ "cpu": {
+  "count": 8,
+  "topology": "1+3+4",
+  "clock_domains": [
+   {
+    "policy": "policy7",
+    "cpus": [
+     7
+    ],
+    "max_mhz": 2841.6,
+    "governor": "schedutil",
+    "designs": [
+     "CORTEX_X1"
+    ]
+   },
+   {
+    "policy": "policy4",
+    "cpus": [
+     4,
+     5,
+     6
+    ],
+    "max_mhz": 2419.2,
+    "governor": "schedutil",
+    "designs": [
+     "CORTEX_A78"
+    ]
+   },
+   {
+    "policy": "policy0",
+    "cpus": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "max_mhz": 1804.8,
+    "governor": "schedutil",
+    "designs": [
+     "CORTEX_A55"
+    ]
+   }
+  ],
+  "tiers": "1+3+4",
+  "clusters": [
+   {
+    "cores": 1,
+    "cpus": [
+     7
+    ],
+    "implementer": "0x41",
+    "part": "0xd44",
+    "design": "CORTEX_X1",
+    "design_source": "linux cputype.h",
+    "max_mhz": 2841.6,
+    "efficiency_class": false,
+    "core_class": "performance"
+   },
+   {
+    "cores": 3,
+    "cpus": [
+     4,
+     5,
+     6
+    ],
+    "implementer": "0x41",
+    "part": "0xd41",
+    "design": "CORTEX_A78",
+    "design_source": "linux cputype.h",
+    "max_mhz": 2419.2,
+    "efficiency_class": false,
+    "core_class": "performance"
+   },
+   {
+    "cores": 4,
+    "cpus": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "implementer": "0x41",
+    "part": "0xd05",
+    "design": "CORTEX_A55",
+    "design_source": "linux cputype.h",
+    "max_mhz": 1804.8,
+    "efficiency_class": true,
+    "core_class": "efficiency"
+   }
+  ],
+  "all_big_cores": false,
+  "max_mhz": 2841.6,
+  "features": [
+   "aes",
+   "asimd",
+   "asimddp",
+   "asimdhp",
+   "asimdrdm",
+   "atomics",
+   "cpuid",
+   "crc32",
+   "dcpop",
+   "evtstrm",
+   "fp",
+   "fphp",
+   "lrcpc",
+   "pmull",
+   "sha1",
+   "sha2"
+  ]
+ },
+ "gpu": {
+  "gles": "Qualcomm, Adreno (TM) 660, OpenGL ES 3.2 V@0530.0 (GIT@cac6e6f805, I5187d04b75, 1637574833) (Date:11/22/21)",
+  "vulkan_device": "Adreno (TM) 660"
+ },
+ "npu": {
+  "runtimes_present": {
+   "qualcomm-qnn-snpe": [
+    "libQnnHtpAltPrepStub.so",
+    "libSNPE.so",
+    "libsnpe_dsp_domains_v3.so",
+    "libsnpe_dsp_domains_v3_system.so",
+    "libsnpe_wrapper.so",
+    "unnhal-acc-htp.so"
+   ]
+  }
+ },
+ "memory": {
+  "mem_total_kib": 7536884,
+  "dumpsys_total_ram_kib": 7536884,
+  "ddr": {}
+ },
+ "state_at_probe": {
+  "battery_temp_c": 29.5,
+  "thermal": {
+   "status": 0,
+   "current": {
+    "AP": {
+     "c": 31.4,
+     "type": 0,
+     "status": 0
+    },
+    "BAT": {
+     "c": 29.5,
+     "type": 2,
+     "status": 0
+    },
+    "LRB": {
+     "c": 31.0,
+     "type": 3,
+     "status": 0
+    },
+    "LRB2": {
+     "c": 30.6,
+     "type": 3,
+     "status": 0
+    },
+    "LRF": {
+     "c": 31.0,
+     "type": 3,
+     "status": 0
+    },
+    "LRF2": {
+     "c": 29.9,
+     "type": 3,
+     "status": 0
+    },
+    "LRP": {
+     "c": 31.0,
+     "type": 3,
+     "status": 0
+    },
+    "LRP2": {
+     "c": 30.6,
+     "type": 3,
+     "status": 0
+    },
+    "PATHM": {
+     "c": 31.0,
+     "type": 5,
+     "status": 0
+    },
+    "SUBBAT": {
+     "c": 0.0,
+     "type": 2,
+     "status": 0
+    },
+    "SUBBATRAW": {
+     "c": 0.0,
+     "type": 2,
+     "status": 0
+    },
+    "USB": {
+     "c": 29.9,
+     "type": 4,
+     "status": 0
+    }
+   },
+   "cached": {
+    "SUBBAT": {
+     "c": 0.0,
+     "type": 2,
+     "status": 0
+    },
+    "SUBBATRAW": {
+     "c": 0.0,
+     "type": 2,
+     "status": 0
+    },
+    "AP": {
+     "c": 31.4,
+     "type": 0,
+     "status": 0
+    },
+    "BAT": {
+     "c": 29.5,
+     "type": 2,
+     "status": 0
+    },
+    "LRB": {
+     "c": 31.0,
+     "type": 3,
+     "status": 0
+    },
+    "LRF": {
+     "c": 31.0,
+     "type": 3,
+     "status": 0
+    },
+    "LRP": {
+     "c": 31.0,
+     "type": 3,
+     "status": 0
+    },
+    "USB": {
+     "c": 29.9,
+     "type": 4,
+     "status": 0
+    },
+    "LRB2": {
+     "c": 30.6,
+     "type": 3,
+     "status": 0
+    },
+    "LRF2": {
+     "c": 29.9,
+     "type": 3,
+     "status": 0
+    },
+    "LRP2": {
+     "c": 30.6,
+     "type": 3,
+     "status": 0
+    },
+    "PATHM": {
+     "c": 31.0,
+     "type": 5,
+     "status": 0
+    }
+   }
+  },
+  "fixed_performance_mode": "accepted"
+ },
+ "tooling": {
+  "simpleperf": {
+   "present": true,
+   "version": "1.build.G991U1UES5CVF5",
+   "perf_event_paranoid": -1
+  }
+ },
+ "staging": {
+  "adb_push_mib_s": 27.9,
+  "hf_fetch": [
+   "http=200 bytes=11422654 seconds=0.611801 speed_Bps=18670538"
+  ]
+ }
+}

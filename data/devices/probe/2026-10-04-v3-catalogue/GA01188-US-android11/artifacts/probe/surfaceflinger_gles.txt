@@ -1,0 +1,2 @@
+GLES: Qualcomm, Adreno (TM) 640, OpenGL ES 3.2 V@0490.0 (GIT@85da404, I46ff5fc46f, 1606794520) (Date:11/30/20)
+	EGLImageKHR android::renderengine::gl::GLESRenderEngine::createFramebufferImageIfNeeded(ANativeWindowBuffer *, bool, bool): 95912

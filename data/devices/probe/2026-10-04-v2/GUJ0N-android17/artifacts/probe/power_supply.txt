@@ -1,0 +1,4 @@
+/sys/class/power_supply/battery/temp=303
+/sys/class/power_supply/battery/capacity=98
+/sys/class/power_supply/battery/status=Not charging
+/sys/class/power_supply/usb/online=<unreadable>

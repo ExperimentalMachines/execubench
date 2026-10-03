@@ -1,0 +1,47 @@
+{
+ "arn": "arn:aws:devicefarm:us-west-2:<account>:job:733be749-de36-4847-ba64-a034b55b21dd/7af87807-ce27-4e13-872a-6ef48ed066fe/00001",
+ "counters": {
+  "errored": 0,
+  "failed": 0,
+  "passed": 3,
+  "skipped": 0,
+  "stopped": 0,
+  "total": 3,
+  "warned": 0
+ },
+ "created": "2026-10-04 06:25:17.699000+08:00",
+ "device": {
+  "arn": "arn:aws:devicefarm:us-west-2::device:465BC52EFDF448A587EB301FB32591AF",
+  "cpu": {
+   "architecture": "arm64-v8a",
+   "clock": 2400.0,
+   "frequency": "MHz"
+  },
+  "fleetType": "PUBLIC",
+  "formFactor": "TABLET",
+  "heapSize": 512000000,
+  "image": "465BC52EFDF448A587EB301FB32591AF",
+  "manufacturer": "Samsung",
+  "memory": 256000000000,
+  "model": "Samsung Galaxy Tab S11",
+  "modelId": "SM-X730",
+  "name": "Samsung Galaxy Tab S11",
+  "os": "16",
+  "platform": "ANDROID",
+  "remoteAccessEnabled": true,
+  "resolution": {
+   "height": 2560,
+   "width": 1600
+  }
+ },
+ "deviceMinutes": {
+  "metered": 0.36,
+  "total": 0.68,
+  "unmetered": 0.0
+ },
+ "message": "Successful test lifecycle of Setup Test",
+ "name": "Samsung Galaxy Tab S11",
+ "result": "PASSED",
+ "status": "COMPLETED",
+ "videoCapture": true
+}

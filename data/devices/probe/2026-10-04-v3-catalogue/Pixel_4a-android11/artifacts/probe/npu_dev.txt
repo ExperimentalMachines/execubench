@@ -1,0 +1,10 @@
+adsprpc-smd
+adsprpc-smd-secure
+input
+msm_npu
+ramdump_cdsp
+ramdump_npu
+rdbg_cdsp
+subsys_cdsp
+subsys_npu
+uinput

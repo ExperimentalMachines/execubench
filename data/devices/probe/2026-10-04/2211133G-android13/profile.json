@@ -1,0 +1,449 @@
+{
+ "reported": {
+  "manufacturer": "Xiaomi",
+  "model": "2211133G",
+  "device": "fuxi",
+  "soc_manufacturer": "QTI",
+  "soc_model": "SM8550",
+  "board_platform": "kalama",
+  "hardware": "qcom",
+  "android": "13",
+  "sdk": "33",
+  "fingerprint": "Xiaomi/fuxi_global/fuxi:13/TKQ1.220905.001/V14.0.9.0.TMCMIXM:user/release-keys",
+  "security_patch": "2023-08-01",
+  "page_size": null,
+  "abilist": "arm64-v8a,armeabi-v7a,armeabi",
+  "arm64_userspace": true
+ },
+ "cpu": {
+  "count": 8,
+  "topology": "1+4+3",
+  "clock_domains": [
+   {
+    "policy": "policy7",
+    "cpus": [
+     7
+    ],
+    "max_mhz": 3187.2,
+    "governor": "walt",
+    "designs": [
+     "CORTEX_X3"
+    ]
+   },
+   {
+    "policy": "policy3",
+    "cpus": [
+     3,
+     4,
+     5,
+     6
+    ],
+    "max_mhz": 2803.2,
+    "governor": "walt",
+    "designs": [
+     "CORTEX_A710",
+     "CORTEX_A715"
+    ]
+   },
+   {
+    "policy": "policy0",
+    "cpus": [
+     0,
+     1,
+     2
+    ],
+    "max_mhz": 2016.0,
+    "governor": "walt",
+    "designs": [
+     "CORTEX_A510"
+    ]
+   }
+  ],
+  "tiers": "1+2+2+3",
+  "clusters": [
+   {
+    "cores": 1,
+    "cpus": [
+     7
+    ],
+    "implementer": "0x41",
+    "part": "0xd4e",
+    "design": "CORTEX_X3",
+    "design_source": "linux cputype.h",
+    "max_mhz": 3187.2,
+    "efficiency_class": false,
+    "core_class": "performance"
+   },
+   {
+    "cores": 2,
+    "cpus": [
+     3,
+     4
+    ],
+    "implementer": "0x41",
+    "part": "0xd4d",
+    "design": "CORTEX_A715",
+    "design_source": "linux cputype.h",
+    "max_mhz": 2803.2,
+    "efficiency_class": false,
+    "core_class": "performance"
+   },
+   {
+    "cores": 2,
+    "cpus": [
+     5,
+     6
+    ],
+    "implementer": "0x41",
+    "part": "0xd47",
+    "design": "CORTEX_A710",
+    "design_source": "linux cputype.h",
+    "max_mhz": 2803.2,
+    "efficiency_class": false,
+    "core_class": "performance"
+   },
+   {
+    "cores": 3,
+    "cpus": [
+     0,
+     1,
+     2
+    ],
+    "implementer": "0x41",
+    "part": "0xd46",
+    "design": "CORTEX_A510",
+    "design_source": "linux cputype.h",
+    "max_mhz": 2016.0,
+    "efficiency_class": true,
+    "core_class": "efficiency"
+   }
+  ],
+  "all_big_cores": false,
+  "max_mhz": 3187.2,
+  "features": [
+   "aes",
+   "asimd",
+   "asimddp",
+   "asimdfhm",
+   "asimdhp",
+   "asimdrdm",
+   "atomics",
+   "bf16",
+   "bti",
+   "cpuid",
+   "crc32",
+   "dcpodp",
+   "dcpop",
+   "dit",
+   "evtstrm",
+   "fcma",
+   "flagm",
+   "flagm2",
+   "fp",
+   "fphp",
+   "frint",
+   "i8mm",
+   "ilrcpc",
+   "jscvt",
+   "lrcpc",
+   "paca",
+   "pacg",
+   "pmull",
+   "sb",
+   "sha1",
+   "sha2",
+   "sha3",
+   "sha512",
+   "sm3",
+   "sm4",
+   "ssbs",
+   "uscat"
+  ]
+ },
+ "gpu": {
+  "gles": "Qualcomm, Adreno (TM) 740, OpenGL ES 3.2 V@0676.32 (GIT@1a285a84ae, I2991b7e11e, 1685945391) (Date:06/04/23)",
+  "vulkan_device": null
+ },
+ "npu": {
+  "runtimes_present": {}
+ },
+ "memory": {
+  "mem_total_kib": 11430784,
+  "dumpsys_total_ram_kib": null,
+  "ddr": {}
+ },
+ "state_at_probe": {
+  "battery_temp_c": 28.0,
+  "thermal": {
+   "status": 0,
+   "current": {
+    "vbat": {
+     "c": 4.384,
+     "type": 6,
+     "status": 0
+    },
+    "battery": {
+     "c": 28.0,
+     "type": 2,
+     "status": 0
+    },
+    "ibat": {
+     "c": -0.187,
+     "type": 7,
+     "status": 0
+    },
+    "nsp3": {
+     "c": 33.9,
+     "type": 9,
+     "status": 0
+    },
+    "nsp2": {
+     "c": 33.1,
+     "type": 9,
+     "status": 0
+    },
+    "nsp1": {
+     "c": 34.3,
+     "type": 9,
+     "status": 0
+    },
+    "nsp0": {
+     "c": 33.9,
+     "type": 9,
+     "status": 0
+    },
+    "skin": {
+     "c": 30.448,
+     "type": 3,
+     "status": 0
+    },
+    "GPU6": {
+     "c": 33.0,
+     "type": 1,
+     "status": 0
+    },
+    "GPU5": {
+     "c": 33.7,
+     "type": 1,
+     "status": 0
+    },
+    "GPU4": {
+     "c": 34.1,
+     "type": 1,
+     "status": 0
+    },
+    "CPU6": {
+     "c": 32.6,
+     "type": 0,
+     "status": 0
+    },
+    "GPU1": {
+     "c": 33.4,
+     "type": 1,
+     "status": 0
+    },
+    "GPU2": {
+     "c": 33.7,
+     "type": 1,
+     "status": 0
+    },
+    "GPU3": {
+     "c": 33.4,
+     "type": 1,
+     "status": 0
+    },
+    "CPU7": {
+     "c": 34.6,
+     "type": 0,
+     "status": 0
+    },
+    "GPU0": {
+     "c": 33.7,
+     "type": 1,
+     "status": 0
+    },
+    "CPU5": {
+     "c": 34.2,
+     "type": 0,
+     "status": 0
+    },
+    "socd": {
+     "c": 0.0,
+     "type": 8,
+     "status": 0
+    },
+    "CPU3": {
+     "c": 33.4,
+     "type": 0,
+     "status": 0
+    },
+    "CPU2": {
+     "c": 36.7,
+     "type": 0,
+     "status": 0
+    },
+    "CPU1": {
+     "c": 37.4,
+     "type": 0,
+     "status": 0
+    },
+    "CPU4": {
+     "c": 34.6,
+     "type": 0,
+     "status": 0
+    },
+    "GPU7": {
+     "c": 34.1,
+     "type": 1,
+     "status": 0
+    },
+    "CPU0": {
+     "c": 36.7,
+     "type": 0,
+     "status": 0
+    }
+   },
+   "cached": {
+    "battery": {
+     "c": 28.4,
+     "type": 2,
+     "status": 0
+    },
+    "CPU0": {
+     "c": 59.9,
+     "type": 0,
+     "status": 0
+    },
+    "CPU1": {
+     "c": 56.8,
+     "type": 0,
+     "status": 0
+    },
+    "CPU2": {
+     "c": 57.2,
+     "type": 0,
+     "status": 0
+    },
+    "CPU3": {
+     "c": 63.3,
+     "type": 0,
+     "status": 0
+    },
+    "CPU4": {
+     "c": 60.5,
+     "type": 0,
+     "status": 0
+    },
+    "CPU5": {
+     "c": 62.9,
+     "type": 0,
+     "status": 0
+    },
+    "CPU6": {
+     "c": 57.7,
+     "type": 0,
+     "status": 0
+    },
+    "CPU7": {
+     "c": 67.7,
+     "type": 0,
+     "status": 0
+    },
+    "GPU0": {
+     "c": 47.9,
+     "type": 1,
+     "status": 0
+    },
+    "GPU1": {
+     "c": 45.9,
+     "type": 1,
+     "status": 0
+    },
+    "GPU2": {
+     "c": 46.7,
+     "type": 1,
+     "status": 0
+    },
+    "GPU3": {
+     "c": 45.5,
+     "type": 1,
+     "status": 0
+    },
+    "GPU4": {
+     "c": 52.2,
+     "type": 1,
+     "status": 0
+    },
+    "GPU5": {
+     "c": 51.0,
+     "type": 1,
+     "status": 0
+    },
+    "GPU6": {
+     "c": 47.5,
+     "type": 1,
+     "status": 0
+    },
+    "GPU7": {
+     "c": 48.7,
+     "type": 1,
+     "status": 0
+    },
+    "ibat": {
+     "c": 0.937,
+     "type": 7,
+     "status": 0
+    },
+    "nsp0": {
+     "c": 48.1,
+     "type": 9,
+     "status": 0
+    },
+    "nsp1": {
+     "c": 48.9,
+     "type": 9,
+     "status": 0
+    },
+    "nsp2": {
+     "c": 44.2,
+     "type": 9,
+     "status": 0
+    },
+    "nsp3": {
+     "c": 46.1,
+     "type": 9,
+     "status": 0
+    },
+    "skin": {
+     "c": 33.814,
+     "type": 3,
+     "status": 0
+    },
+    "socd": {
+     "c": 0.0,
+     "type": 8,
+     "status": 0
+    },
+    "vbat": {
+     "c": 4.085,
+     "type": 6,
+     "status": 0
+    }
+   }
+  },
+  "fixed_performance_mode": "accepted"
+ },
+ "tooling": {
+  "simpleperf": {
+   "present": true,
+   "version": "1.build.V14.0.9.0.TMCMIXM",
+   "perf_event_paranoid": -1
+  }
+ },
+ "staging": {
+  "adb_push_mib_s": 27.9,
+  "hf_fetch": [
+   "http=200 bytes=11422654 seconds=0.362540 speed_Bps=31507292"
+  ]
+ }
+}

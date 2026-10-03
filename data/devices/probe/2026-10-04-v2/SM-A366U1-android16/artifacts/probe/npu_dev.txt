@@ -1,0 +1,7 @@
+fastrpc-adsp-secure
+fastrpc-cdsp
+fastrpc-cdsp-secure
+input
+rdbg_cdsp
+remoteproc-cdsp-md
+uinput

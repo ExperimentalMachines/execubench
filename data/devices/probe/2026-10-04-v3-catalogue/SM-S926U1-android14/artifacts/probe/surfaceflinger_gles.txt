@@ -1,0 +1,2 @@
+ ------------RE GLES------------
+GLES: Qualcomm, Adreno (TM) 750, OpenGL ES 3.2 V@0744.18 (GIT@d774a8672e, I8ea610b5b4, 1704277645) (Date:01/03/24)

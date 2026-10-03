@@ -1,0 +1,6 @@
+adsprpc-smd
+adsprpc-smd-secure
+input
+rdbg_cdsp
+remoteproc-cdsp-md
+uinput

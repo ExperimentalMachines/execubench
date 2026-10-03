@@ -1,0 +1,446 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/ExperimentalMachines/execubench/schemas/request.schema.json",
+  "title": "Request",
+  "description": "One generation: one assistant turn. Lines of requests.jsonl in a job's artifacts. Grading fields are added on our machine afterwards and never on the device or the test host. A request with status ok must carry the runner's raw stats, the monotonic duration and the prompt hash, or it cannot be published.",
+  "type": "object",
+  "required": [
+    "job_id",
+    "seq",
+    "track",
+    "item",
+    "timings",
+    "tokens",
+    "memory",
+    "state",
+    "output",
+    "status"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "job_id": {
+      "type": "string"
+    },
+    "seq": {
+      "type": "integer",
+      "description": "Order within the job, from 0"
+    },
+    "track": {
+      "enum": [
+        "warmup",
+        "speed",
+        "quality",
+        "long-context",
+        "agreement"
+      ]
+    },
+    "item": {
+      "type": "object",
+      "required": [
+        "dataset",
+        "row_id"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "dataset": {
+          "type": "string",
+          "description": "gsm8k, ifeval, multi-if, bfcl-v4/<category>, retrievalqa/<mode>, ruler/<task>, speed"
+        },
+        "row_id": {
+          "type": "string"
+        },
+        "conversation_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "turn": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "prompt_bucket": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "Speed track: target prompt length in tokens"
+        },
+        "max_tokens": {
+          "type": "integer"
+        },
+        "prompt_sha256": {
+          "$ref": "common.schema.json#/$defs/sha256",
+          "description": "sha256 of the exact rendered prompt bytes (from /apply-template)"
+        },
+        "decode_target": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "Speed track: decode steps targeted (the request asks for decode_target + 1 sampled tokens)"
+        },
+        "prompt_text": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "The exact rendered prompt bytes as UTF-8, kept in raw artifacts so a request can be replayed; publication follows the dataset's license"
+        },
+        "eligible": {
+          "type": "boolean",
+          "description": "Whether the row was eligible for this model when the suite was frozen (prompt plus cap fits the window)"
+        }
+      }
+    },
+    "timings": {
+      "type": "object",
+      "required": [
+        "ttft_ms",
+        "decode_ms",
+        "e2e_ms"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "runner": {
+          "type": "object",
+          "description": "The runner's stats JSON, verbatim"
+        },
+        "ttft_ms": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "decode_ms": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "e2e_ms": {
+          "type": "integer"
+        },
+        "client_ttft_ms": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "queue_ms": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "prefill_tps": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "null when ttft_ms < 50 (docs/METRICS.md validity rules)"
+        },
+        "decode_tps": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "null when decode_ms < 250 or decode_steps < 16"
+        },
+        "monotonic_ms": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "ExecuServe's monotonic duration of the runner call"
+        },
+        "clock_disagreement": {
+          "type": "boolean",
+          "description": "Runner (CLOCK_REALTIME) and monotonic durations differ by more than 5 ms plus 1 percent"
+        }
+      }
+    },
+    "tokens": {
+      "type": "object",
+      "required": [
+        "prefill",
+        "cached",
+        "decode_steps",
+        "sampled"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "prefill": {
+          "type": "integer"
+        },
+        "cached": {
+          "type": "integer"
+        },
+        "decode_steps": {
+          "type": "integer"
+        },
+        "sampled": {
+          "type": "integer",
+          "description": "decode_steps + 1, including special and end-of-sequence tokens"
+        }
+      }
+    },
+    "memory": {
+      "type": "object",
+      "required": [
+        "rss_sampled_peak_mib",
+        "rss_mean_mib",
+        "samples"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "rss_sampled_peak_mib": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "rss_mean_mib": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "rss_anon_mib": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "rss_file_mib": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "pss_total_mib": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "samples": {
+          "type": "integer"
+        },
+        "null_reason": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Why memory is absent, e.g. proc_status_unreadable"
+        }
+      }
+    },
+    "state": {
+      "type": "object",
+      "required": [
+        "battery_temp_c_start",
+        "battery_temp_c_end",
+        "thermal_status_max",
+        "thermal_event",
+        "clock_drop"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "battery_temp_c_start": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "battery_temp_c_end": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "skin_temp_c_max": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "soc_temp_c_max": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "thermal_status_max": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "thermal_event": {
+          "type": "boolean",
+          "description": "Any sampled thermal status above 0 during the request"
+        },
+        "clock_drop": {
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "description": "Top clock domain's median decode-phase clock more than 15 percent below the cell's first request in this job; null for that first request"
+        },
+        "top_domain_mhz_median": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "cooldown_wait_s": {
+          "type": [
+            "number",
+            "null"
+          ]
+        }
+      }
+    },
+    "output": {
+      "type": "object",
+      "required": [
+        "text",
+        "finish_reason"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "text": {
+          "type": "string"
+        },
+        "reasoning": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "tool_calls": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "finish_reason": {
+          "enum": [
+            "stop",
+            "length",
+            "tool_calls",
+            "error",
+            "timeout",
+            "context_overflow"
+          ]
+        },
+        "tool_trace": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          },
+          "description": "Multi-turn tool loops: each call, the simulator's result and its state after the call, in order"
+        }
+      }
+    },
+    "status": {
+      "enum": [
+        "ok",
+        "error",
+        "timeout",
+        "context_overflow",
+        "skipped"
+      ]
+    },
+    "error": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "grade": {
+      "type": "object",
+      "description": "Added on our machine by `execubench grade`",
+      "additionalProperties": false,
+      "properties": {
+        "grader": {
+          "type": "string",
+          "description": "Grader name and pinned version"
+        },
+        "correct": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "scores": {
+          "type": "object"
+        },
+        "tool_call_valid": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "tool_call_correct": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "format_failure": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "tool_decision_vs_label": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "tool_decision_vs_own": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "ok"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "timings": {
+            "required": [
+              "runner",
+              "ttft_ms",
+              "decode_ms",
+              "e2e_ms",
+              "monotonic_ms",
+              "clock_disagreement"
+            ]
+          },
+          "item": {
+            "required": [
+              "dataset",
+              "row_id",
+              "prompt_sha256",
+              "max_tokens"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

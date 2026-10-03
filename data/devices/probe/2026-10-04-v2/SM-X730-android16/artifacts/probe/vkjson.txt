@@ -1,0 +1,6 @@
+	"apiVersion" : 4210688.0,
+				"apiVersion" : 4206870.0,
+				"deviceID" : 3627024400.0,
+				"deviceName" : "Mali-G925-Immortalis MC12",
+				"driverVersion" : 205524992.0,
+				"vendorID" : 5045.0

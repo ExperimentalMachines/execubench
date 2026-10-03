@@ -1,0 +1,6 @@
+	"apiVersion" : 4210688.0,
+				"apiVersion" : 4210983.0,
+				"deviceID" : 1141180977.0,
+				"deviceName" : "Adreno (TM) 840",
+				"driverVersion" : 2150932499.0,
+				"vendorID" : 20803.0

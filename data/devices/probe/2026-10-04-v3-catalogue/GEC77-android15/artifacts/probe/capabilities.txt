@@ -1,0 +1,15 @@
+== cmd power set-fixed-performance-mode-enabled true
+exit=0
+== cmd power set-fixed-performance-mode-enabled false
+exit=0
+== simpleperf
+-rwxr-xr-x 1 root shell 2655024 2009-01-01 00:00 /system/bin/simpleperf
+simpleperf I command.cpp:249] Simpleperf version 1.build.12485168
+== perf_event_paranoid
+-1
+== id
+uid=2000(shell) gid=2000(shell) groups=2000(shell),1004(input),1007(log),1011(adb),1015(sdcard_rw),1028(sdcard_r),1078(ext_data_rw),1079(ext_obb_rw),3001(net_bt_admin),3002(net_bt),3003(inet),3006(net_bw_stats),3009(readproc),3011(uhid),3012(readtracefs) context=u:r:shell:s0
+== storage
+Filesystem       Size Used Avail Use% Mounted on
+/dev/block/dm-56 109G 5.4G  104G   6% /data/user/0
+/dev/fuse        109G 5.4G  104G   6% /storage/emulated

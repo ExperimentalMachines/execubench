@@ -1,0 +1,9 @@
+android.hardware.tv.input@1.0.so
+libSNPE.so
+libhexagon_nn_stub.so
+libinput.so
+libinputflinger.so
+libinputservice.so
+libnpu.so
+libsnpe_dsp_domains_v2.so
+libsnpe_wrapper.so

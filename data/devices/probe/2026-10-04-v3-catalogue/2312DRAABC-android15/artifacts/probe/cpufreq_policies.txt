@@ -1,0 +1,12 @@
+== /sys/devices/system/cpu/cpufreq/policy0
+affected_cpus=0 1 2 3 4 5
+related_cpus=0 1 2 3 4 5
+cpuinfo_max_freq=2000000
+cpuinfo_min_freq=500000
+scaling_governor=<unreadable>
+== /sys/devices/system/cpu/cpufreq/policy6
+affected_cpus=6 7
+related_cpus=6 7
+cpuinfo_max_freq=2400000
+cpuinfo_min_freq=725000
+scaling_governor=<unreadable>

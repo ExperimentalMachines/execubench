@@ -1,0 +1,47 @@
+{
+ "arn": "arn:aws:devicefarm:us-west-2:<account>:job:733be749-de36-4847-ba64-a034b55b21dd/8a979433-95de-46e0-9971-b56c02b21c36/00027",
+ "counters": {
+  "errored": 0,
+  "failed": 0,
+  "passed": 3,
+  "skipped": 0,
+  "stopped": 0,
+  "total": 3,
+  "warned": 0
+ },
+ "created": "2026-10-04 07:21:37.906000+08:00",
+ "device": {
+  "arn": "arn:aws:devicefarm:us-west-2::device:D4E3318DCE9C41DFA2669BCF6FB3E2CC",
+  "cpu": {
+   "architecture": "arm64-v8a",
+   "clock": 2301.0,
+   "frequency": "MHz"
+  },
+  "fleetType": "PUBLIC",
+  "formFactor": "PHONE",
+  "heapSize": 256000000,
+  "image": "D4E3318DCE9C41DFA2669BCF6FB3E2CC",
+  "manufacturer": "LG",
+  "memory": 64000000000,
+  "model": "LG Stylo 6",
+  "modelId": "LMQ730",
+  "name": "LG Stylo 6",
+  "os": "10",
+  "platform": "ANDROID",
+  "remoteAccessEnabled": true,
+  "resolution": {
+   "height": 2460,
+   "width": 1080
+  }
+ },
+ "deviceMinutes": {
+  "metered": 0.88,
+  "total": 1.26,
+  "unmetered": 0.0
+ },
+ "message": "Successful test lifecycle of Setup Test",
+ "name": "LG Stylo 6",
+ "result": "PASSED",
+ "status": "COMPLETED",
+ "videoCapture": false
+}

@@ -1,0 +1,360 @@
+{
+ "reported": {
+  "manufacturer": "Google",
+  "model": "Pixel 5a",
+  "device": "barbet",
+  "soc_manufacturer": "Qualcomm",
+  "soc_model": "SM7250",
+  "board_platform": "lito",
+  "hardware": "barbet",
+  "android": "12",
+  "sdk": "32",
+  "fingerprint": "google/barbet/barbet:12/SQ3A.220705.003.A1/8672226:user/release-keys",
+  "security_patch": "2022-07-05",
+  "page_size": null,
+  "abilist": "arm64-v8a,armeabi-v7a,armeabi",
+  "arm64_userspace": true
+ },
+ "cpu": {
+  "count": 8,
+  "topology": "1+1+6",
+  "clock_domains": [
+   {
+    "policy": "policy7",
+    "cpus": [
+     7
+    ],
+    "max_mhz": 2400.0,
+    "governor": "schedutil",
+    "designs": [
+     "KRYO_4XX_GOLD"
+    ]
+   },
+   {
+    "policy": "policy6",
+    "cpus": [
+     6
+    ],
+    "max_mhz": 2208.0,
+    "governor": "schedutil",
+    "designs": [
+     "KRYO_4XX_GOLD"
+    ]
+   },
+   {
+    "policy": "policy0",
+    "cpus": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5
+    ],
+    "max_mhz": 1804.8,
+    "governor": "schedutil",
+    "designs": [
+     "KRYO_4XX_SILVER"
+    ]
+   }
+  ],
+  "tiers": "1+1+6",
+  "clusters": [
+   {
+    "cores": 1,
+    "cpus": [
+     7
+    ],
+    "implementer": "0x51",
+    "part": "0x804",
+    "design": "KRYO_4XX_GOLD",
+    "design_source": "linux cputype.h",
+    "max_mhz": 2400.0,
+    "efficiency_class": false,
+    "core_class": "performance"
+   },
+   {
+    "cores": 1,
+    "cpus": [
+     6
+    ],
+    "implementer": "0x51",
+    "part": "0x804",
+    "design": "KRYO_4XX_GOLD",
+    "design_source": "linux cputype.h",
+    "max_mhz": 2208.0,
+    "efficiency_class": false,
+    "core_class": "performance"
+   },
+   {
+    "cores": 6,
+    "cpus": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5
+    ],
+    "implementer": "0x51",
+    "part": "0x805",
+    "design": "KRYO_4XX_SILVER",
+    "design_source": "linux cputype.h",
+    "max_mhz": 1804.8,
+    "efficiency_class": true,
+    "core_class": "efficiency"
+   }
+  ],
+  "all_big_cores": false,
+  "max_mhz": 2400.0,
+  "features": [
+   "aes",
+   "asimd",
+   "asimddp",
+   "asimdhp",
+   "asimdrdm",
+   "atomics",
+   "cpuid",
+   "crc32",
+   "dcpop",
+   "evtstrm",
+   "fp",
+   "fphp",
+   "lrcpc",
+   "pmull",
+   "sha1",
+   "sha2"
+  ]
+ },
+ "gpu": {
+  "gles": "Qualcomm, Adreno (TM) 620, OpenGL ES 3.2 V@0490.0 (GIT@4783c89, I46ff5fc46f, 1606807783) (Date:11/30/20)",
+  "vulkan_device": "Adreno (TM) 620"
+ },
+ "npu": {
+  "runtimes_present": {
+   "qualcomm-qnn-snpe": [
+    "libhalide_hexagon_host.so",
+    "libhexagon_nn_stub.so",
+    "libhta_hexagon_runtime.so"
+   ]
+  }
+ },
+ "memory": {
+  "mem_total_kib": 5593368,
+  "dumpsys_total_ram_kib": 5593368,
+  "ddr": {
+   "raw": "6GB,Micron,LPDDR4X",
+   "size": "6GB",
+   "vendor": "Micron",
+   "type": "LPDDR4X",
+   "props": {
+    "ro.boot.ddr_size": "6GB",
+    "ro.boot.ddr_info": "Micron"
+   }
+  }
+ },
+ "state_at_probe": {
+  "battery_temp_c": 30.1,
+  "thermal": {
+   "status": 0,
+   "current": {
+    "usbc-virt-monitor": {
+     "c": -274.0,
+     "type": 4,
+     "status": 0
+    },
+    "cellular-emergency": {
+     "c": 34.597,
+     "type": 5,
+     "status": 0
+    },
+    "skin-virt-monitor": {
+     "c": 34.605003,
+     "type": 3,
+     "status": 0
+    },
+    "battery": {
+     "c": 30.100002,
+     "type": 2,
+     "status": 0
+    },
+    "gpuss-0-usr": {
+     "c": 40.300003,
+     "type": 1,
+     "status": 0
+    },
+    "cpu-1-3-usr": {
+     "c": 41.300003,
+     "type": 0,
+     "status": 0
+    },
+    "cpu-1-2-usr": {
+     "c": 41.600002,
+     "type": 0,
+     "status": 0
+    },
+    "skin-virt": {
+     "c": 34.601,
+     "type": -1,
+     "status": 0
+    },
+    "cpu-1-0-usr": {
+     "c": 40.9,
+     "type": 0,
+     "status": 0
+    },
+    "gpuss-1-usr": {
+     "c": 39.9,
+     "type": 1,
+     "status": 0
+    },
+    "cpu-0-5-usr": {
+     "c": 41.300003,
+     "type": 0,
+     "status": 0
+    },
+    "cpu-0-0-usr": {
+     "c": 41.600002,
+     "type": 0,
+     "status": 0
+    },
+    "cpu-0-4-usr": {
+     "c": 41.600002,
+     "type": 0,
+     "status": 0
+    },
+    "skin-therm-monitor": {
+     "c": 34.596,
+     "type": -1,
+     "status": 0
+    },
+    "cpu-1-1-usr": {
+     "c": 41.600002,
+     "type": 0,
+     "status": 0
+    },
+    "cpu-0-1-usr": {
+     "c": 41.300003,
+     "type": 0,
+     "status": 0
+    },
+    "cpu-0-3-usr": {
+     "c": 41.300003,
+     "type": 0,
+     "status": 0
+    },
+    "cpu-0-2-usr": {
+     "c": 41.300003,
+     "type": 0,
+     "status": 0
+    }
+   },
+   "cached": {
+    "cpu-0-0-usr": {
+     "c": 59.300003,
+     "type": 0,
+     "status": 0
+    },
+    "cpu-0-1-usr": {
+     "c": 59.9,
+     "type": 0,
+     "status": 0
+    },
+    "cpu-0-2-usr": {
+     "c": 59.600002,
+     "type": 0,
+     "status": 0
+    },
+    "cpu-0-3-usr": {
+     "c": 60.600002,
+     "type": 0,
+     "status": 0
+    },
+    "cpu-0-4-usr": {
+     "c": 62.600002,
+     "type": 0,
+     "status": 0
+    },
+    "cpu-0-5-usr": {
+     "c": 62.9,
+     "type": 0,
+     "status": 0
+    },
+    "cpu-1-0-usr": {
+     "c": 63.9,
+     "type": 0,
+     "status": 0
+    },
+    "cpu-1-1-usr": {
+     "c": 63.600002,
+     "type": 0,
+     "status": 0
+    },
+    "cpu-1-2-usr": {
+     "c": 67.3,
+     "type": 0,
+     "status": 0
+    },
+    "cpu-1-3-usr": {
+     "c": 65.9,
+     "type": 0,
+     "status": 0
+    },
+    "battery": {
+     "c": 30.7,
+     "type": 2,
+     "status": 0
+    },
+    "usbc-virt-monitor": {
+     "c": -274.0,
+     "type": 4,
+     "status": 0
+    },
+    "skin-therm-monitor": {
+     "c": 35.030003,
+     "type": -1,
+     "status": 0
+    },
+    "gpuss-0-usr": {
+     "c": 52.9,
+     "type": 1,
+     "status": 0
+    },
+    "gpuss-1-usr": {
+     "c": 52.9,
+     "type": 1,
+     "status": 0
+    },
+    "cellular-emergency": {
+     "c": 36.786003,
+     "type": 5,
+     "status": 0
+    },
+    "skin-virt": {
+     "c": 36.798,
+     "type": -1,
+     "status": 0
+    },
+    "skin-virt-monitor": {
+     "c": 36.785,
+     "type": 3,
+     "status": 0
+    }
+   }
+  },
+  "fixed_performance_mode": "accepted"
+ },
+ "tooling": {
+  "simpleperf": {
+   "present": true,
+   "version": "1.build.8672226",
+   "perf_event_paranoid": -1
+  }
+ },
+ "staging": {
+  "adb_push_mib_s": 24.0,
+  "hf_fetch": [
+   "http=200 bytes=11422654 seconds=0.345074 speed_Bps=33102041"
+  ]
+ }
+}

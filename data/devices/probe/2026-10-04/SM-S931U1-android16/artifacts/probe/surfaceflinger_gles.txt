@@ -1,0 +1,3 @@
+ ------------RE GLES (Ganesh)------------
+GLES: Qualcomm, Adreno (TM) 830, OpenGL ES 3.2 V@0800.40.1 (GIT@e4a2ccdb56, Icac6f3510c, 1753112526) (Date:07/21/25)
+vulkan_renderengine: false

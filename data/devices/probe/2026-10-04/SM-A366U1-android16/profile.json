@@ -1,0 +1,203 @@
+{
+ "reported": {
+  "manufacturer": "samsung",
+  "model": "SM-A366U1",
+  "device": "a36xq",
+  "soc_manufacturer": "QTI",
+  "soc_model": "SM6475",
+  "board_platform": "parrot",
+  "hardware": "qcom",
+  "android": "16",
+  "sdk": "36",
+  "fingerprint": "samsung/a36xque/a36xq:16/BP2A.250605.031.A3/A366U1UES6BZB6_OYM6BZB6:user/release-keys",
+  "security_patch": "2026-02-05",
+  "page_size": "4096",
+  "abilist": "arm64-v8a",
+  "arm64_userspace": true
+ },
+ "cpu": {
+  "count": 8,
+  "topology": "4+4",
+  "clock_domains": [
+   {
+    "policy": "policy4",
+    "cpus": [
+     4,
+     5,
+     6,
+     7
+    ],
+    "max_mhz": 2400.0,
+    "governor": "walt",
+    "designs": [
+     "CORTEX_A78"
+    ]
+   },
+   {
+    "policy": "policy0",
+    "cpus": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "max_mhz": 1804.8,
+    "governor": "walt",
+    "designs": [
+     "CORTEX_A55"
+    ]
+   }
+  ],
+  "tiers": "4+4",
+  "clusters": [
+   {
+    "cores": 4,
+    "cpus": [
+     4,
+     5,
+     6,
+     7
+    ],
+    "implementer": "0x41",
+    "part": "0xd41",
+    "design": "CORTEX_A78",
+    "design_source": "linux cputype.h",
+    "max_mhz": 2400.0,
+    "efficiency_class": false,
+    "core_class": "performance"
+   },
+   {
+    "cores": 4,
+    "cpus": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "implementer": "0x41",
+    "part": "0xd05",
+    "design": "CORTEX_A55",
+    "design_source": "linux cputype.h",
+    "max_mhz": 1804.8,
+    "efficiency_class": true,
+    "core_class": "efficiency"
+   }
+  ],
+  "all_big_cores": false,
+  "max_mhz": 2400.0,
+  "features": [
+   "aes",
+   "asimd",
+   "asimddp",
+   "asimdhp",
+   "asimdrdm",
+   "atomics",
+   "cpuid",
+   "crc32",
+   "dcpop",
+   "evtstrm",
+   "fp",
+   "fphp",
+   "lrcpc",
+   "pmull",
+   "sha1",
+   "sha2"
+  ]
+ },
+ "gpu": {
+  "gles": "Qualcomm, Adreno (TM) 710, OpenGL ES 3.2 V@0800.48 (GIT@2fbb164246, I3836eb2923, 1751380322) (Date:07/01/25)",
+  "vulkan_device": null
+ },
+ "npu": {
+  "runtimes_present": {}
+ },
+ "memory": {
+  "mem_total_kib": 5510448,
+  "dumpsys_total_ram_kib": null,
+  "ddr": {}
+ },
+ "state_at_probe": {
+  "battery_temp_c": 30.0,
+  "thermal": {
+   "status": 0,
+   "current": {
+    "AP": {
+     "c": 32.4,
+     "type": 0,
+     "status": 0
+    },
+    "BAT": {
+     "c": 30.0,
+     "type": 2,
+     "status": 0
+    },
+    "PA": {
+     "c": 30.9,
+     "type": 5,
+     "status": 0
+    },
+    "SKIN": {
+     "c": 30.2,
+     "type": 3,
+     "status": 0
+    },
+    "SUBBAT": {
+     "c": 0.0,
+     "type": 2,
+     "status": 0
+    },
+    "USB": {
+     "c": 30.8,
+     "type": 4,
+     "status": 0
+    }
+   },
+   "cached": {
+    "SUBBAT": {
+     "c": 0.0,
+     "type": 2,
+     "status": 0
+    },
+    "AP": {
+     "c": 30.3,
+     "type": 0,
+     "status": 0
+    },
+    "PA": {
+     "c": 26.6,
+     "type": 5,
+     "status": 0
+    },
+    "BAT": {
+     "c": 24.3,
+     "type": 2,
+     "status": 0
+    },
+    "USB": {
+     "c": 25.0,
+     "type": 4,
+     "status": 0
+    },
+    "SKIN": {
+     "c": 28.2,
+     "type": 3,
+     "status": 0
+    }
+   }
+  },
+  "fixed_performance_mode": "accepted"
+ },
+ "tooling": {
+  "simpleperf": {
+   "present": true,
+   "version": "1.build.A366U1UES6BZB6",
+   "perf_event_paranoid": -1
+  }
+ },
+ "staging": {
+  "adb_push_mib_s": 28.3,
+  "hf_fetch": [
+   "http=200 bytes=11422654 seconds=0.581446 speed_Bps=19645253"
+  ]
+ }
+}

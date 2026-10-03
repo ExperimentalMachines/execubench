@@ -1,0 +1,33 @@
+IsStatusOverride: false
+ThermalEventListeners:
+	callbacks: 2
+	killed: false
+	broadcasts count: -1
+ThermalStatusListeners:
+	callbacks: 5
+	killed: false
+	broadcasts count: -1
+Thermal Status: 0
+Cached temperatures:
+	Temperature{mValue=44.369, mType=0, mName=CPU, mStatus=0}
+	Temperature{mValue=44.369, mType=1, mName=GPU, mStatus=0}
+	Temperature{mValue=44.491, mType=9, mName=NPU, mStatus=0}
+	Temperature{mValue=29.4, mType=3, mName=SKIN, mStatus=0}
+	Temperature{mValue=21.0, mType=2, mName=BATTERY, mStatus=0}
+HAL Ready: true
+HAL connection:
+	ThermalHAL 2.0 connected: yes
+Current temperatures from HAL:
+	Temperature{mValue=40.135, mType=0, mName=CPU, mStatus=0}
+	Temperature{mValue=40.135, mType=1, mName=GPU, mStatus=0}
+	Temperature{mValue=29.0, mType=2, mName=BATTERY, mStatus=0}
+	Temperature{mValue=32.315, mType=3, mName=SKIN, mStatus=0}
+	Temperature{mValue=40.257, mType=9, mName=NPU, mStatus=0}
+Current cooling devices from HAL:
+	CoolingDevice{mValue=0, mType=2, mName=thermal-devfreq-0}
+Temperature static thresholds from HAL:
+	{.type = CPU, .name = CPU, .hotThrottlingThresholds = [NaN, NaN, NaN, 60.0, 90.0, 100.0, 117.0], .coldThrottlingThresholds = [NaN, NaN, NaN, NaN, NaN, NaN, NaN], .vrThrottlingThreshold = 85.0}
+	{.type = GPU, .name = GPU, .hotThrottlingThresholds = [NaN, NaN, NaN, 60.0, 90.0, 100.0, 117.0], .coldThrottlingThresholds = [NaN, NaN, NaN, NaN, NaN, NaN, NaN], .vrThrottlingThreshold = 85.0}
+	{.type = BATTERY, .name = BATTERY, .hotThrottlingThresholds = [NaN, NaN, NaN, 50.0, 55.0, 59.0, 60.0], .coldThrottlingThresholds = [NaN, NaN, NaN, NaN, NaN, NaN, NaN], .vrThrottlingThreshold = 50.0}
+	{.type = SKIN, .name = SKIN, .hotThrottlingThresholds = [NaN, NaN, NaN, 47.0, 56.0, 58.0, 80.0], .coldThrottlingThresholds = [NaN, NaN, NaN, NaN, NaN, NaN, NaN], .vrThrottlingThreshold = 50.0}
+	{.type = NPU, .name = NPU, .hotThrottlingThresholds = [NaN, NaN, NaN, 60.0, 90.0, 100.0, 117.0], .coldThrottlingThresholds = [NaN, NaN, NaN, NaN, NaN, NaN, NaN], .vrThrottlingThreshold = NaN}

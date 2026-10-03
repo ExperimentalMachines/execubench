@@ -1,0 +1,6 @@
+	"apiVersion" : 4206592.0,
+				"apiVersion" : 4198601.0,
+				"deviceID" : 2449604624.0,
+				"deviceName" : "Mali-G78",
+				"driverVersion" : 150994944.0,
+				"vendorID" : 5045.0

@@ -1,0 +1,79 @@
+thermal_zone0 modem-lte-sub6-pa1 30000
+thermal_zone1 modem-lte-sub6-pa2 27000
+thermal_zone10 modem-mmw1-mod-usr 27000
+thermal_zone11 modem-mmw2-mod-usr 27000
+thermal_zone12 modem-mmw3-mod-usr 27000
+thermal_zone13 modem-mmw-pa1-usr 27000
+thermal_zone14 modem-mmw-pa2-usr 27000
+thermal_zone15 modem-mmw-pa3-usr 27000
+thermal_zone16 mdmss-1-step 34300
+thermal_zone17 mdmss-2-step 33900
+thermal_zone18 msm-skin-therm-usr 27000
+thermal_zone19 cpu-0-0-step 36000
+thermal_zone2 modem-mmw0-usr 27000
+thermal_zone20 cpu-0-1-step 35600
+thermal_zone21 cpu-0-2-step 36000
+thermal_zone22 cpu-0-3-step 35200
+thermal_zone23 cpu-1-0-step 34900
+thermal_zone24 cpu-1-1-step 34500
+thermal_zone25 cpu-1-2-step 34900
+thermal_zone26 cpu-1-3-step 34500
+thermal_zone27 cpu-1-4-step 37200
+thermal_zone28 cpu-1-5-step 35600
+thermal_zone29 cpu-1-6-step 34100
+thermal_zone3 modem-mmw1-usr 27000
+thermal_zone30 cpu-1-7-step 34900
+thermal_zone31 gpuss-0-step 33900
+thermal_zone32 gpuss-1-step 34300
+thermal_zone33 nspss-0-step 33600
+thermal_zone34 nspss-1-step 33600
+thermal_zone35 video-step 33600
+thermal_zone36 mdmss-0-step 33600
+thermal_zone37 mdmss-3-step 33600
+thermal_zone38 camera-0-step 33900
+thermal_zone39 aoss-0-usr 34500
+thermal_zone4 modem-mmw2-usr 2000
+thermal_zone40 cpu-0-0-usr 34900
+thermal_zone41 cpu-0-1-usr 35200
+thermal_zone42 cpu-0-2-usr 35200
+thermal_zone43 cpu-0-3-usr 34500
+thermal_zone44 cpuss-0-usr 35200
+thermal_zone45 cpuss-1-usr 35600
+thermal_zone46 cpu-1-0-usr 34100
+thermal_zone47 cpu-1-1-usr 34100
+thermal_zone48 cpu-1-2-usr 34100
+thermal_zone49 cpu-1-3-usr 34100
+thermal_zone5 modem-mmw3-usr 2000
+thermal_zone50 cpu-1-4-usr 36400
+thermal_zone51 cpu-1-5-usr 34500
+thermal_zone52 cpu-1-6-usr 33700
+thermal_zone53 cpu-1-7-usr 34500
+thermal_zone54 aoss-1-usr 33900
+thermal_zone55 gpuss-0-usr 33600
+thermal_zone56 gpuss-1-usr 33200
+thermal_zone57 nspss-0-usr 33600
+thermal_zone58 nspss-1-usr 33200
+thermal_zone59 video-usr 33200
+thermal_zone6 modem-skin-usr 31000
+thermal_zone60 ddr-usr 34300
+thermal_zone61 mdmss-0-usr 33900
+thermal_zone62 mdmss-1-usr 33200
+thermal_zone63 mdmss-2-usr 33200
+thermal_zone64 mdmss-3-usr 33200
+thermal_zone65 camera-0-usr 33600
+thermal_zone66 pm7325_tz 
+thermal_zone67 pm8350c_tz 
+thermal_zone68 pm8350c-bcl-lvl0 
+thermal_zone69 pm8350c-bcl-lvl1 
+thermal_zone7 modem-wifi-usr 
+thermal_zone70 pm8350c-bcl-lvl2 
+thermal_zone71 pmr735a_tz 
+thermal_zone72 quiet-therm-usr 
+thermal_zone73 camera-therm-usr 
+thermal_zone74 sdm-skin-therm-usr 
+thermal_zone75 rear-cam-therm-usr 
+thermal_zone76 xo-therm-usr 
+thermal_zone77 ac 31600
+thermal_zone78 battery 31300
+thermal_zone8 modem-streamer-usr 2000
+thermal_zone9 modem-mmw0-mod-usr 2000

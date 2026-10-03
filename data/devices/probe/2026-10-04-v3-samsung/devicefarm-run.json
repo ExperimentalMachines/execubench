@@ -1,0 +1,38 @@
+{
+ "appUpload": "arn:aws:devicefarm:us-west-2:<account>:upload:733be749-de36-4847-ba64-a034b55b21dd/426cdaad-3227-453a-8aef-5d63b1347ff5",
+ "arn": "arn:aws:devicefarm:us-west-2:<account>:run:733be749-de36-4847-ba64-a034b55b21dd/b55d5a66-a5e8-4481-bcfb-dd151f9915ec",
+ "billingMethod": "METERED",
+ "completedJobs": 16,
+ "counters": {
+  "errored": 0,
+  "failed": 0,
+  "passed": 48,
+  "skipped": 0,
+  "stopped": 0,
+  "total": 48,
+  "warned": 0
+ },
+ "created": "2026-10-04 07:14:08.956000+08:00",
+ "deviceMinutes": {
+  "metered": 8.86,
+  "total": 13.68,
+  "unmetered": 0.0
+ },
+ "devicePoolArn": "arn:aws:devicefarm:us-west-2:<account>:devicepool:733be749-de36-4847-ba64-a034b55b21dd/e1d88b21-2e10-4950-9d9e-189156694a6d",
+ "jobTimeoutMinutes": 15,
+ "name": "probe-v3-samsung-2026-10-04",
+ "platform": "ANDROID_APP",
+ "radios": {
+  "bluetooth": false,
+  "gps": true,
+  "nfc": true,
+  "wifi": true
+ },
+ "result": "PASSED",
+ "started": "2026-10-04 07:14:08.956000+08:00",
+ "status": "COMPLETED",
+ "stopped": "2026-10-04 07:20:06.462000+08:00",
+ "testSpecArn": "arn:aws:devicefarm:us-west-2:<account>:upload:733be749-de36-4847-ba64-a034b55b21dd/4368d53a-e54f-4500-9d4a-22008125aeb8",
+ "totalJobs": 16,
+ "type": "APPIUM_PYTHON"
+}

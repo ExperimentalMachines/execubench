@@ -1,0 +1,267 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/ExperimentalMachines/execubench/schemas/run.schema.json",
+  "title": "Job",
+  "description": "One Device Farm job: one device unit, one model file, one or more tracks. Written by the harness on the test host at job start and completed at job end; every request record points back to it.",
+  "type": "object",
+  "required": [
+    "job_id",
+    "provider",
+    "device_id",
+    "device_unit",
+    "build_fingerprint",
+    "model",
+    "tokenizer_sha256",
+    "runtime",
+    "harness",
+    "protocol",
+    "tracks",
+    "started_utc"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "job_id": {
+      "type": "string",
+      "description": "Device Farm job ARN suffix"
+    },
+    "provider": {
+      "type": "object",
+      "required": [
+        "run_arn",
+        "job_arn",
+        "device_arn"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "run_arn": {
+          "type": "string"
+        },
+        "job_arn": {
+          "type": "string"
+        },
+        "device_arn": {
+          "type": "string"
+        },
+        "host_os": {
+          "type": "string"
+        },
+        "adb_version": {
+          "type": "string"
+        },
+        "device_minutes": {
+          "type": [
+            "number",
+            "null"
+          ]
+        }
+      }
+    },
+    "device_id": {
+      "type": "string",
+      "description": "Foreign key into data/devices/devices.json: model, Android version and build fingerprint hash"
+    },
+    "device_unit": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{16}$",
+      "description": "First 16 hex digits of sha256(salt + DEVICEFARM_DEVICE_UDID): tells units apart without publishing serials"
+    },
+    "build_fingerprint": {
+      "type": "string",
+      "description": "ro.build.fingerprint at job time; Device Farm may update a unit between jobs"
+    },
+    "model": {
+      "$ref": "common.schema.json#/$defs/model_ref"
+    },
+    "tokenizer_sha256": {
+      "$ref": "common.schema.json#/$defs/sha256"
+    },
+    "runtime": {
+      "type": "object",
+      "required": [
+        "executorch",
+        "server",
+        "server_commit",
+        "apk_sha256",
+        "threads",
+        "kv_reuse"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "executorch": {
+          "type": "string",
+          "description": "AAR version, e.g. 1.4.0"
+        },
+        "server": {
+          "const": "execuserve"
+        },
+        "server_commit": {
+          "$ref": "common.schema.json#/$defs/git_sha"
+        },
+        "apk_sha256": {
+          "$ref": "common.schema.json#/$defs/sha256"
+        },
+        "threads": {
+          "type": "integer",
+          "description": "XNNPACK thread count; 0 means the runtime chose"
+        },
+        "kv_reuse": {
+          "enum": [
+            "off",
+            "on"
+          ],
+          "description": "off for single-turn and speed tracks, on for multi-turn"
+        }
+      }
+    },
+    "harness": {
+      "type": "object",
+      "required": [
+        "commit",
+        "suite",
+        "suite_manifest_sha256"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "commit": {
+          "$ref": "common.schema.json#/$defs/git_sha"
+        },
+        "suite": {
+          "type": "string",
+          "description": "e.g. v1"
+        },
+        "suite_manifest_sha256": {
+          "$ref": "common.schema.json#/$defs/sha256"
+        },
+        "shard": {
+          "type": "string",
+          "description": "e.g. gsm8k[0:120]"
+        }
+      }
+    },
+    "protocol": {
+      "type": "object",
+      "required": [
+        "fixed_performance_mode",
+        "cooldown",
+        "warmup_requests",
+        "sampling_period_ms"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "fixed_performance_mode": {
+          "type": "boolean"
+        },
+        "fixed_performance_mode_accepted": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "cooldown": {
+          "type": "object",
+          "required": [
+            "max_battery_c",
+            "max_wait_s"
+          ],
+          "properties": {
+            "max_battery_c": {
+              "type": "number"
+            },
+            "max_skin_c": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "max_wait_s": {
+              "type": "integer"
+            }
+          }
+        },
+        "warmup_requests": {
+          "type": "integer"
+        },
+        "screen": {
+          "enum": [
+            "on",
+            "off"
+          ]
+        },
+        "proc_status_readable": {
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "description": "Whether the shell could read the server's /proc/<pid>/status"
+        },
+        "sampling_period_ms": {
+          "type": "integer"
+        },
+        "protocol_sha256": {
+          "$ref": "common.schema.json#/$defs/sha256"
+        }
+      }
+    },
+    "tracks": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "speed",
+          "quality",
+          "long-context",
+          "agreement"
+        ]
+      }
+    },
+    "started_utc": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "finished_utc": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time"
+    },
+    "outcome": {
+      "enum": [
+        "complete",
+        "partial",
+        "failed"
+      ],
+      "description": "partial: the job hit its time limit or lost the device; whatever was pulled is kept and labelled"
+    },
+    "failure": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "staging": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "download_s": {
+          "type": "number"
+        },
+        "push_s": {
+          "type": "number"
+        },
+        "sha256_verified_on_device": {
+          "type": "boolean"
+        },
+        "load_ms": {
+          "type": "integer"
+        }
+      }
+    },
+    "artifact_bytes": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "description": "Size of the job's customer artifacts; Device Farm drops all of them above 1 GB"
+    }
+  }
+}

@@ -1,0 +1,282 @@
+{
+ "reported": {
+  "manufacturer": "samsung",
+  "model": "SM-S928U1",
+  "device": "e3q",
+  "soc_manufacturer": "QTI",
+  "soc_model": "SM8650",
+  "board_platform": "pineapple",
+  "hardware": "qcom",
+  "android": "14",
+  "sdk": "34",
+  "fingerprint": "samsung/e3quew/e3q:14/UP1A.231005.007/S928U1UES4AXKF:user/release-keys",
+  "security_patch": "2024-12-01",
+  "page_size": null,
+  "abilist": "arm64-v8a",
+  "arm64_userspace": true
+ },
+ "cpu": {
+  "count": 8,
+  "topology": "1+3+2+2",
+  "clock_domains": [
+   {
+    "policy": "policy7",
+    "cpus": [
+     7
+    ],
+    "max_mhz": 3398.4,
+    "governor": "walt",
+    "designs": [
+     "CORTEX_X4"
+    ]
+   },
+   {
+    "policy": "policy2",
+    "cpus": [
+     2,
+     3,
+     4
+    ],
+    "max_mhz": 3148.8,
+    "governor": "walt",
+    "designs": [
+     "CORTEX_A720"
+    ]
+   },
+   {
+    "policy": "policy5",
+    "cpus": [
+     5,
+     6
+    ],
+    "max_mhz": 2956.8,
+    "governor": "walt",
+    "designs": [
+     "CORTEX_A720"
+    ]
+   },
+   {
+    "policy": "policy0",
+    "cpus": [
+     0,
+     1
+    ],
+    "max_mhz": 2265.6,
+    "governor": "walt",
+    "designs": [
+     "CORTEX_A520"
+    ]
+   }
+  ],
+  "tiers": "1+3+2+2",
+  "clusters": [
+   {
+    "cores": 1,
+    "cpus": [
+     7
+    ],
+    "implementer": "0x41",
+    "part": "0xd82",
+    "design": "CORTEX_X4",
+    "design_source": "linux cputype.h",
+    "max_mhz": 3398.4,
+    "efficiency_class": false,
+    "core_class": "performance"
+   },
+   {
+    "cores": 3,
+    "cpus": [
+     2,
+     3,
+     4
+    ],
+    "implementer": "0x41",
+    "part": "0xd81",
+    "design": "CORTEX_A720",
+    "design_source": "linux cputype.h",
+    "max_mhz": 3148.8,
+    "efficiency_class": false,
+    "core_class": "performance"
+   },
+   {
+    "cores": 2,
+    "cpus": [
+     5,
+     6
+    ],
+    "implementer": "0x41",
+    "part": "0xd81",
+    "design": "CORTEX_A720",
+    "design_source": "linux cputype.h",
+    "max_mhz": 2956.8,
+    "efficiency_class": false,
+    "core_class": "performance"
+   },
+   {
+    "cores": 2,
+    "cpus": [
+     0,
+     1
+    ],
+    "implementer": "0x41",
+    "part": "0xd80",
+    "design": "CORTEX_A520",
+    "design_source": "linux cputype.h",
+    "max_mhz": 2265.6,
+    "efficiency_class": true,
+    "core_class": "efficiency"
+   }
+  ],
+  "all_big_cores": false,
+  "max_mhz": 3398.4,
+  "features": [
+   "aes",
+   "afp",
+   "asimd",
+   "asimddp",
+   "asimdfhm",
+   "asimdhp",
+   "asimdrdm",
+   "atomics",
+   "bf16",
+   "bti",
+   "cpuid",
+   "crc32",
+   "dcpodp",
+   "dcpop",
+   "dgh",
+   "dit",
+   "ecv",
+   "evtstrm",
+   "fcma",
+   "flagm",
+   "flagm2",
+   "fp",
+   "fphp",
+   "frint",
+   "i8mm",
+   "ilrcpc",
+   "jscvt",
+   "lrcpc",
+   "paca",
+   "pacg",
+   "pmull",
+   "sb",
+   "sha1",
+   "sha2",
+   "sha3",
+   "sha512",
+   "sm3",
+   "sm4",
+   "ssbs",
+   "uscat"
+  ]
+ },
+ "gpu": {
+  "gles": "Qualcomm, Adreno (TM) 750, OpenGL ES 3.2 V@0762.12 (GIT@11e73fe00c, I4ff0bacd4f, 1710154332) (Date:03/11/24)",
+  "vulkan_device": "Adreno (TM) 750"
+ },
+ "npu": {
+  "runtimes_present": {
+   "qualcomm-qnn-snpe": [
+    "libSNPE.so",
+    "libSnpeCpu.so",
+    "libSnpeGpu.so",
+    "libSnpeHtpV75Stub.so",
+    "libsnap_qnn.so",
+    "libsnpe_dsp_domains_v3.so",
+    "libsnpe_dsp_domains_v3_system.so",
+    "libsnpe_wrapper.so"
+   ]
+  }
+ },
+ "memory": {
+  "mem_total_kib": 11356868,
+  "dumpsys_total_ram_kib": 11356868,
+  "ddr": {}
+ },
+ "state_at_probe": {
+  "battery_temp_c": 34.0,
+  "thermal": {
+   "status": 1,
+   "current": {
+    "AP": {
+     "c": 41.3,
+     "type": 0,
+     "status": 0
+    },
+    "BAT": {
+     "c": 34.3,
+     "type": 2,
+     "status": 0
+    },
+    "PA": {
+     "c": 41.0,
+     "type": 5,
+     "status": 0
+    },
+    "SKIN": {
+     "c": 37.0,
+     "type": 3,
+     "status": 1
+    },
+    "SUBBAT": {
+     "c": 0.0,
+     "type": 2,
+     "status": 0
+    },
+    "USB": {
+     "c": 30.2,
+     "type": 4,
+     "status": 0
+    }
+   },
+   "cached": {
+    "SUBBAT": {
+     "c": 0.0,
+     "type": 2,
+     "status": 0
+    },
+    "AP": {
+     "c": 48.2,
+     "type": 0,
+     "status": 0
+    },
+    "PA": {
+     "c": 43.8,
+     "type": 5,
+     "status": 0
+    },
+    "BAT": {
+     "c": 32.7,
+     "type": 2,
+     "status": 0
+    },
+    "USB": {
+     "c": 30.1,
+     "type": 4,
+     "status": 0
+    },
+    "SKIN": {
+     "c": 37.4,
+     "type": 3,
+     "status": 1
+    }
+   }
+  },
+  "fixed_performance_mode": "accepted"
+ },
+ "tooling": {
+  "simpleperf": {
+   "present": true,
+   "version": "1.build.S928U1UES4AXKF",
+   "perf_event_paranoid": -1
+  }
+ },
+ "staging": {
+  "adb_push_mib_s": 82.3,
+  "hf_fetch": [
+   "http=200 bytes=11422654 seconds=0.357660 speed_Bps=31937186"
+  ]
+ }
+}

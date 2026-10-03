@@ -1,0 +1,1 @@
+Linux localhost 5.10.81-android12-9-24790453-abX700XXS2AVJ4 #1 SMP PREEMPT Sun Oct 23 04:51:50 UTC 2022 aarch64

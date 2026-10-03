@@ -1,0 +1,1 @@
+Linux localhost 4.9.112-17018887 #2 SMP PREEMPT Thu Oct 10 21:28:14 KST 2019 aarch64

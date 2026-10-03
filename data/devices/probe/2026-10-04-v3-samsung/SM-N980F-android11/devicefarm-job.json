@@ -1,0 +1,47 @@
+{
+ "arn": "arn:aws:devicefarm:us-west-2:<account>:job:733be749-de36-4847-ba64-a034b55b21dd/b55d5a66-a5e8-4481-bcfb-dd151f9915ec/00015",
+ "counters": {
+  "errored": 0,
+  "failed": 0,
+  "passed": 3,
+  "skipped": 0,
+  "stopped": 0,
+  "total": 3,
+  "warned": 0
+ },
+ "created": "2026-10-04 07:14:08.971000+08:00",
+ "device": {
+  "arn": "arn:aws:devicefarm:us-west-2::device:D01CF86149334AEF867B2A8E0B91A815",
+  "cpu": {
+   "architecture": "arm64-v8a",
+   "clock": 2002.0,
+   "frequency": "MHz"
+  },
+  "fleetType": "PUBLIC",
+  "formFactor": "PHONE",
+  "heapSize": 512000000,
+  "image": "D01CF86149334AEF867B2A8E0B91A815",
+  "manufacturer": "Samsung",
+  "memory": 256000000000,
+  "model": "Samsung Galaxy Note20",
+  "modelId": "SM-N980F",
+  "name": "Samsung Galaxy Note20",
+  "os": "11",
+  "platform": "ANDROID",
+  "remoteAccessEnabled": true,
+  "resolution": {
+   "height": 2400,
+   "width": 1080
+  }
+ },
+ "deviceMinutes": {
+  "metered": 0.31,
+  "total": 0.58,
+  "unmetered": 0.0
+ },
+ "message": "Successful test lifecycle of Setup Test",
+ "name": "Samsung Galaxy Note20",
+ "result": "PASSED",
+ "status": "COMPLETED",
+ "videoCapture": false
+}

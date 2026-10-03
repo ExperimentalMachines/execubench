@@ -1,0 +1,8 @@
+== /sys/devices/system/cpu/cpufreq/policy0
+300000 46810
+364800 4733
+441600 1738
+== /sys/devices/system/cpu/cpufreq/policy4
+300000 45209
+345600 1108
+422400 2330

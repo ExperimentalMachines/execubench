@@ -1,0 +1,47 @@
+{
+ "arn": "arn:aws:devicefarm:us-west-2:<account>:job:733be749-de36-4847-ba64-a034b55b21dd/8a979433-95de-46e0-9971-b56c02b21c36/00033",
+ "counters": {
+  "errored": 0,
+  "failed": 0,
+  "passed": 3,
+  "skipped": 0,
+  "stopped": 0,
+  "total": 3,
+  "warned": 0
+ },
+ "created": "2026-10-04 07:21:37.906000+08:00",
+ "device": {
+  "arn": "arn:aws:devicefarm:us-west-2::device:CF74189AC40647639F9D55CC2DD233C9",
+  "cpu": {
+   "architecture": "arm64-v8a",
+   "clock": 2000.0,
+   "frequency": "MHz"
+  },
+  "fleetType": "PUBLIC",
+  "formFactor": "TABLET",
+  "heapSize": 512000000,
+  "image": "CF74189AC40647639F9D55CC2DD233C9",
+  "manufacturer": "Samsung",
+  "memory": 64000000000,
+  "model": "Samsung Galaxy Tab A9",
+  "modelId": "SM-X110",
+  "name": "Samsung Galaxy Tab A9",
+  "os": "13",
+  "platform": "ANDROID",
+  "remoteAccessEnabled": true,
+  "resolution": {
+   "height": 1340,
+   "width": 800
+  }
+ },
+ "deviceMinutes": {
+  "metered": 0.57,
+  "total": 0.85,
+  "unmetered": 0.0
+ },
+ "message": "Successful test lifecycle of Setup Test",
+ "name": "Samsung Galaxy Tab A9",
+ "result": "PASSED",
+ "status": "COMPLETED",
+ "videoCapture": false
+}

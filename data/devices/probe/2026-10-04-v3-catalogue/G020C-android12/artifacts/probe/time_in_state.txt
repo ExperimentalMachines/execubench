@@ -1,0 +1,8 @@
+== /sys/devices/system/cpu/cpufreq/policy0
+300000 24
+576000 3837201
+748800 174447
+== /sys/devices/system/cpu/cpufreq/policy6
+300000 8
+652800 60
+825600 4137054

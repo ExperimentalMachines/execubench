@@ -1,0 +1,16 @@
+getprop.txt exit=0
+uname.txt exit=0
+cpuinfo.txt exit=0
+meminfo.txt exit=0
+cpu_present.txt exit=0
+cpus.txt exit=0
+surfaceflinger_gles.txt exit=0
+vkjson.txt exit=0
+npu_libs.txt exit=0
+npu_dev.txt exit=0
+meminfo_dumpsys.txt exit=0
+simpleperf_list.txt exit=0
+simpleperf_idle.txt exit=0
+battery.txt exit=0
+thermalservice.txt exit=0
+power.txt exit=0

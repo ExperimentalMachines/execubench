@@ -1,0 +1,58 @@
+thermal_zone0 aoss-0 
+thermal_zone1 cpuss-0 
+thermal_zone10 cpu-1-7 
+thermal_zone11 gpuss-0 
+thermal_zone12 gpuss-1 
+thermal_zone13 camera-0 
+thermal_zone14 zeroc-0 0
+thermal_zone15 aoss-1 38000
+thermal_zone16 cpu-0-0 40400
+thermal_zone17 cpu-0-1 39700
+thermal_zone18 cpu-0-2 38700
+thermal_zone19 cpu-0-3 37700
+thermal_zone2 cpuss-1 
+thermal_zone20 nspss-0 35600
+thermal_zone21 nspss-1 36000
+thermal_zone22 nspss-2 36000
+thermal_zone23 video 35600
+thermal_zone24 ddr 36300
+thermal_zone25 mdmss-0 36300
+thermal_zone26 mdmss-1 36000
+thermal_zone27 mdmss-2 35600
+thermal_zone28 mdmss-3 36000
+thermal_zone29 zeroc-1 0
+thermal_zone3 cpu-1-0 
+thermal_zone30 pm6150l-bcl-lvl0 0
+thermal_zone31 pm6150l-bcl-lvl1 0
+thermal_zone32 pm6150l-bcl-lvl2 0
+thermal_zone33 pm6450_tz 37000
+thermal_zone34 pm6150l_tz 37100
+thermal_zone35 xo-therm 32831
+thermal_zone36 sys-therm-1 761548
+thermal_zone37 sys-therm-2 843166
+thermal_zone38 ac 33100
+thermal_zone39 battery 30200
+thermal_zone4 cpu-1-1 
+thermal_zone40 pa 29060
+thermal_zone41 pa1 11175
+thermal_zone42 bcl-warn -273000
+thermal_zone43 sub1-modem-cfg -273000
+thermal_zone44 sub1-lte-cc -273000
+thermal_zone45 sub1_mcg_fr1_cc -273000
+thermal_zone46 sub1_mcg_fr2_cc -273000
+thermal_zone47 sub1_scg_fr1_cc -273000
+thermal_zone48 sub1_scg_fr2_cc -273000
+thermal_zone49 sdr0-pa 27000
+thermal_zone5 cpu-1-2 
+thermal_zone50 sdr1-pa 27000
+thermal_zone51 sdr0 27000
+thermal_zone52 sdr1 27000
+thermal_zone53 mmw0 -273000
+thermal_zone54 mmw1 -273000
+thermal_zone55 mmw2 -273000
+thermal_zone56 mmw3 -273000
+thermal_zone57 mmw-ific0 -273000
+thermal_zone6 cpu-1-3 
+thermal_zone7 cpu-1-4 
+thermal_zone8 cpu-1-5 
+thermal_zone9 cpu-1-6 

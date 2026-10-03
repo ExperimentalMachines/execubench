@@ -1,0 +1,11 @@
+List of hardware events:
+  branch-instructions
+  branch-misses
+  bus-cycles
+  cache-misses
+  cache-references
+  cpu-cycles
+  instructions
+  stalled-cycles-backend
+  stalled-cycles-frontend
+

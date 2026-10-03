@@ -1,0 +1,159 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/ExperimentalMachines/execubench/schemas/device.schema.json",
+  "title": "Phone",
+  "description": "One device model on one provider at one Android build. Reported fields come from a probe run (devicefarm/probe); published fields come from data/devices/specs.yaml. The two never share a field.",
+  "type": "object",
+  "required": ["id", "device_model_id", "provider", "identity", "soc", "cpu", "gpu", "npu", "memory", "compute", "probe"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {"type": "string", "pattern": "^[a-z0-9-]+-[0-9a-f]{8}$", "description": "Model, Android version and the first 8 hex digits of sha256(build fingerprint), e.g. sm-s938u1-android15-1a2b3c4d. A new firmware build is a new id"},
+    "device_model_id": {"type": "string", "pattern": "^[a-z0-9-]+$", "description": "Device Farm model id and Android version, shared by every build of that model"},
+    "provider": {
+      "type": "object",
+      "required": ["name", "device_arn"],
+      "additionalProperties": false,
+      "properties": {
+        "name": {"const": "aws-device-farm"},
+        "region": {"const": "us-west-2"},
+        "device_arn": {"type": "string"},
+        "catalogue": {"type": "object", "description": "Device Farm's list-devices entry, verbatim. Recorded, never used as a spec source: its 'memory' is storage and its 'cpu.clock' is one cluster's clock"}
+      }
+    },
+    "identity": {
+      "type": "object",
+      "required": ["manufacturer", "marketing_name", "model_code", "android", "fingerprint", "form_factor"],
+      "additionalProperties": false,
+      "properties": {
+        "manufacturer": {"type": "string"},
+        "marketing_name": {"type": "string"},
+        "model_code": {"type": "string"},
+        "android": {"type": "string"},
+        "sdk": {"type": "string"},
+        "fingerprint": {"type": "string"},
+        "security_patch": {"type": "string"},
+        "form_factor": {"enum": ["phone", "tablet", "foldable"]},
+        "abilist": {"type": ["string", "null"], "description": "ro.product.cpu.abilist"},
+        "arm64_userspace": {"type": ["boolean", "null"], "description": "Whether arm64-v8a is in the ABI list; ExecuTorch's Android builds need it"}
+      }
+    },
+    "soc": {
+      "type": "object",
+      "required": ["reported_model", "platform", "marketing_name"],
+      "additionalProperties": false,
+      "properties": {
+        "reported_manufacturer": {"type": ["string", "null"]},
+        "reported_model": {"type": ["string", "null"], "description": "ro.soc.model, verbatim"},
+        "platform": {"type": ["string", "null"], "description": "ro.board.platform"},
+        "marketing_name": {"$ref": "common.schema.json#/$defs/sourced"},
+        "process_node": {"$ref": "common.schema.json#/$defs/sourced"}
+      }
+    },
+    "cpu": {
+      "type": "object",
+      "required": ["count", "topology", "clusters", "all_big_cores", "cluster_count", "max_mhz"],
+      "additionalProperties": false,
+      "properties": {
+        "count": {"type": "integer"},
+        "topology": {"type": "string", "pattern": "^[0-9]+(\\+[0-9]+)*$", "description": "Cores per clock domain (cpufreq policy), fastest first, e.g. 1+3+4"},
+        "tiers": {"type": "string", "pattern": "^[0-9]+(\\+[0-9]+)*$", "description": "Cores per (design, top clock) group, fastest first. Differs from topology where cores of one tier sit in two clock domains (Tensor G5)"},
+        "cluster_count": {"type": "integer", "description": "Number of clock domains"},
+        "vendor_description": {"$ref": "common.schema.json#/$defs/sourced", "description": "The chip maker's own CPU description, verbatim"},
+        "clock_domains": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["policy", "cpus", "max_mhz"],
+            "additionalProperties": false,
+            "properties": {
+              "policy": {"type": "string"},
+              "cpus": {"type": "array", "items": {"type": "integer"}},
+              "max_mhz": {"type": ["number", "null"]},
+              "governor": {"type": ["string", "null"]},
+              "designs": {"type": "array", "items": {"type": "string"}}
+            }
+          }
+        },
+        "all_big_cores": {"type": ["boolean", "null"], "description": "Derived from MIDR: true when every core is a performance-class design, false when any is efficiency-class (A53, A55, A510, A520, C1-Nano), null when any core's class is unknown"},
+        "architecture": {"type": "string", "description": "Label derived from the two fields above, e.g. 'all-big-core, tri-cluster' or 'big.LITTLE, tri-cluster'"},
+        "max_mhz": {"type": "number"},
+        "features": {"type": "array", "items": {"type": "string"}, "description": "/proc/cpuinfo Features, e.g. i8mm, bf16, sme2"},
+        "clusters": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["cores", "design", "implementer", "part", "max_mhz", "efficiency_class"],
+            "additionalProperties": false,
+            "properties": {
+              "cores": {"type": "integer"},
+              "cpus": {"type": "array", "items": {"type": "integer"}},
+              "design": {"type": ["string", "null"], "description": "Linux cputype.h macro name for the MIDR part, or VENDOR:0xPART when the kernel does not list it"},
+              "design_source": {"type": "string"},
+              "marketing_name": {"$ref": "common.schema.json#/$defs/sourced"},
+              "implementer": {"type": ["string", "null"]},
+              "part": {"type": ["string", "null"]},
+              "max_mhz": {"type": ["number", "null"]},
+              "efficiency_class": {"type": "boolean"},
+              "core_class": {"enum": ["efficiency", "performance", "unknown"]}
+            }
+          }
+        }
+      }
+    },
+    "gpu": {
+      "type": "object",
+      "required": ["name"],
+      "additionalProperties": false,
+      "properties": {
+        "name": {"$ref": "common.schema.json#/$defs/sourced"},
+        "renderer": {"type": ["string", "null"], "description": "GLES renderer string or Vulkan deviceName, verbatim"},
+        "vulkan_api": {"type": ["string", "null"]}
+      }
+    },
+    "npu": {
+      "type": "object",
+      "required": ["name", "int8_tops"],
+      "additionalProperties": false,
+      "properties": {
+        "name": {"$ref": "common.schema.json#/$defs/sourced"},
+        "int8_tops": {"$ref": "common.schema.json#/$defs/sourced"},
+        "runtimes_present": {"type": "array", "items": {"type": "string"}, "description": "Vendor NPU libraries seen in /vendor/lib64 and friends (reported)"}
+      }
+    },
+    "memory": {
+      "type": "object",
+      "required": ["mem_total_gib", "capacity_gb", "type", "bandwidth_gbps"],
+      "additionalProperties": false,
+      "properties": {
+        "mem_total_gib": {"$ref": "common.schema.json#/$defs/sourced", "description": "MemTotal (reported); smaller than the marketed capacity because firmware and carve-outs are excluded"},
+        "capacity_gb": {"$ref": "common.schema.json#/$defs/sourced", "description": "Marketed RAM for this exact model code"},
+        "type": {"$ref": "common.schema.json#/$defs/sourced", "description": "e.g. LPDDR5X; 'reported' where the bootloader exposes it (Pixels), else 'published'"},
+        "data_rate_mtps": {"$ref": "common.schema.json#/$defs/sourced"},
+        "bus_width_bits": {"$ref": "common.schema.json#/$defs/sourced"},
+        "bandwidth_gbps": {"$ref": "common.schema.json#/$defs/sourced", "description": "Theoretical peak. 'derived' only from a sourced data rate and a sourced bus width; never measured here"}
+      }
+    },
+    "compute": {
+      "type": "object",
+      "required": ["bf16_tflops"],
+      "additionalProperties": false,
+      "properties": {
+        "bf16_tflops": {"$ref": "common.schema.json#/$defs/sourced", "description": "Only 'published' or 'unknown'. Phone makers rarely publish it; see docs/DEVICES.md"},
+        "fp16_tflops_gpu": {"$ref": "common.schema.json#/$defs/sourced"}
+      }
+    },
+    "probe": {
+      "type": "object",
+      "required": ["run_arn", "artifact_dir", "date"],
+      "additionalProperties": false,
+      "properties": {
+        "run_arn": {"type": "string"},
+        "artifact_dir": {"type": "string"},
+        "date": {"type": "string", "format": "date"},
+        "fixed_performance_mode": {"type": ["string", "null"]},
+        "simpleperf": {"type": "object"},
+        "adb_push_mib_s": {"type": ["number", "null"]}
+      }
+    }
+  }
+}

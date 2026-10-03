@@ -1,0 +1,4 @@
+/sys/class/kgsl/kgsl-3d0/gpu_model=Adreno730v2/sys/class/kgsl/kgsl-3d0/max_gpuclk=818000000
+/sys/class/kgsl/kgsl-3d0/devfreq/max_freq=818000000
+/sys/kernel/gpu/gpu_model=Adreno730v2/sys/kernel/gpu/gpu_max_clock=818
+/sys/class/misc/mali0/device/gpuinfo=<unreadable>

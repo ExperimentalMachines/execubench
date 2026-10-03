@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- A carrier APK with no code. Device Farm's app-based test types need an app upload; the
+     probe and the harness drive the phone over adb and never start this package. minSdk 21
+     so it installs on every phone in the catalogue, including the Android 11 ones. -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.experimentalmachines.execubench.carrier"
+    android:versionCode="1"
+    android:versionName="1">
+    <uses-sdk android:minSdkVersion="21" android:targetSdkVersion="36" />
+    <application android:hasCode="false" android:label="execubench carrier" />
+</manifest>

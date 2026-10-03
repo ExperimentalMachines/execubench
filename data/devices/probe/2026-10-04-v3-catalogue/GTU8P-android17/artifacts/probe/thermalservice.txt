@@ -1,0 +1,75 @@
+IsStatusOverride: false
+ThermalEventListeners:
+	callbacks: 9
+	killed: false
+	broadcasts count: -1
+ThermalStatusListeners:
+	callbacks: 4
+	killed: false
+	broadcasts count: -1
+Thermal Status: 0
+Cached temperatures:
+	Temperature{mValue=61.000004, mType=0, mName=LITTLE, mStatus=0}
+	Temperature{mValue=30.125002, mType=-1, mName=neutral_therm, mStatus=0}
+	Temperature{mValue=25.933, mType=-1, mName=charger_skin_therm, mStatus=0}
+	Temperature{mValue=0.0, mType=4, mName=VIRTUAL-USB-UI, mStatus=0}
+	Temperature{mValue=23.755001, mType=-1, mName=disp_therm, mStatus=0}
+	Temperature{mValue=27.361002, mType=-1, mName=quiet_therm, mStatus=0}
+	Temperature{mValue=22.400002, mType=2, mName=battery, mStatus=0}
+	Temperature{mValue=42.000004, mType=9, mName=AUR, mStatus=0}
+	Temperature{mValue=76.0, mType=0, mName=BIG, mStatus=0}
+	Temperature{mValue=42.000004, mType=1, mName=G3D, mStatus=0}
+	Temperature{mValue=47.000004, mType=9, mName=ISP, mStatus=0}
+	Temperature{mValue=58.000004, mType=0, mName=MID, mStatus=0}
+	Temperature{mValue=42.000004, mType=9, mName=TPU, mStatus=0}
+	Temperature{mValue=25.160002, mType=-1, mName=usb_pwr_therm2, mStatus=0}
+	Temperature{mValue=25.345963, mType=3, mName=VIRTUAL-SKIN, mStatus=0}
+	Temperature{mValue=22.958, mType=-1, mName=usb_pwr_therm, mStatus=0}
+HAL Ready: true
+HAL connection:
+	ThermalHAL AIDL 3  connected: yes
+Current temperatures from HAL:
+	Temperature{mValue=40.0, mType=9, mName=ISP, mStatus=0}
+	Temperature{mValue=39.0, mType=1, mName=G3D, mStatus=0}
+	Temperature{mValue=44.000004, mType=0, mName=LITTLE, mStatus=0}
+	Temperature{mValue=31.964931, mType=3, mName=VIRTUAL-SKIN, mStatus=0}
+	Temperature{mValue=32.863003, mType=-1, mName=quiet_therm, mStatus=0}
+	Temperature{mValue=39.0, mType=9, mName=AUR, mStatus=0}
+	Temperature{mValue=39.0, mType=9, mName=TPU, mStatus=0}
+	Temperature{mValue=31.928001, mType=-1, mName=usb_pwr_therm2, mStatus=0}
+	Temperature{mValue=44.000004, mType=0, mName=BIG, mStatus=0}
+	Temperature{mValue=30.570002, mType=-1, mName=usb_pwr_therm, mStatus=0}
+	Temperature{mValue=29.800001, mType=2, mName=battery, mStatus=0}
+	Temperature{mValue=47.000004, mType=0, mName=MID, mStatus=0}
+	Temperature{mValue=34.198, mType=-1, mName=neutral_therm, mStatus=0}
+	Temperature{mValue=0.0, mType=4, mName=VIRTUAL-USB-UI, mStatus=0}
+	Temperature{mValue=31.327002, mType=-1, mName=disp_therm, mStatus=0}
+	Temperature{mValue=32.573, mType=-1, mName=charger_skin_therm, mStatus=0}
+Current cooling devices from HAL:
+	CoolingDevice{mValue=0, mType=1, mName=usbc-port}
+	CoolingDevice{mValue=0, mType=1, mName=fcc}
+	CoolingDevice{mValue=0, mType=5, mName=gxp-cooling}
+	CoolingDevice{mValue=0, mType=2, mName=thermal-cpufreq-1}
+	CoolingDevice{mValue=0, mType=5, mName=tpu_cooling}
+	CoolingDevice{mValue=0, mType=3, mName=thermal-gpufreq-0}
+	CoolingDevice{mValue=0, mType=2, mName=thermal-cpufreq-2}
+	CoolingDevice{mValue=0, mType=2, mName=thermal-cpufreq-0}
+Temperature static thresholds from HAL:
+	TemperatureThreshold{mType=9, mName=ISP, mHotThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=1, mName=G3D, mHotThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=0, mName=LITTLE, mHotThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=3, mName=VIRTUAL-SKIN, mHotThrottlingThresholds=[NaN, 39.0, 43.0, 45.0, 47.0, 51.5, 56.0], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=-1, mName=quiet_therm, mHotThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=9, mName=AUR, mHotThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=9, mName=TPU, mHotThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=-1, mName=usb_pwr_therm2, mHotThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=0, mName=BIG, mHotThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=-1, mName=usb_pwr_therm, mHotThrottlingThresholds=[NaN, 37.0, NaN, NaN, NaN, NaN, NaN], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=2, mName=battery, mHotThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=0, mName=MID, mHotThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=-1, mName=neutral_therm, mHotThrottlingThresholds=[NaN, 50.0, NaN, NaN, NaN, NaN, NaN], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=4, mName=VIRTUAL-USB-UI, mHotThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, 1.0, NaN], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=-1, mName=disp_therm, mHotThrottlingThresholds=[NaN, 37.0, NaN, NaN, NaN, NaN, NaN], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+	TemperatureThreshold{mType=-1, mName=charger_skin_therm, mHotThrottlingThresholds=[NaN, 39.0, NaN, NaN, NaN, NaN, NaN], mColdThrottlingThresholds=[NaN, NaN, NaN, NaN, NaN, NaN, NaN]}
+Temperature headroom thresholds:
+[NaN, 0.8, 0.93333334, 1.0, 1.0666667, 1.2166667, 1.3666667]

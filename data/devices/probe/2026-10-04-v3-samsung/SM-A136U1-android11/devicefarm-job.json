@@ -1,0 +1,47 @@
+{
+ "arn": "arn:aws:devicefarm:us-west-2:<account>:job:733be749-de36-4847-ba64-a034b55b21dd/b55d5a66-a5e8-4481-bcfb-dd151f9915ec/00001",
+ "counters": {
+  "errored": 0,
+  "failed": 0,
+  "passed": 3,
+  "skipped": 0,
+  "stopped": 0,
+  "total": 3,
+  "warned": 0
+ },
+ "created": "2026-10-04 07:14:08.971000+08:00",
+ "device": {
+  "arn": "arn:aws:devicefarm:us-west-2::device:D48BBC9AF1644AEFBAC7B431CAE21DD6",
+  "cpu": {
+   "architecture": "armeabi-v7a",
+   "clock": 2000.0,
+   "frequency": "MHz"
+  },
+  "fleetType": "PUBLIC",
+  "formFactor": "PHONE",
+  "heapSize": 512000000,
+  "image": "D48BBC9AF1644AEFBAC7B431CAE21DD6",
+  "manufacturer": "Samsung",
+  "memory": 64000000000,
+  "model": "Samsung Galaxy A13 5G",
+  "modelId": "SM-A136U1",
+  "name": "Samsung Galaxy A13 5G",
+  "os": "11",
+  "platform": "ANDROID",
+  "remoteAccessEnabled": true,
+  "resolution": {
+   "height": 1600,
+   "width": 720
+  }
+ },
+ "deviceMinutes": {
+  "metered": 0.75,
+  "total": 1.02,
+  "unmetered": 0.0
+ },
+ "message": "Successful test lifecycle of Setup Test",
+ "name": "Samsung Galaxy A13 5G",
+ "result": "PASSED",
+ "status": "COMPLETED",
+ "videoCapture": false
+}

@@ -1,0 +1,20 @@
+[project]
+name = "execubench"
+version = "0.1.0"
+description = "Benchmarks for compiled ExecuTorch models on real phones in AWS Device Farm: speed, memory, heat and answer quality, single and multi turn"
+requires-python = ">=3.11"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+# Raw device dumps are kept exactly as pulled.
+extend-exclude = ["data"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]

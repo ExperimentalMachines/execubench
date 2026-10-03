@@ -1,0 +1,59 @@
+{
+  "model": {
+    "repo": "experimentalmachines/Qwen3-1.7B-ExecuTorch",
+    "revision": "0000000000000000000000000000000000000000",
+    "file": "xnnpack/Qwen3-1.7B-8da4w-gptq-8k.pte",
+    "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "device_id": "sm-s938u1-android15-3f06e532",
+  "track": "speed",
+  "dataset": "speed",
+  "prompt_bucket": 512,
+  "jobs": [
+    "example-00000"
+  ],
+  "device_units": [
+    "0000000000000000"
+  ],
+  "n": 10,
+  "excluded": {
+    "throttled": 0
+  },
+  "quality": null,
+  "timing": {
+    "prefill_tps": {
+      "n": 10,
+      "method": "linear",
+      "unit": "tok/s",
+      "mean": 100.0,
+      "min": 90.0,
+      "max": 110.0,
+      "p25": 95.0,
+      "p50": 100.0,
+      "p75": 105.0,
+      "p95": null,
+      "p99": null
+    }
+  },
+  "tokenizer_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "decode_target": 64,
+  "protocol_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "runtime": {
+    "executorch": "1.4.0",
+    "apk_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "threads": 0,
+    "kv_reuse": "off"
+  },
+  "days": [
+    "2026-01-01"
+  ],
+  "interval": {
+    "method": "none",
+    "resamples": null,
+    "lo": null,
+    "hi": null,
+    "per_job_medians": [
+      100.0
+    ]
+  }
+}

@@ -1,0 +1,514 @@
+{
+ "reported": {
+  "manufacturer": "Google",
+  "model": "Pixel 9 Pro XL",
+  "device": "komodo",
+  "soc_manufacturer": "Google",
+  "soc_model": "Tensor G4",
+  "board_platform": "zumapro",
+  "hardware": "komodo",
+  "android": "17",
+  "sdk": "37",
+  "fingerprint": "google/komodo/komodo:17/CP2A.260605.012/15430684:user/release-keys",
+  "security_patch": "2026-06-05",
+  "page_size": "4096",
+  "abilist": "arm64-v8a",
+  "arm64_userspace": true
+ },
+ "cpu": {
+  "count": 8,
+  "topology": "1+3+4",
+  "clock_domains": [
+   {
+    "policy": "policy7",
+    "cpus": [
+     7
+    ],
+    "max_mhz": 3105.0,
+    "governor": "sched_pixel",
+    "designs": [
+     "CORTEX_X4"
+    ]
+   },
+   {
+    "policy": "policy4",
+    "cpus": [
+     4,
+     5,
+     6
+    ],
+    "max_mhz": 2600.0,
+    "governor": "sched_pixel",
+    "designs": [
+     "CORTEX_A720"
+    ]
+   },
+   {
+    "policy": "policy0",
+    "cpus": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "max_mhz": 1950.0,
+    "governor": "sched_pixel",
+    "designs": [
+     "CORTEX_A520"
+    ]
+   }
+  ],
+  "tiers": "1+3+4",
+  "clusters": [
+   {
+    "cores": 1,
+    "cpus": [
+     7
+    ],
+    "implementer": "0x41",
+    "part": "0xd82",
+    "design": "CORTEX_X4",
+    "design_source": "linux cputype.h",
+    "max_mhz": 3105.0,
+    "efficiency_class": false,
+    "core_class": "performance"
+   },
+   {
+    "cores": 3,
+    "cpus": [
+     4,
+     5,
+     6
+    ],
+    "implementer": "0x41",
+    "part": "0xd81",
+    "design": "CORTEX_A720",
+    "design_source": "linux cputype.h",
+    "max_mhz": 2600.0,
+    "efficiency_class": false,
+    "core_class": "performance"
+   },
+   {
+    "cores": 4,
+    "cpus": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "implementer": "0x41",
+    "part": "0xd80",
+    "design": "CORTEX_A520",
+    "design_source": "linux cputype.h",
+    "max_mhz": 1950.0,
+    "efficiency_class": true,
+    "core_class": "efficiency"
+   }
+  ],
+  "all_big_cores": false,
+  "max_mhz": 3105.0,
+  "features": [
+   "aes",
+   "afp",
+   "asimd",
+   "asimddp",
+   "asimdfhm",
+   "asimdhp",
+   "asimdrdm",
+   "atomics",
+   "bf16",
+   "bti",
+   "cpuid",
+   "crc32",
+   "dcpodp",
+   "dcpop",
+   "dgh",
+   "dit",
+   "ecv",
+   "evtstrm",
+   "fcma",
+   "flagm",
+   "flagm2",
+   "fp",
+   "fphp",
+   "frint",
+   "i8mm",
+   "ilrcpc",
+   "jscvt",
+   "lrcpc",
+   "paca",
+   "pacg",
+   "pmull",
+   "sb",
+   "sha1",
+   "sha2",
+   "sha3",
+   "sha512",
+   "sm3",
+   "sm4",
+   "sve",
+   "sve2",
+   "sveaes",
+   "svebf16",
+   "svebitperm",
+   "svei8mm",
+   "svepmull",
+   "svesha3",
+   "svesm4",
+   "uscat",
+   "wfxt"
+  ]
+ },
+ "gpu": {
+  "gles": "ARM, Mali-G715, OpenGL ES 3.2 v1.r54p3-00eac0.03d8d836cbf5c9f29d765e58a6bdfb98",
+  "vulkan_device": "Mali-G715"
+ },
+ "npu": {
+  "runtimes_present": {
+   "google-edgetpu": [
+    "com.google.edgetpu.tachyon-ndk.so",
+    "com.google.edgetpu_app_service-V6-ndk.so",
+    "com.google.edgetpu_vendor_service-V2-ndk.so",
+    "libdarwinn_hal.so",
+    "libedgetpu_client.google.so",
+    "libedgetpu_litert.so",
+    "libedgetpu_tachyon.google.so",
+    "libedgetpu_tflite_compiler.so",
+    "libedgetpu_util.so"
+   ]
+  }
+ },
+ "memory": {
+  "mem_total_kib": 15957128,
+  "dumpsys_total_ram_kib": 15957128,
+  "ddr": {
+   "raw": "16GiB,Samsung,LPDDR5,0109",
+   "size": "16GiB",
+   "vendor": "Samsung",
+   "type": "LPDDR5",
+   "props": {
+    "ro.boot.ddr_size": "16GiB",
+    "ro.boot.ddr_info": "Samsung"
+   }
+  }
+ },
+ "state_at_probe": {
+  "battery_temp_c": 28.8,
+  "thermal": {
+   "status": 0,
+   "current": {
+    "BG-TASKS-THROTTLING-HINT": {
+     "c": 0.0,
+     "type": -1,
+     "status": 0
+    },
+    "disp_therm": {
+     "c": 30.859001,
+     "type": -1,
+     "status": 0
+    },
+    "charging_therm": {
+     "c": 31.505001,
+     "type": -1,
+     "status": 0
+    },
+    "G3D": {
+     "c": 34.0,
+     "type": 1,
+     "status": 0
+    },
+    "MID": {
+     "c": 35.0,
+     "type": 0,
+     "status": 0
+    },
+    "LITTLE": {
+     "c": 34.0,
+     "type": 0,
+     "status": 0
+    },
+    "VIRTUAL-USB-UI": {
+     "c": 0.0,
+     "type": 4,
+     "status": 0
+    },
+    "VIRTUAL-USB-THROTTLING": {
+     "c": 0.0,
+     "type": -1,
+     "status": 0
+    },
+    "USB-MINUS-CHARGING": {
+     "c": -1224.0,
+     "type": -1,
+     "status": 0
+    },
+    "VIRTUAL-SKIN-CHARGE-PERSIST": {
+     "c": 30.156698,
+     "type": -1,
+     "status": 0
+    },
+    "thb_hda": {
+     "c": 51.0,
+     "type": -1,
+     "status": 0
+    },
+    "rfpa_therm": {
+     "c": 30.459002,
+     "type": -1,
+     "status": 0
+    },
+    "TPU": {
+     "c": 34.0,
+     "type": 9,
+     "status": 0
+    },
+    "cellular-emergency": {
+     "c": 30.563057,
+     "type": 5,
+     "status": 0
+    },
+    "soc_therm": {
+     "c": 31.728,
+     "type": -1,
+     "status": 0
+    },
+    "VIRTUAL-SKIN-MODEL": {
+     "c": 30.744955,
+     "type": -1,
+     "status": 0
+    },
+    "ShutdownMode": {
+     "c": 30.563057,
+     "type": -1,
+     "status": 0
+    },
+    "VIRTUAL-SKIN-SPEAKER": {
+     "c": 28.6021,
+     "type": -1,
+     "status": 0
+    },
+    "VIRTUAL-SKIN-CHARGE-WIRED": {
+     "c": 30.156698,
+     "type": -1,
+     "status": 0
+    },
+    "btmspkr_therm": {
+     "c": 30.503002,
+     "type": -1,
+     "status": 0
+    },
+    "VIRTUAL-SKIN-LEGACY": {
+     "c": 30.346247,
+     "type": -1,
+     "status": 0
+    },
+    "VIRTUAL-SKIN": {
+     "c": 30.563057,
+     "type": 3,
+     "status": 0
+    },
+    "VIRTUAL-SKIN-FRONT": {
+     "c": 30.423147,
+     "type": -1,
+     "status": 0
+    },
+    "BIG": {
+     "c": 34.0,
+     "type": 0,
+     "status": 0
+    },
+    "VIRTUAL-BTS-WINDOW-PARTIAL": {
+     "c": 2.3595212,
+     "type": -1,
+     "status": 0
+    },
+    "usb_pwr_therm": {
+     "c": 30.281002,
+     "type": -1,
+     "status": 0
+    },
+    "quiet_therm": {
+     "c": 30.971,
+     "type": -1,
+     "status": 0
+    },
+    "battery": {
+     "c": 28.800001,
+     "type": 2,
+     "status": 0
+    },
+    "north_therm": {
+     "c": 30.214,
+     "type": -1,
+     "status": 0
+    },
+    "ShutdownModeSteady": {
+     "c": 30.563057,
+     "type": -1,
+     "status": 0
+    }
+   },
+   "cached": {
+    "LITTLE": {
+     "c": 53.000004,
+     "type": 0,
+     "status": 0
+    },
+    "VIRTUAL-SKIN-CHARGE-PERSIST": {
+     "c": 25.885612,
+     "type": -1,
+     "status": 0
+    },
+    "thb_hda": {
+     "c": 51.0,
+     "type": -1,
+     "status": 0
+    },
+    "VIRTUAL-USB-UI": {
+     "c": 0.0,
+     "type": 4,
+     "status": 0
+    },
+    "disp_therm": {
+     "c": 25.019001,
+     "type": -1,
+     "status": 0
+    },
+    "soc_therm": {
+     "c": 31.127,
+     "type": -1,
+     "status": 0
+    },
+    "quiet_therm": {
+     "c": 28.122002,
+     "type": -1,
+     "status": 0
+    },
+    "USB-MINUS-CHARGING": {
+     "c": -4706.0,
+     "type": -1,
+     "status": 0
+    },
+    "VIRTUAL-BTS-WINDOW-PARTIAL": {
+     "c": 2.214222,
+     "type": -1,
+     "status": 0
+    },
+    "battery": {
+     "c": 26.000002,
+     "type": 2,
+     "status": 0
+    },
+    "VIRTUAL-SKIN-LEGACY": {
+     "c": 26.654003,
+     "type": -1,
+     "status": 0
+    },
+    "BIG": {
+     "c": 75.0,
+     "type": 0,
+     "status": 0
+    },
+    "G3D": {
+     "c": 45.000004,
+     "type": 1,
+     "status": 0
+    },
+    "MID": {
+     "c": 52.000004,
+     "type": 0,
+     "status": 0
+    },
+    "TPU": {
+     "c": 39.0,
+     "type": 9,
+     "status": 0
+    },
+    "rfpa_therm": {
+     "c": 26.799002,
+     "type": -1,
+     "status": 0
+    },
+    "charging_therm": {
+     "c": 29.702002,
+     "type": -1,
+     "status": 0
+    },
+    "north_therm": {
+     "c": 25.979002,
+     "type": -1,
+     "status": 0
+    },
+    "ShutdownMode": {
+     "c": 27.564716,
+     "type": -1,
+     "status": 0
+    },
+    "VIRTUAL-SKIN-CHARGE-WIRED": {
+     "c": 25.885612,
+     "type": -1,
+     "status": 0
+    },
+    "BG-TASKS-THROTTLING-HINT": {
+     "c": 0.0,
+     "type": -1,
+     "status": 0
+    },
+    "cellular-emergency": {
+     "c": 27.564716,
+     "type": 5,
+     "status": 0
+    },
+    "VIRTUAL-SKIN": {
+     "c": 27.564716,
+     "type": 3,
+     "status": 0
+    },
+    "btmspkr_therm": {
+     "c": 25.230001,
+     "type": -1,
+     "status": 0
+    },
+    "VIRTUAL-SKIN-FRONT": {
+     "c": 25.521078,
+     "type": -1,
+     "status": 0
+    },
+    "VIRTUAL-SKIN-MODEL": {
+     "c": 26.460337,
+     "type": -1,
+     "status": 0
+    },
+    "usb_pwr_therm": {
+     "c": 24.996,
+     "type": -1,
+     "status": 0
+    },
+    "VIRTUAL-USB-THROTTLING": {
+     "c": 0.0,
+     "type": -1,
+     "status": 0
+    },
+    "VIRTUAL-SKIN-SPEAKER": {
+     "c": 26.676031,
+     "type": -1,
+     "status": 0
+    }
+   }
+  },
+  "fixed_performance_mode": "accepted"
+ },
+ "tooling": {
+  "simpleperf": {
+   "present": true,
+   "version": "1.build.15430684",
+   "perf_event_paranoid": -1
+  }
+ },
+ "staging": {
+  "adb_push_mib_s": 29.0,
+  "hf_fetch": [
+   "http=200 bytes=11422654 seconds=0.370017 speed_Bps=30870619"
+  ]
+ }
+}

@@ -1,0 +1,222 @@
+{
+ "reported": {
+  "manufacturer": "samsung",
+  "model": "SM-A146U1",
+  "device": "a14xm",
+  "soc_manufacturer": "Mediatek",
+  "soc_model": "MT6833V/NZA",
+  "board_platform": "mt6833",
+  "hardware": "mt6833",
+  "android": "13",
+  "sdk": "33",
+  "fingerprint": "samsung/a14xmue/a14xm:13/TP1A.220624.014/A146U1UEU1AVL6:user/release-keys",
+  "security_patch": "2022-11-01",
+  "page_size": null,
+  "abilist": "arm64-v8a,armeabi-v7a,armeabi",
+  "arm64_userspace": true
+ },
+ "cpu": {
+  "count": 8,
+  "topology": "2+6",
+  "clock_domains": [
+   {
+    "policy": "policy6",
+    "cpus": [
+     6,
+     7
+    ],
+    "max_mhz": 2203.0,
+    "governor": "schedutil",
+    "designs": [
+     "CORTEX_A76"
+    ]
+   },
+   {
+    "policy": "policy0",
+    "cpus": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5
+    ],
+    "max_mhz": 2000.0,
+    "governor": "<unreadable>",
+    "designs": [
+     "CORTEX_A55"
+    ]
+   }
+  ],
+  "tiers": "2+6",
+  "clusters": [
+   {
+    "cores": 2,
+    "cpus": [
+     6,
+     7
+    ],
+    "implementer": "0x41",
+    "part": "0xd0b",
+    "design": "CORTEX_A76",
+    "design_source": "linux cputype.h",
+    "max_mhz": 2203.0,
+    "efficiency_class": false,
+    "core_class": "performance"
+   },
+   {
+    "cores": 6,
+    "cpus": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5
+    ],
+    "implementer": "0x41",
+    "part": "0xd05",
+    "design": "CORTEX_A55",
+    "design_source": "linux cputype.h",
+    "max_mhz": 2000.0,
+    "efficiency_class": true,
+    "core_class": "efficiency"
+   }
+  ],
+  "all_big_cores": false,
+  "max_mhz": 2203.0,
+  "features": [
+   "aes",
+   "asimd",
+   "asimddp",
+   "asimdhp",
+   "asimdrdm",
+   "atomics",
+   "cpuid",
+   "crc32",
+   "dcpop",
+   "evtstrm",
+   "fp",
+   "fphp",
+   "lrcpc",
+   "pmull",
+   "sha1",
+   "sha2"
+  ]
+ },
+ "gpu": {
+  "gles": "ARM, Mali-G57 MC2, OpenGL ES 3.2 v1.r32p1-01eac0.f20ecd5cf326048879c2d906512e687e",
+  "vulkan_device": "Mali-G57 MC2"
+ },
+ "npu": {
+  "runtimes_present": {
+   "mediatek-neuron-apusys": [
+    "libapusys.so",
+    "libapusys_edma.so",
+    "libapuwareapusys.mtk.so",
+    "libapuwareapusys_v2.mtk.so",
+    "libneuron_adapter.so",
+    "libneuron_graph_delegate.mtk.so",
+    "libneuron_platform.so",
+    "libneuronusdk_adapter.mtk.so",
+    "vendor.mediatek.hardware.apuware.apusys-V1-ndk.so",
+    "vendor.mediatek.hardware.apuware.apusys@1.0.so",
+    "vendor.mediatek.hardware.apuware.apusys@2.0.so",
+    "vendor.mediatek.hardware.apuware.apusys@2.1.so"
+   ]
+  }
+ },
+ "memory": {
+  "mem_total_kib": 3664768,
+  "dumpsys_total_ram_kib": 3664768,
+  "ddr": {
+   "props": {
+    "ro.boot.ddr_size": "4096MB"
+   }
+  }
+ },
+ "state_at_probe": {
+  "battery_temp_c": 30.0,
+  "thermal": {
+   "status": 0,
+   "current": {
+    "CPU": {
+     "c": 43.544,
+     "type": 0,
+     "status": 0
+    },
+    "GPU": {
+     "c": 43.544,
+     "type": 1,
+     "status": 0
+    },
+    "BATTERY": {
+     "c": 30.125,
+     "type": 2,
+     "status": 0
+    },
+    "SKIN": {
+     "c": 34.659,
+     "type": 3,
+     "status": 0
+    },
+    "POWER_AMPLIFIER": {
+     "c": 33.514,
+     "type": 5,
+     "status": 0
+    },
+    "NPU": {
+     "c": 43.544,
+     "type": 9,
+     "status": 0
+    }
+   },
+   "cached": {
+    "CPU": {
+     "c": 53.312,
+     "type": 0,
+     "status": 0
+    },
+    "GPU": {
+     "c": 53.312,
+     "type": 1,
+     "status": 0
+    },
+    "NPU": {
+     "c": 53.312,
+     "type": 9,
+     "status": 0
+    },
+    "SKIN": {
+     "c": 36.993,
+     "type": 3,
+     "status": 0
+    },
+    "BATTERY": {
+     "c": 26.5,
+     "type": 2,
+     "status": 0
+    },
+    "POWER_AMPLIFIER": {
+     "c": 30.957,
+     "type": 5,
+     "status": 0
+    }
+   }
+  },
+  "fixed_performance_mode": "accepted"
+ },
+ "tooling": {
+  "simpleperf": {
+   "present": true,
+   "version": "1.build.A146U1UEU1AVL6",
+   "perf_event_paranoid": -1
+  }
+ },
+ "staging": {
+  "adb_push_mib_s": 18.7,
+  "hf_fetch": [
+   "http=200 bytes=11422654 seconds=0.328619 speed_Bps=34759566"
+  ]
+ }
+}

@@ -1,0 +1,254 @@
+{
+ "reported": {
+  "manufacturer": "Xiaomi",
+  "model": "23090RA98G",
+  "device": "zircon",
+  "soc_manufacturer": "Mediatek",
+  "soc_model": "MT6886",
+  "board_platform": "mt6886",
+  "hardware": "mt6886",
+  "android": "15",
+  "sdk": "35",
+  "fingerprint": "Redmi/zircon_eea/zircon:15/AP3A.240905.015.A2/OS2.0.206.0.VNOEUXM:user/release-keys",
+  "security_patch": "2025-11-01",
+  "page_size": null,
+  "abilist": "arm64-v8a,armeabi-v7a,armeabi",
+  "arm64_userspace": true
+ },
+ "cpu": {
+  "count": 8,
+  "topology": "2+6",
+  "clock_domains": [
+   {
+    "policy": "policy6",
+    "cpus": [
+     6,
+     7
+    ],
+    "max_mhz": 2800.0,
+    "governor": "sugov_ext",
+    "designs": [
+     "CORTEX_A715"
+    ]
+   },
+   {
+    "policy": "policy0",
+    "cpus": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5
+    ],
+    "max_mhz": 2000.0,
+    "governor": "<unreadable>",
+    "designs": [
+     "CORTEX_A510"
+    ]
+   }
+  ],
+  "tiers": "2+6",
+  "clusters": [
+   {
+    "cores": 2,
+    "cpus": [
+     6,
+     7
+    ],
+    "implementer": "0x41",
+    "part": "0xd4d",
+    "design": "CORTEX_A715",
+    "design_source": "linux cputype.h",
+    "max_mhz": 2800.0,
+    "efficiency_class": false,
+    "core_class": "performance"
+   },
+   {
+    "cores": 6,
+    "cpus": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5
+    ],
+    "implementer": "0x41",
+    "part": "0xd46",
+    "design": "CORTEX_A510",
+    "design_source": "linux cputype.h",
+    "max_mhz": 2000.0,
+    "efficiency_class": true,
+    "core_class": "efficiency"
+   }
+  ],
+  "all_big_cores": false,
+  "max_mhz": 2800.0,
+  "features": [
+   "aes",
+   "asimd",
+   "asimddp",
+   "asimdfhm",
+   "asimdhp",
+   "asimdrdm",
+   "atomics",
+   "bf16",
+   "bti",
+   "cpuid",
+   "crc32",
+   "dcpodp",
+   "dcpop",
+   "dit",
+   "evtstrm",
+   "fcma",
+   "flagm",
+   "flagm2",
+   "fp",
+   "fphp",
+   "frint",
+   "i8mm",
+   "ilrcpc",
+   "jscvt",
+   "lrcpc",
+   "paca",
+   "pacg",
+   "pmull",
+   "sb",
+   "sha1",
+   "sha2",
+   "sha3",
+   "sha512",
+   "sm3",
+   "sm4",
+   "ssbs",
+   "sve",
+   "sve2",
+   "sveaes",
+   "svebf16",
+   "svebitperm",
+   "svei8mm",
+   "svepmull",
+   "svesha3",
+   "svesm4",
+   "uscat"
+  ]
+ },
+ "gpu": {
+  "gles": "ARM, Mali-G610 MC4, OpenGL ES 3.2 v1.r38p1",
+  "vulkan_device": "Mali-G610 MC4"
+ },
+ "npu": {
+  "runtimes_present": {
+   "mediatek-neuron-apusys": [
+    "APUWareApusysAidlServer.so",
+    "libapusys.so",
+    "libapusys_edma.so",
+    "libapuwareapusys.mtk.so",
+    "libapuwareapusys_v2.mtk.so",
+    "libneuron_adapter_mgvi.so",
+    "libneuron_graph_delegate.mtk.so",
+    "libneuron_platform.so",
+    "libneuron_runtime.6.so",
+    "libneuron_runtime_vpp.6.0.3.so",
+    "libneuron_runtime_vpp.6.so",
+    "libneuron_wrapper.so",
+    "libneuronusdk_adapter.mtk.so",
+    "vendor.mediatek.hardware.apuware.apusys-V1-ndk.so",
+    "vendor.mediatek.hardware.apuware.apusys-V5-ndk.so",
+    "vendor.mediatek.hardware.apuware.apusys@1.0.so",
+    "vendor.mediatek.hardware.apuware.apusys@2.0.so",
+    "vendor.mediatek.hardware.apuware.apusys@2.1.so"
+   ]
+  }
+ },
+ "memory": {
+  "mem_total_kib": 7551080,
+  "dumpsys_total_ram_kib": 7551080,
+  "ddr": {}
+ },
+ "state_at_probe": {
+  "battery_temp_c": 29.7,
+  "thermal": {
+   "status": 0,
+   "current": {
+    "CPU": {
+     "c": 37.395,
+     "type": 0,
+     "status": 0
+    },
+    "GPU": {
+     "c": 37.395,
+     "type": 1,
+     "status": 0
+    },
+    "BATTERY": {
+     "c": 29.7,
+     "type": 2,
+     "status": 0
+    },
+    "SKIN": {
+     "c": 33.17,
+     "type": 3,
+     "status": 0
+    },
+    "POWER_AMPLIFIER": {
+     "c": 32.565,
+     "type": 5,
+     "status": 0
+    },
+    "NPU": {
+     "c": 37.395,
+     "type": 9,
+     "status": 0
+    }
+   },
+   "cached": {
+    "CPU": {
+     "c": 52.632,
+     "type": 0,
+     "status": 0
+    },
+    "GPU": {
+     "c": 52.632,
+     "type": 1,
+     "status": 0
+    },
+    "NPU": {
+     "c": 52.632,
+     "type": 9,
+     "status": 0
+    },
+    "SKIN": {
+     "c": 32.832,
+     "type": 3,
+     "status": 0
+    },
+    "BATTERY": {
+     "c": 26.5,
+     "type": 2,
+     "status": 0
+    },
+    "POWER_AMPLIFIER": {
+     "c": 29.548,
+     "type": 5,
+     "status": 0
+    }
+   }
+  },
+  "fixed_performance_mode": "accepted"
+ },
+ "tooling": {
+  "simpleperf": {
+   "present": true,
+   "version": "1.build.OS2.0.206.0.VNOEUXM",
+   "perf_event_paranoid": -1
+  }
+ },
+ "staging": {
+  "adb_push_mib_s": 26.4,
+  "hf_fetch": [
+   "http=200 bytes=11422654 seconds=0.331596 speed_Bps=34447502"
+  ]
+ }
+}

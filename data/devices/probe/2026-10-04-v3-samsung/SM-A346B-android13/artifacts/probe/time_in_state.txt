@@ -1,0 +1,8 @@
+== /sys/devices/system/cpu/cpufreq/policy0
+2000000 37347
+1903000 1492
+1800000 449
+== /sys/devices/system/cpu/cpufreq/policy6
+2600000 25317
+2400000 316
+2275000 301

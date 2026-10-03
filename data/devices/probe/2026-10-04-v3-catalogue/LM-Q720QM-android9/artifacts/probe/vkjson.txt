@@ -1,0 +1,5 @@
+            "apiVersion" : 4198466,
+            "deviceID" : 83887616,
+            "deviceName" : "Adreno (TM) 506",
+            "driverVersion" : 2148839424,
+            "vendorID" : 20803

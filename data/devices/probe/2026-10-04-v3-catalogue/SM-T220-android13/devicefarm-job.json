@@ -1,0 +1,47 @@
+{
+ "arn": "arn:aws:devicefarm:us-west-2:<account>:job:733be749-de36-4847-ba64-a034b55b21dd/8a979433-95de-46e0-9971-b56c02b21c36/00007",
+ "counters": {
+  "errored": 0,
+  "failed": 0,
+  "passed": 3,
+  "skipped": 0,
+  "stopped": 0,
+  "total": 3,
+  "warned": 0
+ },
+ "created": "2026-10-04 07:21:37.906000+08:00",
+ "device": {
+  "arn": "arn:aws:devicefarm:us-west-2::device:1BE3F573D4EC41F5A0AFC690CC800FD4",
+  "cpu": {
+   "architecture": "arm64-v8a",
+   "clock": 2301.0,
+   "frequency": "MHz"
+  },
+  "fleetType": "PUBLIC",
+  "formFactor": "TABLET",
+  "heapSize": 512000000,
+  "image": "1BE3F573D4EC41F5A0AFC690CC800FD4",
+  "manufacturer": "Samsung",
+  "memory": 64000000000,
+  "model": "Samsung Galaxy Tab A7 Lite",
+  "modelId": "SM-T220",
+  "name": "Samsung Galaxy Tab A7 Lite",
+  "os": "13",
+  "platform": "ANDROID",
+  "remoteAccessEnabled": true,
+  "resolution": {
+   "height": 1340,
+   "width": 800
+  }
+ },
+ "deviceMinutes": {
+  "metered": 0.65,
+  "total": 0.97,
+  "unmetered": 0.0
+ },
+ "message": "Successful test lifecycle of Setup Test",
+ "name": "Samsung Galaxy Tab A7 Lite",
+ "result": "PASSED",
+ "status": "COMPLETED",
+ "videoCapture": false
+}

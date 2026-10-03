@@ -1,0 +1,6 @@
+/sys/class/kgsl/kgsl-3d0/gpu_model=<unreadable>
+/sys/class/kgsl/kgsl-3d0/max_gpuclk=<unreadable>
+/sys/class/kgsl/kgsl-3d0/devfreq/max_freq=<unreadable>
+/sys/kernel/gpu/gpu_model=Mali-G68 5 cores r1p1 0x9204
+/sys/kernel/gpu/gpu_max_clock=949000
+/sys/class/misc/mali0/device/gpuinfo=<unreadable>

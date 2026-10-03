@@ -1,0 +1,12 @@
+input
+memlog-4-npu-fil
+npu0_throughput
+npu0_throughput_max
+npu1_throughput
+npu1_throughput_max
+npu_throughput
+npu_throughput_max
+uinput
+unpu_throughput
+unpu_throughput_max
+vertex10

@@ -1,0 +1,234 @@
+{
+ "reported": {
+  "manufacturer": "samsung",
+  "model": "SM-A165F",
+  "device": "a16",
+  "soc_manufacturer": "Mediatek",
+  "soc_model": "MT6789V/CD",
+  "board_platform": "mt6789",
+  "hardware": "mt6789",
+  "android": "14",
+  "sdk": "34",
+  "fingerprint": "samsung/a16nsxx/a16:14/UP1A.231005.007/A165FXXS2AYA2:user/release-keys",
+  "security_patch": "2025-01-01",
+  "page_size": null,
+  "abilist": "arm64-v8a,armeabi-v7a,armeabi",
+  "arm64_userspace": true
+ },
+ "cpu": {
+  "count": 8,
+  "topology": "2+6",
+  "clock_domains": [
+   {
+    "policy": "policy6",
+    "cpus": [
+     6,
+     7
+    ],
+    "max_mhz": 2200.0,
+    "governor": "sugov_ext",
+    "designs": [
+     "CORTEX_A76"
+    ]
+   },
+   {
+    "policy": "policy0",
+    "cpus": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5
+    ],
+    "max_mhz": 2000.0,
+    "governor": "<unreadable>",
+    "designs": [
+     "CORTEX_A55"
+    ]
+   }
+  ],
+  "tiers": "2+6",
+  "clusters": [
+   {
+    "cores": 2,
+    "cpus": [
+     6,
+     7
+    ],
+    "implementer": "0x41",
+    "part": "0xd0b",
+    "design": "CORTEX_A76",
+    "design_source": "linux cputype.h",
+    "max_mhz": 2200.0,
+    "efficiency_class": false,
+    "core_class": "performance"
+   },
+   {
+    "cores": 6,
+    "cpus": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5
+    ],
+    "implementer": "0x41",
+    "part": "0xd05",
+    "design": "CORTEX_A55",
+    "design_source": "linux cputype.h",
+    "max_mhz": 2000.0,
+    "efficiency_class": true,
+    "core_class": "efficiency"
+   }
+  ],
+  "all_big_cores": false,
+  "max_mhz": 2200.0,
+  "features": [
+   "aes",
+   "asimd",
+   "asimddp",
+   "asimdhp",
+   "asimdrdm",
+   "atomics",
+   "cpuid",
+   "crc32",
+   "dcpop",
+   "evtstrm",
+   "fp",
+   "fphp",
+   "lrcpc",
+   "pmull",
+   "sha1",
+   "sha2"
+  ]
+ },
+ "gpu": {
+  "gles": "ARM, Mali-G57 MC2, OpenGL ES 3.2 v1.r32p1-01eac0.3d0f892e790e4319a235910ce1559a8a",
+  "vulkan_device": "Mali-G57 MC2"
+ },
+ "npu": {
+  "runtimes_present": {
+   "mediatek-neuron-apusys": [
+    "APUWareApusysServer.so",
+    "libapusys.so",
+    "libapusys_edma.so",
+    "libapuwareapusys.mtk.so",
+    "libapuwareapusys_v2.mtk.so",
+    "libneuron_adapter_mgvi.so",
+    "libneuron_graph_delegate.mtk.so",
+    "libneuron_platform.so",
+    "libneuron_runtime.5.so",
+    "libneuronusdk_adapter.mtk.so",
+    "vendor.mediatek.hardware.apuware.apusys-V2-ndk.so",
+    "vendor.mediatek.hardware.apuware.apusys@1.0.so",
+    "vendor.mediatek.hardware.apuware.apusys@2.0.so",
+    "vendor.mediatek.hardware.apuware.apusys@2.1.so"
+   ]
+  }
+ },
+ "memory": {
+  "mem_total_kib": 3708940,
+  "dumpsys_total_ram_kib": 3708940,
+  "ddr": {
+   "props": {
+    "ro.boot.ddr_size": "4096MB"
+   }
+  }
+ },
+ "state_at_probe": {
+  "battery_temp_c": 28.3,
+  "thermal": {
+   "status": 0,
+   "current": {
+    "AP": {
+     "c": 30.1,
+     "type": 0,
+     "status": 0
+    },
+    "BAT": {
+     "c": 28.3,
+     "type": 2,
+     "status": 0
+    },
+    "MAINBATRAW": {
+     "c": 28.3,
+     "type": 2,
+     "status": 0
+    },
+    "PA": {
+     "c": 29.4,
+     "type": 5,
+     "status": 0
+    },
+    "SKIN": {
+     "c": 30.5,
+     "type": 3,
+     "status": 0
+    },
+    "SUBBAT": {
+     "c": 0.0,
+     "type": 2,
+     "status": 0
+    },
+    "USB": {
+     "c": 28.6,
+     "type": 4,
+     "status": 0
+    }
+   },
+   "cached": {
+    "SUBBAT": {
+     "c": 0.0,
+     "type": 2,
+     "status": 0
+    },
+    "AP": {
+     "c": 30.1,
+     "type": 0,
+     "status": 0
+    },
+    "PA": {
+     "c": 29.4,
+     "type": 5,
+     "status": 0
+    },
+    "BAT": {
+     "c": 28.3,
+     "type": 2,
+     "status": 0
+    },
+    "USB": {
+     "c": 28.6,
+     "type": 4,
+     "status": 0
+    },
+    "SKIN": {
+     "c": 30.5,
+     "type": 3,
+     "status": 0
+    },
+    "MAINBATRAW": {
+     "c": 28.3,
+     "type": 2,
+     "status": 0
+    }
+   }
+  },
+  "fixed_performance_mode": "accepted"
+ },
+ "tooling": {
+  "simpleperf": {
+   "present": true,
+   "version": "1.build.A165FXXS2AYA2",
+   "perf_event_paranoid": -1
+  }
+ },
+ "staging": {
+  "adb_push_mib_s": 19.2,
+  "hf_fetch": [
+   "http=200 bytes=11422654 seconds=0.331188 speed_Bps=34489939"
+  ]
+ }
+}

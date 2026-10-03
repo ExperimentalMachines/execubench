@@ -1,0 +1,47 @@
+{
+ "arn": "arn:aws:devicefarm:us-west-2:<account>:job:733be749-de36-4847-ba64-a034b55b21dd/7af87807-ce27-4e13-872a-6ef48ed066fe/00016",
+ "counters": {
+  "errored": 0,
+  "failed": 0,
+  "passed": 3,
+  "skipped": 0,
+  "stopped": 0,
+  "total": 3,
+  "warned": 0
+ },
+ "created": "2026-10-04 06:25:17.699000+08:00",
+ "device": {
+  "arn": "arn:aws:devicefarm:us-west-2::device:65B6E559AC3F4D61A00C03E958F3D3E1",
+  "cpu": {
+   "architecture": "arm64-v8a",
+   "clock": 2265.6,
+   "frequency": "MHz"
+  },
+  "fleetType": "PUBLIC",
+  "formFactor": "PHONE",
+  "heapSize": 512000000,
+  "image": "65B6E559AC3F4D61A00C03E958F3D3E1",
+  "manufacturer": "Samsung",
+  "memory": 256000000000,
+  "model": "Samsung Galaxy S24 Ultra",
+  "modelId": "SM-S928U1",
+  "name": "Samsung Galaxy S24 Ultra",
+  "os": "14",
+  "platform": "ANDROID",
+  "remoteAccessEnabled": true,
+  "resolution": {
+   "height": 3120,
+   "width": 1440
+  }
+ },
+ "deviceMinutes": {
+  "metered": 0.5,
+  "total": 0.8,
+  "unmetered": 0.0
+ },
+ "message": "Successful test lifecycle of Setup Test",
+ "name": "Samsung Galaxy S24 Ultra",
+ "result": "PASSED",
+ "status": "COMPLETED",
+ "videoCapture": true
+}

@@ -1,0 +1,60 @@
+{
+  "job_id": "example-00000",
+  "provider": {
+    "run_arn": "arn:aws:devicefarm:us-west-2:000000000000:run:example/example",
+    "job_arn": "arn:aws:devicefarm:us-west-2:000000000000:job:example/example/00000",
+    "device_arn": "arn:aws:devicefarm:us-west-2::device:DF55D3152CC94B6BAC3FA52333390D86",
+    "host_os": "Amazon Linux 2 (5.10.269-270.1108.amzn2.x86_64)",
+    "adb_version": "Android Debug Bridge version 1.0.39",
+    "device_minutes": null
+  },
+  "device_id": "sm-s938u1-android15-3f06e532",
+  "device_unit": "0000000000000000",
+  "build_fingerprint": "example",
+  "model": {
+    "repo": "experimentalmachines/Qwen3-1.7B-ExecuTorch",
+    "revision": "0000000000000000000000000000000000000000",
+    "file": "xnnpack/Qwen3-1.7B-8da4w-gptq-8k.pte",
+    "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "backend": "xnnpack",
+    "qmode": "8da4w-gptq",
+    "window": 8192
+  },
+  "runtime": {
+    "executorch": "1.4.0",
+    "server": "execuserve",
+    "server_commit": "0000000000000000000000000000000000000000",
+    "threads": 0,
+    "kv_reuse": "off",
+    "apk_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "harness": {
+    "commit": "0000000000000000000000000000000000000000",
+    "suite": "v1",
+    "shard": "gsm8k[0:40]",
+    "suite_manifest_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "protocol": {
+    "fixed_performance_mode": false,
+    "fixed_performance_mode_accepted": null,
+    "cooldown": {
+      "max_battery_c": 35,
+      "max_skin_c": null,
+      "max_wait_s": 600
+    },
+    "warmup_requests": 3,
+    "screen": "on",
+    "proc_status_readable": null,
+    "sampling_period_ms": 250,
+    "protocol_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "tracks": [
+    "quality"
+  ],
+  "started_utc": "2026-01-01T00:00:00Z",
+  "finished_utc": null,
+  "outcome": "partial",
+  "failure": null,
+  "tokenizer_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "artifact_bytes": null
+}

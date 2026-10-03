@@ -1,0 +1,281 @@
+{
+ "reported": {
+  "manufacturer": "Google",
+  "model": "Pixel 3",
+  "device": "blueline",
+  "soc_manufacturer": null,
+  "soc_model": null,
+  "board_platform": "sdm845",
+  "hardware": "blueline",
+  "android": "10",
+  "sdk": "29",
+  "fingerprint": "google/blueline/blueline:10/QQ3A.200805.001/6578210:user/release-keys",
+  "security_patch": "2020-08-05",
+  "page_size": null,
+  "abilist": "arm64-v8a,armeabi-v7a,armeabi",
+  "arm64_userspace": true
+ },
+ "cpu": {
+  "count": 8,
+  "topology": "4+4",
+  "clock_domains": [
+   {
+    "policy": "policy4",
+    "cpus": [
+     4,
+     5,
+     6,
+     7
+    ],
+    "max_mhz": 2803.2,
+    "governor": "schedutil",
+    "designs": [
+     "KRYO_3XX_GOLD"
+    ]
+   },
+   {
+    "policy": "policy0",
+    "cpus": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "max_mhz": 1766.4,
+    "governor": "schedutil",
+    "designs": [
+     "KRYO_3XX_SILVER"
+    ]
+   }
+  ],
+  "tiers": "4+4",
+  "clusters": [
+   {
+    "cores": 4,
+    "cpus": [
+     4,
+     5,
+     6,
+     7
+    ],
+    "implementer": "0x51",
+    "part": "0x802",
+    "design": "KRYO_3XX_GOLD",
+    "design_source": "linux cputype.h",
+    "max_mhz": 2803.2,
+    "efficiency_class": false,
+    "core_class": "performance"
+   },
+   {
+    "cores": 4,
+    "cpus": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "implementer": "0x51",
+    "part": "0x803",
+    "design": "KRYO_3XX_SILVER",
+    "design_source": "linux cputype.h",
+    "max_mhz": 1766.4,
+    "efficiency_class": true,
+    "core_class": "efficiency"
+   }
+  ],
+  "all_big_cores": false,
+  "max_mhz": 2803.2,
+  "features": [
+   "aes",
+   "asimd",
+   "asimdhp",
+   "atomics",
+   "crc32",
+   "evtstrm",
+   "fp",
+   "fphp",
+   "pmull",
+   "sha1",
+   "sha2"
+  ]
+ },
+ "gpu": {
+  "gles": "Qualcomm, Adreno (TM) 630, OpenGL ES 3.2 V@415.0 (GIT@ba734b1, I0a3e8c4129, 1573259424) (Date:11/08/19)",
+  "vulkan_device": "Adreno (TM) 630"
+ },
+ "npu": {
+  "runtimes_present": {
+   "qualcomm-qnn-snpe": [
+    "ls: /vendor/lib64/libhexagon_nn_stub.so: Permission denied"
+   ]
+  }
+ },
+ "memory": {
+  "mem_total_kib": 3666472,
+  "dumpsys_total_ram_kib": 3666472,
+  "ddr": {
+   "raw": "4GB,Micron,LPDDR4X",
+   "size": "4GB",
+   "vendor": "Micron",
+   "type": "LPDDR4X",
+   "props": {
+    "ro.boot.ddr_size": "4GB",
+    "ro.boot.ddr_info": "Micron"
+   }
+  }
+ },
+ "state_at_probe": {
+  "battery_temp_c": 29.0,
+  "thermal": {
+   "status": 0,
+   "current": {
+    "cpu0-gold-usr": {
+     "c": 45.000004,
+     "type": 0,
+     "status": 0
+    },
+    "cpu0-silver-usr": {
+     "c": 44.600002,
+     "type": 0,
+     "status": 0
+    },
+    "cpu1-gold-usr": {
+     "c": 44.000004,
+     "type": 0,
+     "status": 0
+    },
+    "cpu1-silver-usr": {
+     "c": 44.000004,
+     "type": 0,
+     "status": 0
+    },
+    "cpu2-gold-usr": {
+     "c": 43.600002,
+     "type": 0,
+     "status": 0
+    },
+    "cpu2-silver-usr": {
+     "c": 44.000004,
+     "type": 0,
+     "status": 0
+    },
+    "cpu3-gold-usr": {
+     "c": 43.600002,
+     "type": 0,
+     "status": 0
+    },
+    "cpu3-silver-usr": {
+     "c": 44.600002,
+     "type": 0,
+     "status": 0
+    },
+    "fps-therm-monitor": {
+     "c": 29.816002,
+     "type": 3,
+     "status": 0
+    },
+    "gpu0-usr": {
+     "c": 42.000004,
+     "type": 1,
+     "status": 0
+    },
+    "gpu1-usr": {
+     "c": 42.7,
+     "type": 1,
+     "status": 0
+    },
+    "maxfg": {
+     "c": 29.100002,
+     "type": 2,
+     "status": 0
+    },
+    "usbc-therm-monitor": {
+     "c": 30.196001,
+     "type": 4,
+     "status": 0
+    }
+   },
+   "cached": {
+    "cpu0-silver-usr": {
+     "c": 61.4,
+     "type": 0,
+     "status": 0
+    },
+    "cpu1-silver-usr": {
+     "c": 57.4,
+     "type": 0,
+     "status": 0
+    },
+    "cpu2-silver-usr": {
+     "c": 57.4,
+     "type": 0,
+     "status": 0
+    },
+    "gpu0-usr": {
+     "c": 47.9,
+     "type": 1,
+     "status": 0
+    },
+    "gpu1-usr": {
+     "c": 49.9,
+     "type": 1,
+     "status": 0
+    },
+    "cpu3-silver-usr": {
+     "c": 60.4,
+     "type": 0,
+     "status": 0
+    },
+    "cpu3-gold-usr": {
+     "c": 59.100002,
+     "type": 0,
+     "status": 0
+    },
+    "cpu2-gold-usr": {
+     "c": 60.4,
+     "type": 0,
+     "status": 0
+    },
+    "cpu1-gold-usr": {
+     "c": 62.000004,
+     "type": 0,
+     "status": 0
+    },
+    "cpu0-gold-usr": {
+     "c": 65.0,
+     "type": 0,
+     "status": 0
+    },
+    "maxfg": {
+     "c": 29.800001,
+     "type": 2,
+     "status": 0
+    },
+    "usbc-therm-monitor": {
+     "c": 29.633001,
+     "type": 4,
+     "status": 0
+    },
+    "fps-therm-monitor": {
+     "c": 30.000002,
+     "type": 3,
+     "status": 0
+    }
+   }
+  },
+  "fixed_performance_mode": "exit=255 Unknown command: set-fixed-performance-mode-enabled"
+ },
+ "tooling": {
+  "simpleperf": {
+   "present": true,
+   "version": "1.build.6578210",
+   "perf_event_paranoid": 1
+  }
+ },
+ "staging": {
+  "adb_push_mib_s": 27.3,
+  "hf_fetch": [
+   "http=200 bytes=11422654 seconds=0.365852 speed_Bps=31222062"
+  ]
+ }
+}

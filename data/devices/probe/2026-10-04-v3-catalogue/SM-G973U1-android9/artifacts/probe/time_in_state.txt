@@ -1,0 +1,3 @@
+== /sys/devices/system/cpu/cpufreq/policy0
+== /sys/devices/system/cpu/cpufreq/policy4
+== /sys/devices/system/cpu/cpufreq/policy7

@@ -1,0 +1,6 @@
+	"apiVersion" : 4210688.0,
+				"apiVersion" : 4206888.0,
+				"deviceID" : 3097624576.0,
+				"deviceName" : "Mali-G715",
+				"driverVersion" : 222298112.0,
+				"vendorID" : 5045.0

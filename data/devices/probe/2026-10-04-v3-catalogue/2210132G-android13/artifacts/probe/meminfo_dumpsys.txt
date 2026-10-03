@@ -1,0 +1,4 @@
+Total RAM: 11,427,580K (status normal)
+ Free RAM: 8,099,728K (  848,264K cached pss + 6,929,276K cached kernel +   322,188K free)
+ Used RAM: 4,577,353K (3,304,865K used pss + 1,272,488K kernel)
+     ZRAM:   180,196K physical used for   659,200K in swap (6,291,452K total swap)

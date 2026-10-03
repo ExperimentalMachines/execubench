@@ -1,0 +1,8 @@
+  mWakefulness=Awake
+  mWakefulnessChanging=false
+  mIsPowered=true
+  mBatteryLevel=76
+  mBatteryLevelWhenDreamStarted=0
+  mBatteryLevelLow=false
+  mIsPowered=true
+  mBatteryLevel=76

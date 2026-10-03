@@ -1,0 +1,1 @@
+Linux localhost 4.14.186-22982776 #1 SMP PREEMPT Fri Apr 1 19:57:41 KST 2022 armv8l

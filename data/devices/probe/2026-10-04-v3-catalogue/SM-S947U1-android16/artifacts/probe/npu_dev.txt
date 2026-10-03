@@ -1,0 +1,11 @@
+fastrpc-adsp-secure
+fastrpc-cdsp
+fastrpc-cdsp-secure
+fastrpc-lpass2000
+fastrpc-nsp1000
+glink_pkt_ctrl_cdsp
+glink_pkt_data_cdsp
+input
+rdbg_cdsp
+remoteproc-cdsp-md
+uinput

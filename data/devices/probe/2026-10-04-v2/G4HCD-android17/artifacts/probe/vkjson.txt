@@ -1,0 +1,6 @@
+	"apiVersion" : 4210688.0,
+				"apiVersion" : 4211005.0,
+				"deviceID" : 1879445570.0,
+				"deviceName" : "PowerVR C-Series CXTP-48-1536 MC1",
+				"driverVersion" : 6908880.0,
+				"vendorID" : 4112.0

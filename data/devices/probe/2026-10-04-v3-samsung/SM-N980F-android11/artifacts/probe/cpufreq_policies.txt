@@ -1,0 +1,18 @@
+== /sys/devices/system/cpu/cpufreq/policy0
+affected_cpus=0 1 2 3
+related_cpus=0 1 2 3
+cpuinfo_max_freq=2002000
+cpuinfo_min_freq=442000
+scaling_governor=energy_step
+== /sys/devices/system/cpu/cpufreq/policy4
+affected_cpus=4 5
+related_cpus=4 5
+cpuinfo_max_freq=2504000
+cpuinfo_min_freq=507000
+scaling_governor=energy_step
+== /sys/devices/system/cpu/cpufreq/policy6
+affected_cpus=6 7
+related_cpus=6 7
+cpuinfo_max_freq=2730000
+cpuinfo_min_freq=546000
+scaling_governor=energy_step

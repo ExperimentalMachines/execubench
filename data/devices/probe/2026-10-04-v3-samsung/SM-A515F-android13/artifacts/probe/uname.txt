@@ -1,0 +1,1 @@
+Linux localhost 4.14.113-27176651 #1 SMP PREEMPT Thu Feb 1 23:57:09 KST 2024 aarch64 Toybox

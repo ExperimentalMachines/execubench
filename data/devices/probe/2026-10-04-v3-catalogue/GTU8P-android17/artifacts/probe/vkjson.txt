@@ -1,0 +1,6 @@
+	"apiVersion" : 4210688.0,
+				"apiVersion" : 4211031.0,
+				"deviceID" : 2824994816.0,
+				"deviceName" : "Mali-G710",
+				"driverVersion" : 226504704.0,
+				"vendorID" : 5045.0

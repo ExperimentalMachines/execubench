@@ -1,0 +1,62 @@
+{
+  "job_id": "example-00000",
+  "seq": 0,
+  "track": "quality",
+  "item": {
+    "dataset": "gsm8k",
+    "row_id": "example",
+    "conversation_id": null,
+    "turn": 0,
+    "max_tokens": 1024,
+    "prompt_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "eligible": true
+  },
+  "timings": {
+    "runner": {
+      "prompt_tokens": 100,
+      "generated_tokens": 100,
+      "inference_start_ms": 0,
+      "prompt_eval_end_ms": 1000,
+      "first_token_ms": 1000,
+      "inference_end_ms": 5000
+    },
+    "ttft_ms": 1000,
+    "decode_ms": 4000,
+    "e2e_ms": 5100,
+    "client_ttft_ms": 1050,
+    "monotonic_ms": 5002,
+    "clock_disagreement": false,
+    "prefill_tps": 100.0,
+    "decode_tps": 25.0
+  },
+  "tokens": {
+    "prefill": 100,
+    "cached": 0,
+    "decode_steps": 100,
+    "sampled": 101
+  },
+  "memory": {
+    "rss_sampled_peak_mib": 1000.0,
+    "rss_mean_mib": 900.0,
+    "samples": 20
+  },
+  "state": {
+    "battery_temp_c_start": 30.0,
+    "battery_temp_c_end": 31.0,
+    "thermal_status_max": 0,
+    "thermal_event": false,
+    "clock_drop": null
+  },
+  "output": {
+    "text": "#### 0",
+    "tool_calls": [],
+    "finish_reason": "stop"
+  },
+  "status": "ok",
+  "error": null,
+  "grade": {
+    "grader": "gsm8k-official@example",
+    "correct": true,
+    "format_failure": false
+  }
+}

@@ -1,0 +1,101 @@
+{
+ "gsm8k": {
+  "repo": "openai/gsm8k",
+  "revision": "740312add88f781978c0658806c59bc2815b9866",
+  "file": "main/test-00000-of-00001.parquet",
+  "sha256": "ee7b8da9e381df27b9e3f7758a159ab2bdaa4dbaa910546cbbc47e0cb44e4f59",
+  "rows": 1319
+ },
+ "ifeval": {
+  "repo": "google/IFEval",
+  "revision": "966cd89545d6b6acfd7638bc708b98261ca58e84",
+  "file": "ifeval_input_data.jsonl",
+  "sha256": "6a85310ca8ce15eff755aa08a3a4ff931c7e273e7515ebb3c492ea85fd8288f2",
+  "rows": 541
+ },
+ "multi_if": {
+  "repo": "facebook/Multi-IF",
+  "revision": "0ab97ce0b45c7f57772e8ba2ac1616f4b00bd3aa",
+  "file": "multiIF_20241018.csv",
+  "sha256": "6c588af031fe67b17c535b9ba0ccc14a1b9d77b4faf88c294f83aaa5a3000018",
+  "rows": 4501,
+  "english_rows": 909
+ },
+ "retrievalqa": {
+  "repo": "aialt/RetrievalQA",
+  "revision": "a6ad065f05fccdecc1f2974ff471929a39966d2f",
+  "file": "retrievalqa.jsonl",
+  "sha256": "cf86765748a8f54e8f6bbaec8a59de43d3fb2e01e4c69bc35bef559253c76aed",
+  "rows": 2785,
+  "param_knowledge_answerable": {
+   "1": 1514,
+   "0": 1271
+  },
+  "composition": {
+   "popqa": 1570,
+   "triviaqa": 898,
+   "realtimeqa": 188,
+   "toolqa": 75,
+   "freshqa": 54
+  },
+  "context_chars": {
+   "definition": "sum over passages of len(title) + len(text); a bare-string passage counts len(string)",
+   "method": "linear",
+   "p50": 12211,
+   "p95": 19745.199999999993,
+   "max": 25428
+  }
+ },
+ "retrievalqa_original": {
+  "repo": "zihanz/RetrievalQA",
+  "revision": "fe71a76cdc8b46fcb795e8abac64408753d1a0d3",
+  "file": "retrievalqa.jsonl",
+  "sha256": "9ebdf071a88367bec8d0bbd74846cc9ae2ded558d6c779f978bbd038f101061a",
+  "rows": 1271
+ },
+ "popqa": {
+  "repo": "akariasai/PopQA",
+  "revision": "098765c79ea10a2cb19c828324e33281b8336ec0",
+  "file": "test.tsv",
+  "sha256": "9a5227f41bff0e4c331d4a774d946b12f95307892b58f860a9606ef356e6089b",
+  "rows": 14267,
+  "retrievalqa_popqa_rows_joined_by_question_text": 1568,
+  "retrievalqa_popqa_rows": 1570,
+  "popqa_question_texts_unique": 13068
+ },
+ "bfcl_v4": {
+  "commit": "6ea57973c7a6097fd7c5915698c54c17c5b1b6c8",
+  "categories": {
+   "simple_python": {
+    "url": "https://raw.githubusercontent.com/ShishirPatil/gorilla/6ea57973c7a6097fd7c5915698c54c17c5b1b6c8/berkeley-function-call-leaderboard/bfcl_eval/data/BFCL_v4_simple_python.json",
+    "sha256": "82dd63ba502eb2520c6b5d1d9a5c4b590e03ff261565175561f6228a367d1991",
+    "rows": 400
+   },
+   "multiple": {
+    "url": "https://raw.githubusercontent.com/ShishirPatil/gorilla/6ea57973c7a6097fd7c5915698c54c17c5b1b6c8/berkeley-function-call-leaderboard/bfcl_eval/data/BFCL_v4_multiple.json",
+    "sha256": "aef168155ebd74b7ac2401198b201343bc7d16d7a3d7e0d4e6d8ee82c6969b2a",
+    "rows": 200
+   },
+   "parallel": {
+    "url": "https://raw.githubusercontent.com/ShishirPatil/gorilla/6ea57973c7a6097fd7c5915698c54c17c5b1b6c8/berkeley-function-call-leaderboard/bfcl_eval/data/BFCL_v4_parallel.json",
+    "sha256": "19f51a82eff42e5d62541aa500115a056eb78f437c2ba1f10415fd7c8e5dda84",
+    "rows": 200
+   },
+   "parallel_multiple": {
+    "url": "https://raw.githubusercontent.com/ShishirPatil/gorilla/6ea57973c7a6097fd7c5915698c54c17c5b1b6c8/berkeley-function-call-leaderboard/bfcl_eval/data/BFCL_v4_parallel_multiple.json",
+    "sha256": "8863ea8433239f55c5f016154cf0830853c89f693c6ea270396a2fa121960579",
+    "rows": 200
+   },
+   "irrelevance": {
+    "url": "https://raw.githubusercontent.com/ShishirPatil/gorilla/6ea57973c7a6097fd7c5915698c54c17c5b1b6c8/berkeley-function-call-leaderboard/bfcl_eval/data/BFCL_v4_irrelevance.json",
+    "sha256": "2b6ed4c2e992cdcf5f1678a701851f944bef7550ee026ed1ddb89efed5be01a6",
+    "rows": 240
+   },
+   "multi_turn_base": {
+    "url": "https://raw.githubusercontent.com/ShishirPatil/gorilla/6ea57973c7a6097fd7c5915698c54c17c5b1b6c8/berkeley-function-call-leaderboard/bfcl_eval/data/BFCL_v4_multi_turn_base.json",
+    "sha256": "1a21a995d06fd6f20ba55de7bced30ef953ec35e998f502ec2ecf4d66ef1c43a",
+    "rows": 200
+   }
+  }
+ }
+}

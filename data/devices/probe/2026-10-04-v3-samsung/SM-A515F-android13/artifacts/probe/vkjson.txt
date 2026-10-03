@@ -1,0 +1,6 @@
+	"apiVersion" : 4206592.0,
+				"apiVersion" : 4198613.0,
+				"deviceID" : 1646329872.0,
+				"deviceName" : "Mali-G72",
+				"driverVersion" : 159387648.0,
+				"vendorID" : 5045.0

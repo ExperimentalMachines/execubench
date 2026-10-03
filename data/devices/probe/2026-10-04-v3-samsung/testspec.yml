@@ -1,0 +1,21 @@
+version: 0.1
+android_test_host: amazon_linux_2
+
+# The probe ignores Appium: the Appium Python type is used only because it is a custom test
+# environment that runs our own commands on the host with adb attached to the phone.
+phases:
+  install:
+    commands:
+      - echo "$(. /etc/os-release && echo $PRETTY_NAME) ($(uname -r))"
+  pre_test:
+    commands:
+      - cd $DEVICEFARM_TEST_PACKAGE_PATH && ls -la
+  test:
+    commands:
+      - cd $DEVICEFARM_TEST_PACKAGE_PATH && bash tests/probe.sh
+  post_test:
+    commands:
+      - ls -la $DEVICEFARM_LOG_DIR/probe || true
+
+artifacts:
+  - $DEVICEFARM_LOG_DIR

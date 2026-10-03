@@ -1,0 +1,4 @@
+/sys/class/kgsl/kgsl-3d0/gpu_model=Adreno710v1/sys/class/kgsl/kgsl-3d0/max_gpuclk=1010000000
+/sys/class/kgsl/kgsl-3d0/devfreq/max_freq=1010000000
+/sys/kernel/gpu/gpu_model=Adreno710v1/sys/kernel/gpu/gpu_max_clock=1010
+/sys/class/misc/mali0/device/gpuinfo=/proc/gpufreq/gpufreq_opp_dump=

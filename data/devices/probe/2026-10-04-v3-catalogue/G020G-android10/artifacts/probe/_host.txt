@@ -1,0 +1,7 @@
+probe_version=3
+host_os=Amazon Linux 2 (5.10.269-270.1108.amzn2.x86_64)
+adb=Android Debug Bridge version 1.0.39
+device_arn=arn:aws:devicefarm:us-west-2::device:F1C3B0D61013491A8EE2FA19FAA80306
+device_name=unit-f31d2cbb6373f5c0
+device_os=10
+run_arn=arn:aws:devicefarm:us-west-2:<account>:run:733be749-de36-4847-ba64-a034b55b21dd/8a979433-95de-46e0-9971-b56c02b21c36

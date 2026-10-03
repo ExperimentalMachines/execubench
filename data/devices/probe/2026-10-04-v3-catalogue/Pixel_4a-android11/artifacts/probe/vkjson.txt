@@ -1,0 +1,5 @@
+            "apiVersion" : 4198528,
+            "deviceID" : 100730880,
+            "deviceName" : "Adreno (TM) 618",
+            "driverVersion" : 2149490688,
+            "vendorID" : 20803

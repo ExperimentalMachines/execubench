@@ -1,0 +1,6 @@
+	"apiVersion" : 4210688.0,
+				"apiVersion" : 4206880.0,
+				"deviceID" : 1896223250.0,
+				"deviceName" : "PowerVR D-Series DXT-48-1536 MC1",
+				"driverVersion" : 6660496.0,
+				"vendorID" : 4112.0

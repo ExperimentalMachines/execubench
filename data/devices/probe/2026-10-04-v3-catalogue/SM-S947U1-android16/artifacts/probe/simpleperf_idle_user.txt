@@ -1,0 +1,1 @@
+simpleperf E cmd_stat.cpp:911] System wide profiling needs root privilege.

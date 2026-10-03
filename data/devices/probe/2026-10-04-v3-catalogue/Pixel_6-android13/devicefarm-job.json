@@ -1,0 +1,47 @@
+{
+ "arn": "arn:aws:devicefarm:us-west-2:<account>:job:733be749-de36-4847-ba64-a034b55b21dd/8a979433-95de-46e0-9971-b56c02b21c36/00044",
+ "counters": {
+  "errored": 0,
+  "failed": 0,
+  "passed": 3,
+  "skipped": 0,
+  "stopped": 0,
+  "total": 3,
+  "warned": 0
+ },
+ "created": "2026-10-04 07:21:37.906000+08:00",
+ "device": {
+  "arn": "arn:aws:devicefarm:us-west-2::device:F4301BD8EB4A488DBD7DD245CECDFAE0",
+  "cpu": {
+   "architecture": "arm64-v8a",
+   "clock": 1803.0,
+   "frequency": "MHz"
+  },
+  "fleetType": "PUBLIC",
+  "formFactor": "PHONE",
+  "heapSize": 512000000,
+  "image": "F4301BD8EB4A488DBD7DD245CECDFAE0",
+  "manufacturer": "Google",
+  "memory": 128000000000,
+  "model": "Google Pixel 6",
+  "modelId": "Pixel 6",
+  "name": "Google Pixel 6 (Unlocked)",
+  "os": "13",
+  "platform": "ANDROID",
+  "remoteAccessEnabled": true,
+  "resolution": {
+   "height": 2400,
+   "width": 1080
+  }
+ },
+ "deviceMinutes": {
+  "metered": 0.47,
+  "total": 0.74,
+  "unmetered": 0.0
+ },
+ "message": "Successful test lifecycle of Setup Test",
+ "name": "Google Pixel 6 (Unlocked)",
+ "result": "PASSED",
+ "status": "COMPLETED",
+ "videoCapture": false
+}

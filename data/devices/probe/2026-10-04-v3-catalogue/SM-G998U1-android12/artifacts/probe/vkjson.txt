@@ -1,0 +1,5 @@
+				"apiVersion" : 4198528.0,
+				"deviceID" : 101056513.0,
+				"deviceName" : "Adreno (TM) 660",
+				"driverVersion" : 2149654528.0,
+				"vendorID" : 20803.0

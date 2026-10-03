@@ -1,0 +1,1 @@
+Linux localhost 6.6.50-android15-8-abA566U1UES3AYH1-4k #1 SMP PREEMPT Tue Aug  5 00:07:36 UTC 2025 aarch64 Toybox

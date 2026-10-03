@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/ExperimentalMachines/execubench/schemas/sample.schema.json",
+  "title": "State sample",
+  "description": "One line of samples.jsonl: the host's periodic reading of the server process and the phone during a job.",
+  "type": "object",
+  "required": [
+    "job_id",
+    "t_ns",
+    "kind"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "job_id": {
+      "type": "string"
+    },
+    "seq": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "description": "The request being served, if any"
+    },
+    "t_ns": {
+      "type": "integer",
+      "description": "Host monotonic clock (time.monotonic_ns)"
+    },
+    "kind": {
+      "enum": [
+        "memory_clock",
+        "thermal"
+      ]
+    },
+    "vm_rss_kib": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "rss_anon_kib": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "rss_file_kib": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "vm_hwm_kib": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "cpu_cur_khz": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "description": "cpu index -> scaling_cur_freq"
+    },
+    "thermal_status": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "temps_c": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "description": "HAL current temperatures by sensor name"
+    },
+    "battery_temp_c": {
+      "type": [
+        "number",
+        "null"
+      ]
+    }
+  }
+}

@@ -1,0 +1,17 @@
+== cmd power set-fixed-performance-mode-enabled true
+Unknown command: set-fixed-performance-mode-enabled
+exit=255
+== cmd power set-fixed-performance-mode-enabled false
+Unknown command: set-fixed-performance-mode-enabled
+exit=255
+== simpleperf
+ls: /system/bin/simpleperf: No such file or directory
+/system/bin/sh: simpleperf: not found
+== perf_event_paranoid
+3
+== id
+uid=2000(shell) gid=2000(shell) groups=2000(shell),1004(input),1007(log),1011(adb),1015(sdcard_rw),1028(sdcard_r),3001(net_bt_admin),3002(net_bt),3003(inet),3006(net_bw_stats),3009(readproc),3011(uhid) context=u:r:shell:s0
+== storage
+Filesystem       Size  Used Avail Use% Mounted on
+/dev/block/sda30 110G  5.4G  104G   5% /data
+/data/media      110G  5.5G  104G   6% /storage/emulated
