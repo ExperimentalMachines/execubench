@@ -7,8 +7,8 @@ tiers:
     devices:
       sm-s938u1-android15: "Galaxy S25 Ultra, Snapdragon 8 Elite for Galaxy; same chip as the previous standard"
       glbw0-android16: "Pixel 10, Tensor G5; same chip as the previous standard"
-      sm-x730-android16: "Galaxy Tab S11, Dimensity 9400+; replaces the Tab S10+ (Dimensity 9300+), which Device Farm does not offer; a tablet"
-      sm-a566u1-android15: "Galaxy A56, Exynos 1580; the newest Exynos on Device Farm; mid-range, not a stand-in for the Exynos 2500"
+      sm-x730-android16: "Galaxy Tab S11, Dimensity 9400+; the only MediaTek chip on Device Farm with Cortex-X cores; replaces the Tab S10+ (Dimensity 9300+), which Device Farm does not offer; a tablet"
+      sm-a566u1-android15: "Galaxy A56, Exynos 1580; the only Exynos on Device Farm with Armv9 cores; mid-range, not a stand-in for the Exynos 2500"
   A+:
     description: "Current generation"
     devices:

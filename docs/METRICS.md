@@ -35,11 +35,15 @@ ExecuTorch Android AAR in ExecuServe. Facts checked in the v1.4.0 sources
 tag commit `3dd7ccd1d863fad22639dd2d918ae34a41ce45f0`):
 
 - `time_in_ms()` returns integer milliseconds from **`CLOCK_REALTIME`** on Android, a wall
-  clock that time synchronisation may adjust mid-run. The harness therefore also takes its own
-  timestamps from a monotonic clock (`SystemClock.elapsedRealtimeNanos()` in ExecuServe,
-  `time.monotonic_ns()` on the host); a request whose runner and monotonic durations differ by
-  more than 5 ms plus 1 percent is flagged `clock_disagreement` and its runner timings are not
-  published.
+  clock that time synchronisation may adjust mid-run. A total-duration check is not enough
+  (two opposite adjustments could cancel), so ExecuServe takes its own monotonic timestamps
+  (`SystemClock.elapsedRealtimeNanos()`) at three points: the runner call, the first token
+  callback and the runner's return, giving monotonic TTFT and decode durations. A request whose
+  runner and monotonic durations differ in **either** stage by more than 5 ms plus 1 percent is
+  flagged `clock_disagreement` and its timings are not published. The first token callback
+  fires just after the runner's `first_token_ms` (the token is decoded to text first), so the
+  tolerance covers that gap; P1 measures it. Until ExecuServe implements this, stage-clock
+  integrity is unresolved.
 - `inference_start_ms` is read **before** the prompt is tokenized.
 - `first_token_ms` and `prompt_eval_end_ms` are two consecutive clock reads right after
   prefill returns the first sampled token and before that token is decoded to text. They are
@@ -97,8 +101,9 @@ The cell key is:
 - device id (model, Android version and build fingerprint hash; see `docs/DEVICES.md`);
 - track, dataset or speed bucket: prompt-length target and decode-step target;
 - protocol hash: fixed performance mode, cooldown thresholds, warm-up count, sampling period;
-- runtime identity: ExecuTorch version, ExecuServe APK sha256, effective thread count, KV-reuse
-  mode.
+- runtime identity: ExecuTorch version, ExecuServe APK sha256, the **effective** thread count
+  as ExecuServe reports it after load (the requested count, where 0 means "runtime chooses",
+  is recorded but is not a key), KV-reuse mode.
 
 Pooling across physical units of one device id is allowed and recorded (`device_units`, and
 `jobs`). Pooling across any other part of the key is refused by the summariser.
@@ -144,8 +149,8 @@ ExecuServe reports its own `/proc/self/status` through its status endpoint inste
 
 | Field | Source | Notes |
 |---|---|---|
-| `battery_temp_c` | `dumpsys battery` `temperature` / 10 | At request start and end. Device Farm phones are on USB power throughout, so charging heat is part of the reading |
-| `thermal_status` | `dumpsys thermalservice` `Thermal Status` (0 none to 6 shutdown), sampled every 1 s | Not just at request boundaries, so a transient event inside a request is seen |
+| `battery_temp_c` | `dumpsys battery` `temperature` / 10 | At request start and end. Device Farm phones are on USB power throughout, so charging heat is part of the reading. Where the thermal HAL is used instead, battery means the sensors named `BAT`, `battery`, `BATTERY` or `MAINBATRAW`; `SUBBAT` sensors reading 0 are placeholders and excluded |
+| `thermal_status` | `dumpsys thermalservice` `Thermal Status` (0 none to 6 shutdown), sampled every 1 s | Sampled inside requests, not just at their boundaries; an event shorter than the sampling period can still be missed |
 | `skin_temp_c`, `soc_temp_c` | Thermal HAL **current** temperatures of type SKIN (3) and CPU (0), every 1 s | The dump also prints a cached block that can be minutes old; it is never used as a reading |
 | `cpu_cur_mhz` | `scaling_cur_freq` per core, every 250 ms | What the governor set, not what the core retired. Readable by the shell on all 19 probed phones |
 | `cpufreq_time_in_state` | Per clock domain, before and after each block | Readability checked in P1 (probe v3 records it) |

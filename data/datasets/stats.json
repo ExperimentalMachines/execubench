@@ -97,5 +97,29 @@
     "rows": 200
    }
   }
+ },
+ "mt_eval": {
+  "repo": "wckwan/MT-Eval",
+  "revision": "d6b37dce6eae16343c89ba448bfb8aff82e5864d",
+  "files": {
+   "recollection_multi_cls.jsonl": {
+    "sha256": "974441d4df5cb8baa87055b82ef1139a6c579926d838193e0927c933f0ed0c57",
+    "dialogues": 10
+   },
+   "recollection_multi_global-inst.jsonl": {
+    "sha256": "a036562eb7a19d4a24acc4a93d1094153d5bd0273cd94419606971ae835fbe0e",
+    "dialogues": 28
+   }
+  }
+ },
+ "freshqa": {
+  "url": "https://docs.google.com/spreadsheets/d/1_8mi-yuK30mvoDJu1KQXD6ODem7MKMcIgVAwDSzJkjM/export?format=csv",
+  "sha256": "3769244f66bb2666fe5160c8cc235339b7c54c61fc88d360995aa91d4c904789",
+  "rows": 600,
+  "splits": {
+   "TEST": 500,
+   "DEV": 100
+  },
+  "false_premise": 149
  }
 }

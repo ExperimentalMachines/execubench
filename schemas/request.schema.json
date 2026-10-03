@@ -90,6 +90,23 @@
         "eligible": {
           "type": "boolean",
           "description": "Whether the row was eligible for this model when the suite was frozen (prompt plus cap fits the window)"
+        },
+        "answer_in_context": {
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "description": "RetrievalQA: whether any gold answer string appears in the passages actually given"
+        },
+        "retained_passages": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "common.schema.json#/$defs/sha256"
+          },
+          "description": "RetrievalQA: sha256 of each passage given, in order"
         }
       }
     },
@@ -104,7 +121,35 @@
       "properties": {
         "runner": {
           "type": "object",
-          "description": "The runner's stats JSON, verbatim"
+          "description": "The runner's stats JSON, verbatim; these members are required, others are kept as reported",
+          "required": [
+            "inference_start_ms",
+            "prompt_eval_end_ms",
+            "first_token_ms",
+            "inference_end_ms",
+            "prompt_tokens",
+            "generated_tokens"
+          ],
+          "properties": {
+            "inference_start_ms": {
+              "type": "integer"
+            },
+            "prompt_eval_end_ms": {
+              "type": "integer"
+            },
+            "first_token_ms": {
+              "type": "integer"
+            },
+            "inference_end_ms": {
+              "type": "integer"
+            },
+            "prompt_tokens": {
+              "type": "integer"
+            },
+            "generated_tokens": {
+              "type": "integer"
+            }
+          }
         },
         "ttft_ms": {
           "type": [
@@ -147,16 +192,30 @@
           ],
           "description": "null when decode_ms < 250 or decode_steps < 16"
         },
-        "monotonic_ms": {
-          "type": [
-            "integer",
-            "null"
-          ],
-          "description": "ExecuServe's monotonic duration of the runner call"
-        },
         "clock_disagreement": {
           "type": "boolean",
-          "description": "Runner (CLOCK_REALTIME) and monotonic durations differ by more than 5 ms plus 1 percent"
+          "description": "Any stage (TTFT, decode) where the runner's CLOCK_REALTIME duration and the monotonic duration differ by more than 5 ms plus 1 percent"
+        },
+        "monotonic": {
+          "type": "object",
+          "description": "ExecuServe's own monotonic timestamps (elapsedRealtimeNanos) at runner call start, first token callback and runner return, as durations",
+          "required": [
+            "start_to_first_token_ms",
+            "first_token_to_end_ms",
+            "total_ms"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "start_to_first_token_ms": {
+              "type": "number"
+            },
+            "first_token_to_end_ms": {
+              "type": "number"
+            },
+            "total_ms": {
+              "type": "number"
+            }
+          }
         }
       }
     },
@@ -225,7 +284,8 @@
           ]
         },
         "samples": {
-          "type": "integer"
+          "type": "integer",
+          "minimum": 0
         },
         "null_reason": {
           "type": [
@@ -299,6 +359,13 @@
             "number",
             "null"
           ]
+        },
+        "null_reason": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Why a state reading is missing"
         }
       }
     },
@@ -341,6 +408,16 @@
             "type": "object"
           },
           "description": "Multi-turn tool loops: each call, the simulator's result and its state after the call, in order"
+        },
+        "token_ids": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "integer"
+          },
+          "description": "Sampled token ids, when the runtime exposes them (not in ExecuServe 1.4.0-based builds; P1 decides)"
         }
       }
     },
@@ -417,7 +494,10 @@
           "status": {
             "const": "ok"
           }
-        }
+        },
+        "required": [
+          "status"
+        ]
       },
       "then": {
         "properties": {
@@ -427,7 +507,7 @@
               "ttft_ms",
               "decode_ms",
               "e2e_ms",
-              "monotonic_ms",
+              "monotonic",
               "clock_disagreement"
             ]
           },
@@ -436,7 +516,151 @@
               "dataset",
               "row_id",
               "prompt_sha256",
+              "prompt_text",
               "max_tokens"
+            ],
+            "properties": {
+              "prompt_text": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "memory": {
+            "allOf": [
+              {
+                "anyOf": [
+                  {
+                    "properties": {
+                      "rss_sampled_peak_mib": {
+                        "type": "number"
+                      },
+                      "rss_mean_mib": {
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "rss_sampled_peak_mib",
+                      "rss_mean_mib"
+                    ]
+                  },
+                  {
+                    "properties": {
+                      "null_reason": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    },
+                    "required": [
+                      "null_reason"
+                    ]
+                  }
+                ]
+              },
+              {
+                "anyOf": [
+                  {
+                    "properties": {
+                      "samples": {
+                        "minimum": 1
+                      }
+                    }
+                  },
+                  {
+                    "required": [
+                      "null_reason"
+                    ],
+                    "properties": {
+                      "null_reason": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "state": {
+            "anyOf": [
+              {
+                "properties": {
+                  "battery_temp_c_start": {
+                    "type": "number"
+                  },
+                  "battery_temp_c_end": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "battery_temp_c_start",
+                  "battery_temp_c_end"
+                ]
+              },
+              {
+                "properties": {
+                  "null_reason": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "null_reason"
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "track": {
+            "const": "speed"
+          }
+        },
+        "required": [
+          "track"
+        ]
+      },
+      "then": {
+        "properties": {
+          "item": {
+            "required": [
+              "prompt_bucket",
+              "decode_target"
+            ],
+            "properties": {
+              "prompt_bucket": {
+                "type": "integer"
+              },
+              "decode_target": {
+                "type": "integer"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "item": {
+            "properties": {
+              "dataset": {
+                "pattern": "^retrievalqa/"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "item": {
+            "required": [
+              "answer_in_context",
+              "retained_passages"
             ]
           }
         }

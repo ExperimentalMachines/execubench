@@ -1,0 +1,1 @@
+cores=8 with_max_freq=8 with_midr=0 in_policies=8

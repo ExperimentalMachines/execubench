@@ -108,6 +108,35 @@ def test_scrub_replaces_serial_everywhere_and_drops_progress():
     assert out["probe/push.txt"] == b"/tmp/push.bin: 1 file pushed.\n"
 
 
+@pytest.mark.parametrize(
+    "key",
+    [
+        "ro.ril.oem.btmac",
+        "ro.vendor.oem.wifimac",
+        "ril.serialnumber",
+        "vendor.gsm.serial",
+        "ro.boot.uniqueno",
+        "persist.vendor.sys.fp.uid",
+        "vendor.camera.sensor.f.fuseID",
+        "ro.ril.oem.sno",
+        "ro.ril.oem.psno",
+        "ro.boot.ddr_serial",
+        "ro.ril.miui.imei0",
+        "gsm.sim.preiccid_0",
+    ],
+)
+def test_identifier_keys_found_in_real_dumps_are_redacted(key):
+    """Every key here held a per-device value in a real probe dump (review round 2)."""
+    assert devicefarm.IDENTIFIER_KEYS.match(key.encode())
+
+
+@pytest.mark.parametrize(
+    "key", ["ro.build.uuid", "ro.boot.cdt_hwid", "persist.sys.sec_cid", "ril.support.dynamic_imei"]
+)
+def test_shared_or_flag_keys_are_kept(key):
+    assert not devicefarm.IDENTIFIER_KEYS.match(key.encode())
+
+
 def test_artifact_paths_cannot_escape():
     assert devicefarm._safe_member("Host_Machine_Files/$DEVICEFARM_LOG_DIR/probe/a.txt") == "probe/a.txt"
     for bad in ("Host_Machine_Files/$DEVICEFARM_LOG_DIR/../x", "/etc/passwd", "a/../../b"):

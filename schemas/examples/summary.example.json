@@ -41,7 +41,8 @@
   "runtime": {
     "executorch": "1.4.0",
     "apk_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
-    "threads": 0,
+    "requested_threads": 0,
+    "effective_threads": 4,
     "kv_reuse": "off"
   },
   "days": [

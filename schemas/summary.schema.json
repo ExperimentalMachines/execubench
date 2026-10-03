@@ -143,6 +143,28 @@
         },
         "ineligible": {
           "type": "integer"
+        },
+        "answer_in_context": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "description": "RetrievalQA: accuracy split by whether the given passages still held a gold answer",
+          "additionalProperties": false,
+          "properties": {
+            "in_context_attempted": {
+              "type": "integer"
+            },
+            "in_context_correct": {
+              "type": "integer"
+            },
+            "not_in_context_attempted": {
+              "type": "integer"
+            },
+            "not_in_context_correct": {
+              "type": "integer"
+            }
+          }
         }
       }
     },
@@ -261,7 +283,8 @@
       "required": [
         "executorch",
         "apk_sha256",
-        "threads",
+        "requested_threads",
+        "effective_threads",
         "kv_reuse"
       ],
       "additionalProperties": false,
@@ -272,8 +295,15 @@
         "apk_sha256": {
           "$ref": "common.schema.json#/$defs/sha256"
         },
-        "threads": {
-          "type": "integer"
+        "requested_threads": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "0 means the runtime chooses"
+        },
+        "effective_threads": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Threads the runtime actually used, as reported by ExecuServe; part of the cell key"
         },
         "kv_reuse": {
           "enum": [
@@ -336,5 +366,33 @@
         }
       }
     }
-  }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "track": {
+            "const": "speed"
+          }
+        },
+        "required": [
+          "track"
+        ]
+      },
+      "then": {
+        "required": [
+          "prompt_bucket",
+          "decode_target"
+        ],
+        "properties": {
+          "prompt_bucket": {
+            "type": "integer"
+          },
+          "decode_target": {
+            "type": "integer"
+          }
+        }
+      }
+    }
+  ]
 }

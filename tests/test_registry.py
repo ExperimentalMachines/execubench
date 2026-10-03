@@ -56,10 +56,23 @@ def test_device_ids_change_with_the_build():
     assert len(set(ids)) == len(ids)
     for rec in DEVICES:
         assert rec["id"].startswith(rec["device_model_id"] + "-")
+    # Two models changed firmware between the first two probes; both builds are kept.
+    by_model: dict[str, list] = {}
+    for rec in DEVICES:
+        by_model.setdefault(rec["device_model_id"], []).append(rec)
+    assert {m for m, recs in by_model.items() if len(recs) > 1} == {"sm-s928u1-android14", "23090ra98g-android15"}
+    assert all(sum(r["latest_for_model"] for r in recs) == 1 for recs in by_model.values())
+
+
+def test_architecture_labels_follow_core_classes():
+    assert registry.architecture(["efficiency"], 1) == "all-efficiency-core, single-cluster"
+    assert registry.architecture(["performance", "performance"], 2) == "all-big-core, dual-cluster"
+    assert registry.architecture(["performance", "efficiency"], 2) == "big.LITTLE, dual-cluster"
+    assert registry.architecture(["performance", "unknown"], 2) == "core classes unknown, dual-cluster"
 
 
 def test_every_standard_device_is_probed_and_has_published_specs():
-    by_model = {r["device_model_id"]: r for r in DEVICES}
+    by_model = {r["device_model_id"]: r for r in DEVICES if r["latest_for_model"]}
     for model_id in STANDARD_IDS:
         rec = by_model[model_id]
         assert rec["soc"]["marketing_name"]["provenance"] == "published", model_id

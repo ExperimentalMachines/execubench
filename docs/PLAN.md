@@ -63,11 +63,13 @@ GPTQ-solved (`8da4w-gptq`), int8 per-channel embeddings, group size 32, fp32 KV 
 chunk 2,048 (the `recipe` field). For every file the Hub's LFS sha256 equals the sha256 its
 export report recorded, and every tokenizer is hashed.
 
-**The inventory moves.** A scan about an hour earlier the same day found 68 files (44
-round-to-nearest, 24 GPTQ): in between, execupack's CI republished 11 of the 16 repos, moved
-four repos from round-to-nearest to GPTQ and added 32k windows to three. So a result names the
-file's sha256, never just a repo or a model name, and P2 freezes a **model manifest** (repo,
-revision, file, sha256) that the v1 grid runs against, whatever the Hub holds by then.
+**The inventory moves.** A preliminary scan 70 minutes earlier (`data/models/scan-preliminary-2026-10-03.json`,
+22:13Z) found 68 files (44 round-to-nearest, 24 GPTQ). In between, execupack's CI gave 11 of
+the 16 repos a new revision, and three of them (Qwen2.5-0.5B, Qwen3-0.6B, SmolLM2-135M) went
+from round-to-nearest to GPTQ and gained a 32k window: 68 less 12 round-to-nearest files plus
+15 GPTQ files is 71. So a result names the file's sha256, never just a repo or a model name,
+and P2 freezes a **model manifest** (repo, revision, file, sha256) that the v1 grid runs
+against, whatever the Hub holds by then.
 
 | Family | Repos | Windows published at the 23:23Z scan |
 |---|---|---|
@@ -146,7 +148,9 @@ ExecuServe changes required before P1 (to be filed as issues in that repo, owned
 | Change | Why |
 |---|---|
 | Per-request `cache: "off"` (reset the runner before the request) | Single-turn and speed tracks must not reuse a KV prefix; ExecuServe reuses exact prefixes by default, which would make `prompt_tokens` the suffix only |
-| Return the runner's stats JSON verbatim, plus a monotonic duration of the runner call | METRICS defines fields from raw runner timestamps; the runner's clock is `CLOCK_REALTIME`, so a monotonic cross-check is needed |
+| Return the runner's stats JSON verbatim, plus monotonic timestamps at the runner call, the first token callback and the runner's return | METRICS defines fields from raw runner timestamps; the runner's clock is `CLOCK_REALTIME`, so each stage needs a monotonic cross-check |
+| Report the effective thread count after load | Part of the cell key; the requested 0 means "runtime chooses" |
+| Return sampled token ids where the runtime can expose them | Lets output agreement be checked at the token level; optional, P1 decides |
 | Return the rendered prompt and keep it per request | Replay needs the exact bytes, not just their hash |
 | Report `/proc/self/status` memory fields on the status endpoint | Fallback if the shell cannot read another app's `/proc/<pid>/status` |
 | `profileable android:shell="true"` in the benchmark build | Lets P1 test per-process `simpleperf` counting |
@@ -168,10 +172,10 @@ model in the 2026-10-04 catalogue was probed (`data/devices/probe/`):
 - Snapdragon 8 Elite (Galaxy S25 Ultra): **available**.
 - Tensor G5 (Pixel 10, 10 Pro, 10 Pro XL): **available**.
 - Dimensity 9300+ (Galaxy Tab S10+): **not in the catalogue**. The Galaxy Tab S11 (Dimensity
-  9400+) is the newest MediaTek chip offered.
-- Exynos 2500 (Galaxy Z Flip7): **not in the catalogue**. The newest Exynos offered is the
-  Galaxy A56's Exynos 1580 (mid-range); the only flagship-class Exynos is the 2020 Galaxy
-  Note20 (Exynos 990, Android 11).
+  9400+) is the only MediaTek chip offered with Cortex-X cores (from MIDR).
+- Exynos 2500 (Galaxy Z Flip7): **not in the catalogue**. The only Exynos phone with Armv9
+  cores is the Galaxy A56 (Exynos 1580, mid-range); the only flagship-class Exynos is the 2020
+  Galaxy Note20 (platform `universal990`, Android 11).
 
 Proposed v1 standard: **Tier A**, a vendor coverage set where the full quality selection runs
 (Galaxy S25 Ultra, Pixel 10, Galaxy Tab S11, and the mid-range Galaxy A56 for Exynos, its tier
@@ -216,8 +220,9 @@ and the encoder would compete for CPU and GPU).
    model, record load time.
 4. **Cool down.** Wait until battery temperature is at or below the threshold and thermal
    status is 0, up to a maximum wait (both recorded). In the second probe, before any model
-   ran, the HAL's current battery readings were 27.6 to 35.3 C, the hottest CPU-type sensor
-   per phone 29.5 to 41.3 C, and one Galaxy S24 Ultra was already at thermal status 1.
+   ran, the HAL's current battery readings were 27.6 to 35.3 C (sensors `BAT`, `battery`,
+   `BATTERY`, `MAINBATRAW`; zero-reading `SUBBAT` placeholders excluded), the hottest CPU-type
+   sensor per phone 29.5 to 41.3 C, and one Galaxy S24 Ultra was already at thermal status 1.
 5. **Warm up.** Three discarded requests.
 6. **Tracks**, in a fixed order: speed, then quality or agreement shards, then long-context.
    Each request writes one line to `requests.jsonl` immediately, and the host copies the
@@ -239,14 +244,18 @@ Every 250 ms during a request, over adb: server process memory (`/proc/<pid>/sta
 temperatures). At request start and end: `dumpsys battery`. Per block: `cpufreq`
 `time_in_state`. All 19 phones of the second probe expose a thermal status, a skin
 temperature and a battery temperature in the HAL's current block, under vendor names (`SKIN`
-on Samsung and the Redmi, `skin` on the Xiaomi 13, `VIRTUAL-SKIN` on Pixels). Sampling cost on
+on Samsung and the Redmi, `skin` on the Xiaomi 13, `VIRTUAL-SKIN` on Pixels). Sampling every
+second can still miss a thermal event shorter than a second. Sampling cost on
 the phone is measured in P1 by running the speed track with sampling at 250 ms, 1 s and off.
 
 ### 6.3 Speed track
 
 Prompt lengths 128, 512, 1,024 and 2,048 tokens (plus 4,096 at 8k windows), exact per model
 tokenizer, cut from one public-domain text. Decode targets of 64 and 256 steps (requests ask
-for 65 and 257 sampled tokens). KV cache reset per request. Ten measured repetitions per cell
+for 65 and 257 sampled tokens). A file runs only the buckets where prompt plus decode target
+plus one fits its window: in the window sweep, the 2k files run 128, 512 and 1,024 with both
+targets (1,024 + 257 fits in 2,048; 2,048 does not), and every larger window runs all buckets
+it can hold. KV cache reset per request. Ten measured repetitions per cell
 after warm-up, alternating cell order so heat does not line up with one cell. That gives
 `n = 10` per cell per job; p95 needs `n >= 20` and p99 needs `n >= 100`, which come from
 repeating the track across jobs, units and days, never from extrapolating, and a cell's
@@ -327,27 +336,31 @@ minutes of overhead per job, 120 usable minutes per job, and 20 percent for retr
 
 | Track | Device minutes | Jobs |
 |---|---:|---:|
-| Quality reference | 67,200 | 560 |
-| Agreement | 15,600 | 130 |
+| Quality reference | 67,200 | 576 |
+| Agreement | 15,600 | 160 |
 | Speed | 4,560 | 176 |
 | Window sweep | 390 | 26 |
 | Long context | 1,280 | 64 |
-| Job overhead | 7,648 | |
-| **Total before contingency** | **96,678** | **956** |
-| **With 20 percent contingency** | **116,014** (about 1,934 device hours) | |
+| Job overhead | 8,016 | |
+| **Total before contingency** | **97,046** | **1,002** |
+| **With 20 percent contingency** | **116,455** (about 1,941 device hours) | |
+
+Jobs are rounded up per model and device, because a job holds one model file on one unit:
+leftover minutes of different models or devices cannot share a job.
 
 - **Metered** at **$0.17 per device minute**
-  ([pricing](https://aws.amazon.com/device-farm/pricing/)): about **$19,700**.
+  ([pricing](https://aws.amazon.com/device-farm/pricing/)): about **$19,800**.
 - **Unmetered** at **$250 per Android slot per month**, where a slot is one concurrent device of
-  any model: 1,934 hours is 2.7 slot-months at full use and 3.8 at 70 percent use, so about
+  any model: 1,941 hours is 2.7 slot-months at full use and 3.9 at 70 percent use, so about
   **$1,000** (for example four slots for one month).
-- The full quality selection on Tier A is 70 percent of the work (67,200 of 96,678 minutes),
-  and the mid-range A56 alone is half of that, because it is assumed three times slower. The levers, if the budget must shrink, are a smaller
+- The full quality selection on Tier A is about 69 percent of the work (67,200 of 97,046
+  minutes), and the mid-range A56 alone is half of that, because it is assumed three times
+  slower. The levers, if the budget must shrink, are a smaller
   frozen selection or fewer phones with the full selection.
-- The free trial was 1,000 minutes. The four probe runs used 51.84 metered minutes (8.41,
-  9.24, 8.86 and 25.33, from each run's `devicefarm-run.json`), and the account reported
-  948.13 remaining afterwards. P1 is an **estimate** of 600 to 900 minutes, so it should fit
-  but is not guaranteed to.
+- The free trial was 1,000 minutes. The five probe runs used 52.95 metered minutes (8.41,
+  9.24, 8.86, 25.33 and 1.11, from each run's `devicefarm-run.json`), and the account then
+  reported 947.02 remaining (`data/devicefarm/account-2026-10-04.json`). P1 is an **estimate**
+  of 600 to 900 minutes, so it should fit but is not guaranteed to.
 
 **Recommendation:** run P1 metered, then buy unmetered slots for P3 if P1's measured minutes
 confirm the estimate.
@@ -419,7 +432,8 @@ whether the full quality selection runs on all four Tier A phones (Section 7.2).
 5. How large is unit-to-unit spread on Device Farm compared with Test Lab? (P1)
 6. Are greedy outputs byte-identical across runs on one unit, across units of one model, and
    across SoCs, for the same `.pte`? (P1 determinism check, P3 agreement track)
-7. Is `time_in_state` readable on every phone? (probe v3 records it)
+7. Is `time_in_state` readable on every phone? (readable on the two phones of the v3.1 check;
+   the next full probe records it everywhere)
 
 ## 12. Review log
 
@@ -427,4 +441,5 @@ whether the full quality selection runs on all four Tier A phones (Section 7.2).
 |---|---|---|---|---|
 | 2026-10-04 | Codex gpt-6.1-sol (medium, web search) | Proposed datasets | Keep GSM8K, IFEval, BFCL subset; replace RetrievalQA with SQuAD 2.0; PopQA optional; drop FreshQA; add Multi-IF, long context, fidelity gate | Adopted except RetrievalQA: kept (expanded release) because its frozen contexts and answerability labels give a tool-decision measure SQuAD lacks. Row counts and revisions re-verified by us, then recomputed by `execubench datasets stats` |
 | 2026-10-04 | Codex gpt-6.1-sol (medium, web search) | Published specs for 12 SoCs and 19 phones | No maker publishes BF16/FP16 TFLOPS or DRAM bus width for these chips; Tab S11 is the 9400+; Pixel 9 GUR25 is not the US model code; SME absent from X925 | Adopted: those columns stay `unknown`; Qualcomm, MediaTek, Samsung and Google pages spot-checked by us; `checked_by` records who confirmed each value |
-| 2026-10-04 | Codex gpt-6.1-sol (medium) | Whole repository, first draft (25 findings) | Stale cached temperatures used as readings; budget contradicted its own inputs; scrubber left IMEIs and other serials; schemas admitted unpublishable records; device ids ignored firmware; per-request peak RSS was a process high-water mark; cell key too coarse; 40-row agreement over-extrapolated; correlated requests treated as independent; throttling flag claimed a cause; `cpu_effective_mhz` was not a frequency; runner clock is `CLOCK_REALTIME`; fp32 reference called contamination-immune; caps and eligibility underspecified; RetrievalQA truncation could remove the evidence; tool-decision metrics conflated; dataset numbers not reproducible locally; pull could overwrite evidence and trusted archive paths; probe PASSED did not mean collection succeeded; unknown core designs counted as big; mixed provenance in one column; catalogue-wide Exynos claim unsupported; grid expansions and named devices missing; artifact size limit ignored | All 25 fixed in the same revision: current-block thermal parsing, generated budget, identifier redaction with re-pulled data, required fields for successful requests, build-hash device ids, sampled-peak versus high-water memory, full cell key, per-device quality, cluster bootstrap and per-metric intervals, separate thermal-event and clock-drop indicators, renamed counter metric, monotonic cross-check, deployment-fidelity wording, caps and eligibility rules, whole-passage budgets with `answer_in_context`, three named tool-decision metrics, `data/datasets/stats.json`, safe and non-overwriting pulls, probe v3 with real exit codes, three-way core classes, per-value provenance contract, a full-catalogue probe, an expanded grid, artifact-size tracking |
+| 2026-10-04 | Codex gpt-6.1-sol (medium) | Whole repository, first draft (25 findings) | Stale cached temperatures used as readings; budget contradicted its inputs; scrubber left IMEIs and serials; schemas admitted unpublishable records; device ids ignored firmware; per-request peak RSS was a process high-water mark; cell key too coarse; 40-row agreement over-extrapolated; correlated requests treated as independent; throttling flag claimed a cause; a counter metric was called a frequency; runner clock is `CLOCK_REALTIME`; fp32 reference called contamination-immune; caps and eligibility underspecified; RetrievalQA truncation could remove the evidence; tool-decision metrics conflated; dataset numbers not reproducible locally; pulls could overwrite evidence and trusted archive paths; probe PASSED did not mean collection succeeded; unknown core designs counted as big; mixed provenance; catalogue-wide Exynos claim unsupported; grid expansions missing; artifact size limit ignored | Revised in commit `ad4847a`. Codex's second round judged 11 fixed and 14 partly fixed (next row) |
+| 2026-10-04 | Codex gpt-6.1-sol (medium) | Second round on `ad4847a` (14 findings) | Identifier redaction still missed MACs, other serial keys, unique numbers, fingerprint UID and camera fuse IDs; pull wrote the run record before refusing a used folder and let archives collide; successful requests validated with empty runner stats, null memory and no prompt; budget rounded jobs across models; speed workload and effective threads optional; a total-duration clock check cannot protect stage timings; long-context scope contradicted DATASETS and 2k sweep files could not hold the prompts; `answer_in_context` had no schema field; registry dropped older firmware builds; an all-A53 phone was labelled big.LITTLE; probe coverage still overstated; the 68-file scan, FreshQA and MT-Eval counts and trial minutes had no local evidence; README still said a column never mixes provenance; the round-1 disposition overstated completion | All addressed in the next commit: broader identifier keys with tests on every key found, all four runs re-pulled; exclusive pulls with a preflight; runner members, monotonic stages, prompt text and measurement-or-reason rules required, with negative tests; per-model-and-device job rounding (1,002 jobs, about $19,800); speed targets and effective threads required; three-point monotonic timing; long-context scope aligned and window-fitting buckets; RetrievalQA retention fields; every build kept with `latest_for_model`; architecture from the full set of core classes; probe v3.1 coverage and exit codes; preliminary scan, FreshQA, MT-Eval and account snapshots committed; README aligned; this row replaces the earlier claim that all 25 were fixed. A correction found while doing it: three repos, not four, moved to GPTQ |

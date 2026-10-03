@@ -22,9 +22,10 @@ affiliated with, endorsed by or sponsored by the PyTorch Foundation, Meta or Ama
 | Usable and marketed RAM, memory type where stated | Battery, skin and SoC temperatures, thermal status, sampled CPU clocks | Tool-call validity, correctness and decision accuracy |
 | Memory bandwidth and BF16 TFLOPS: only where a maker publishes them (none does, so far) | Raw output, parsed tool calls, finish reason | Device units and jobs behind the cell |
 
-Every value carries a provenance: `measured`, `reported` (by the phone), `published` (by a
-chip or phone maker, with a URL), `derived` (with its formula) or `unknown`. A column never
-mixes them. Definitions: [`docs/METRICS.md`](docs/METRICS.md).
+Every value carries its own provenance: `measured`, `reported` (by the phone), `published`
+(by a chip or phone maker, with a URL), `derived` (with its formula) or `unknown`. A published
+table shows the label per cell or splits the column by label. Definitions:
+[`docs/METRICS.md`](docs/METRICS.md).
 
 ## What it runs
 

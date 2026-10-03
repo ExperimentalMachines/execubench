@@ -1,0 +1,47 @@
+{
+ "arn": "arn:aws:devicefarm:us-west-2:<account>:job:733be749-de36-4847-ba64-a034b55b21dd/89c2924e-83d1-4e35-b932-834f0c848ead/00000",
+ "counters": {
+  "errored": 0,
+  "failed": 0,
+  "passed": 3,
+  "skipped": 0,
+  "stopped": 0,
+  "total": 3,
+  "warned": 0
+ },
+ "created": "2026-10-04 07:55:00.899000+08:00",
+ "device": {
+  "arn": "arn:aws:devicefarm:us-west-2::device:F070C2816A9A444EB28ED624EDE7F789",
+  "cpu": {
+   "architecture": "arm64-v8a",
+   "clock": 1900.8,
+   "frequency": "MHz"
+  },
+  "fleetType": "PUBLIC",
+  "formFactor": "PHONE",
+  "heapSize": 512000000,
+  "image": "F070C2816A9A444EB28ED624EDE7F789",
+  "manufacturer": "Google",
+  "memory": 64000000000,
+  "model": "Pixel 2 XL",
+  "modelId": "Google Pixel 2 XL",
+  "name": "Google Pixel 2 XL",
+  "os": "8.1.0",
+  "platform": "ANDROID",
+  "remoteAccessEnabled": false,
+  "resolution": {
+   "height": 2880,
+   "width": 1440
+  }
+ },
+ "deviceMinutes": {
+  "metered": 0.72,
+  "total": 1.03,
+  "unmetered": 0.0
+ },
+ "message": "Successful test lifecycle of Setup Test",
+ "name": "Google Pixel 2 XL",
+ "result": "PASSED",
+ "status": "COMPLETED",
+ "videoCapture": false
+}

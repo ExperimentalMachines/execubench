@@ -1,0 +1,4 @@
+http=200 bytes=11422654 seconds=0.335205 speed_Bps=34076621
+curl_exit=0
+aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4  /tmp/tok.json
+sha256_exit=0

@@ -8,6 +8,7 @@
   "additionalProperties": false,
   "properties": {
     "id": {"type": "string", "pattern": "^[a-z0-9-]+-[0-9a-f]{8}$", "description": "Model, Android version and the first 8 hex digits of sha256(build fingerprint), e.g. sm-s938u1-android15-1a2b3c4d. A new firmware build is a new id"},
+    "latest_for_model": {"type": "boolean", "description": "True for the newest probed build of this device_model_id"},
     "device_model_id": {"type": "string", "pattern": "^[a-z0-9-]+$", "description": "Device Farm model id and Android version, shared by every build of that model"},
     "provider": {
       "type": "object",
@@ -75,7 +76,7 @@
           }
         },
         "all_big_cores": {"type": ["boolean", "null"], "description": "Derived from MIDR: true when every core is a performance-class design, false when any is efficiency-class (A53, A55, A510, A520, C1-Nano), null when any core's class is unknown"},
-        "architecture": {"type": "string", "description": "Label derived from the two fields above, e.g. 'all-big-core, tri-cluster' or 'big.LITTLE, tri-cluster'"},
+        "architecture": {"type": "string", "description": "From the full set of core classes (all-big-core, all-efficiency-core, big.LITTLE, core classes unknown) and the clock-domain count, e.g. 'all-big-core, tri-cluster'"},
         "max_mhz": {"type": "number"},
         "features": {"type": "array", "items": {"type": "string"}, "description": "/proc/cpuinfo Features, e.g. i8mm, bf16, sme2"},
         "clusters": {

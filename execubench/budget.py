@@ -52,11 +52,18 @@ def budget(a: Assumptions | None = None) -> dict:
         "window sweep": a.window_sweep_files * a.window_sweep_devices * a.speed_minutes_flagship,
         "long context": a.models * a.long_context_files_per_model * a.long_context_devices * a.long_context_minutes,
     }
+
+    # A job is one model file on one device unit (docs/PLAN.md 6.1), so leftover minutes of
+    # different models or devices cannot share a job: round up per model and device.
+    def shards(per_device_flagship: float, devices: tuple[int, int]) -> int:
+        flagship, mid = devices
+        per_flagship = math.ceil(per_device_flagship / a.usable_minutes_per_job)
+        per_mid = math.ceil(per_device_flagship * a.midrange_slowdown / a.usable_minutes_per_job)
+        return a.models * (flagship * per_flagship + mid * per_mid)
+
     jobs = {
-        "quality reference": math.ceil(tracks["quality reference"] / a.usable_minutes_per_job),
-        "agreement": max(
-            a.models * sum(a.agreement_devices), math.ceil(tracks["agreement"] / a.usable_minutes_per_job)
-        ),
+        "quality reference": shards(a.quality_generations * gen_min, a.quality_devices),
+        "agreement": shards(a.agreement_generations * gen_min, a.agreement_devices),
         "speed": a.models * sum(a.speed_devices),
         "window sweep": a.window_sweep_files * a.window_sweep_devices,
         "long context": a.models * a.long_context_files_per_model * a.long_context_devices,

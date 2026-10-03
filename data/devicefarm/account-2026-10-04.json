@@ -1,0 +1,14 @@
+{
+ "retrieved_utc": "2026-10-03T23:58:05Z",
+ "note": "aws devicefarm get-account-settings after all five probe runs, account number masked",
+ "trialMinutes": {
+  "total": 1000.0,
+  "remaining": 947.02
+ },
+ "maxJobTimeoutMinutes": 150,
+ "defaultJobTimeoutMinutes": 150,
+ "unmeteredDevices": {
+  "ANDROID": 0,
+  "IOS": 0
+ }
+}

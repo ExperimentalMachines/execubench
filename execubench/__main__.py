@@ -113,7 +113,7 @@ def _devices_table(args) -> int:
     start, end = text.index(registry.TABLE_BEGIN), text.index(registry.TABLE_END)
     table = registry.markdown_table(recs)
     doc.write_text(text[: start + len(registry.TABLE_BEGIN)] + "\n\n" + table + "\n" + text[end:])
-    print(f"{len(recs)} rows -> {doc}")
+    print(f"{sum(r.get('latest_for_model', True) for r in recs)} rows -> {doc}")
     return 0
 
 

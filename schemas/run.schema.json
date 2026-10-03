@@ -82,7 +82,8 @@
         "server",
         "server_commit",
         "apk_sha256",
-        "threads",
+        "requested_threads",
+        "effective_threads",
         "kv_reuse"
       ],
       "additionalProperties": false,
@@ -100,16 +101,25 @@
         "apk_sha256": {
           "$ref": "common.schema.json#/$defs/sha256"
         },
-        "threads": {
-          "type": "integer",
-          "description": "XNNPACK thread count; 0 means the runtime chose"
-        },
         "kv_reuse": {
           "enum": [
             "off",
             "on"
           ],
           "description": "off for single-turn and speed tracks, on for multi-turn"
+        },
+        "requested_threads": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "0 means the runtime chooses"
+        },
+        "effective_threads": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1,
+          "description": "As reported by ExecuServe after load"
         }
       }
     },

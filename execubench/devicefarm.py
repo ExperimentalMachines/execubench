@@ -91,8 +91,15 @@ def unit_hash(serial: str) -> str:
 # getprop and wherever else they appear. Per-build ids (ro.build.uuid) and per-part ids
 # (connectivity chip ids, ro.boot.cdt_hwid, which repeats across units) are kept.
 IDENTIFIER_KEYS = re.compile(
-    rb"^(ro\.(boot\.)?serialno|ro\.boot\.ap_serial|ro\.boot\.ddr_serial|ro\.boot\.chipid|ro\.boot\.vbmeta\.device"
-    rb"|ro\.ril\.oem\.psno|ro\.quick_start\.device_id|.*\.imei\d*|.*iccid.*)$"
+    rb"^(?:"
+    rb".*serial.*"  # ro.serialno, ro.boot.ap_serial, ro.boot.ddr_serial, ril.serialnumber, vendor.gsm.serial
+    rb"|.*\.imei\d*|.*\.meid|.*iccid.*"  # phone and SIM identities
+    rb"|.*mac(addr)?"  # ro.ril.oem.btmac, ro.vendor.oem.wifimac
+    rb"|.*uniqueno|.*\.fp\.uid|.*fuseid.*"  # hardware unique numbers, fingerprint module, camera fuses
+    rb"|.*\.psno|.*\.sno"  # product serial numbers
+    rb"|ro\.boot\.chipid|ro\.boot\.vbmeta\.device|ro\.quick_start\.device_id"
+    rb")$",
+    flags=re.IGNORECASE,
 )
 GETPROP_LINE = re.compile(rb"^\[([^\]]+)\]: \[(.*)\]$", flags=re.M)
 
@@ -155,41 +162,58 @@ def slug(device: dict) -> str:
     return f"{model_id}-android{device['os']}"
 
 
+def _write_new(path: Path, data: bytes) -> None:
+    """Create a file that must not exist yet: a pull never replaces evidence."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with open(path, "xb") as f:
+        f.write(data)
+
+
 def pull_run(df, run_arn: str, dest: Path) -> list[Path]:
     """Unpack every job's customer artifacts under dest/<device slug>/.
 
     Beside the artifacts: `devicefarm-job.json` (Device Farm's record of the job: catalogue
     entry, status, result, device minutes) and, once per run, `dest/devicefarm-run.json`.
-    A destination folder that already holds a job is refused rather than overwritten, so one
-    pull can never replace evidence from another; pull each run into its own `dest`.
+    `dest` must be new or empty, and is checked before anything is written; every file is
+    created exclusively, and two archives of one job may not supply the same path. So a pull
+    can fail, but it can never replace evidence from another pull.
     """
+    if dest.exists() and any(dest.iterdir()):
+        raise FileExistsError(f"{dest} is not empty; pull each run into a fresh folder")
     # ARNs keep their run and job ids, which is all a maintainer needs to find a run again;
     # the account number is masked so pulled data can be published as is.
     account = run_arn.split(":")[4] or None
 
-    def mask(text: str) -> str:
-        return text.replace(account, "<account>") if account else text
+    def mask(text: str) -> bytes:
+        return (text.replace(account, "<account>") if account else text).encode()
+
+    run = df.get_run(arn=run_arn)["run"]
+    all_jobs = jobs(df, run_arn)
+    slugs = [slug(job["device"]) for job in all_jobs]
+    if len(set(slugs)) != len(slugs):
+        raise ValueError(f"two jobs in {run_arn} map to one folder: {sorted(slugs)}")
 
     dest.mkdir(parents=True, exist_ok=True)
-    run = df.get_run(arn=run_arn)["run"]
-    (dest / "devicefarm-run.json").write_text(mask(json.dumps(run, indent=1, default=str, sort_keys=True)) + "\n")
+    _write_new(dest / "devicefarm-run.json", mask(json.dumps(run, indent=1, default=str, sort_keys=True) + "\n"))
     written = []
-    for job in jobs(df, run_arn):
-        folder = dest / slug(job["device"])
-        if folder.exists() and any(folder.iterdir()):
-            raise FileExistsError(f"{folder} already holds a pulled job; pull into a fresh folder")
-        folder.mkdir(parents=True, exist_ok=True)
-        (folder / "devicefarm-job.json").write_text(mask(json.dumps(job, indent=1, default=str, sort_keys=True)) + "\n")
+    for job, name in zip(all_jobs, slugs, strict=True):
+        folder = dest / name
+        _write_new(folder / "devicefarm-job.json", mask(json.dumps(job, indent=1, default=str, sort_keys=True) + "\n"))
+        files: dict[str, bytes] = {}
         for art in customer_artifacts(df, job["arn"]):
             blob = urllib.request.urlopen(art["url"]).read()
             with zipfile.ZipFile(io.BytesIO(blob)) as z:
-                files = {_safe_member(m.filename): z.read(m) for m in z.infolist() if not m.is_dir()}
-            files, unit = scrub(files, account)
-            for rel, data in files.items():
-                target = folder / "artifacts" / rel
-                target.parent.mkdir(parents=True, exist_ok=True)
-                target.write_bytes(data)
-            if unit:
-                (folder / "unit.txt").write_text(unit + "\n")
+                for m in z.infolist():
+                    if m.is_dir():
+                        continue
+                    rel = _safe_member(m.filename)
+                    if rel in files:
+                        raise ValueError(f"{job['arn']}: two artifact entries for {rel}")
+                    files[rel] = z.read(m)
+        files, unit = scrub(files, account)
+        for rel, data in files.items():
+            _write_new(folder / "artifacts" / rel, data)
+        if unit:
+            _write_new(folder / "unit.txt", (unit + "\n").encode())
         written.append(folder)
     return written

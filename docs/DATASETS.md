@@ -108,9 +108,10 @@ RetrievalQA with a search tool offered (call, tool result, answer).
   Device Farm host between generations**, because tool results must be fed back before the
   next turn. Every call, simulator result and simulator state is kept in the request's
   `tool_trace`, so a multi-turn score can be re-graded offline.
-- Caps: 512 tokens per assistant step. Multi-turn: the step limit per user turn is the one
-  the pinned upstream harness uses (read from its source when the suite is frozen and recorded
-  in the manifest); hitting it scores the turn as failed, as upstream does.
+- Caps: 512 tokens per assistant step. Multi-turn: at most 20 model steps per user turn,
+  upstream's own `MAXIMUM_STEP_LIMIT = 20`
+  (`bfcl_eval/constants/default_prompts.py` at the pinned commit); a turn that reaches it is
+  forced to quit and scored as upstream scores it.
 - Prompting: each model's own chat template with the tools rendered the way that template
   renders them (ExecuServe applies the template; `/apply-template` records the exact prompt).
   Tool calls are parsed on the host from the raw text, so a parse failure is visible as one.
@@ -140,9 +141,11 @@ RetrievalQA with a search tool offered (call, tool result, answer).
   exceeded: never a passage cut mid-text, and identical bytes for every model. The budget is
   set when the suite is frozen so that every rendered prompt, plus the output cap, fits an 8k
   window under every model's tokenizer (checked by tokenizing, not by counting characters).
-  Each row records whether any gold answer string still appears in the retained passages
-  (`answer_in_context`), so a wrong answer on a row whose evidence was cut away is
-  distinguishable from a reading failure, and accuracy is reported on both subsets.
+  Each request records the sha256 of every passage given (`retained_passages`) and whether
+  any gold answer string still appears in them (`answer_in_context`), so a wrong answer on a
+  row whose evidence was cut away is distinguishable from a reading failure; summaries report
+  accuracy on both subsets with their own denominators (`schemas/request.schema.json`,
+  `schemas/summary.schema.json`).
 - Three modes on the same row IDs:
   1. **Closed book.** Question only.
   2. **With context.** Question plus the budgeted passages.
@@ -163,8 +166,9 @@ RetrievalQA with a search tool offered (call, tool result, answer).
 
 ### Long-context probe
 
-Synthetic retrieval tasks at 25, 50 and 90 percent of each export's window (2k to 32k),
-generated deterministically from task definitions in
+For each repo, on two files (the 8k export and the largest window it publishes) and on two
+phones (Galaxy S25 Ultra and Pixel 10): synthetic retrieval tasks filled to 25, 50 and 90
+percent of that file's window, generated deterministically from task definitions in
 [NVIDIA/RULER](https://github.com/NVIDIA/RULER) (Apache-2.0) with a fixed seed: single needle,
 multiple keys, and one aggregation task. Programmatic grading. This track doubles as the long
 prefill speed measurement. It is a smoke test of the window, not a RULER score.
@@ -179,10 +183,10 @@ each followed by a fixed number of decode steps. See `docs/METRICS.md`.
 
 | Candidate | Why not now |
 |---|---|
-| FreshQA | The official repository's latest commit (`7d2d368`, 2026-05-01) lists the April 21, 2026 sheet and a "next update" on May 11, 2026 that has not appeared; the sheet holds 500 TEST and 100 DEV rows with review dates already past (counted by Codex from the CSV export); grading is FreshEval, an LLM judge, and no deterministic proxy grades false-premise answers. A dated snapshot track could come later with a frozen CSV |
+| FreshQA | The official repository's latest commit (`7d2d368`, 2026-05-01) lists the April 21, 2026 sheet and a "next update" on May 11, 2026 that has not appeared; the sheet's CSV export held 600 rows on 2026-10-04 (500 TEST, 100 DEV, 149 false-premise; hashed in `stats.json`), with review dates already past; grading is FreshEval, an LLM judge, and no deterministic proxy grades false-premise answers. A dated snapshot track could come later with a frozen CSV |
 | PopQA standalone | Covered through RetrievalQA; standalone closed-book PopQA at 135M to 4B mostly measures a floor |
 | MT-Bench | Needs an LLM judge (documented position and verbosity biases); not deterministic |
-| MT-Eval | Only its recollection subsets grade without a judge (10 and 28 dialogues); too small to rank |
+| MT-Eval | Only its recollection subsets grade without a judge (10 and 28 dialogues, `stats.json`); too small to rank |
 | ARC-Easy, MMLU | Would anchor against model cards, but the runner exposes no logits, so they become generation-scored multiple choice, which is not how model cards score them |
 | SQuAD 2.0 | Answerable versus unanswerable is useful; RetrievalQA's with-context mode covers grounded answering in v1 |
 | Perplexity and KL against fp32 | Belongs to the exporter (execupack's gate); the Android runner exposes no logits. execubench instead records greedy token agreement between the phone and the same `.pte` on an x86 host |

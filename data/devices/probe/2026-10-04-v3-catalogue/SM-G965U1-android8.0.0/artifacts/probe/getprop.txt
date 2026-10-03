@@ -405,7 +405,7 @@
 [ril.resetCompleteMsg]: [OK]
 [ril.resetVerify]: [OK]
 [ril.rfcal_date]: [2018.02.27]
-[ril.serialnumber]: [R38K20JG7GA]
+[ril.serialnumber]: [<redacted>]
 [ril.servicestate]: [1]
 [ril.simoperator]: [ETC]
 [ril.ss.routing]: [0]

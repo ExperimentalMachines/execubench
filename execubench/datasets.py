@@ -23,6 +23,12 @@ HF = {
     "retrievalqa_original": ("zihanz/RetrievalQA", "fe71a76cdc8b46fcb795e8abac64408753d1a0d3", "retrievalqa.jsonl"),
     "popqa": ("akariasai/PopQA", "098765c79ea10a2cb19c828324e33281b8336ec0", "test.tsv"),
 }
+MT_EVAL = ("wckwan/MT-Eval", "d6b37dce6eae16343c89ba448bfb8aff82e5864d")
+MT_EVAL_FILES = ["recollection_multi_cls.jsonl", "recollection_multi_global-inst.jsonl"]
+# FreshQA has no frozen release: this is the sheet the official repository links (commit
+# 7d2d368, "FreshQA April 21, 2026"). Its CSV export is fetched and hashed at stats time, so
+# the counts are tied to the bytes seen, not to a version the sheet promises.
+FRESHQA_CSV = "https://docs.google.com/spreadsheets/d/1_8mi-yuK30mvoDJu1KQXD6ODem7MKMcIgVAwDSzJkjM/export?format=csv"
 BFCL_COMMIT = "6ea57973c7a6097fd7c5915698c54c17c5b1b6c8"
 BFCL_FILES = ["simple_python", "multiple", "parallel", "parallel_multiple", "irrelevance", "multi_turn_base"]
 BFCL_RAW = (
@@ -121,4 +127,31 @@ def stats() -> dict:
             "rows": sum(1 for line in blob.splitlines() if line.strip()),
         }
     out["bfcl_v4"] = bfcl
+
+    from huggingface_hub import hf_hub_download
+
+    mt = {"repo": MT_EVAL[0], "revision": MT_EVAL[1], "files": {}}
+    for name in MT_EVAL_FILES:
+        blob = Path(hf_hub_download(MT_EVAL[0], name, repo_type="dataset", revision=MT_EVAL[1])).read_bytes()
+        mt["files"][name] = {
+            "sha256": hashlib.sha256(blob).hexdigest(),
+            "dialogues": sum(1 for line in blob.splitlines() if line.strip()),
+        }
+    out["mt_eval"] = mt
+
+    blob = urllib.request.urlopen(FRESHQA_CSV).read()
+    lines = blob.decode().splitlines()
+    # The export starts with a warning line and a blank line before the header row.
+    header = next(i for i, line in enumerate(lines) if line.startswith("id,split,"))
+    fq = list(csv.DictReader(io.StringIO("\n".join(lines[header:]))))
+    splits: dict[str, int] = {}
+    for r in fq:
+        splits[r["split"]] = splits.get(r["split"], 0) + 1
+    out["freshqa"] = {
+        "url": FRESHQA_CSV,
+        "sha256": hashlib.sha256(blob).hexdigest(),
+        "rows": len(fq),
+        "splits": splits,
+        "false_premise": sum(1 for r in fq if r["false_premise"].upper() == "TRUE"),
+    }
     return out

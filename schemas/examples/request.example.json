@@ -9,7 +9,8 @@
     "turn": 0,
     "max_tokens": 1024,
     "prompt_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
-    "eligible": true
+    "eligible": true,
+    "prompt_text": "EXAMPLE PROMPT"
   },
   "timings": {
     "runner": {
@@ -24,10 +25,14 @@
     "decode_ms": 4000,
     "e2e_ms": 5100,
     "client_ttft_ms": 1050,
-    "monotonic_ms": 5002,
     "clock_disagreement": false,
     "prefill_tps": 100.0,
-    "decode_tps": 25.0
+    "decode_tps": 25.0,
+    "monotonic": {
+      "start_to_first_token_ms": 1001.0,
+      "first_token_to_end_ms": 4001.0,
+      "total_ms": 5002.0
+    }
   },
   "tokens": {
     "prefill": 100,

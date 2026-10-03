@@ -4,6 +4,7 @@
   "data/devices/probe/2026-10-04-v2",
   "data/devices/probe/2026-10-04-v3-samsung",
   "data/devices/probe/2026-10-04-v3-catalogue",
+  "data/devices/probe/2026-10-04-v3.1-check",
   "data/devices/specs.yaml"
  ],
  "devices": [
@@ -219,7 +220,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Maker sources not reviewed for this chip"
     },
     "runtimes_present": [
      "qualcomm-qnn-snpe"
@@ -249,7 +250,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Maker sources not reviewed for this chip"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -275,7 +276,8 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 25.9
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "2210132g-android13-2105c98c",
@@ -510,7 +512,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Not found in the maker sources reviewed"
     },
     "runtimes_present": [
      "qualcomm-qnn-snpe"
@@ -540,7 +542,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Not found in the maker sources reviewed"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -566,7 +568,8 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 27.5
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "2211133g-android13-ae2995ad",
@@ -801,7 +804,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Not found in the maker sources reviewed"
     },
     "runtimes_present": [
      "qualcomm-qnn-snpe"
@@ -837,7 +840,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Not found in the maker sources reviewed"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -863,7 +866,8 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 27.7
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "23090ra98g-android15-29a07a4a",
@@ -1070,7 +1074,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Not found in the maker sources reviewed"
     },
     "runtimes_present": [
      "mediatek-neuron-apusys"
@@ -1104,7 +1108,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Not found in the maker sources reviewed"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -1130,7 +1134,273 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 26.4
-   }
+   },
+   "latest_for_model": true
+  },
+  {
+   "id": "23090ra98g-android15-9ff06dfd",
+   "device_model_id": "23090ra98g-android15",
+   "provider": {
+    "name": "aws-device-farm",
+    "region": "us-west-2",
+    "device_arn": "arn:aws:devicefarm:us-west-2::device:049D8D2FD8644F7FB5BA2D9214E99ED9",
+    "catalogue": {
+     "arn": "arn:aws:devicefarm:us-west-2::device:049D8D2FD8644F7FB5BA2D9214E99ED9",
+     "cpu": {
+      "architecture": "arm64-v8a",
+      "clock": 2000.0,
+      "frequency": "MHz"
+     },
+     "fleetType": "PUBLIC",
+     "formFactor": "PHONE",
+     "heapSize": 512000000,
+     "image": "049D8D2FD8644F7FB5BA2D9214E99ED9",
+     "manufacturer": "Xiaomi",
+     "memory": 256000000000,
+     "model": "Xiaomi Redmi Note 13+",
+     "modelId": "23090RA98G",
+     "name": "Xiaomi Redmi Note 13+",
+     "os": "15",
+     "platform": "ANDROID",
+     "remoteAccessEnabled": true,
+     "resolution": {
+      "height": 2712,
+      "width": 1220
+     }
+    }
+   },
+   "identity": {
+    "manufacturer": "Xiaomi",
+    "marketing_name": "Xiaomi Redmi Note 13 Pro+ 5G",
+    "model_code": "23090RA98G",
+    "android": "15",
+    "sdk": "35",
+    "fingerprint": "Redmi/zircon_eea/zircon:15/AP3A.240905.015.A2/OS2.0.201.0.VNOEUXM:user/release-keys",
+    "security_patch": "2025-06-01",
+    "form_factor": "phone",
+    "abilist": "arm64-v8a,armeabi-v7a,armeabi",
+    "arm64_userspace": true
+   },
+   "soc": {
+    "reported_manufacturer": "Mediatek",
+    "reported_model": "MT6886",
+    "platform": "mt6886",
+    "marketing_name": {
+     "value": "Dimensity 7200-Ultra",
+     "provenance": "published",
+     "source": "https://www.mi.com/global/product/redmi-note-13-pro-plus-5g/specs/",
+     "retrieved": "2026-10-04"
+    },
+    "process_node": {
+     "value": "4 nm",
+     "provenance": "published",
+     "source": "https://www.mi.com/global/product/redmi-note-13-pro-plus-5g/specs/",
+     "retrieved": "2026-10-04"
+    }
+   },
+   "cpu": {
+    "count": 8,
+    "topology": "2+6",
+    "tiers": "2+6",
+    "cluster_count": 2,
+    "all_big_cores": false,
+    "architecture": "big.LITTLE, dual-cluster",
+    "vendor_description": {
+     "value": "2x Cortex-A715 + 6x Cortex-A510, up to 2.8 GHz",
+     "provenance": "published",
+     "source": "https://www.mi.com/global/product/redmi-note-13-pro-plus-5g/specs/",
+     "retrieved": "2026-10-04"
+    },
+    "max_mhz": 2800.0,
+    "features": [
+     "aes",
+     "asimd",
+     "asimddp",
+     "asimdfhm",
+     "asimdhp",
+     "asimdrdm",
+     "atomics",
+     "bf16",
+     "bti",
+     "cpuid",
+     "crc32",
+     "dcpodp",
+     "dcpop",
+     "dit",
+     "evtstrm",
+     "fcma",
+     "flagm",
+     "flagm2",
+     "fp",
+     "fphp",
+     "frint",
+     "i8mm",
+     "ilrcpc",
+     "jscvt",
+     "lrcpc",
+     "paca",
+     "pacg",
+     "pmull",
+     "sb",
+     "sha1",
+     "sha2",
+     "sha3",
+     "sha512",
+     "sm3",
+     "sm4",
+     "ssbs",
+     "sve",
+     "sve2",
+     "sveaes",
+     "svebf16",
+     "svebitperm",
+     "svei8mm",
+     "svepmull",
+     "svesha3",
+     "svesm4",
+     "uscat"
+    ],
+    "clusters": [
+     {
+      "cores": 2,
+      "cpus": [
+       6,
+       7
+      ],
+      "implementer": "0x41",
+      "part": "0xd4d",
+      "design": "CORTEX_A715",
+      "design_source": "linux cputype.h",
+      "max_mhz": 2800.0,
+      "efficiency_class": false,
+      "core_class": "performance"
+     },
+     {
+      "cores": 6,
+      "cpus": [
+       0,
+       1,
+       2,
+       3,
+       4,
+       5
+      ],
+      "implementer": "0x41",
+      "part": "0xd46",
+      "design": "CORTEX_A510",
+      "design_source": "linux cputype.h",
+      "max_mhz": 2000.0,
+      "efficiency_class": true,
+      "core_class": "efficiency"
+     }
+    ],
+    "clock_domains": [
+     {
+      "policy": "policy6",
+      "cpus": [
+       6,
+       7
+      ],
+      "max_mhz": 2800.0,
+      "governor": "sugov_ext",
+      "designs": [
+       "CORTEX_A715"
+      ]
+     },
+     {
+      "policy": "policy0",
+      "cpus": [
+       0,
+       1,
+       2,
+       3,
+       4,
+       5
+      ],
+      "max_mhz": 2000.0,
+      "governor": "<unreadable>",
+      "designs": [
+       "CORTEX_A510"
+      ]
+     }
+    ]
+   },
+   "gpu": {
+    "name": {
+     "value": null,
+     "provenance": "unknown"
+    },
+    "renderer": "ARM, Mali-G610 MC4, OpenGL ES 3.2 v1.r38p1",
+    "vulkan_api": null
+   },
+   "npu": {
+    "name": {
+     "value": null,
+     "provenance": "unknown"
+    },
+    "int8_tops": {
+     "value": null,
+     "provenance": "unknown",
+     "note": "Not found in the maker sources reviewed"
+    },
+    "runtimes_present": []
+   },
+   "memory": {
+    "mem_total_gib": {
+     "value": 7.2,
+     "provenance": "reported",
+     "source": "data/devices/probe/2026-10-04/23090RA98G-android15/artifacts/probe/meminfo.txt (MemTotal)",
+     "unit": "GiB"
+    },
+    "capacity_gb": {
+     "value": "8 or 12 (global listing)",
+     "provenance": "published",
+     "source": "https://www.mi.com/global/product/redmi-note-13-pro-plus-5g/specs/",
+     "retrieved": "2026-10-04",
+     "unit": "GB"
+    },
+    "type": {
+     "value": "LPDDR5",
+     "provenance": "published",
+     "source": "https://www.mi.com/global/product/redmi-note-13-pro-plus-5g/specs/",
+     "retrieved": "2026-10-04"
+    },
+    "data_rate_mtps": {
+     "value": null,
+     "provenance": "unknown",
+     "note": "The phone maker does not state the fitted DRAM speed; the chip's supported maximum is not it"
+    },
+    "bus_width_bits": {
+     "value": null,
+     "provenance": "unknown",
+     "note": "Not found in the maker sources reviewed"
+    },
+    "bandwidth_gbps": {
+     "value": null,
+     "provenance": "unknown",
+     "note": "Not derivable: needs a sourced data rate and a sourced bus width"
+    }
+   },
+   "compute": {
+    "bf16_tflops": {
+     "value": null,
+     "provenance": "unknown",
+     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+    }
+   },
+   "probe": {
+    "run_arn": "arn:aws:devicefarm:us-west-2:<account>:run:733be749-de36-4847-ba64-a034b55b21dd/86b8ddf5-d1b1-4b54-a199-f6ebbab3fe18",
+    "artifact_dir": "data/devices/probe/2026-10-04/23090RA98G-android15/artifacts/probe",
+    "date": "2026-10-04",
+    "fixed_performance_mode": "accepted",
+    "simpleperf": {
+     "present": true,
+     "version": "1.build.OS2.0.201.0.VNOEUXM",
+     "perf_event_paranoid": -1
+    },
+    "adb_push_mib_s": 25.4
+   },
+   "latest_for_model": false
   },
   {
    "id": "2312draabc-android15-c1e18807",
@@ -1301,7 +1571,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Maker sources not reviewed for this chip"
     },
     "runtimes_present": [
      "mediatek-neuron-apusys"
@@ -1331,7 +1601,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Maker sources not reviewed for this chip"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -1357,7 +1627,8 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 26.1
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "g020c-android12-bb44d49b",
@@ -1523,7 +1794,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Maker sources not reviewed for this chip"
     },
     "runtimes_present": [
      "qualcomm-qnn-snpe"
@@ -1553,7 +1824,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Maker sources not reviewed for this chip"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -1579,7 +1850,8 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 26.8
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "g020g-android10-a5abb142",
@@ -1745,7 +2017,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Maker sources not reviewed for this chip"
     },
     "runtimes_present": [
      "qualcomm-qnn-snpe"
@@ -1775,7 +2047,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Maker sources not reviewed for this chip"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -1801,7 +2073,8 @@
      "perf_event_paranoid": 1
     },
     "adb_push_mib_s": 25.6
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "g1mnw-android15-fdba3e78",
@@ -2025,7 +2298,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Maker sources not reviewed for this chip"
     },
     "runtimes_present": [
      "google-edgetpu"
@@ -2055,7 +2328,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Maker sources not reviewed for this chip"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -2081,7 +2354,8 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 74.7
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "g4hcd-android17-4d36fd52",
@@ -2313,7 +2587,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Not found in the maker sources reviewed"
     },
     "runtimes_present": [
      "google-edgetpu"
@@ -2346,7 +2620,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Not found in the maker sources reviewed"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -2372,7 +2646,8 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 49.2
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "g4qur-android16-fb36e80d",
@@ -2614,7 +2889,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Not found in the maker sources reviewed"
     },
     "runtimes_present": [
      "google-edgetpu"
@@ -2647,7 +2922,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Not found in the maker sources reviewed"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -2673,7 +2948,8 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 28.6
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "g7swn-android17-802d2515",
@@ -2905,7 +3181,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Not found in the maker sources reviewed"
     },
     "runtimes_present": [
      "google-edgetpu"
@@ -2938,7 +3214,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Not found in the maker sources reviewed"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -2964,7 +3240,8 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 72.7
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "g9bqd-android15-f4bfef2d",
@@ -3188,7 +3465,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Maker sources not reviewed for this chip"
     },
     "runtimes_present": [
      "google-edgetpu"
@@ -3218,7 +3495,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Maker sources not reviewed for this chip"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -3244,7 +3521,8 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 26.0
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "ga01188-us-android11-517e07ef",
@@ -3437,7 +3715,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Maker sources not reviewed for this chip"
     },
     "runtimes_present": [
      "google-edgetpu",
@@ -3468,7 +3746,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Maker sources not reviewed for this chip"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -3494,7 +3772,8 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 25.8
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "ga02618us-android12-cbe02a2e",
@@ -3687,7 +3966,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Maker sources not reviewed for this chip"
     },
     "runtimes_present": [
      "qualcomm-qnn-snpe"
@@ -3717,7 +3996,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Maker sources not reviewed for this chip"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -3743,7 +4022,8 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 24.0
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "ge2ae-android13-cc9fcc0c",
@@ -3936,7 +4216,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Maker sources not reviewed for this chip"
     },
     "runtimes_present": [
      "google-edgetpu"
@@ -3966,7 +4246,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Maker sources not reviewed for this chip"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -3992,7 +4272,8 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 26.0
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "gec77-android15-b4bb7e04",
@@ -4223,7 +4504,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Not found in the maker sources reviewed"
     },
     "runtimes_present": [
      "google-edgetpu"
@@ -4253,7 +4534,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Not found in the maker sources reviewed"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -4279,7 +4560,8 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 77.2
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "gkv4x-android17-7f98281f",
@@ -4502,7 +4784,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Maker sources not reviewed for this chip"
     },
     "runtimes_present": [
      "google-edgetpu"
@@ -4532,7 +4814,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Maker sources not reviewed for this chip"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -4558,7 +4840,8 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 28.5
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "glbw0-android16-bdd287f3",
@@ -4800,7 +5083,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Not found in the maker sources reviewed"
     },
     "runtimes_present": [
      "google-edgetpu"
@@ -4833,7 +5116,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Not found in the maker sources reviewed"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -4859,7 +5142,228 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 29.0
-   }
+   },
+   "latest_for_model": true
+  },
+  {
+   "id": "google-pixel-2-xl-android8-1-0-d4b27878",
+   "device_model_id": "google-pixel-2-xl-android8-1-0",
+   "provider": {
+    "name": "aws-device-farm",
+    "region": "us-west-2",
+    "device_arn": "arn:aws:devicefarm:us-west-2::device:F070C2816A9A444EB28ED624EDE7F789",
+    "catalogue": {
+     "arn": "arn:aws:devicefarm:us-west-2::device:F070C2816A9A444EB28ED624EDE7F789",
+     "cpu": {
+      "architecture": "arm64-v8a",
+      "clock": 1900.8,
+      "frequency": "MHz"
+     },
+     "fleetType": "PUBLIC",
+     "formFactor": "PHONE",
+     "heapSize": 512000000,
+     "image": "F070C2816A9A444EB28ED624EDE7F789",
+     "manufacturer": "Google",
+     "memory": 64000000000,
+     "model": "Pixel 2 XL",
+     "modelId": "Google Pixel 2 XL",
+     "name": "Google Pixel 2 XL",
+     "os": "8.1.0",
+     "platform": "ANDROID",
+     "remoteAccessEnabled": false,
+     "resolution": {
+      "height": 2880,
+      "width": 1440
+     }
+    }
+   },
+   "identity": {
+    "manufacturer": "Google",
+    "marketing_name": "Google Pixel 2 XL",
+    "model_code": "Pixel 2 XL",
+    "android": "8.1.0",
+    "sdk": "27",
+    "fingerprint": "google/taimen/taimen:8.1.0/OPM2.171026.006.C1/4769658:user/release-keys",
+    "security_patch": "2018-06-05",
+    "form_factor": "phone",
+    "abilist": "arm64-v8a,armeabi-v7a,armeabi",
+    "arm64_userspace": true
+   },
+   "soc": {
+    "reported_manufacturer": null,
+    "reported_model": null,
+    "platform": "msm8998",
+    "marketing_name": {
+     "value": null,
+     "provenance": "unknown"
+    },
+    "process_node": {
+     "value": null,
+     "provenance": "unknown"
+    }
+   },
+   "cpu": {
+    "count": 8,
+    "topology": "4+4",
+    "tiers": "4+4",
+    "cluster_count": 2,
+    "all_big_cores": null,
+    "architecture": "core classes unknown, dual-cluster",
+    "vendor_description": {
+     "value": null,
+     "provenance": "unknown"
+    },
+    "max_mhz": 2457.6,
+    "features": [
+     "aes",
+     "asimd",
+     "crc32",
+     "evtstrm",
+     "fp",
+     "pmull",
+     "sha1",
+     "sha2"
+    ],
+    "clusters": [
+     {
+      "cores": 4,
+      "cpus": [
+       4,
+       5,
+       6,
+       7
+      ],
+      "implementer": null,
+      "part": null,
+      "design": null,
+      "design_source": "unlisted in linux cputype.h",
+      "max_mhz": 2457.6,
+      "efficiency_class": false,
+      "core_class": "unknown"
+     },
+     {
+      "cores": 4,
+      "cpus": [
+       0,
+       1,
+       2,
+       3
+      ],
+      "implementer": null,
+      "part": null,
+      "design": null,
+      "design_source": "unlisted in linux cputype.h",
+      "max_mhz": 1900.8,
+      "efficiency_class": false,
+      "core_class": "unknown"
+     }
+    ],
+    "clock_domains": [
+     {
+      "policy": "policy4",
+      "cpus": [
+       4,
+       5,
+       6,
+       7
+      ],
+      "max_mhz": 2457.6,
+      "governor": "schedutil",
+      "designs": [
+       "?"
+      ]
+     },
+     {
+      "policy": "policy0",
+      "cpus": [
+       0,
+       1,
+       2,
+       3
+      ],
+      "max_mhz": 1900.8,
+      "governor": "schedutil",
+      "designs": [
+       "?"
+      ]
+     }
+    ]
+   },
+   "gpu": {
+    "name": {
+     "value": "Adreno (TM) 540",
+     "provenance": "reported",
+     "source": "data/devices/probe/2026-10-04-v3.1-check/Google_Pixel_2_XL-android8.1.0/artifacts/probe/vkjson.txt (Vulkan deviceName)"
+    },
+    "renderer": "Qualcomm, Adreno (TM) 540, OpenGL ES 3.2 V@258.0 (GIT@594927b, I916dfac403) (Date:10/11/17)",
+    "vulkan_api": null
+   },
+   "npu": {
+    "name": {
+     "value": null,
+     "provenance": "unknown"
+    },
+    "int8_tops": {
+     "value": null,
+     "provenance": "unknown",
+     "note": "Maker sources not reviewed for this chip"
+    },
+    "runtimes_present": [
+     "qualcomm-qnn-snpe"
+    ]
+   },
+   "memory": {
+    "mem_total_gib": {
+     "value": 3.56,
+     "provenance": "reported",
+     "source": "data/devices/probe/2026-10-04-v3.1-check/Google_Pixel_2_XL-android8.1.0/artifacts/probe/meminfo.txt (MemTotal)",
+     "unit": "GiB"
+    },
+    "capacity_gb": {
+     "value": null,
+     "provenance": "unknown"
+    },
+    "type": {
+     "value": null,
+     "provenance": "unknown",
+     "note": "Phone maker does not state it; the chip's supported types are not the fitted type"
+    },
+    "data_rate_mtps": {
+     "value": null,
+     "provenance": "unknown",
+     "note": "The phone maker does not state the fitted DRAM speed; the chip's supported maximum is not it"
+    },
+    "bus_width_bits": {
+     "value": null,
+     "provenance": "unknown",
+     "note": "Maker sources not reviewed for this chip"
+    },
+    "bandwidth_gbps": {
+     "value": null,
+     "provenance": "unknown",
+     "note": "Not derivable: needs a sourced data rate and a sourced bus width"
+    }
+   },
+   "compute": {
+    "bf16_tflops": {
+     "value": null,
+     "provenance": "unknown",
+     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+    }
+   },
+   "probe": {
+    "run_arn": "arn:aws:devicefarm:us-west-2:<account>:run:733be749-de36-4847-ba64-a034b55b21dd/89c2924e-83d1-4e35-b932-834f0c848ead",
+    "artifact_dir": "data/devices/probe/2026-10-04-v3.1-check/Google_Pixel_2_XL-android8.1.0/artifacts/probe",
+    "date": "2026-10-04",
+    "fixed_performance_mode": "exit=255 Unknown command: set-fixed-performance-mode-enabled",
+    "simpleperf": {
+     "present": true,
+     "version": null,
+     "perf_event_paranoid": 3
+    },
+    "adb_push_mib_s": 10.3
+   },
+   "latest_for_model": true
   },
   {
    "id": "gqml3-android14-c7e6f597",
@@ -5052,7 +5556,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Maker sources not reviewed for this chip"
     },
     "runtimes_present": [
      "google-edgetpu"
@@ -5082,7 +5586,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Maker sources not reviewed for this chip"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -5108,7 +5612,8 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 74.0
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "gtu8p-android17-1a8be1d4",
@@ -5301,7 +5806,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Maker sources not reviewed for this chip"
     },
     "runtimes_present": [
      "google-edgetpu"
@@ -5331,7 +5836,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Maker sources not reviewed for this chip"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -5357,7 +5862,8 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 26.7
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "guj0n-android17-9248b7cb",
@@ -5589,7 +6095,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Not found in the maker sources reviewed"
     },
     "runtimes_present": [
      "google-edgetpu"
@@ -5622,7 +6128,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Not found in the maker sources reviewed"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -5648,7 +6154,8 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 48.3
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "gul82-android16-fce155d4",
@@ -5890,7 +6397,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Not found in the maker sources reviewed"
     },
     "runtimes_present": [
      "google-edgetpu"
@@ -5923,7 +6430,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Not found in the maker sources reviewed"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -5949,7 +6456,8 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 29.4
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "gur25-android16-b6966353",
@@ -6179,7 +6687,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Not found in the maker sources reviewed"
     },
     "runtimes_present": [
      "google-edgetpu"
@@ -6212,7 +6720,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Not found in the maker sources reviewed"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -6238,7 +6746,8 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 29.5
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "gwkk3-android13-deb46f52",
@@ -6431,7 +6940,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Maker sources not reviewed for this chip"
     },
     "runtimes_present": [
      "google-edgetpu"
@@ -6461,7 +6970,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Maker sources not reviewed for this chip"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -6487,7 +6996,8 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 72.8
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "gxq96-android15-62d0c474",
@@ -6718,7 +7228,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Not found in the maker sources reviewed"
     },
     "runtimes_present": [
      "google-edgetpu"
@@ -6748,7 +7258,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Not found in the maker sources reviewed"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -6774,7 +7284,8 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 82.5
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "gzc4k-android17-d6ba1477",
@@ -7004,7 +7515,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Not found in the maker sources reviewed"
     },
     "runtimes_present": [
      "google-edgetpu"
@@ -7034,7 +7545,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Not found in the maker sources reviewed"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -7060,226 +7571,8 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 29.0
-   }
-  },
-  {
-   "id": "google-pixel-2-xl-android8-1-0-d4b27878",
-   "device_model_id": "google-pixel-2-xl-android8-1-0",
-   "provider": {
-    "name": "aws-device-farm",
-    "region": "us-west-2",
-    "device_arn": "arn:aws:devicefarm:us-west-2::device:F070C2816A9A444EB28ED624EDE7F789",
-    "catalogue": {
-     "arn": "arn:aws:devicefarm:us-west-2::device:F070C2816A9A444EB28ED624EDE7F789",
-     "cpu": {
-      "architecture": "arm64-v8a",
-      "clock": 1900.8,
-      "frequency": "MHz"
-     },
-     "fleetType": "PUBLIC",
-     "formFactor": "PHONE",
-     "heapSize": 512000000,
-     "image": "F070C2816A9A444EB28ED624EDE7F789",
-     "manufacturer": "Google",
-     "memory": 64000000000,
-     "model": "Pixel 2 XL",
-     "modelId": "Google Pixel 2 XL",
-     "name": "Google Pixel 2 XL",
-     "os": "8.1.0",
-     "platform": "ANDROID",
-     "remoteAccessEnabled": false,
-     "resolution": {
-      "height": 2880,
-      "width": 1440
-     }
-    }
    },
-   "identity": {
-    "manufacturer": "Google",
-    "marketing_name": "Google Pixel 2 XL",
-    "model_code": "Pixel 2 XL",
-    "android": "8.1.0",
-    "sdk": "27",
-    "fingerprint": "google/taimen/taimen:8.1.0/OPM2.171026.006.C1/4769658:user/release-keys",
-    "security_patch": "2018-06-05",
-    "form_factor": "phone",
-    "abilist": "arm64-v8a,armeabi-v7a,armeabi",
-    "arm64_userspace": true
-   },
-   "soc": {
-    "reported_manufacturer": null,
-    "reported_model": null,
-    "platform": "msm8998",
-    "marketing_name": {
-     "value": null,
-     "provenance": "unknown"
-    },
-    "process_node": {
-     "value": null,
-     "provenance": "unknown"
-    }
-   },
-   "cpu": {
-    "count": 8,
-    "topology": "4+4",
-    "tiers": "4+4",
-    "cluster_count": 2,
-    "all_big_cores": null,
-    "architecture": "core classes unknown, dual-cluster",
-    "vendor_description": {
-     "value": null,
-     "provenance": "unknown"
-    },
-    "max_mhz": 2457.6,
-    "features": [
-     "aes",
-     "asimd",
-     "crc32",
-     "evtstrm",
-     "fp",
-     "pmull",
-     "sha1",
-     "sha2"
-    ],
-    "clusters": [
-     {
-      "cores": 4,
-      "cpus": [
-       4,
-       5,
-       6,
-       7
-      ],
-      "implementer": null,
-      "part": null,
-      "design": null,
-      "design_source": "unlisted in linux cputype.h",
-      "max_mhz": 2457.6,
-      "efficiency_class": false,
-      "core_class": "unknown"
-     },
-     {
-      "cores": 4,
-      "cpus": [
-       0,
-       1,
-       2,
-       3
-      ],
-      "implementer": null,
-      "part": null,
-      "design": null,
-      "design_source": "unlisted in linux cputype.h",
-      "max_mhz": 1900.8,
-      "efficiency_class": false,
-      "core_class": "unknown"
-     }
-    ],
-    "clock_domains": [
-     {
-      "policy": "policy4",
-      "cpus": [
-       4,
-       5,
-       6,
-       7
-      ],
-      "max_mhz": 2457.6,
-      "governor": "schedutil",
-      "designs": [
-       "?"
-      ]
-     },
-     {
-      "policy": "policy0",
-      "cpus": [
-       0,
-       1,
-       2,
-       3
-      ],
-      "max_mhz": 1900.8,
-      "governor": "schedutil",
-      "designs": [
-       "?"
-      ]
-     }
-    ]
-   },
-   "gpu": {
-    "name": {
-     "value": "Adreno (TM) 540",
-     "provenance": "reported",
-     "source": "data/devices/probe/2026-10-04-v3-catalogue/Google_Pixel_2_XL-android8.1.0/artifacts/probe/vkjson.txt (Vulkan deviceName)"
-    },
-    "renderer": "Qualcomm, Adreno (TM) 540, OpenGL ES 3.2 V@258.0 (GIT@594927b, I916dfac403) (Date:10/11/17)",
-    "vulkan_api": null
-   },
-   "npu": {
-    "name": {
-     "value": null,
-     "provenance": "unknown"
-    },
-    "int8_tops": {
-     "value": null,
-     "provenance": "unknown",
-     "note": "Not published by the chip maker"
-    },
-    "runtimes_present": [
-     "qualcomm-qnn-snpe"
-    ]
-   },
-   "memory": {
-    "mem_total_gib": {
-     "value": 3.56,
-     "provenance": "reported",
-     "source": "data/devices/probe/2026-10-04-v3-catalogue/Google_Pixel_2_XL-android8.1.0/artifacts/probe/meminfo.txt (MemTotal)",
-     "unit": "GiB"
-    },
-    "capacity_gb": {
-     "value": null,
-     "provenance": "unknown"
-    },
-    "type": {
-     "value": null,
-     "provenance": "unknown",
-     "note": "Phone maker does not state it; the chip's supported types are not the fitted type"
-    },
-    "data_rate_mtps": {
-     "value": null,
-     "provenance": "unknown",
-     "note": "The phone maker does not state the fitted DRAM speed; the chip's supported maximum is not it"
-    },
-    "bus_width_bits": {
-     "value": null,
-     "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
-    },
-    "bandwidth_gbps": {
-     "value": null,
-     "provenance": "unknown",
-     "note": "Not derivable: needs a sourced data rate and a sourced bus width"
-    }
-   },
-   "compute": {
-    "bf16_tflops": {
-     "value": null,
-     "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
-    }
-   },
-   "probe": {
-    "run_arn": "arn:aws:devicefarm:us-west-2:<account>:run:733be749-de36-4847-ba64-a034b55b21dd/8a979433-95de-46e0-9971-b56c02b21c36",
-    "artifact_dir": "data/devices/probe/2026-10-04-v3-catalogue/Google_Pixel_2_XL-android8.1.0/artifacts/probe",
-    "date": "2026-10-04",
-    "fixed_performance_mode": "exit=255 Unknown command: set-fixed-performance-mode-enabled",
-    "simpleperf": {
-     "present": true,
-     "version": null,
-     "perf_event_paranoid": 3
-    },
-    "adb_push_mib_s": 11.0
-   }
+   "latest_for_model": true
   },
   {
    "id": "lm-q720qm-android9-9f7ca278",
@@ -7344,7 +7637,7 @@
     "tiers": "8",
     "cluster_count": 1,
     "all_big_cores": false,
-    "architecture": "big.LITTLE, single-cluster",
+    "architecture": "all-efficiency-core, single-cluster",
     "vendor_description": {
      "value": null,
      "provenance": "unknown"
@@ -7420,7 +7713,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Maker sources not reviewed for this chip"
     },
     "runtimes_present": []
    },
@@ -7448,7 +7741,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Maker sources not reviewed for this chip"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -7474,7 +7767,8 @@
      "perf_event_paranoid": 3
     },
     "adb_push_mib_s": 25.8
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "lmq730-android10-a2eca8b5",
@@ -7539,7 +7833,7 @@
     "tiers": "4+4",
     "cluster_count": 2,
     "all_big_cores": false,
-    "architecture": "big.LITTLE, dual-cluster",
+    "architecture": "all-efficiency-core, dual-cluster",
     "vendor_description": {
      "value": null,
      "provenance": "unknown"
@@ -7637,7 +7931,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Maker sources not reviewed for this chip"
     },
     "runtimes_present": []
    },
@@ -7665,7 +7959,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Maker sources not reviewed for this chip"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -7691,7 +7985,8 @@
      "perf_event_paranoid": 1
     },
     "adb_push_mib_s": 16.9
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "m2103k19g-android11-8ccada35",
@@ -7862,7 +8157,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Maker sources not reviewed for this chip"
     },
     "runtimes_present": [
      "mediatek-neuron-apusys"
@@ -7892,7 +8187,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Maker sources not reviewed for this chip"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -7918,7 +8213,8 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 16.3
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "pixel-3-android10-5021fa3a",
@@ -8084,7 +8380,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Maker sources not reviewed for this chip"
     },
     "runtimes_present": [
      "qualcomm-qnn-snpe"
@@ -8114,7 +8410,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Maker sources not reviewed for this chip"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -8140,7 +8436,8 @@
      "perf_event_paranoid": 1
     },
     "adb_push_mib_s": 27.3
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "pixel-3-xl-android10-080a513e",
@@ -8306,7 +8603,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Maker sources not reviewed for this chip"
     },
     "runtimes_present": [
      "qualcomm-qnn-snpe"
@@ -8336,7 +8633,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Maker sources not reviewed for this chip"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -8362,7 +8659,8 @@
      "perf_event_paranoid": 1
     },
     "adb_push_mib_s": 74.4
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "pixel-4a-android11-e941e667",
@@ -8533,7 +8831,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Maker sources not reviewed for this chip"
     },
     "runtimes_present": [
      "qualcomm-qnn-snpe"
@@ -8563,7 +8861,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Maker sources not reviewed for this chip"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -8589,7 +8887,8 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 27.7
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "pixel-5-android12-c7c140ce",
@@ -8782,7 +9081,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Maker sources not reviewed for this chip"
     },
     "runtimes_present": [
      "qualcomm-qnn-snpe"
@@ -8812,7 +9111,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Maker sources not reviewed for this chip"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -8838,7 +9137,8 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 79.5
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "pixel-6-android13-b7d7cad8",
@@ -9031,7 +9331,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Maker sources not reviewed for this chip"
     },
     "runtimes_present": [
      "google-edgetpu"
@@ -9061,7 +9361,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Maker sources not reviewed for this chip"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -9087,7 +9387,8 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 25.6
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "pixel-6-pro-android17-54a73b6f",
@@ -9280,7 +9581,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Maker sources not reviewed for this chip"
     },
     "runtimes_present": [
      "google-edgetpu"
@@ -9310,7 +9611,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Maker sources not reviewed for this chip"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -9336,7 +9637,8 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 26.2
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "sm-a136u1-android11-07195ca8",
@@ -9509,7 +9811,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Maker sources not reviewed for this chip"
     },
     "runtimes_present": []
    },
@@ -9537,7 +9839,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Maker sources not reviewed for this chip"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -9563,7 +9865,8 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 13.4
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "sm-a146u1-android13-e7033c1d",
@@ -9734,7 +10037,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Maker sources not reviewed for this chip"
     },
     "runtimes_present": [
      "mediatek-neuron-apusys"
@@ -9764,7 +10067,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Maker sources not reviewed for this chip"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -9790,7 +10093,8 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 18.7
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "sm-a156u1-android14-f839598f",
@@ -9961,7 +10265,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Maker sources not reviewed for this chip"
     },
     "runtimes_present": [
      "mediatek-neuron-apusys"
@@ -9991,7 +10295,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Maker sources not reviewed for this chip"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -10017,7 +10321,8 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 25.4
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "sm-a165f-android14-87502b6e",
@@ -10188,7 +10493,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Maker sources not reviewed for this chip"
     },
     "runtimes_present": [
      "mediatek-neuron-apusys"
@@ -10218,7 +10523,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Maker sources not reviewed for this chip"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -10244,7 +10549,8 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 19.2
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "sm-a176u-android16-7eeb7f44",
@@ -10421,7 +10727,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Not found in the maker sources reviewed"
     },
     "runtimes_present": [
      "samsung-enn-eden"
@@ -10454,7 +10760,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Not found in the maker sources reviewed"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -10480,7 +10786,8 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 27.8
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "sm-a245m-android14-e3352717",
@@ -10651,7 +10958,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Maker sources not reviewed for this chip"
     },
     "runtimes_present": [
      "mediatek-neuron-apusys"
@@ -10681,7 +10988,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Maker sources not reviewed for this chip"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -10707,7 +11014,8 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 19.2
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "sm-a256e-android14-e391daf3",
@@ -10878,7 +11186,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Maker sources not reviewed for this chip"
     },
     "runtimes_present": [
      "samsung-enn-eden"
@@ -10908,7 +11216,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Maker sources not reviewed for this chip"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -10934,7 +11242,8 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 26.4
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "sm-a266u1-android15-0bef84b5",
@@ -11105,7 +11414,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Maker sources not reviewed for this chip"
     },
     "runtimes_present": [
      "samsung-enn-eden"
@@ -11135,7 +11444,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Maker sources not reviewed for this chip"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -11161,7 +11470,8 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 25.9
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "sm-a346b-android13-06b520e4",
@@ -11332,7 +11642,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Maker sources not reviewed for this chip"
     },
     "runtimes_present": [
      "mediatek-neuron-apusys"
@@ -11362,7 +11672,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Maker sources not reviewed for this chip"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -11388,7 +11698,8 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 22.2
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "sm-a356u1-android14-faee909a",
@@ -11559,7 +11870,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Maker sources not reviewed for this chip"
     },
     "runtimes_present": [
      "samsung-enn-eden"
@@ -11589,7 +11900,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Maker sources not reviewed for this chip"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -11615,7 +11926,8 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 27.8
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "sm-a366u1-android16-56542583",
@@ -11794,7 +12106,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Not found in the maker sources reviewed"
     },
     "runtimes_present": [
      "qualcomm-qnn-snpe"
@@ -11827,7 +12139,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Not found in the maker sources reviewed"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -11853,7 +12165,8 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 28.5
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "sm-a515f-android13-a1d587aa",
@@ -12017,7 +12330,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Maker sources not reviewed for this chip"
     },
     "runtimes_present": []
    },
@@ -12045,7 +12358,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Maker sources not reviewed for this chip"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -12071,7 +12384,8 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 25.8
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "sm-a536u1-android12-345fcd66",
@@ -12242,7 +12556,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Maker sources not reviewed for this chip"
     },
     "runtimes_present": [
      "samsung-enn-eden"
@@ -12272,7 +12586,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Maker sources not reviewed for this chip"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -12298,7 +12612,8 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 26.5
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "sm-a546u1-android13-e63b0066",
@@ -12469,7 +12784,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Maker sources not reviewed for this chip"
     },
     "runtimes_present": [
      "samsung-enn-eden"
@@ -12499,7 +12814,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Maker sources not reviewed for this chip"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -12525,7 +12840,8 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 25.3
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "sm-a556u1-android14-e985ad20",
@@ -12696,7 +13012,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Maker sources not reviewed for this chip"
     },
     "runtimes_present": [
      "samsung-enn-eden"
@@ -12726,7 +13042,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Maker sources not reviewed for this chip"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -12752,7 +13068,8 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 28.8
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "sm-a566u1-android15-90ed3aed",
@@ -13019,7 +13336,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Not found in the maker sources reviewed"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -13045,7 +13362,8 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 25.5
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "sm-a715f-ds-android11-b4efbfc3",
@@ -13216,7 +13534,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Maker sources not reviewed for this chip"
     },
     "runtimes_present": [
      "qualcomm-qnn-snpe"
@@ -13246,7 +13564,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Maker sources not reviewed for this chip"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -13272,7 +13590,8 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 25.0
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "sm-a736b-android12-d0ce63b2",
@@ -13453,7 +13772,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Maker sources not reviewed for this chip"
     },
     "runtimes_present": [
      "qualcomm-qnn-snpe"
@@ -13483,7 +13802,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Maker sources not reviewed for this chip"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -13509,7 +13828,8 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 26.5
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "sm-g960u1-android9-6695c457",
@@ -13675,7 +13995,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Maker sources not reviewed for this chip"
     },
     "runtimes_present": [
      "qualcomm-qnn-snpe"
@@ -13705,7 +14025,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Maker sources not reviewed for this chip"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -13731,7 +14051,8 @@
      "perf_event_paranoid": 3
     },
     "adb_push_mib_s": 19.9
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "sm-g965u1-android8-0-0-c0817998",
@@ -13897,7 +14218,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Maker sources not reviewed for this chip"
     },
     "runtimes_present": []
    },
@@ -13925,7 +14246,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Maker sources not reviewed for this chip"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -13951,7 +14272,8 @@
      "perf_event_paranoid": 3
     },
     "adb_push_mib_s": 7.8
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "sm-g973u1-android9-b913d857",
@@ -14143,7 +14465,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Maker sources not reviewed for this chip"
     },
     "runtimes_present": [
      "qualcomm-qnn-snpe"
@@ -14173,7 +14495,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Maker sources not reviewed for this chip"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -14199,7 +14521,8 @@
      "perf_event_paranoid": 3
     },
     "adb_push_mib_s": 20.1
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "sm-g981u1-android13-b1980009",
@@ -14392,7 +14715,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Maker sources not reviewed for this chip"
     },
     "runtimes_present": [
      "qualcomm-qnn-snpe"
@@ -14422,7 +14745,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Maker sources not reviewed for this chip"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -14448,7 +14771,8 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 28.1
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "sm-g991u1-android12-f1d3cb0c",
@@ -14641,7 +14965,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Maker sources not reviewed for this chip"
     },
     "runtimes_present": [
      "qualcomm-qnn-snpe"
@@ -14671,7 +14995,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Maker sources not reviewed for this chip"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -14697,7 +15021,8 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 27.9
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "sm-g998u1-android12-f2ed6b3d",
@@ -14890,7 +15215,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Maker sources not reviewed for this chip"
     },
     "runtimes_present": [
      "qualcomm-qnn-snpe"
@@ -14920,7 +15245,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Maker sources not reviewed for this chip"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -14946,7 +15271,8 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 28.2
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "sm-n980f-android11-e88e43f8",
@@ -15139,7 +15465,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Maker sources not reviewed for this chip"
     },
     "runtimes_present": [
      "samsung-enn-eden"
@@ -15169,7 +15495,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Maker sources not reviewed for this chip"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -15195,7 +15521,8 @@
      "perf_event_paranoid": 1
     },
     "adb_push_mib_s": 81.5
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "sm-s901u1-android13-1b7f38c6",
@@ -15409,7 +15736,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Maker sources not reviewed for this chip"
     },
     "runtimes_present": [
      "qualcomm-qnn-snpe"
@@ -15439,7 +15766,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Maker sources not reviewed for this chip"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -15465,7 +15792,8 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 25.5
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "sm-s906u1-android12-faefac8c",
@@ -15679,7 +16007,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Maker sources not reviewed for this chip"
     },
     "runtimes_present": [
      "qualcomm-qnn-snpe"
@@ -15709,7 +16037,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Maker sources not reviewed for this chip"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -15735,7 +16063,8 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 28.3
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "sm-s908u1-android12-704ad4c7",
@@ -15949,7 +16278,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Maker sources not reviewed for this chip"
     },
     "runtimes_present": [
      "qualcomm-qnn-snpe"
@@ -15979,7 +16308,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Maker sources not reviewed for this chip"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -16005,7 +16334,8 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 28.0
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "sm-s911u1-android14-6c677c52",
@@ -16240,7 +16570,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Not found in the maker sources reviewed"
     },
     "runtimes_present": [
      "qualcomm-qnn-snpe"
@@ -16270,7 +16600,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Not found in the maker sources reviewed"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -16296,7 +16626,8 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 28.2
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "sm-s916u1-android13-ea399566",
@@ -16531,7 +16862,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Not found in the maker sources reviewed"
     },
     "runtimes_present": [
      "qualcomm-qnn-snpe"
@@ -16561,7 +16892,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Not found in the maker sources reviewed"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -16587,7 +16918,8 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 76.4
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "sm-s918u1-android13-175c6112",
@@ -16822,7 +17154,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Not found in the maker sources reviewed"
     },
     "runtimes_present": [
      "qualcomm-qnn-snpe"
@@ -16852,7 +17184,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Not found in the maker sources reviewed"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -16878,7 +17210,8 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 88.8
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "sm-s921u1-android14-b298585e",
@@ -17125,7 +17458,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Not found in the maker sources reviewed"
     },
     "runtimes_present": [
      "qualcomm-qnn-snpe"
@@ -17155,7 +17488,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Not found in the maker sources reviewed"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -17181,7 +17514,8 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 28.4
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "sm-s926u1-android14-cc357772",
@@ -17428,7 +17762,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Not found in the maker sources reviewed"
     },
     "runtimes_present": [
      "qualcomm-qnn-snpe"
@@ -17458,7 +17792,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Not found in the maker sources reviewed"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -17484,7 +17818,312 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 28.2
-   }
+   },
+   "latest_for_model": true
+  },
+  {
+   "id": "sm-s928u1-android14-d1eace91",
+   "device_model_id": "sm-s928u1-android14",
+   "provider": {
+    "name": "aws-device-farm",
+    "region": "us-west-2",
+    "device_arn": "arn:aws:devicefarm:us-west-2::device:65B6E559AC3F4D61A00C03E958F3D3E1",
+    "catalogue": {
+     "arn": "arn:aws:devicefarm:us-west-2::device:65B6E559AC3F4D61A00C03E958F3D3E1",
+     "cpu": {
+      "architecture": "arm64-v8a",
+      "clock": 2265.6,
+      "frequency": "MHz"
+     },
+     "fleetType": "PUBLIC",
+     "formFactor": "PHONE",
+     "heapSize": 512000000,
+     "image": "65B6E559AC3F4D61A00C03E958F3D3E1",
+     "manufacturer": "Samsung",
+     "memory": 256000000000,
+     "model": "Samsung Galaxy S24 Ultra",
+     "modelId": "SM-S928U1",
+     "name": "Samsung Galaxy S24 Ultra",
+     "os": "14",
+     "platform": "ANDROID",
+     "remoteAccessEnabled": true,
+     "resolution": {
+      "height": 3120,
+      "width": 1440
+     }
+    }
+   },
+   "identity": {
+    "manufacturer": "samsung",
+    "marketing_name": "Samsung Galaxy S24 Ultra",
+    "model_code": "SM-S928U1",
+    "android": "14",
+    "sdk": "34",
+    "fingerprint": "samsung/e3quew/e3q:14/UP1A.231005.007/S928U1UES2AXE4:user/release-keys",
+    "security_patch": "2024-06-01",
+    "form_factor": "phone",
+    "abilist": "arm64-v8a",
+    "arm64_userspace": true
+   },
+   "soc": {
+    "reported_manufacturer": "QTI",
+    "reported_model": "SM8650",
+    "platform": "pineapple",
+    "marketing_name": {
+     "value": "Snapdragon 8 Gen 3 for Galaxy",
+     "provenance": "published",
+     "source": "https://www.samsung.com/us/support/answer/ANS10000756/",
+     "retrieved": "2026-10-04"
+    },
+    "process_node": {
+     "value": "4 nm",
+     "provenance": "published",
+     "source": "https://docs.qualcomm.com/bundle/publicresource/87-71408-1_REV_D_Snapdragon_8_gen_3_Mobile_Platform_Product_Brief.pdf",
+     "retrieved": "2026-10-04"
+    }
+   },
+   "cpu": {
+    "count": 8,
+    "topology": "1+3+2+2",
+    "tiers": "1+3+2+2",
+    "cluster_count": 4,
+    "all_big_cores": false,
+    "architecture": "big.LITTLE, quad-cluster",
+    "vendor_description": {
+     "value": "1 Prime up to 3.4 GHz + 5 Performance up to 3.2 GHz + 2 Efficiency up to 2.3 GHz (frequencies rounded up, per Qualcomm)",
+     "provenance": "published",
+     "source": "https://docs.qualcomm.com/bundle/publicresource/87-71408-1_REV_D_Snapdragon_8_gen_3_Mobile_Platform_Product_Brief.pdf",
+     "retrieved": "2026-10-04"
+    },
+    "max_mhz": 3398.4,
+    "features": [
+     "aes",
+     "afp",
+     "asimd",
+     "asimddp",
+     "asimdfhm",
+     "asimdhp",
+     "asimdrdm",
+     "atomics",
+     "bf16",
+     "bti",
+     "cpuid",
+     "crc32",
+     "dcpodp",
+     "dcpop",
+     "dgh",
+     "dit",
+     "ecv",
+     "evtstrm",
+     "fcma",
+     "flagm",
+     "flagm2",
+     "fp",
+     "fphp",
+     "frint",
+     "i8mm",
+     "ilrcpc",
+     "jscvt",
+     "lrcpc",
+     "paca",
+     "pacg",
+     "pmull",
+     "sb",
+     "sha1",
+     "sha2",
+     "sha3",
+     "sha512",
+     "sm3",
+     "sm4",
+     "ssbs",
+     "uscat"
+    ],
+    "clusters": [
+     {
+      "cores": 1,
+      "cpus": [
+       7
+      ],
+      "implementer": "0x41",
+      "part": "0xd82",
+      "design": "CORTEX_X4",
+      "design_source": "linux cputype.h",
+      "max_mhz": 3398.4,
+      "efficiency_class": false,
+      "core_class": "performance"
+     },
+     {
+      "cores": 3,
+      "cpus": [
+       2,
+       3,
+       4
+      ],
+      "implementer": "0x41",
+      "part": "0xd81",
+      "design": "CORTEX_A720",
+      "design_source": "linux cputype.h",
+      "max_mhz": 3148.8,
+      "efficiency_class": false,
+      "core_class": "performance"
+     },
+     {
+      "cores": 2,
+      "cpus": [
+       5,
+       6
+      ],
+      "implementer": "0x41",
+      "part": "0xd81",
+      "design": "CORTEX_A720",
+      "design_source": "linux cputype.h",
+      "max_mhz": 2956.8,
+      "efficiency_class": false,
+      "core_class": "performance"
+     },
+     {
+      "cores": 2,
+      "cpus": [
+       0,
+       1
+      ],
+      "implementer": "0x41",
+      "part": "0xd80",
+      "design": "CORTEX_A520",
+      "design_source": "linux cputype.h",
+      "max_mhz": 2265.6,
+      "efficiency_class": true,
+      "core_class": "efficiency"
+     }
+    ],
+    "clock_domains": [
+     {
+      "policy": "policy7",
+      "cpus": [
+       7
+      ],
+      "max_mhz": 3398.4,
+      "governor": "walt",
+      "designs": [
+       "CORTEX_X4"
+      ]
+     },
+     {
+      "policy": "policy2",
+      "cpus": [
+       2,
+       3,
+       4
+      ],
+      "max_mhz": 3148.8,
+      "governor": "walt",
+      "designs": [
+       "CORTEX_A720"
+      ]
+     },
+     {
+      "policy": "policy5",
+      "cpus": [
+       5,
+       6
+      ],
+      "max_mhz": 2956.8,
+      "governor": "walt",
+      "designs": [
+       "CORTEX_A720"
+      ]
+     },
+     {
+      "policy": "policy0",
+      "cpus": [
+       0,
+       1
+      ],
+      "max_mhz": 2265.6,
+      "governor": "walt",
+      "designs": [
+       "CORTEX_A520"
+      ]
+     }
+    ]
+   },
+   "gpu": {
+    "name": {
+     "value": null,
+     "provenance": "unknown"
+    },
+    "renderer": "Qualcomm, Adreno (TM) 750, OpenGL ES 3.2 V@0744.18 (GIT@d774a8672e, I8ea610b5b4, 1704277645) (Date:01/03/24)",
+    "vulkan_api": null
+   },
+   "npu": {
+    "name": {
+     "value": "Qualcomm Hexagon NPU",
+     "provenance": "published",
+     "source": "https://docs.qualcomm.com/bundle/publicresource/87-71408-1_REV_D_Snapdragon_8_gen_3_Mobile_Platform_Product_Brief.pdf",
+     "retrieved": "2026-10-04"
+    },
+    "int8_tops": {
+     "value": null,
+     "provenance": "unknown",
+     "note": "Not found in the maker sources reviewed"
+    },
+    "runtimes_present": []
+   },
+   "memory": {
+    "mem_total_gib": {
+     "value": 10.81,
+     "provenance": "reported",
+     "source": "data/devices/probe/2026-10-04/SM-S928U1-android14/artifacts/probe/meminfo.txt (MemTotal)",
+     "unit": "GiB"
+    },
+    "capacity_gb": {
+     "value": "12",
+     "provenance": "published",
+     "source": "https://www.samsung.com/us/support/answer/ANS10000756/",
+     "retrieved": "2026-10-04",
+     "unit": "GB"
+    },
+    "type": {
+     "value": null,
+     "provenance": "unknown",
+     "note": "Phone maker does not state it; the chip's supported types are not the fitted type"
+    },
+    "data_rate_mtps": {
+     "value": null,
+     "provenance": "unknown",
+     "note": "The phone maker does not state the fitted DRAM speed; the chip's supported maximum is not it"
+    },
+    "bus_width_bits": {
+     "value": null,
+     "provenance": "unknown",
+     "note": "Not found in the maker sources reviewed"
+    },
+    "bandwidth_gbps": {
+     "value": null,
+     "provenance": "unknown",
+     "note": "Not derivable: needs a sourced data rate and a sourced bus width"
+    }
+   },
+   "compute": {
+    "bf16_tflops": {
+     "value": null,
+     "provenance": "unknown",
+     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+    }
+   },
+   "probe": {
+    "run_arn": "arn:aws:devicefarm:us-west-2:<account>:run:733be749-de36-4847-ba64-a034b55b21dd/86b8ddf5-d1b1-4b54-a199-f6ebbab3fe18",
+    "artifact_dir": "data/devices/probe/2026-10-04/SM-S928U1-android14/artifacts/probe",
+    "date": "2026-10-04",
+    "fixed_performance_mode": "accepted",
+    "simpleperf": {
+     "present": true,
+     "version": "1.build.S928U1UES2AXE4",
+     "perf_event_paranoid": -1
+    },
+    "adb_push_mib_s": 28.3
+   },
+   "latest_for_model": false
   },
   {
    "id": "sm-s928u1-android14-de140b49",
@@ -17731,7 +18370,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Not found in the maker sources reviewed"
     },
     "runtimes_present": [
      "qualcomm-qnn-snpe"
@@ -17764,7 +18403,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Not found in the maker sources reviewed"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -17790,7 +18429,8 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 82.3
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "sm-s931u1-android16-2856eaac",
@@ -17994,7 +18634,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Not found in the maker sources reviewed"
     },
     "runtimes_present": [
      "qualcomm-qnn-snpe"
@@ -18027,7 +18667,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Not found in the maker sources reviewed"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -18053,7 +18693,8 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 89.1
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "sm-s936u1-android15-72dab2c0",
@@ -18257,7 +18898,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Not found in the maker sources reviewed"
     },
     "runtimes_present": [
      "qualcomm-qnn-snpe"
@@ -18287,7 +18928,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Not found in the maker sources reviewed"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -18313,7 +18954,8 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 28.4
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "sm-s938u1-android15-3f06e532",
@@ -18502,7 +19144,7 @@
     "name": {
      "value": "Adreno (TM) 830",
      "provenance": "reported",
-     "source": "data/devices/probe/2026-10-04-v2/SM-S938U1-android15/artifacts/probe/vkjson.txt (Vulkan deviceName)"
+     "source": "data/devices/probe/2026-10-04-v3.1-check/SM-S938U1-android15/artifacts/probe/vkjson.txt (Vulkan deviceName)"
     },
     "renderer": "Qualcomm, Adreno (TM) 830, OpenGL ES 3.2 V@0800.17.11 (GIT@7a7d1616fb, I1b2d45fd3f, 1734524510) (Date:12/18/24)",
     "vulkan_api": null
@@ -18517,7 +19159,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Not found in the maker sources reviewed"
     },
     "runtimes_present": [
      "qualcomm-qnn-snpe"
@@ -18527,7 +19169,7 @@
     "mem_total_gib": {
      "value": 10.86,
      "provenance": "reported",
-     "source": "data/devices/probe/2026-10-04-v2/SM-S938U1-android15/artifacts/probe/meminfo.txt (MemTotal)",
+     "source": "data/devices/probe/2026-10-04-v3.1-check/SM-S938U1-android15/artifacts/probe/meminfo.txt (MemTotal)",
      "unit": "GiB"
     },
     "capacity_gb": {
@@ -18550,7 +19192,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Not found in the maker sources reviewed"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -18566,8 +19208,8 @@
     }
    },
    "probe": {
-    "run_arn": "arn:aws:devicefarm:us-west-2:<account>:run:733be749-de36-4847-ba64-a034b55b21dd/7af87807-ce27-4e13-872a-6ef48ed066fe",
-    "artifact_dir": "data/devices/probe/2026-10-04-v2/SM-S938U1-android15/artifacts/probe",
+    "run_arn": "arn:aws:devicefarm:us-west-2:<account>:run:733be749-de36-4847-ba64-a034b55b21dd/89c2924e-83d1-4e35-b932-834f0c848ead",
+    "artifact_dir": "data/devices/probe/2026-10-04-v3.1-check/SM-S938U1-android15/artifacts/probe",
     "date": "2026-10-04",
     "fixed_performance_mode": "accepted",
     "simpleperf": {
@@ -18575,8 +19217,9 @@
      "version": "1.build.S938U1UEU1AYA1",
      "perf_event_paranoid": -1
     },
-    "adb_push_mib_s": 28.2
-   }
+    "adb_push_mib_s": 28.1
+   },
+   "latest_for_model": true
   },
   {
    "id": "sm-s942u1-android16-16a4fdb8",
@@ -18794,7 +19437,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Not found in the maker sources reviewed"
     },
     "runtimes_present": [
      "qualcomm-qnn-snpe"
@@ -18827,7 +19470,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Not found in the maker sources reviewed"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -18853,7 +19496,8 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 29.6
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "sm-s947u1-android16-2c1bdebb",
@@ -19071,7 +19715,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Not found in the maker sources reviewed"
     },
     "runtimes_present": [
      "qualcomm-qnn-snpe"
@@ -19101,7 +19745,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Not found in the maker sources reviewed"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -19127,7 +19771,8 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 29.5
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "sm-s948u1-android16-077c084c",
@@ -19345,7 +19990,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Not found in the maker sources reviewed"
     },
     "runtimes_present": [
      "qualcomm-qnn-snpe"
@@ -19378,7 +20023,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Not found in the maker sources reviewed"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -19404,7 +20049,8 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 29.6
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "sm-t220-android13-46b01559",
@@ -19469,7 +20115,7 @@
     "tiers": "4+4",
     "cluster_count": 2,
     "all_big_cores": false,
-    "architecture": "big.LITTLE, dual-cluster",
+    "architecture": "all-efficiency-core, dual-cluster",
     "vendor_description": {
      "value": null,
      "provenance": "unknown"
@@ -19568,7 +20214,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Maker sources not reviewed for this chip"
     },
     "runtimes_present": [
      "mediatek-neuron-apusys"
@@ -19598,7 +20244,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Maker sources not reviewed for this chip"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -19624,7 +20270,8 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 18.6
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "sm-t860-android9-262b2763",
@@ -19816,7 +20463,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Maker sources not reviewed for this chip"
     },
     "runtimes_present": [
      "qualcomm-qnn-snpe"
@@ -19846,7 +20493,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Maker sources not reviewed for this chip"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -19872,7 +20519,8 @@
      "perf_event_paranoid": 3
     },
     "adb_push_mib_s": 36.6
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "sm-t870-android11-42124c57",
@@ -20065,7 +20713,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Maker sources not reviewed for this chip"
     },
     "runtimes_present": [
      "qualcomm-qnn-snpe"
@@ -20095,7 +20743,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Maker sources not reviewed for this chip"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -20121,7 +20769,8 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 26.3
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "sm-x110-android13-469af325",
@@ -20292,7 +20941,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Maker sources not reviewed for this chip"
     },
     "runtimes_present": [
      "mediatek-neuron-apusys"
@@ -20322,7 +20971,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Maker sources not reviewed for this chip"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -20348,7 +20997,8 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 19.3
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "sm-x700-android12-f575d120",
@@ -20562,7 +21212,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Maker sources not reviewed for this chip"
     },
     "runtimes_present": [
      "qualcomm-qnn-snpe"
@@ -20592,7 +21242,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Maker sources not reviewed for this chip"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -20618,7 +21268,8 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 28.4
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "sm-x710-android13-23082b1f",
@@ -20853,7 +21504,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Not found in the maker sources reviewed"
     },
     "runtimes_present": [
      "qualcomm-qnn-snpe"
@@ -20886,7 +21537,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Not found in the maker sources reviewed"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -20912,7 +21563,8 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 78.6
-   }
+   },
+   "latest_for_model": true
   },
   {
    "id": "sm-x730-android16-d861c6de",
@@ -21146,7 +21798,7 @@
     "int8_tops": {
      "value": null,
      "provenance": "unknown",
-     "note": "Not published by the chip maker"
+     "note": "Not found in the maker sources reviewed"
     },
     "runtimes_present": [
      "mediatek-neuron-apusys"
@@ -21179,7 +21831,7 @@
     "bus_width_bits": {
      "value": null,
      "provenance": "unknown",
-     "note": "No maker publishes the DRAM bus width for these chips"
+     "note": "Not found in the maker sources reviewed"
     },
     "bandwidth_gbps": {
      "value": null,
@@ -21205,7 +21857,8 @@
      "perf_event_paranoid": -1
     },
     "adb_push_mib_s": 30.1
-   }
+   },
+   "latest_for_model": true
   }
  ]
 }

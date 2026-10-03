@@ -1,0 +1,175 @@
+{
+ "note": "Preliminary scan made before execubench/models.py existed (huggingface_hub list_models over the experimentalmachines and alpharomercoma orgs). It recorded repo revisions and file names only, not per-file hashes. Kept so the change to the later scan in xnnpack.json can be derived.",
+ "written_utc": "2026-10-03T22:13:54Z",
+ "repos": [
+  {
+   "repo": "experimentalmachines/LFM2.5-1.2B-Instruct-ExecuTorch",
+   "revision": "8184ae83cf4da8d5d337baa31197c6b85535dc3e",
+   "xnnpack_files": [
+    "xnnpack/LFM2.5-1.2B-Instruct-8da4w-gptq-16k.pte",
+    "xnnpack/LFM2.5-1.2B-Instruct-8da4w-gptq-2k.pte",
+    "xnnpack/LFM2.5-1.2B-Instruct-8da4w-gptq-32k.pte",
+    "xnnpack/LFM2.5-1.2B-Instruct-8da4w-gptq-4k.pte",
+    "xnnpack/LFM2.5-1.2B-Instruct-8da4w-gptq-8k.pte"
+   ]
+  },
+  {
+   "repo": "experimentalmachines/LFM2.5-2.6B-ExecuTorch",
+   "revision": "d661b4c17092530e7c31586360b318e84be69ed3",
+   "xnnpack_files": [
+    "xnnpack/LFM2.5-2.6B-8da4w-gptq-16k.pte",
+    "xnnpack/LFM2.5-2.6B-8da4w-gptq-2k.pte",
+    "xnnpack/LFM2.5-2.6B-8da4w-gptq-32k.pte",
+    "xnnpack/LFM2.5-2.6B-8da4w-gptq-4k.pte",
+    "xnnpack/LFM2.5-2.6B-8da4w-gptq-8k.pte"
+   ]
+  },
+  {
+   "repo": "experimentalmachines/QwenGrad-Qwen3.5-2B-M1-DPO-v2-ExecuTorch-CPU",
+   "revision": "02f7e48efa78e11dcf1c9dc2781505bfe75b7817",
+   "xnnpack_files": []
+  },
+  {
+   "repo": "experimentalmachines/Qwen3-0.6B-ExecuTorch",
+   "revision": "fc585c1247c59b9b64c0b2ab22acf878a6b8fbae",
+   "xnnpack_files": [
+    "xnnpack/Qwen3-0.6B-8da4w-16k.pte",
+    "xnnpack/Qwen3-0.6B-8da4w-2k.pte",
+    "xnnpack/Qwen3-0.6B-8da4w-4k.pte",
+    "xnnpack/Qwen3-0.6B-8da4w-8k.pte"
+   ]
+  },
+  {
+   "repo": "experimentalmachines/Qwen3-4B-Instruct-2507-ExecuTorch",
+   "revision": "b23049b819100fd95a30004ac8a418df9ed2b82f",
+   "xnnpack_files": [
+    "xnnpack/Qwen3-4B-Instruct-2507-8da4w-16k.pte",
+    "xnnpack/Qwen3-4B-Instruct-2507-8da4w-2k.pte",
+    "xnnpack/Qwen3-4B-Instruct-2507-8da4w-4k.pte",
+    "xnnpack/Qwen3-4B-Instruct-2507-8da4w-8k.pte"
+   ]
+  },
+  {
+   "repo": "experimentalmachines/Qwen3-4B-ExecuTorch",
+   "revision": "246e81281d1f6c01717128364322b83a1f974728",
+   "xnnpack_files": [
+    "xnnpack/Qwen3-4B-8da4w-16k.pte",
+    "xnnpack/Qwen3-4B-8da4w-2k.pte",
+    "xnnpack/Qwen3-4B-8da4w-4k.pte",
+    "xnnpack/Qwen3-4B-8da4w-8k.pte"
+   ]
+  },
+  {
+   "repo": "experimentalmachines/Qwen3-1.7B-ExecuTorch",
+   "revision": "79d859a18633527705c9bf83e6a4fb1ea26068af",
+   "xnnpack_files": [
+    "xnnpack/Qwen3-1.7B-8da4w-gptq-16k.pte",
+    "xnnpack/Qwen3-1.7B-8da4w-gptq-2k.pte",
+    "xnnpack/Qwen3-1.7B-8da4w-gptq-4k.pte",
+    "xnnpack/Qwen3-1.7B-8da4w-gptq-8k.pte"
+   ]
+  },
+  {
+   "repo": "experimentalmachines/Qwen2.5-3B-Instruct-ExecuTorch",
+   "revision": "0660b079bef310a3f6c597200b7a345e3734d9d6",
+   "xnnpack_files": [
+    "xnnpack/Qwen2.5-3B-Instruct-8da4w-16k.pte",
+    "xnnpack/Qwen2.5-3B-Instruct-8da4w-2k.pte",
+    "xnnpack/Qwen2.5-3B-Instruct-8da4w-4k.pte",
+    "xnnpack/Qwen2.5-3B-Instruct-8da4w-8k.pte"
+   ]
+  },
+  {
+   "repo": "experimentalmachines/Qwen2.5-1.5B-Instruct-ExecuTorch",
+   "revision": "0a912670f4bf6039d0192cc420960039bff0d402",
+   "xnnpack_files": [
+    "xnnpack/Qwen2.5-1.5B-Instruct-8da4w-16k.pte",
+    "xnnpack/Qwen2.5-1.5B-Instruct-8da4w-2k.pte",
+    "xnnpack/Qwen2.5-1.5B-Instruct-8da4w-4k.pte",
+    "xnnpack/Qwen2.5-1.5B-Instruct-8da4w-8k.pte"
+   ]
+  },
+  {
+   "repo": "experimentalmachines/Qwen2.5-0.5B-Instruct-ExecuTorch",
+   "revision": "cb364189f37af67969fc1e789f2068adcf433698",
+   "xnnpack_files": [
+    "xnnpack/Qwen2.5-0.5B-Instruct-8da4w-16k.pte",
+    "xnnpack/Qwen2.5-0.5B-Instruct-8da4w-2k.pte",
+    "xnnpack/Qwen2.5-0.5B-Instruct-8da4w-4k.pte",
+    "xnnpack/Qwen2.5-0.5B-Instruct-8da4w-8k.pte"
+   ]
+  },
+  {
+   "repo": "experimentalmachines/SmolLM2-135M-Instruct-ExecuTorch",
+   "revision": "4e5b6427b02ad9dc18767858f2f640269915eb19",
+   "xnnpack_files": [
+    "xnnpack/SmolLM2-135M-Instruct-8da4w-16k.pte",
+    "xnnpack/SmolLM2-135M-Instruct-8da4w-2k.pte",
+    "xnnpack/SmolLM2-135M-Instruct-8da4w-4k.pte",
+    "xnnpack/SmolLM2-135M-Instruct-8da4w-8k.pte"
+   ]
+  },
+  {
+   "repo": "experimentalmachines/SmolLM2-360M-Instruct-ExecuTorch",
+   "revision": "dd1b0f079d510eb7facd1190d1b5d266cf9e809e",
+   "xnnpack_files": [
+    "xnnpack/SmolLM2-360M-Instruct-8da4w-16k.pte",
+    "xnnpack/SmolLM2-360M-Instruct-8da4w-2k.pte",
+    "xnnpack/SmolLM2-360M-Instruct-8da4w-4k.pte",
+    "xnnpack/SmolLM2-360M-Instruct-8da4w-8k.pte"
+   ]
+  },
+  {
+   "repo": "experimentalmachines/Llama-3.2-1B-Instruct-ExecuTorch",
+   "revision": "1ac2fb2f3ad36184ce1b0026e8fe31c2a3b167c1",
+   "xnnpack_files": [
+    "xnnpack/Llama-3.2-1B-Instruct-8da4w-16k.pte",
+    "xnnpack/Llama-3.2-1B-Instruct-8da4w-2k.pte",
+    "xnnpack/Llama-3.2-1B-Instruct-8da4w-32k.pte",
+    "xnnpack/Llama-3.2-1B-Instruct-8da4w-4k.pte",
+    "xnnpack/Llama-3.2-1B-Instruct-8da4w-8k.pte"
+   ]
+  },
+  {
+   "repo": "experimentalmachines/Llama-3.2-3B-Instruct-ExecuTorch",
+   "revision": "2d29ca6c36773815da2ad429b0e1b3ffa556a1eb",
+   "xnnpack_files": [
+    "xnnpack/Llama-3.2-3B-Instruct-8da4w-16k.pte",
+    "xnnpack/Llama-3.2-3B-Instruct-8da4w-2k.pte",
+    "xnnpack/Llama-3.2-3B-Instruct-8da4w-4k.pte",
+    "xnnpack/Llama-3.2-3B-Instruct-8da4w-8k.pte"
+   ]
+  },
+  {
+   "repo": "experimentalmachines/Qwen2.5-Math-1.5B-Instruct-ExecuTorch",
+   "revision": "ff8bb3b947fb706b03a0ff63787586dd25535665",
+   "xnnpack_files": [
+    "xnnpack/Qwen2.5-Math-1.5B-Instruct-8da4w-16k.pte",
+    "xnnpack/Qwen2.5-Math-1.5B-Instruct-8da4w-2k.pte",
+    "xnnpack/Qwen2.5-Math-1.5B-Instruct-8da4w-8k.pte"
+   ]
+  },
+  {
+   "repo": "experimentalmachines/LFM2.5-1.2B-Instruct-heretic-ExecuTorch",
+   "revision": "79c5f416ae78381df8ebf2ba46fe01e1a4313db4",
+   "xnnpack_files": [
+    "xnnpack/LFM2.5-1.2B-Instruct-heretic-8da4w-gptq-16k.pte",
+    "xnnpack/LFM2.5-1.2B-Instruct-heretic-8da4w-gptq-2k.pte",
+    "xnnpack/LFM2.5-1.2B-Instruct-heretic-8da4w-gptq-32k.pte",
+    "xnnpack/LFM2.5-1.2B-Instruct-heretic-8da4w-gptq-4k.pte",
+    "xnnpack/LFM2.5-1.2B-Instruct-heretic-8da4w-gptq-8k.pte"
+   ]
+  },
+  {
+   "repo": "experimentalmachines/LFM2.5-2.6B-heretic-ExecuTorch",
+   "revision": "be0315ac882d75d0612e5d2e5b39085da2c80707",
+   "xnnpack_files": [
+    "xnnpack/LFM2.5-2.6B-heretic-8da4w-gptq-16k.pte",
+    "xnnpack/LFM2.5-2.6B-heretic-8da4w-gptq-2k.pte",
+    "xnnpack/LFM2.5-2.6B-heretic-8da4w-gptq-32k.pte",
+    "xnnpack/LFM2.5-2.6B-heretic-8da4w-gptq-4k.pte",
+    "xnnpack/LFM2.5-2.6B-heretic-8da4w-gptq-8k.pte"
+   ]
+  }
+ ]
+}

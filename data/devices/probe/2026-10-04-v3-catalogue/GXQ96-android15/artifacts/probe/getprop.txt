@@ -61,7 +61,7 @@
 [cache_key.system_server.package_info]: [-7232071725681987592]
 [cache_key.system_server.quiet_mode_enabled]: [-7232071725681988244]
 [cache_key.system_server.stylus_handwriting]: [-7232071725681988148]
-[cache_key.system_server.user_serial_number]: [-7232071725681988243]
+[cache_key.system_server.user_serial_number]: [<redacted>]
 [cache_key.telephony.phone_account_to_subid]: [-3865617025004172131]
 [cache_key.telephony.subscription_manager_service]: [-3865617025004172134]
 [charging_string.apply_lotx]: [true]

@@ -407,7 +407,7 @@
 [ril.resetCompleteMsg]: [OK]
 [ril.resetVerify]: [OK]
 [ril.rfcal_date]: [2018.09.27]
-[ril.serialnumber]: [R58K95F5LXE]
+[ril.serialnumber]: [<redacted>]
 [ril.servicestate]: [1]
 [ril.sim.acc]: [128]
 [ril.sim.mobility]: [false]
