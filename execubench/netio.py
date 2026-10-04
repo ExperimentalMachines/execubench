@@ -151,11 +151,32 @@ def _proxy_auth(proxy: urllib.parse.SplitResult) -> dict:
     return {"Proxy-Authorization": "Basic " + base64.b64encode(pair.encode()).decode()}
 
 
+def _is_loopback(host: str) -> bool:
+    if host.lower() in ("localhost", "localhost.localdomain"):
+        return True
+    import ipaddress
+
+    try:
+        return ipaddress.ip_address(host.strip("[]")).is_loopback
+    except ValueError:
+        return False
+
+
 def _proxy_for(parts: urllib.parse.SplitResult) -> urllib.parse.SplitResult | None:
-    if urllib.request.proxy_bypass(parts.hostname or ""):
+    """The environment's proxy for this URL, or None. Loopback destinations never go through a
+    proxy (urllib does not exempt them without no_proxy, and the harness's requests to ExecuServe
+    on 127.0.0.1 carry its API key and the prompts). Only plain-HTTP proxies are supported: an
+    https:// proxy would otherwise be dialled in clear with its credentials, so it is refused."""
+    host = parts.hostname or ""
+    if _is_loopback(host) or urllib.request.proxy_bypass(host):
         return None
     proxy = urllib.request.getproxies().get(parts.scheme)
-    return urllib.parse.urlsplit(proxy if "://" in proxy else f"http://{proxy}") if proxy else None
+    if not proxy:
+        return None
+    proxy_parts = urllib.parse.urlsplit(proxy if "://" in proxy else f"http://{proxy}")
+    if proxy_parts.scheme != "http":
+        raise ValueError(f"unsupported proxy scheme {proxy_parts.scheme!r}; only http:// proxies are used")
+    return proxy_parts
 
 
 @contextmanager

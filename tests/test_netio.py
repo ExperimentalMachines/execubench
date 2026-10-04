@@ -262,3 +262,52 @@ def test_proxy_credentials_are_sent(monkeypatch):
     import base64
 
     assert seen == ["Basic " + base64.b64encode(b"us@er:p:ss").decode()]
+
+
+def test_loopback_never_goes_through_a_proxy(monkeypatch):
+    """The harness's requests to ExecuServe carry its API key: a proxy must never see them."""
+    proxied = []
+
+    class Proxy(BaseHTTPRequestHandler):
+        def log_message(self, *args):
+            pass
+
+        def do_GET(self):
+            proxied.append(self.path)
+            self.send_response(200)
+            self.send_header("Content-Length", "0")
+            self.end_headers()
+
+    class Direct(BaseHTTPRequestHandler):
+        def log_message(self, *args):
+            pass
+
+        def do_GET(self):
+            self.send_response(200)
+            self.send_header("Content-Length", "6")
+            self.end_headers()
+            self.wfile.write(b"direct")
+
+    proxy, direct = _serve(Proxy), _serve(Direct)
+    for name in ("no_proxy", "NO_PROXY", "HTTP_PROXY"):
+        monkeypatch.delenv(name, raising=False)
+    monkeypatch.setenv("http_proxy", f"http://127.0.0.1:{proxy.server_port}")
+    try:
+        for host in ("127.0.0.1", "localhost"):
+            deadline = time.monotonic() + 5
+            url = f"http://{host}:{direct.server_port}/v1"
+            with netio.request("GET", url, deadline, "t", headers={"Authorization": "Bearer k"}) as r:
+                assert b"".join(netio.read_chunks(r, deadline, "t")) == b"direct"
+    finally:
+        proxy.shutdown()
+        direct.shutdown()
+    assert proxied == []
+
+
+def test_an_https_proxy_url_is_refused(monkeypatch):
+    for name in ("no_proxy", "NO_PROXY", "HTTPS_PROXY"):
+        monkeypatch.delenv(name, raising=False)
+    monkeypatch.setenv("https_proxy", "https://user:secret@proxy.invalid:443")
+    with pytest.raises(ValueError, match="unsupported proxy scheme"):
+        with netio.request("GET", "https://destination.invalid/", time.monotonic() + 5, "t"):
+            pass
