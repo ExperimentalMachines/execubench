@@ -35,3 +35,10 @@ def test_every_repo_has_an_8k_file():
     repos = {f["repo"] for f in INV}
     with_8k = {f["repo"] for f in INV if f["window"] == 8192}
     assert repos == with_8k
+
+
+def test_empty_duplicate_and_conflicting_scans_are_refused():
+    assert models.problems([]) == ["the scan found no files"]
+    assert any("listed twice" in p for p in models.problems([INV[0], INV[0]]))
+    assert any("disagree" in p for p in models.problems([dict(INV[0], report_conflict=True)]))
+    assert any("source_revision" in p for p in models.problems([dict(INV[0], source_revision="main")]))

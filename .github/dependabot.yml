@@ -7,6 +7,11 @@ updates:
     schedule:
       interval: weekly
     open-pull-requests-limit: 5
+    ignore:
+      # The runtime pair is set in config/versions.env (torch must be the one ExecuTorch was
+      # built against); it moves only with a deliberate runtime upgrade, never by bot.
+      - dependency-name: executorch
+      - dependency-name: torch
   - package-ecosystem: github-actions
     directory: /
     schedule:

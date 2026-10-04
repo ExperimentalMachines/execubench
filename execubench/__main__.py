@@ -58,7 +58,12 @@ def _devicefarm_pull(args) -> int:
     names = devices.kernel_part_names()
     dest = Path(args.dest)
     manifest = devicefarm.pull_run(
-        devicefarm.client(), args.run_arn, dest, allow_incomplete=args.allow_incomplete, restart=args.restart
+        devicefarm.client(),
+        args.run_arn,
+        dest,
+        allow_incomplete=args.allow_incomplete,
+        restart=args.restart,
+        kind=args.kind,
     )
     for name, job in sorted(manifest["jobs"].items()):
         probe = dest / name / "artifacts" / "probe"
@@ -91,7 +96,9 @@ def _devicefarm_probe(args) -> int:
         print(f"{len(devices_in_pool)} devices, at most {worst:.0f} device minutes")
         test = devicefarm.upload(df, args.project_arn, pkg, "APPIUM_PYTHON_TEST_PACKAGE")
         spec = devicefarm.upload(df, args.project_arn, here / "testspec.yml", "APPIUM_PYTHON_TEST_SPEC")
-    run = df.schedule_run(
+    run = devicefarm.schedule_once(
+        devicefarm.client(retries=False),
+        df,
         projectArn=args.project_arn,
         appArn=app,
         devicePoolArn=args.pool_arn,
@@ -100,8 +107,26 @@ def _devicefarm_probe(args) -> int:
         # Screen recording competes for CPU and GPU on the phone; the probe and every
         # benchmark run without it.
         executionConfiguration={"jobTimeoutMinutes": PROBE_TIMEOUT_MIN, "videoCapture": False},
-    )["run"]
+    )
     print(run["arn"])
+    return 0
+
+
+def _devicefarm_pool(args) -> int:
+    import yaml
+
+    from . import devicefarm
+
+    manifest = yaml.safe_load(Path(args.manifest).read_text())
+    arns = list(manifest["devices"].values())
+    rules = devicefarm.pool_rules(arns)
+    if args.dry_run:
+        print(json.dumps(rules, indent=1))
+        return 0
+    pool = devicefarm.client().create_device_pool(
+        projectArn=args.project_arn, name=args.name, rules=rules, maxDevices=len(arns)
+    )["devicePool"]
+    print(pool["arn"])
     return 0
 
 
@@ -120,9 +145,23 @@ def _datasets_stats(args) -> int:
     from . import datasets
 
     out = datasets.stats()
-    Path(args.out).parent.mkdir(parents=True, exist_ok=True)
-    Path(args.out).write_text(json.dumps(out, indent=1) + "\n")
-    print(f"{len(out)} datasets -> {args.out}")
+    target = Path(args.out)
+    if args.check:
+        # Maintainer-only (needs network): recount and compare with the committed file. A
+        # mutable source (FreshQA) is compared without its observation time; a changed hash
+        # there means the sheet moved, which is reported, not hidden.
+        committed = json.loads(target.read_text())
+
+        def body(entry: dict) -> dict:
+            return {k: v for k, v in entry.items() if k != "observed_utc"}
+
+        changed = [n for n in sorted(set(out) | set(committed)) if body(committed.get(n, {})) != body(out.get(n, {}))]
+        for name in sorted(set(out) | set(committed)):
+            print(f"{'CHANGED' if name in changed else 'same   '} {name}")
+        return 1 if changed else 0
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text(json.dumps(out, indent=1) + "\n")
+    print(f"{len(out)} datasets -> {target}")
     return 0
 
 
@@ -150,7 +189,7 @@ def _host_run(args) -> int:
     from . import host
 
     source = {k: v for k, v in (("repo", args.repo), ("revision", args.revision), ("file", args.file)) if v}
-    report = host.run(Path(args.pte), Path(args.tokenizer), source=source)
+    report = host.run(Path(args.pte), Path(args.tokenizer), source=source, repeat=args.repeat)
     Path(args.out).parent.mkdir(parents=True, exist_ok=True)
     Path(args.out).write_text(json.dumps(report, indent=1) + "\n")
     print(f"executorch {report['executorch']}: {len(report['results'])} prompts -> {args.out}")
@@ -169,7 +208,8 @@ def _host_summary(args) -> int:
     from . import host
 
     folder = Path(args.folder)
-    (folder / "SUMMARY.md").write_text(host.summary_markdown(folder))
+    expected = host.v1_files(ROOT / "data" / "models" / "xnnpack.json")
+    (folder / "SUMMARY.md").write_text(host.summary_markdown(folder, expected))
     print(f"-> {folder / 'SUMMARY.md'}")
     return 0
 
@@ -199,7 +239,16 @@ def main(argv: list[str] | None = None) -> int:
     s.add_argument("dest", help="Must not exist; the pull is staged in <dest>.partial and renamed when complete")
     s.add_argument("--allow-incomplete", action="store_true", help="Keep a pull with missing jobs (exit 2)")
     s.add_argument("--restart", action="store_true", help="Move an unfinished <dest>.partial aside and pull again")
+    s.add_argument(
+        "--kind", choices=sorted(("probe", "harness")), default="probe", help="Which files each job must deliver"
+    )
     s.set_defaults(fn=_devicefarm_pull)
+    s = d.add_parser("pool", help="Create the device pool a manifest names (exactly its device ARNs)")
+    s.add_argument("project_arn")
+    s.add_argument("manifest", help="e.g. data/pilot/p1.yaml")
+    s.add_argument("--name", required=True)
+    s.add_argument("--dry-run", action="store_true", help="Print the pool rules without creating anything")
+    s.set_defaults(fn=_devicefarm_pool)
     s = d.add_parser("probe")
     s.add_argument("project_arn")
     s.add_argument("pool_arn")
@@ -222,6 +271,7 @@ def main(argv: list[str] | None = None) -> int:
     t = sub.add_parser("datasets").add_subparsers(dest="sub", required=True)
     s = t.add_parser("stats")
     s.add_argument("--out", default=str(ROOT / "data" / "datasets" / "stats.json"))
+    s.add_argument("--check", action="store_true", help="Recount and compare with the committed file; write nothing")
     s.set_defaults(fn=_datasets_stats)
 
     h = sub.add_parser("host").add_subparsers(dest="sub", required=True)
@@ -232,6 +282,7 @@ def main(argv: list[str] | None = None) -> int:
     s.add_argument("--repo")
     s.add_argument("--revision")
     s.add_argument("--file")
+    s.add_argument("--repeat", type=int, default=1, help="Run each prompt this many times and record agreement")
     s.set_defaults(fn=_host_run)
     s = h.add_parser("compare", help="Exit 0 if two host reports agree piece for piece, 3 if not")
     s.add_argument("a")

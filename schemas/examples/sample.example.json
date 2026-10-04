@@ -1,13 +1,12 @@
 {
   "job_id": "example-00000",
-  "seq": 0,
-  "t_ns": 0,
-  "kind": "memory_clock",
+  "seq": null,
+  "t_ns": 5,
+  "t_start_ns": 0,
+  "t_end_ns": 10,
+  "kind": "memory",
   "vm_rss_kib": 1024000,
   "rss_anon_kib": 900000,
   "rss_file_kib": 124000,
-  "vm_hwm_kib": 1100000,
-  "cpu_cur_khz": {
-    "0": 3532800
-  }
+  "vm_hwm_kib": 1100000
 }

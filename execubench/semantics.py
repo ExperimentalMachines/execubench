@@ -21,9 +21,19 @@ def _close(a: float, b: float) -> bool:
 
 
 def request(rec: dict) -> list[str]:
+    """Semantic checks of one request; a record too malformed to check says so instead of raising."""
+    try:
+        return _request(rec)
+    except (KeyError, TypeError, ZeroDivisionError) as error:
+        return [f"malformed record, semantic checks not possible: {type(error).__name__} {error}"]
+
+
+def _request(rec: dict) -> list[str]:
     out: list[str] = []
     if rec.get("status") != "ok":
         return out
+    if rec.get("error"):
+        out.append("status ok with an error message")
     t, tok, item = rec["timings"], rec["tokens"], rec["item"]
     run = t.get("runner", {})
     if tok["sampled"] != tok["decode_steps"] + 1:
@@ -52,8 +62,13 @@ def request(rec: dict) -> list[str]:
     if text is not None and hashlib.sha256(text.encode()).hexdigest() != item.get("prompt_sha256"):
         out.append("prompt_sha256 is not the sha256 of prompt_text")
     host = rec.get("host", {})
-    if host and host["done_ns"] < host["sent_ns"]:
-        out.append("host done_ns precedes sent_ns")
+    if host:
+        points = [host["sent_ns"], host.get("first_byte_ns"), host["done_ns"]]
+        points = [x for x in points if x is not None]
+        if points != sorted(points):
+            out.append("host timestamps out of order (sent <= first byte <= done)")
+    if item.get("max_tokens") is not None and tok["sampled"] > item["max_tokens"]:
+        out.append(f"sampled {tok['sampled']} tokens exceeds the cap max_tokens {item['max_tokens']}")
     mem = rec["memory"]
     if mem.get("rss_mean_mib") is not None and mem.get("rss_sampled_peak_mib") is not None:
         if mem["rss_mean_mib"] > mem["rss_sampled_peak_mib"]:
@@ -61,9 +76,13 @@ def request(rec: dict) -> list[str]:
     return out
 
 
-def percentiles(name: str, p: dict) -> list[str]:
+def percentiles(name: str, p: dict, minimum_value: float | None = 0.0) -> list[str]:
     out = []
     values = []
+    for key in ("mean", "min", "max", *PERCENTILE_MIN_N):
+        v = p.get(key)
+        if v is not None and minimum_value is not None and v < minimum_value:
+            out.append(f"{name}.{key} {v} is negative")
     for key, minimum in PERCENTILE_MIN_N.items():
         v = p[key]
         if p["n"] < minimum and v is not None:
@@ -81,8 +100,17 @@ def percentiles(name: str, p: dict) -> list[str]:
 
 
 def summary(rec: dict) -> list[str]:
+    try:
+        return _summary(rec)
+    except (KeyError, TypeError, ZeroDivisionError) as error:
+        return [f"malformed summary, semantic checks not possible: {type(error).__name__} {error}"]
+
+
+def _summary(rec: dict) -> list[str]:
     out = []
     q = rec.get("quality") or {}
+    if q.get("attempted") == 0 and q.get("accuracy") is not None:
+        out.append("quality.accuracy must be null when nothing was attempted")
     if q.get("attempted") is not None and q.get("correct") is not None:
         if q["correct"] > q["attempted"]:
             out.append("quality.correct exceeds attempted")
@@ -100,7 +128,8 @@ def summary(rec: dict) -> list[str]:
     for group in ("timing", "memory", "thermal"):
         for name, value in (rec.get(group) or {}).items():
             if isinstance(value, dict) and "method" in value:
-                out += percentiles(f"{group}.{name}", value)
+                # Durations, rates and memory cannot be negative; temperatures can.
+                out += percentiles(f"{group}.{name}", value, None if group == "thermal" else 0.0)
     if len(rec.get("device_units", [])) > len(rec.get("jobs", [])):
         out.append("more device units than jobs")
     return out
@@ -110,18 +139,40 @@ def _jsonl(path: Path) -> list[tuple[int, dict]]:
     rows = []
     for number, line in enumerate(path.read_text().splitlines(), 1):
         if line.strip():
-            rows.append((number, json.loads(line)))
+            try:
+                rows.append((number, json.loads(line)))
+            except json.JSONDecodeError as error:
+                rows.append((number, {"__invalid__": str(error)}))
     return rows
+
+
+def job(rec: dict) -> list[str]:
+    """A finalized job's hashes must be the hashes of what it records."""
+    from .harness.records import config_sha256, protocol_sha256
+
+    out = []
+    if rec.get("finalized"):
+        if rec.get("config_sha256") and rec["config_sha256"] != config_sha256(rec):
+            out.append("config_sha256 is not the hash of the recorded configuration")
+        proto = rec.get("protocol") or {}
+        if proto.get("protocol_sha256") and proto["protocol_sha256"] != protocol_sha256(proto):
+            out.append("protocol_sha256 is not the hash of the recorded protocol")
+    return out
 
 
 def run_folder(folder: Path, schema_errors, device_ids: set[str]) -> list[str]:
     """One pulled job folder holding job.json, requests.jsonl and samples.jsonl."""
     out = []
     job_path = folder / "job.json"
-    job = json.loads(job_path.read_text())
-    out += [f"{job_path}: {e}" for e in schema_errors("run.schema.json", job)]
-    if device_ids and job.get("device_id") not in device_ids:
-        out.append(f"{job_path}: device_id {job.get('device_id')!r} not in devices.json")
+    rec = json.loads(job_path.read_text())
+    out += [f"{job_path}: {e}" for e in schema_errors("run.schema.json", rec) + job(rec)]
+    if rec.get("outcome") == "complete":
+        for needed in ("requests.jsonl", "samples.jsonl"):
+            if not (folder / needed).exists():
+                out.append(f"{folder / needed}: missing for a complete job")
+    job_ = rec
+    if device_ids and job_.get("device_id") not in device_ids:
+        out.append(f"{job_path}: device_id {job_.get('device_id')!r} not in devices.json")
     seqs: set[int] = set()
     req_path = folder / "requests.jsonl"
     if req_path.exists():
@@ -129,7 +180,7 @@ def run_folder(folder: Path, schema_errors, device_ids: set[str]) -> list[str]:
             where = f"{req_path}:{number}"
             out += [f"{where}: {e}" for e in schema_errors("request.schema.json", rec)]
             out += [f"{where}: {e}" for e in request(rec)]
-            if rec.get("job_id") != job.get("job_id"):
+            if rec.get("job_id") != job_.get("job_id"):
                 out.append(f"{where}: job_id differs from job.json")
             if rec.get("seq") in seqs:
                 out.append(f"{where}: duplicate seq {rec.get('seq')}")

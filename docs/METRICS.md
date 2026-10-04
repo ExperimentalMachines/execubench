@@ -74,10 +74,11 @@ carries the existing `model_execution_start_ms` and `model_execution_end_ms`.
 - Android's `LlmGenerationConfig` has no `ignore_eos`, so the speed track cannot force a fixed
   number of decode steps; requests that stop early are excluded from speed cells with reason
   `early_stop` (below).
-- A runtime upgrade changes results. The same 1.4.0 `.pte` files give different greedy text
-  under the 1.4.0 and 1.5.1 runtimes on the same host (`data/runtime/compat-1.4.0-vs-1.5.1/`),
-  while each runtime repeats itself exactly. The runtime version is part of every cell key, and
-  results are never pooled across runtime versions.
+- A runtime upgrade changes results. Most of the 1.4.0 `.pte` files checked give different
+  greedy text under the 1.4.0 and 1.5.1 runtimes on the same host
+  (`data/runtime/compat-1.4.0-vs-1.5.1/SUMMARY.md`); the files repeated under one runtime gave
+  identical output each time (`repeat-check/` there). The runtime version is part of every cell
+  key, and results are never pooled across runtime versions.
 
 P1 tests the adapter contract (the acceptance tests in docs/EXECUSERVE-CONTRACT.md) before any
 number is published.
@@ -99,9 +100,13 @@ number is published.
 | `forward_ms` | `aggregate_model_execution_time_ms` (new in 1.5.1): time inside forward passes only, without sampling, tokenization or callbacks; kept in the raw runner stats, not yet a published column | ms |
 
 Every request also records the host's monotonic `sent_ns`, `first_byte_ns` and `done_ns`, on the
-same clock as `samples.jsonl`. A sample belongs to a request when its timestamp falls between
-that request's `sent_ns` and `done_ns`; samples at the boundary between two requests are
-assigned to neither.
+same clock as `samples.jsonl`. A sample belongs to a request when its whole read, from
+`t_start_ns` to `t_end_ns`, falls between that request's `sent_ns` and `done_ns`; a read that
+straddles a boundary belongs to neither. Two clocks are never mixed: the phone's native
+monotonic timestamps (`timings.native`) are used only to compute durations on the phone, and
+samples are matched to requests only on the host's clock. No mapping between the two clocks
+is assumed, so no phase inside a request (prefill versus decode) is assigned samples from host
+time alone.
 
 `ttft_ms` and `client_ttft_ms` are both kept: the first is what the runtime costs, the second
 adds HTTP, adb and template rendering, and the gap is itself reported.
@@ -188,9 +193,10 @@ ExecuServe reports its own `/proc/self/status` through its status endpoint inste
 Two separate indicators, never one "throttled" verdict:
 
 - `thermal_event`: any sampled `thermal_status > 0` during the request.
-- `clock_drop`: the **top clock domain's** median sampled `scaling_cur_freq` during the
-  request's decode phase is more than 15 percent below the same statistic for the first
-  request of the same cell in the same job. A drop can come from heat, from the governor or
+- `clock_drop`: the **top clock domain's** median sampled `scaling_cur_freq` over the request
+  (reads wholly inside its host send and receive times) is more than 15 percent below the same
+  statistic for the first request of the same cell in the same job. Prefill and decode are not
+  separated, because samples cannot be placed inside a request on the phone's clock. A drop can come from heat, from the governor or
   from scheduling; the indicator records the observation, not its cause.
 
 Requests with either indicator stay in the data, are counted in the cell's `excluded` table

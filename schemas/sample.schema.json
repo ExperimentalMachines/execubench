@@ -7,6 +7,8 @@
   "required": [
     "job_id",
     "t_ns",
+    "t_start_ns",
+    "t_end_ns",
     "kind",
     "seq"
   ],
@@ -20,15 +22,16 @@
         "integer",
         "null"
       ],
-      "description": "The request being served when the sample was read; null between requests"
+      "description": "Always null when written; requests are matched to samples by host time afterwards"
     },
     "t_ns": {
       "type": "integer",
-      "description": "Host monotonic clock (time.monotonic_ns)"
+      "description": "Midpoint of the read, host monotonic (time.monotonic_ns)"
     },
     "kind": {
       "enum": [
-        "memory_clock",
+        "memory",
+        "clock",
         "thermal"
       ]
     },
@@ -81,6 +84,19 @@
         "number",
         "null"
       ]
+    },
+    "t_start_ns": {
+      "type": "integer"
+    },
+    "t_end_ns": {
+      "type": "integer"
+    },
+    "raw": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Raw lines the thermal reading was parsed from"
     }
   },
   "allOf": [
@@ -122,35 +138,40 @@
       "if": {
         "properties": {
           "kind": {
-            "const": "memory_clock"
+            "const": "memory"
           }
         }
       },
       "then": {
-        "anyOf": [
-          {
-            "required": [
-              "vm_rss_kib"
-            ],
-            "properties": {
-              "vm_rss_kib": {
-                "type": "integer",
-                "minimum": 0
-              }
-            }
-          },
-          {
-            "required": [
-              "cpu_cur_khz"
-            ],
-            "properties": {
-              "cpu_cur_khz": {
-                "type": "object",
-                "minProperties": 1
-              }
-            }
+        "required": [
+          "vm_rss_kib"
+        ],
+        "properties": {
+          "vm_rss_kib": {
+            "type": "integer",
+            "minimum": 0
           }
-        ]
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "clock"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "cpu_cur_khz"
+        ],
+        "properties": {
+          "cpu_cur_khz": {
+            "type": "object",
+            "minProperties": 1
+          }
+        }
       }
     }
   ]

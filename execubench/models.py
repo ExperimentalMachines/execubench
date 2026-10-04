@@ -33,7 +33,19 @@ def scan(token: str | None = None) -> list[dict]:
                 if s.rfilename.startswith("xnnpack/export-report-") and s.rfilename.endswith(".json"):
                     path = hf_hub_download(m.id, s.rfilename, revision=info.sha, token=token)
                     reports[s.rfilename] = json.loads(Path(path).read_text())
-            by_file = {f["path"]: (name, r) for name, r in reports.items() for f in r.get("files", [])}
+            by_file: dict[str, tuple] = {}
+            conflicts: set[str] = set()
+            for name, r in reports.items():
+                for entry in r.get("files", []):
+                    previous = by_file.get(entry["path"])
+                    # Two reports naming one file must agree on its hash; otherwise neither is trusted.
+                    if (
+                        previous
+                        and next(e["sha256"] for e in previous[1]["files"] if e["path"] == entry["path"])
+                        != entry["sha256"]
+                    ):
+                        conflicts.add(entry["path"])
+                    by_file[entry["path"]] = (name, r)
             lfs = {x.rfilename: x.lfs.sha256 for x in info.siblings if x.lfs}
             plain = {x.rfilename for x in info.siblings}
             # Small tokenizers are stored in git, not LFS, so the Hub gives no sha256: hash them.
@@ -57,6 +69,7 @@ def scan(token: str | None = None) -> list[dict]:
                         "report": report_name,
                         "report_sha256": recorded,
                         "hashes_agree": bool(recorded) and s.lfs is not None and recorded == s.lfs.sha256,
+                        "report_conflict": s.rfilename in conflicts,
                         "window": int(window.group(1)) * 1024 if window else None,
                         "qmode": (report or {}).get("recipe", {}).get("qmode"),
                         "executorch": (report or {}).get("toolchain", {}).get("executorch"),
@@ -97,9 +110,19 @@ HEX40 = re.compile(r"[0-9a-f]{40}")
 def problems(inv: list[dict]) -> list[str]:
     """Every reason an inventory must not be accepted. The hashes are compared here, not read
     from the `hashes_agree` flag, so a hand-edited flag cannot hide a mismatch."""
+    if not inv:
+        return ["the scan found no files"]
     out = []
+    seen: set[tuple] = set()
     for f in inv:
         where = f"{f.get('repo')}/{f.get('file')}"
+        if (f.get("repo"), f.get("file")) in seen:
+            out.append(f"{where}: listed twice")
+        seen.add((f.get("repo"), f.get("file")))
+        if f.get("report_conflict"):
+            out.append(f"{where}: export reports disagree about this file")
+        if not isinstance(f.get("source_revision"), str) or not HEX40.fullmatch(f["source_revision"]):
+            out.append(f"{where}: source_revision missing or malformed")
         for key, pattern in (
             ("sha256", HEX64),
             ("report_sha256", HEX64),

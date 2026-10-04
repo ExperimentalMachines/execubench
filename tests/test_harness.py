@@ -40,6 +40,7 @@ class Handler(BaseHTTPRequestHandler):
         self.wfile.write(body)
 
     def do_POST(self):
+        self.rfile.read(int(self.headers.get("Content-Length", 0)))
         self.send_response(200)
         self.send_header("Content-Type", "text/event-stream")
         self.end_headers()
@@ -70,14 +71,14 @@ def test_client_streams_and_times(server):
 def test_a_record_built_from_a_reply_passes_schema_and_semantics(server):
     reply = client.chat(server, "k", {"model": "m", "messages": []})
     samples = [
-        {"kind": "memory_clock", "t_ns": reply.sent_ns, "vm_rss_kib": 1024 * 900},
-        {"kind": "memory_clock", "t_ns": reply.done_ns, "vm_rss_kib": 1024 * 1000},
+        {"kind": "memory", "t_ns": reply.sent_ns, "vm_rss_kib": 1024 * 900},
+        {"kind": "memory", "t_ns": reply.done_ns, "vm_rss_kib": 1024 * 1000},
     ]
     rec = run.request_record(
         "job",
         0,
         "quality",
-        {"dataset": "gsm8k", "row_id": "1", "max_tokens": 64},
+        {"dataset": "gsm8k", "row_id": "1", "max_tokens": 128},
         reply,
         run.memory_summary(samples, reply.sent_ns, reply.done_ns),
         {
@@ -107,7 +108,8 @@ def test_sampler_parsers():
         "Thermal Status: 1\nCurrent temperatures from HAL:\n"
         "\tTemperature{mValue=41.5, mType=3, mName=SKIN, mStatus=0}\n"
     )
-    assert sampler.parse_thermal(dump) == {"thermal_status": 1, "temps_c": {"SKIN": 41.5}}
+    parsed = sampler.parse_thermal(dump)
+    assert parsed["thermal_status"] == 1 and parsed["temps_c"] == {"SKIN": 41.5} and "SKIN" in parsed["raw"]
 
 
 def test_memory_summary_without_samples_says_why():
@@ -163,3 +165,83 @@ def test_contract_doc_and_code_list_the_same_required_features():
     listed = re.findall(r"^\| `([a-z_]+)` \|", table, flags=re.M)
     assert set(listed[:6]) == run.REQUIRED_FEATURES
     assert set(listed[6:]) == {"effective_threads", "status_memory"}
+
+
+def test_main_does_not_claim_success_without_orchestration(tmp_path, server):
+    manifest = tmp_path / "m.yaml"
+    manifest.write_text("models:\n  a: {repo: r, revision: '0', file: f, sha256: '0'}\n")
+    args = ["--manifest", str(manifest), "--model", "a", "--out", str(tmp_path / "out"), "--base-url", server]
+    assert run.main(args) == 4
+    assert json.loads((tmp_path / "out" / "job.json").read_text())["outcome"] == "failed"
+
+
+def test_memory_mean_is_a_step_function_with_coverage():
+    samples = [
+        {"kind": "memory", "t_ns": 100, "t_start_ns": 100, "t_end_ns": 100, "vm_rss_kib": 1024},
+        {"kind": "memory", "t_ns": 100, "t_start_ns": 100, "t_end_ns": 100, "vm_rss_kib": 1024},
+        {"kind": "memory", "t_ns": 300, "t_start_ns": 300, "t_end_ns": 300, "vm_rss_kib": 3072},
+        {"kind": "memory", "t_ns": 5, "t_start_ns": -10, "t_end_ns": 20, "vm_rss_kib": 9999},  # straddles start
+    ]
+    m = run.memory_summary(samples, 0, 400)
+    assert m["samples"] == 2 and m["rss_mean_mib"] == (1 * 200 + 3 * 100) / 300
+    assert m["coverage"] == 300 / 400 and m["rss_sampled_peak_mib"] == 3
+
+
+class StreamHandler(BaseHTTPRequestHandler):
+    events: list = []
+
+    def log_message(self, *args):
+        pass
+
+    def do_POST(self):
+        self.rfile.read(int(self.headers.get("Content-Length", 0)))  # an unread body makes close() reset
+        self.send_response(200)
+        self.end_headers()
+        for e in self.events:
+            self.wfile.write(e.encode())
+
+
+@pytest.fixture
+def stream_server():
+    httpd = HTTPServer(("127.0.0.1", 0), StreamHandler)
+    threading.Thread(target=httpd.serve_forever, daemon=True).start()
+    yield f"http://127.0.0.1:{httpd.server_port}"
+    httpd.shutdown()
+
+
+def _sse(*events):
+    return [f"data: {json.dumps(e) if isinstance(e, dict) else e}\n\n" for e in events]
+
+
+def test_a_cut_stream_is_not_a_reply(stream_server, monkeypatch):
+    monkeypatch.setattr(StreamHandler, "events", _sse({"choices": [{"delta": {"content": "Hi"}}]}))
+    with pytest.raises(client.IncompleteStream) as caught:
+        client.chat(stream_server, "k", {})
+    assert caught.value.partial.text == "Hi"
+
+
+def test_an_error_event_is_not_a_reply(stream_server, monkeypatch):
+    monkeypatch.setattr(StreamHandler, "events", _sse({"error": {"message": "overflow"}}, "[DONE]"))
+    with pytest.raises(client.IncompleteStream, match="overflow"):
+        client.chat(stream_server, "k", {})
+
+
+def test_streamed_tool_calls_are_assembled(stream_server, monkeypatch):
+    frag = [
+        {"index": 0, "id": "c1", "function": {"name": "search", "arguments": '{"q":'}},
+        {"index": 0, "function": {"arguments": ' "x"}'}},
+    ]
+    events = _sse(
+        {"choices": [{"delta": {"tool_calls": [frag[0]]}}]},
+        {"choices": [{"delta": {"tool_calls": [frag[1]]}, "finish_reason": "tool_calls"}]},
+        "[DONE]",
+    )
+    monkeypatch.setattr(StreamHandler, "events", events)
+    reply = client.chat(stream_server, "k", {})
+    want = {"id": "c1", "type": "function", "function": {"name": "search", "arguments": '{"q": "x"}'}}
+    assert reply.tool_calls == [want]
+
+
+def test_an_unpinned_build_is_refused(server):
+    with pytest.raises(run.ContractMissing, match="not the pinned"):
+        run.require_contract(server, "k", "f" * 64)

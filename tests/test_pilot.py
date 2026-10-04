@@ -49,3 +49,13 @@ def test_worst_case_is_under_the_ceiling():
 
 def test_runtime_matches_the_pin():
     assert PILOT["runtime"]["executorch"] == ENV["EXECUTORCH_VERSION"]
+
+
+def test_every_experiment_has_a_known_workload():
+    for name, e in PILOT["experiments"].items():
+        assert e["workload"] in PILOT["workloads"], name
+
+
+def test_contract_acceptance_covers_every_tier_a_vendor():
+    standard = yaml.safe_load((ROOT / "data" / "devices" / "standard.yaml").read_text())["tiers"]["A"]["devices"]
+    assert set(PILOT["experiments"]["contract_acceptance"]["devices"]) == set(standard)

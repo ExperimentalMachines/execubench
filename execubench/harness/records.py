@@ -34,6 +34,12 @@ def write_json_atomic(path: Path, data: dict) -> None:
     os.replace(tmp, path)
 
 
+def protocol_sha256(protocol: dict) -> str:
+    """Canonical hash of a job's protocol block, without its own hash field."""
+    body = {k: v for k, v in protocol.items() if k != "protocol_sha256"}
+    return hashlib.sha256(json.dumps(body, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+
+
 def config_sha256(job: dict) -> str:
     """Canonical hash of everything that defines a configuration (docs/METRICS.md, cell key)."""
     keys = ("model", "tokenizer_sha256", "runtime", "generation", "protocol", "device_id")

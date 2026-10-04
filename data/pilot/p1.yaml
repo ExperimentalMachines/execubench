@@ -6,6 +6,7 @@ runtime:
   executorch: "1.5.1"           # config/versions.env; the phone build is ExecuServe on the 1.5.1 AAR
   server: execuserve
   server_contract: 1            # docs/EXECUSERVE-CONTRACT.md; the harness refuses a build without it
+  apk_sha256: null              # set to the benchmark build's hash before scheduling; the harness checks it
 
 # Spend ceiling for the whole pilot. Every scheduling call also passes --max-device-minutes.
 max_device_minutes: 900         # the account had 945.8 free trial minutes left (data/devicefarm/account-2026-10-04.json)
@@ -14,6 +15,7 @@ devices:                        # one Device Farm device ARN each; the pool is e
   sm-s938u1-android15: arn:aws:devicefarm:us-west-2::device:DF55D3152CC94B6BAC3FA52333390D86
   glbw0-android16: arn:aws:devicefarm:us-west-2::device:876125E44C784FCD9A31D40F1E37E11F
   sm-x730-android16: arn:aws:devicefarm:us-west-2::device:465BC52EFDF448A587EB301FB32591AF
+  sm-a566u1-android15: arn:aws:devicefarm:us-west-2::device:095A27676116466584F0071460D04960
 
 models:                         # exported with ExecuTorch 1.4.0; run on the 1.5.1 runtime
   smollm2-360m:
@@ -33,18 +35,38 @@ models:                         # exported with ExecuTorch 1.4.0; run on the 1.5
     tokenizer_sha256: aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4
     export_executorch: "1.4.0"
 
+# Workloads: what one job sends. Smoke prompts are written for this repository (no dataset
+# license applies); speed buckets follow docs/PLAN.md 6.3.
+workloads:
+  contract-tests:
+    kind: acceptance
+    tests: docs/EXECUSERVE-CONTRACT.md   # every row of the acceptance table, once
+  smoke-v1:
+    kind: requests
+    prompts: 20
+    max_tokens: 128
+    warmup: 3
+  speed-v1:
+    kind: speed
+    prompt_tokens: [128, 512, 1024, 2048, 4096]
+    decode_steps: [64, 256]
+    repetitions: 10
+    warmup: 3
+
 # Each experiment: which devices and models, how many jobs per (device, model, arm), the job
-# timeout, and the open question it answers (docs/PLAN.md section 11).
+# timeout, its workload, and the open question it answers (docs/PLAN.md section 11).
 experiments:
   contract_acceptance:
-    question: "Does the ExecuServe benchmark build pass every acceptance test on a phone? (EXECUSERVE-CONTRACT.md)"
-    devices: [sm-s938u1-android15]
+    question: "Does the ExecuServe benchmark build pass every acceptance test on a phone of each Tier A vendor? (EXECUSERVE-CONTRACT.md)"
+    workload: contract-tests
+    devices: [sm-s938u1-android15, glbw0-android16, sm-x730-android16, sm-a566u1-android15]
     models: [smollm2-360m]
     arms: [default]
     jobs_per_cell: 1
     job_timeout_min: 20
   fixed_performance_ab:
     question: "Does fixed performance mode narrow speed spread? (open question 1)"
+    workload: speed-v1
     devices: [sm-s938u1-android15, glbw0-android16, sm-x730-android16]
     models: [smollm2-360m, qwen3-1.7b]
     arms: [fixed_performance_on, fixed_performance_off]
@@ -52,6 +74,7 @@ experiments:
     job_timeout_min: 30
   unit_spread:
     question: "How far apart are units of one model? (open question 5)"
+    workload: speed-v1
     devices: [sm-s938u1-android15]
     models: [qwen3-1.7b]
     arms: [default]
@@ -59,6 +82,7 @@ experiments:
     job_timeout_min: 30
   determinism:
     question: "Are greedy outputs identical run to run and unit to unit? (open question 6)"
+    workload: smoke-v1
     devices: [glbw0-android16]
     models: [qwen3-1.7b]
     arms: [default]
@@ -66,6 +90,7 @@ experiments:
     job_timeout_min: 30
   sampling_overhead:
     question: "What does sampling at 250 ms, 1 s or never cost the measurement?"
+    workload: speed-v1
     devices: [sm-s938u1-android15]
     models: [smollm2-360m]
     arms: [sample_250ms, sample_1s, sample_off]
@@ -73,6 +98,7 @@ experiments:
     job_timeout_min: 30
   artifact_survival:
     question: "Is every record pulled when a job hits its time limit mid-request? (Device Farm 1 GB cap and timeout)"
+    workload: smoke-v1
     devices: [glbw0-android16]
     models: [smollm2-360m]
     arms: [killed_at_limit]

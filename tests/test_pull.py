@@ -28,12 +28,14 @@ PROBE = {
 
 
 class FakeDF:
-    def __init__(self, archives_per_job, status="COMPLETED"):
+    def __init__(self, archives_per_job, status="COMPLETED", total_jobs=None, run_name=None):
         self.archives = archives_per_job
         self.status = status
+        self.total = len(archives_per_job) if total_jobs is None else total_jobs
+        self.run_name = run_name or f"probe on {SERIAL}"
 
     def get_run(self, arn):
-        return {"run": {"arn": RUN_ARN, "status": self.status, "name": f"probe on {SERIAL}"}}
+        return {"run": {"arn": RUN_ARN, "status": self.status, "name": self.run_name, "totalJobs": self.total}}
 
     def list_jobs(self, arn, **_):
         return {
@@ -52,7 +54,10 @@ class FakeDF:
     def list_artifacts(self, arn, type, **_):
         i = int(arn.rsplit("/", 1)[-1])
         return {
-            "artifacts": [{"type": "CUSTOMER_ARTIFACT", "url": f"fake://{i}/{k}"} for k in range(len(self.archives[i]))]
+            "artifacts": [
+                {"type": "CUSTOMER_ARTIFACT", "arn": f"art-{i}-{k}", "url": f"fake://{i}/{k}"}
+                for k in range(len(self.archives[i]))
+            ]
         }
 
 
@@ -110,7 +115,8 @@ def test_a_job_without_artifacts_is_incomplete(tmp_path, fake_http):
         devicefarm.pull_run(df, RUN_ARN, tmp_path / "run")
     manifest = devicefarm.pull_run(df, RUN_ARN, tmp_path / "run", allow_incomplete=True, restart=True)
     assert not manifest["complete"]
-    assert manifest["jobs"]["M1-android16"]["state"] == "no_artifacts"
+    assert manifest["jobs"]["M1-android16"]["state"] == "incomplete"
+    assert manifest["jobs"]["M1-android16"]["missing"] == ["probe/_host.txt", "probe/getprop.txt"]
     assert list(tmp_path.glob("run.failed-*"))  # the first attempt was moved aside, not deleted
 
 
@@ -143,3 +149,97 @@ def test_spend_guard():
     assert devicefarm.spend_guard(2, 15, 30) == 30
     with pytest.raises(RuntimeError, match="ceiling"):
         devicefarm.spend_guard(19, 15, 100)
+
+
+def test_a_bundle_without_identity_is_refused(tmp_path, fake_http):
+    df = FakeDF([[_zip({"requests.jsonl": b'{"serial": "SERIAL12345"}\n'})]])
+    fake_http(df)
+    with pytest.raises(devicefarm.LeakFound, match="no unit identity"):
+        devicefarm.pull_run(df, RUN_ARN, tmp_path / "run")
+    manifest = json.loads((tmp_path / "run.partial" / "pull-manifest.json").read_text())
+    assert "no unit identity" in manifest["failure"] and not manifest["complete"]
+
+
+def test_multiline_identifiers_cannot_hide_in_json_metadata(tmp_path, fake_http):
+    probe = {**PROBE, "probe/getprop.txt": PROBE["probe/getprop.txt"] + b"[ro.boot.chipid]: [CHIP123\nCHIP456]\n"}
+    df = FakeDF([[_zip(probe)]], run_name="run CHIP123\nCHIP456")
+    fake_http(df)
+    dest = tmp_path / "run"
+    devicefarm.pull_run(df, RUN_ARN, dest)
+    assert "CHIP123" not in (dest / "devicefarm-run.json").read_text()
+
+
+def test_a_missing_job_listing_is_incomplete(tmp_path, fake_http):
+    df = FakeDF([[_zip(PROBE)]], total_jobs=3)
+    fake_http(df)
+    with pytest.raises(RuntimeError, match="1 of 3 jobs"):
+        devicefarm.pull_run(df, RUN_ARN, tmp_path / "run")
+
+
+def test_schedule_once_finds_a_run_created_by_an_ambiguous_call():
+    import datetime
+
+    class Flaky:
+        def schedule_run(self, **kw):
+            raise TimeoutError("read timed out")
+
+    class Lister:
+        def list_runs(self, arn, **_):
+            now = datetime.datetime.now(datetime.UTC)
+            return {"runs": [{"name": "probe-x", "arn": "run-1", "created": now}]}
+
+    assert devicefarm.schedule_once(Flaky(), Lister(), projectArn="p", name="probe-x")["arn"] == "run-1"
+
+    class Empty:
+        def list_runs(self, arn, **_):
+            return {"runs": []}
+
+    with pytest.raises(TimeoutError):
+        devicefarm.schedule_once(Flaky(), Empty(), projectArn="p", name="probe-x")
+
+
+def test_expired_urls_are_refreshed_by_artifact_arn(tmp_path, monkeypatch):
+    calls = []
+    data = _zip(PROBE)
+
+    def get(url, dest, max_bytes, timeout=60):
+        calls.append(url)
+        if url == "fake://old":
+            raise devicefarm.ExpiredURL("403")
+        dest.write_bytes(data)
+        return len(data)
+
+    class DF:
+        listings = 0
+
+        def list_artifacts(self, arn, type, **_):
+            DF.listings += 1
+            mine = {
+                "type": "CUSTOMER_ARTIFACT",
+                "arn": "mine",
+                "url": "fake://old" if DF.listings == 1 else "fake://new",
+            }
+            other = {"type": "CUSTOMER_ARTIFACT", "arn": "other", "url": "fake://other"}
+            # The fresh listing returns the artifacts in another order; the ARN decides.
+            return {"artifacts": [mine] if DF.listings == 1 else [other, mine]}
+
+    monkeypatch.setattr(devicefarm, "http_get", get)
+    files, _ = devicefarm._job_files(DF(), {"arn": "job"}, tmp_path)
+    assert calls == ["fake://old", "fake://new"] and "probe/getprop.txt" in files
+
+
+def test_non_regular_members_are_refused(tmp_path):
+    path = tmp_path / "a.zip"
+    with zipfile.ZipFile(path, "w") as z:
+        info = zipfile.ZipInfo("Host_Machine_Files/$DEVICEFARM_LOG_DIR/probe/fifo")
+        info.external_attr = 0o010644 << 16  # a FIFO
+        z.writestr(info, b"")
+    with pytest.raises(ValueError, match="non-regular"):
+        devicefarm.read_archive(path)
+
+
+def test_pool_rules_are_exactly_the_manifest_devices():
+    rules = devicefarm.pool_rules(["arn:b", "arn:a"])
+    assert rules == [{"attribute": "ARN", "operator": "IN", "value": '["arn:a", "arn:b"]'}]
+    with pytest.raises(ValueError):
+        devicefarm.pool_rules(["arn:a", "arn:a"])

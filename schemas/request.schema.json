@@ -115,6 +115,13 @@
             "null"
           ],
           "description": "RetrievalQA search-tool mode: whether the model called the search tool"
+        },
+        "replay": {
+          "enum": [
+            "full",
+            "restricted"
+          ],
+          "description": "restricted: a publishable record whose prompt text was removed under the dataset's license (docs/DATA-POLICY.md); the prompt hash stays"
         }
       }
     },
@@ -234,6 +241,25 @@
               "minimum": 0
             }
           }
+        },
+        "native": {
+          "type": "object",
+          "description": "ExecuServe's native monotonic timestamps (device clock), verbatim",
+          "additionalProperties": false,
+          "properties": {
+            "call_start_ns": {
+              "type": "integer"
+            },
+            "first_sampled_token_ns": {
+              "type": "integer"
+            },
+            "first_callback_ns": {
+              "type": "integer"
+            },
+            "call_end_ns": {
+              "type": "integer"
+            }
+          }
         }
       }
     },
@@ -320,6 +346,15 @@
             "null"
           ],
           "description": "Why memory is absent, e.g. proc_status_unreadable"
+        },
+        "coverage": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Fraction of the request's host duration covered by the memory reads"
         }
       }
     },
@@ -375,7 +410,7 @@
             "boolean",
             "null"
           ],
-          "description": "Top clock domain's median decode-phase clock more than 15 percent below the cell's first request in this job; null for that first request"
+          "description": "Top clock domain's median sampled clock over the request more than 15 percent below the cell's first request in this job; null for that first request"
         },
         "top_domain_mhz_median": {
           "type": [
@@ -568,13 +603,29 @@
               "dataset",
               "row_id",
               "prompt_sha256",
-              "prompt_text",
               "max_tokens"
             ],
-            "properties": {
-              "prompt_text": {
-                "type": "string",
-                "minLength": 1
+            "properties": {},
+            "if": {
+              "properties": {
+                "replay": {
+                  "const": "restricted"
+                }
+              },
+              "required": [
+                "replay"
+              ]
+            },
+            "then": {},
+            "else": {
+              "required": [
+                "prompt_text"
+              ],
+              "properties": {
+                "prompt_text": {
+                  "type": "string",
+                  "minLength": 1
+                }
               }
             }
           },

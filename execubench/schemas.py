@@ -48,8 +48,12 @@ def validate_repo(root: Path = ROOT) -> list[str]:
         check = {"request": semantics.request, "summary": semantics.summary}.get(schema.split(".")[0])
         if check:
             out += [f"{example.name}: {e}" for e in check(instance)]
-    for job in sorted((root / "data" / "runs").rglob("job.json")):
-        out += semantics.run_folder(job.parent, errors_for, device_ids)
+    runs = root / "data" / "runs"
+    job_dirs = {job.parent for job in runs.rglob("job.json")}
+    for job_dir in sorted(job_dirs):
+        out += semantics.run_folder(job_dir, errors_for, device_ids)
+    for orphan in sorted({p.parent for p in runs.rglob("*.jsonl")} - job_dirs):
+        out.append(f"{orphan}: records without a job.json")
     for path in sorted((root / "data" / "results").rglob("*.json")):
         rec = json.loads(path.read_text())
         out += [f"{path}: {e}" for e in errors_for("summary.schema.json", rec) + semantics.summary(rec)]

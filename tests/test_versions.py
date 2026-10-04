@@ -49,7 +49,9 @@ def test_runtime_compat_summary_is_current():
     from execubench import host
 
     folder = ROOT / "data" / "runtime" / "compat-1.4.0-vs-1.5.1"
-    assert (folder / "SUMMARY.md").read_text() == host.summary_markdown(folder)
+    expected = host.v1_files(ROOT / "data" / "models" / "xnnpack.json")
+    assert len(expected) == 16
+    assert (folder / "SUMMARY.md").read_text() == host.summary_markdown(folder, expected)
     for compare in folder.glob("*.compare.json"):
         stem = compare.name.removesuffix(".compare.json")
         a = (folder / f"{stem}.executorch-1.4.0.json").read_text()
@@ -57,3 +59,33 @@ def test_runtime_compat_summary_is_current():
         import json
 
         assert json.loads(compare.read_text()) == host.compare(json.loads(a), json.loads(b))
+
+
+def test_compare_refuses_mismatched_reports():
+    import pytest
+
+    from execubench import host
+
+    base = {
+        "pte": {"sha256": "a"},
+        "tokenizer": {"sha256": "t"},
+        "max_new_tokens": 48,
+        "executorch": "x",
+        "results": [{"prompt": "p", "pieces": ["a"]}],
+    }
+    with pytest.raises(ValueError, match="no results"):
+        host.compare(base, {**base, "results": []})
+    with pytest.raises(ValueError, match="caps"):
+        host.compare(base, {**base, "max_new_tokens": 64})
+    assert host.compare(base, dict(base))["identical"]
+
+
+def test_repeat_check_backs_the_repeatability_sentence():
+    import json
+
+    folder = ROOT / "data" / "runtime" / "compat-1.4.0-vs-1.5.1" / "repeat-check"
+    reports = sorted(folder.glob("*.json"))
+    assert len(reports) == 4
+    for path in reports:
+        report = json.loads(path.read_text())
+        assert all(r["repeats"] == 2 and r["repeats_identical"] for r in report["results"]), path.name

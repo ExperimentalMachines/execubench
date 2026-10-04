@@ -37,6 +37,9 @@ MAX_MEMBER_BYTES = 512 * 2**20
 MAX_EXPANDED_BYTES = 2 * 2**30
 HTTP_TIMEOUT_S = 60
 HTTP_ATTEMPTS = 4
+DOWNLOAD_DEADLINE_S = 30 * 60  # total, not per socket read: a trickling response still ends
+MAX_JOB_ARCHIVE_BYTES = 2 * MAX_ARCHIVE_BYTES
+MAX_JOB_EXPANDED_BYTES = 2 * 2**30
 UPLOAD_DEADLINE_S = 30 * 60
 RUN_DEADLINE_S = 8 * 3600
 
@@ -49,7 +52,9 @@ class ExpiredURL(RuntimeError):
     """A presigned URL answered 403: list the artifacts again for a fresh one."""
 
 
-def client():
+def client(retries: bool = True):
+    """A Device Farm client. `retries=False` is for calls that are not idempotent
+    (`schedule_run` has no client token, so a blind retry can start a second run)."""
     import boto3
     from botocore.config import Config
 
@@ -57,7 +62,7 @@ def client():
     # writes); explicit timeouts stop a dead connection from hanging a pull.
     config = Config(
         region_name=REGION,
-        retries={"max_attempts": 10, "mode": "adaptive"},
+        retries={"max_attempts": 10, "mode": "adaptive"} if retries else {"max_attempts": 1, "mode": "standard"},
         connect_timeout=10,
         read_timeout=60,
     )
@@ -82,11 +87,14 @@ def http_get(url: str, dest: Path, max_bytes: int, timeout: int = HTTP_TIMEOUT_S
     for attempt in range(HTTP_ATTEMPTS):
         try:
             total = 0
+            deadline = time.monotonic() + DOWNLOAD_DEADLINE_S
             with urllib.request.urlopen(url, timeout=timeout) as resp, open(dest, "wb") as out:
                 while chunk := resp.read(1 << 20):
                     total += len(chunk)
                     if total > max_bytes:
                         raise ValueError(f"download exceeds {max_bytes} bytes")
+                    if time.monotonic() > deadline:
+                        raise TimeoutError(f"download not finished after {DOWNLOAD_DEADLINE_S} s")
                     out.write(chunk)
             return total
         except urllib.error.HTTPError as error:
@@ -162,6 +170,30 @@ def customer_artifacts(df, job_arn: str) -> list[dict]:
     return [
         a for a in _pages(df.list_artifacts, "artifacts", arn=job_arn, type="FILE") if a["type"] == "CUSTOMER_ARTIFACT"
     ]
+
+
+def schedule_once(df_no_retry, df, **kwargs) -> dict:
+    """Schedule a run exactly once. ScheduleRun has no idempotency token, so on an ambiguous
+    failure (timeout, connection reset) the project's runs are searched for one with this name
+    created in the last ten minutes before anything is retried; none found means it is safe to
+    report the failure and let the operator decide."""
+    started = time.time()
+    try:
+        return df_no_retry.schedule_run(**kwargs)["run"]
+    except Exception:
+        for run in _pages(df.list_runs, "runs", arn=kwargs["projectArn"]):
+            created = run.get("created")
+            ts = created.timestamp() if hasattr(created, "timestamp") else 0
+            if run.get("name") == kwargs["name"] and ts >= started - 600:
+                return run
+        raise
+
+
+def pool_rules(device_arns: list[str]) -> list[dict]:
+    """A device pool that is exactly these devices: one ARN IN rule, nothing inferred."""
+    if not device_arns or len(set(device_arns)) != len(device_arns):
+        raise ValueError("a pool needs distinct device ARNs")
+    return [{"attribute": "ARN", "operator": "IN", "value": json.dumps(sorted(device_arns))}]
 
 
 def pool_devices(df, pool_arn: str, app_arn: str, test_type: str) -> list[dict]:
@@ -276,6 +308,10 @@ def scrub(files: dict[str, bytes], account: str | None = None) -> tuple[dict[str
     carry content hashes, and the harness must never write identifiers into them.
     """
     ident = identify(files)
+    if ident.serial is None:
+        # Without the probe's identity the leak check below has nothing to look for, so a
+        # bundle without it is refused rather than passed through unchecked.
+        raise LeakFound("no unit identity (probe/_host.txt or probe/getprop.txt): cannot check for identifiers")
     needles = ident.needles(account)
     out, leaks = {}, []
     for name, blob in files.items():
@@ -294,15 +330,33 @@ def scrub(files: dict[str, bytes], account: str | None = None) -> tuple[dict[str
     return out, ident.unit
 
 
-def sanitize_text(text: str, idents: list[Identity], account: str | None) -> str:
-    """Apply the same redaction to Device Farm's own run and job records (names, messages)."""
-    blob = text.encode()
+def sanitize(value, idents: list[Identity], account: str | None):
+    """Redact identifiers in every string inside Device Farm's run and job records, before they
+    are serialised (so an identifier holding a newline cannot hide behind JSON escaping)."""
+    if isinstance(value, dict):
+        return {k: sanitize(v, idents, account) for k, v in value.items()}
+    if isinstance(value, list):
+        return [sanitize(v, idents, account) for v in value]
+    if isinstance(value, str):
+        blob = value.encode("utf-8", "surrogateescape")
+        for ident in idents:
+            for needle, replacement in ident.needles(account):
+                blob = blob.replace(needle, replacement)
+        if account:
+            blob = blob.replace(account.encode(), b"<account>")
+        return blob.decode("utf-8", "surrogateescape")
+    return value
+
+
+def dump_sanitized(record: dict, idents: list[Identity], account: str | None) -> bytes:
+    """JSON of a sanitised record, then checked again in serialised form, raw and escaped."""
+    text = json.dumps(sanitize(json.loads(json.dumps(record, default=str)), idents, account), indent=1, sort_keys=True)
     for ident in idents:
-        for needle, replacement in ident.needles(account):
-            blob = blob.replace(needle, replacement)
-    if account:
-        blob = blob.replace(account.encode(), b"<account>")
-    return blob.decode()
+        for needle, _ in ident.needles(account):
+            raw = needle.decode("utf-8", "surrogateescape")
+            if raw in text or json.dumps(raw)[1:-1] in text:
+                raise LeakFound("an identifier survived metadata sanitising")
+    return (text + "\n").encode()
 
 
 def _safe_member(name: str) -> str:
@@ -316,17 +370,24 @@ def _safe_member(name: str) -> str:
     return rel
 
 
-def read_archive(path: Path) -> dict[str, bytes]:
-    """Every regular file in a customer-artifact zip, within the size and count bounds."""
+def read_archive(path: Path, budget: list[int] | None = None) -> dict[str, bytes]:
+    """Every regular file in a customer-artifact zip, within the size and count bounds.
+
+    `budget` is a one-element list of bytes still allowed for the whole job, shared across all
+    of its archives and decremented here.
+    """
     files: dict[str, bytes] = {}
     expanded = 0
+    budget = budget if budget is not None else [MAX_JOB_EXPANDED_BYTES]
     with zipfile.ZipFile(path) as z:
         members = [m for m in z.infolist() if not m.is_dir()]
         if len(members) > MAX_MEMBERS:
             raise ValueError(f"{path.name}: {len(members)} members, more than {MAX_MEMBERS}")
         for m in members:
-            if (m.external_attr >> 16) & 0o170000 == 0o120000:
-                raise ValueError(f"{path.name}: symlink member {m.filename!r}")
+            kind = (m.external_attr >> 16) & 0o170000
+            # Zips written without Unix modes carry 0; anything else must be a regular file.
+            if kind not in (0, 0o100000):
+                raise ValueError(f"{path.name}: non-regular member {m.filename!r} (mode {kind:o})")
             rel = _safe_member(m.filename)
             if rel in files:
                 raise ValueError(f"{path.name}: two entries for {rel}")
@@ -336,7 +397,8 @@ def read_archive(path: Path) -> dict[str, bytes]:
                 while chunk := src.read(1 << 20):
                     size += len(chunk)
                     expanded += len(chunk)
-                    if size > MAX_MEMBER_BYTES or expanded > MAX_EXPANDED_BYTES:
+                    budget[0] -= len(chunk)
+                    if size > MAX_MEMBER_BYTES or expanded > MAX_EXPANDED_BYTES or budget[0] < 0:
                         raise ValueError(f"{path.name}: {rel} expands past the size bounds")
                     chunks.append(chunk)
             files[rel] = b"".join(chunks)
@@ -357,18 +419,23 @@ def _write_new(path: Path, data: bytes) -> None:
 
 
 def _job_files(df, job: dict, scratch: Path) -> tuple[dict[str, bytes], int]:
-    """Download and read every customer-artifact archive of one job."""
+    """Download and read every customer-artifact archive of one job, within job-level bounds."""
     files: dict[str, bytes] = {}
     arts = customer_artifacts(df, job["arn"])
-    for index in range(len(arts)):
+    downloaded, budget = 0, [MAX_JOB_EXPANDED_BYTES]
+    for index, art in enumerate(arts):
         archive = scratch / f"{index}.zip"
         try:
-            http_get(arts[index]["url"], archive, MAX_ARCHIVE_BYTES)
+            downloaded += http_get(art["url"], archive, MAX_ARCHIVE_BYTES)
         except ExpiredURL:
-            # Presigned URLs expire; a fresh listing gives a fresh one, once.
-            arts = customer_artifacts(df, job["arn"])
-            http_get(arts[index]["url"], archive, MAX_ARCHIVE_BYTES)
-        for rel, data in read_archive(archive).items():
+            # Presigned URLs expire: list again and take the same artifact, matched by its ARN.
+            fresh = {a["arn"]: a for a in customer_artifacts(df, job["arn"])}
+            if art["arn"] not in fresh:
+                raise
+            downloaded += http_get(fresh[art["arn"]]["url"], archive, MAX_ARCHIVE_BYTES)
+        if downloaded > MAX_JOB_ARCHIVE_BYTES:
+            raise ValueError(f"{job['arn']}: artifacts exceed {MAX_JOB_ARCHIVE_BYTES} bytes")
+        for rel, data in read_archive(archive, budget).items():
             if rel in files:
                 raise ValueError(f"{job['arn']}: two artifact entries for {rel}")
             files[rel] = data
@@ -376,17 +443,27 @@ def _job_files(df, job: dict, scratch: Path) -> tuple[dict[str, bytes], int]:
     return files, len(arts)
 
 
-def pull_run(df, run_arn: str, dest: Path, allow_incomplete: bool = False, restart: bool = False) -> dict:
+# Files every job of a run kind must deliver, or it is not a complete job.
+EXPECTED_FILES = {
+    "probe": ("probe/_host.txt", "probe/getprop.txt"),
+    "harness": ("probe/_host.txt", "probe/getprop.txt", "job.json", "requests.jsonl", "samples.jsonl"),
+}
+
+
+def pull_run(
+    df, run_arn: str, dest: Path, allow_incomplete: bool = False, restart: bool = False, kind: str = "probe"
+) -> dict:
     """Pull a run into `dest`, atomically, and return its manifest.
 
     Everything is written to `<dest>.partial` first and renamed to `dest` only when every job
-    has been read and checked; a failed pull leaves `<dest>.partial` for inspection, and
-    `restart=True` moves it aside to `<dest>.failed-<time>` (never deleted) before trying again.
-    `dest` itself must not exist. Beside each job's artifacts: `devicefarm-job.json` (Device
-    Farm's record of the job) and `unit.txt`; at the top, `devicefarm-run.json` and
-    `pull-manifest.json` (per job: state, result, artifacts read, every file's sha256 and size).
-    A run that is not COMPLETED, or a job without artifacts, is refused unless
-    `allow_incomplete`, in which case the manifest says so.
+    has been read and checked. A failed pull leaves `<dest>.partial` with a
+    `pull-manifest.json` that says what failed; `restart=True` moves it aside to
+    `<dest>.failed-<time>` (never deleted) before trying again. `dest` itself must not exist.
+
+    A job is complete when Device Farm finished it and its artifacts contain every file in
+    EXPECTED_FILES[kind]; the run is complete when it is COMPLETED and its job listing matches
+    the run's own job count. Anything less is refused unless `allow_incomplete`, in which case
+    the manifest records it.
     """
     if dest.exists():
         raise FileExistsError(f"{dest} exists; pull each run into a new folder")
@@ -396,6 +473,7 @@ def pull_run(df, run_arn: str, dest: Path, allow_incomplete: bool = False, resta
             raise FileExistsError(f"{partial} holds an unfinished pull; pass restart to move it aside")
         partial.rename(dest.with_name(f"{dest.name}.failed-{time.strftime('%Y%m%dT%H%M%S')}"))
     account = run_arn.split(":")[4] or None
+    expected = EXPECTED_FILES[kind]
 
     run = df.get_run(arn=run_arn)["run"]
     if run["status"] != "COMPLETED" and not allow_incomplete:
@@ -406,47 +484,66 @@ def pull_run(df, run_arn: str, dest: Path, allow_incomplete: bool = False, resta
         raise ValueError(f"two jobs in {run_arn} map to one folder: {sorted(slugs)}")
 
     partial.mkdir(parents=True)
-    manifest = {"run_arn": None, "run_status": run["status"], "jobs": {}, "complete": True}
+    manifest: dict = {
+        "kind": kind,
+        "run_status": run["status"],
+        "jobs_expected": run.get("totalJobs"),
+        "jobs_listed": len(all_jobs),
+        "jobs": {},
+        "complete": False,
+        "failure": None,
+    }
     idents: list[Identity] = []
-    with tempfile.TemporaryDirectory(dir=partial.parent) as tmp:
-        for job, name in zip(all_jobs, slugs, strict=True):
-            files, archives = _job_files(df, job, Path(tmp))
-            ident = identify(files)
-            files, unit = scrub(files, account)
-            idents.append(ident)
-            folder = partial / name
-            entry = {
-                "job": job["arn"].rsplit("/", 1)[-1],
-                "status": job["status"],
-                "result": job.get("result"),
-                "archives": archives,
-                "files": {rel: {"sha256": hashlib.sha256(d).hexdigest(), "bytes": len(d)} for rel, d in files.items()},
-            }
-            entry["state"] = "complete" if files else "no_artifacts"
-            if not files:
-                manifest["complete"] = False
-            for rel, data in files.items():
-                _write_new(folder / "artifacts" / rel, data)
-            _write_new(
-                folder / "devicefarm-job.json",
-                (
-                    sanitize_text(json.dumps(job, indent=1, default=str, sort_keys=True), [ident], account) + "\n"
-                ).encode(),
-            )
-            if unit:
-                _write_new(folder / "unit.txt", (unit + "\n").encode())
-            manifest["jobs"][name] = entry
-    if run["status"] != "COMPLETED":
-        manifest["complete"] = False
-    if not manifest["complete"] and not allow_incomplete:
-        raise RuntimeError(
-            f"incomplete pull left in {partial}: {[k for k, v in manifest['jobs'].items() if v['state'] != 'complete']}"
+
+    def save_manifest() -> None:
+        target = partial / "pull-manifest.json"
+        target.write_text(json.dumps(manifest, indent=1, sort_keys=True) + "\n")
+
+    try:
+        with tempfile.TemporaryDirectory(dir=partial.parent) as tmp:
+            for job, name in zip(all_jobs, slugs, strict=True):
+                files, archives = _job_files(df, job, Path(tmp))
+                ident = identify(files) if files else Identity()
+                if files:
+                    files, unit = scrub(files, account)
+                    idents.append(ident)
+                else:
+                    unit = None
+                missing = [f for f in expected if f not in files]
+                state = "complete" if not missing and job["status"] == "COMPLETED" else "incomplete"
+                manifest["jobs"][name] = {
+                    "job": job["arn"].rsplit("/", 1)[-1],
+                    "status": job["status"],
+                    "result": job.get("result"),
+                    "archives": archives,
+                    "missing": missing,
+                    "state": state,
+                    "files": {r: {"sha256": hashlib.sha256(d).hexdigest(), "bytes": len(d)} for r, d in files.items()},
+                }
+                folder = partial / name
+                for rel, data in files.items():
+                    _write_new(folder / "artifacts" / rel, data)
+                _write_new(folder / "devicefarm-job.json", dump_sanitized(job, [ident] if files else idents, account))
+                if unit:
+                    _write_new(folder / "unit.txt", (unit + "\n").encode())
+        counts_match = run.get("totalJobs") in (None, len(all_jobs))
+        manifest["complete"] = (
+            run["status"] == "COMPLETED"
+            and counts_match
+            and bool(all_jobs)
+            and all(j["state"] == "complete" for j in manifest["jobs"].values())
         )
-    manifest["run_arn"] = sanitize_text(run_arn, idents, account)
-    _write_new(
-        partial / "devicefarm-run.json",
-        (sanitize_text(json.dumps(run, indent=1, default=str, sort_keys=True), idents, account) + "\n").encode(),
-    )
-    _write_new(partial / "pull-manifest.json", (json.dumps(manifest, indent=1, sort_keys=True) + "\n").encode())
+        if not manifest["complete"] and not allow_incomplete:
+            raise RuntimeError(
+                f"incomplete pull: run {run['status']}, {len(all_jobs)} of {run.get('totalJobs')} jobs listed, "
+                f"incomplete jobs {[k for k, v in manifest['jobs'].items() if v['state'] != 'complete']}"
+            )
+        manifest["run_arn"] = sanitize(run_arn, idents, account)
+        _write_new(partial / "devicefarm-run.json", dump_sanitized(run, idents, account))
+    except Exception as error:
+        manifest["failure"] = sanitize(f"{type(error).__name__}: {error}", idents, account)
+        save_manifest()
+        raise
+    save_manifest()
     partial.rename(dest)
     return manifest

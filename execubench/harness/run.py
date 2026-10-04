@@ -19,7 +19,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 
 from ..semantics import DECODE_MIN_MS, DECODE_MIN_STEPS, PREFILL_MIN_MS
-from .records import JsonlWriter, config_sha256, write_json_atomic
+from .records import config_sha256, write_json_atomic
 
 # Features the ExecuServe benchmark build must advertise (docs/EXECUSERVE-CONTRACT.md).
 REQUIRED_FEATURES = {
@@ -37,7 +37,7 @@ class ContractMissing(RuntimeError):
     pass
 
 
-def require_contract(base_url: str, key: str) -> dict:
+def require_contract(base_url: str, key: str, apk_sha256: str | None = None) -> dict:
     """The server's benchmark capabilities, or a refusal: no device minutes on a build that
     cannot report what METRICS needs."""
     req = urllib.request.Request(
@@ -51,6 +51,8 @@ def require_contract(base_url: str, key: str) -> dict:
     missing = REQUIRED_FEATURES - set(bench.get("features", []))
     if bench.get("contract") != 1 or missing:
         raise ContractMissing(f"ExecuServe build lacks benchmark contract 1 features: {sorted(missing)}")
+    if apk_sha256 and bench.get("apk_sha256") != apk_sha256:
+        raise ContractMissing(f"ExecuServe build {bench.get('apk_sha256')} is not the pinned {apk_sha256}")
     return caps
 
 
@@ -87,6 +89,11 @@ def request_record(job_id: str, seq: int, track: str, item: dict, reply, memory:
                 "first_token_to_end_ms": mono_decode,
                 "total_ms": (mono["call_end_ns"] - mono["call_start_ns"]) / 1e6,
             },
+            "native": {
+                k: mono[k]
+                for k in ("call_start_ns", "first_sampled_token_ns", "first_callback_ns", "call_end_ns")
+                if k in mono
+            },
             "clock_disagreement": not (_clock_ok(ttft_ms, mono_ttft) and _clock_ok(decode_ms, mono_decode)),
             "prefill_tps": None if prefill_ms < PREFILL_MIN_MS else run["prompt_tokens"] / (prefill_ms / 1000),
             "decode_tps": None if decode_ms < DECODE_MIN_MS or steps < DECODE_MIN_STEPS else steps / (decode_ms / 1000),
@@ -107,27 +114,42 @@ def request_record(job_id: str, seq: int, track: str, item: dict, reply, memory:
 
 
 def memory_summary(samples: list[dict], sent_ns: int, done_ns: int) -> dict:
-    """Sampled peak and time-weighted mean of VmRSS between a request's host send and receive."""
-    window = [
-        s
-        for s in samples
-        if s.get("kind") == "memory_clock" and sent_ns <= s["t_ns"] <= done_ns and s.get("vm_rss_kib")
-    ]
-    if not window:
+    """Sampled peak and time-weighted mean of VmRSS over one request.
+
+    Only memory reads that started and ended inside [sent_ns, done_ns] count (a read that
+    straddles a boundary belongs to neither request). The mean treats VmRSS as constant from
+    each read to the next, and the last read as holding until done_ns; the part of the request
+    before the first read is not covered, and `coverage` says what fraction was.
+    """
+    window = sorted(
+        (
+            s
+            for s in samples
+            if s.get("kind") == "memory"
+            and s.get("vm_rss_kib") is not None
+            and s.get("t_start_ns", s["t_ns"]) >= sent_ns
+            and s.get("t_end_ns", s["t_ns"]) <= done_ns
+        ),
+        key=lambda s: s["t_ns"],
+    )
+    # Two reads with one timestamp carry no duration between them; keep the later one.
+    deduped: dict[int, dict] = {s["t_ns"]: s for s in window}
+    window = [deduped[t] for t in sorted(deduped)]
+    if not window or done_ns <= sent_ns:
         return {"rss_sampled_peak_mib": None, "rss_mean_mib": None, "samples": 0, "null_reason": "no_samples_in_window"}
+    ends = [s["t_ns"] for s in window[1:]] + [done_ns]
+    spans = [max(0, end - s["t_ns"]) for s, end in zip(window, ends, strict=True)]
+    covered = sum(spans)
     rss = [s["vm_rss_kib"] / 1024 for s in window]
-    if len(window) == 1:
-        mean = rss[0]
-    else:
-        spans = [b["t_ns"] - a["t_ns"] for a, b in zip(window, window[1:], strict=False)]
-        mean = sum(r * w for r, w in zip(rss, spans, strict=False)) / sum(spans)
+    mean = sum(r * w for r, w in zip(rss, spans, strict=True)) / covered if covered else rss[-1]
     peak = max(window, key=lambda s: s["vm_rss_kib"])
     return {
         "rss_sampled_peak_mib": max(rss),
         "rss_mean_mib": mean,
-        "rss_anon_mib": peak.get("rss_anon_kib", 0) / 1024 if peak.get("rss_anon_kib") is not None else None,
-        "rss_file_mib": peak.get("rss_file_kib", 0) / 1024 if peak.get("rss_file_kib") is not None else None,
+        "rss_anon_mib": peak["rss_anon_kib"] / 1024 if peak.get("rss_anon_kib") is not None else None,
+        "rss_file_mib": peak["rss_file_kib"] / 1024 if peak.get("rss_file_kib") is not None else None,
         "samples": len(window),
+        "coverage": covered / (done_ns - sent_ns),
     }
 
 
@@ -153,18 +175,26 @@ def main(argv: list[str] | None = None) -> int:
     }
     write_json_atomic(out / "job.json", job)
     try:
-        require_contract(args.base_url, key)
+        require_contract(args.base_url, key, (manifest.get("runtime") or {}).get("apk_sha256"))
     except ContractMissing as error:
         job.update({"outcome": "failed", "failure": str(error), "finished_utc": datetime.now(UTC).isoformat()})
         write_json_atomic(out / "job.json", job)
         print(error, file=sys.stderr)
         return 3
-    # Staging, server start, warm-up and the request loop follow the order in docs/PLAN.md 6.1;
-    # they are wired once the ExecuServe benchmark build exists to test them against.
-    job["config_sha256"] = config_sha256(job)
+    # Staging, server start, cooldown, warm-up, the request loop and finalisation follow
+    # docs/PLAN.md 6.1 and are wired only once an ExecuServe build with contract 1 exists to
+    # test them against. Until then a job that gets this far fails loudly, never reports success.
+    job.update(
+        {
+            "config_sha256": config_sha256(job),
+            "outcome": "failed",
+            "failure": "harness orchestration not implemented (phase P1)",
+            "finished_utc": datetime.now(UTC).isoformat(),
+        }
+    )
     write_json_atomic(out / "job.json", job)
-    JsonlWriter(out / "requests.jsonl").close()
-    return 0
+    print(job["failure"], file=sys.stderr)
+    return 4
 
 
 if __name__ == "__main__":

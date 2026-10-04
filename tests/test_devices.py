@@ -229,6 +229,9 @@ def test_a_model_name_in_an_identifier_key_is_not_redacted():
 
 
 def test_a_model_prefix_in_an_identifier_key_is_not_redacted():
-    files = {"probe/getprop.txt": b"[ro.product.model]: [SM-A346B]\n[ro.quick_start.device_id]: [SM-A346]\n"}
+    files = {
+        "probe/getprop.txt": b"[ro.serialno]: [R58T0000000]\n[ro.product.model]: [SM-A346B]\n"
+        b"[ro.quick_start.device_id]: [SM-A346]\n"
+    }
     out, _ = devicefarm.scrub(files)
     assert b"[SM-A346B]" in out["probe/getprop.txt"]

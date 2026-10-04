@@ -178,8 +178,11 @@ torch without declaring it; `requirements/host.lock` pins both with hashes). Wha
   given file runs on 1.5.1 is checked, not assumed: `python -m execubench host run` and
   `host compare` load each file under both runtimes on this machine and diff the greedy output
   piece by piece (`data/runtime/compat-1.4.0-vs-1.5.1/`, results in `SUMMARY.md` there).
-- **Outputs change with the runtime.** Under each runtime a file repeats itself exactly, but the
-  same 1.4.0 file gives different greedy text under 1.4.0 and 1.5.1 for most files checked.
+- **Outputs change with the runtime.** The same 1.4.0 file gives different greedy text under
+  1.4.0 and 1.5.1 for most files checked (`SUMMARY.md` in the compatibility folder lists every
+  v1 file). Within one runtime, repeated runs of a file gave identical output in the files
+  checked twice (`repeat-check/` there); that is evidence for those files on this host, not a
+  general property.
   XNNPACK moved to a new commit between the tags (`1adaa7c` to `92a7ad5`), with custom SDPA and
   weight-repacking changes beside it; which change causes a given difference has not been
   isolated. Consequences: the runtime version is part of every cell key, 1.4.0 and 1.5.1 results
@@ -228,12 +231,15 @@ long-context probe as its own track.
 
 ### 6.1 Job anatomy
 
-The harness that runs a job lives in `execubench/harness/` (adb calls with bounded timeouts,
-staging with sha256 checks on host and phone, the state sampler, the streaming client with host
-monotonic timestamps, crash-safe JSONL records). It is unit-tested against stubs and has not run
-on a phone; it refuses to start against an ExecuServe build without contract 1. The P1 pilot is
-pinned in `data/pilot/p1.yaml`: three phones, two models, six experiments, a worst case of 690
-device minutes under a 900-minute ceiling (`tests/test_pilot.py` checks every pin and the sum).
+The harness lives in `execubench/harness/` and is **scaffolding**: its parts (adb calls with
+bounded timeouts, staging with sha256 checks on host and phone, the state sampler, the streaming
+client with host monotonic timestamps, crash-safe JSONL records) are unit-tested against stubs,
+but the orchestration that runs a job end to end is not written and nothing has run on a phone.
+`run.py` refuses an ExecuServe build without contract 1 (or with another APK hash than the
+pinned one) and otherwise exits with "orchestration not implemented", never success. The P1
+pilot is pinned in `data/pilot/p1.yaml`: four phones (one per Tier A vendor for the contract
+tests), two models, six experiments with their workloads, a worst case of 750 device minutes
+under a 900-minute ceiling (`tests/test_pilot.py` checks every pin and the sum).
 
 One Device Farm job is one device unit, one model file, one or more tracks, at most 150
 minutes (the service's hard limit). Custom test environment on the Amazon Linux 2 host
@@ -265,11 +271,13 @@ and the encoder would compete for CPU and GPU).
 
 **Artifact limits.** Device Farm keeps customer artifacts only up to 1 GB per job and drops
 **all** of them above that ([limits](https://docs.aws.amazon.com/devicefarm/latest/developerguide/limits.html)).
-Requests and samples are small (an **estimate** of tens of MB for a full quality shard), but the
-harness tracks the directory size, compresses samples, never copies model files or logcat into
-it, and records `artifact_bytes`. P1 verifies what survives a job killed at the time limit; if
-copying into the log directory proves insufficient, the host uploads each shard's records to a
-presigned S3 URL as it goes.
+Requests and samples are small (an **estimate** of tens of MB for a full quality shard). The
+orchestration, when written, must track the directory size, compress samples, never copy model
+files or logcat into it, and record `artifact_bytes`; none of that exists yet. P1's
+`artifact_survival` experiment checks what survives a job killed at the time limit; if copying
+into the log directory proves insufficient, the host uploads each shard's records to a
+presigned S3 URL as it goes. On the pulling side, every archive and every job is bounded in
+size, count and member type (`execubench/devicefarm.py`).
 
 ### 6.2 State sampling
 
@@ -408,23 +416,25 @@ Device Farm job ($DEVICEFARM_LOG_DIR)
   requests.jsonl  one line per generation (schemas/request.schema.json)
   samples.jsonl   state samples (schemas/sample.schema.json)
   server.log      ExecuServe and runner logs
-        |  execubench devicefarm pull <run-arn> <fresh folder>
-        |  (serials hashed, other identifiers and the account number masked,
-        |   Device Farm's own job and run records saved beside the artifacts)
+        |  execubench devicefarm pull --kind harness <run-arn> <new folder>
+        |  (staged and renamed atomically; identifiers redacted in the probe dumps and in
+        |   Device Farm's records; any identifier elsewhere refuses the pull; a manifest
+        |   lists every file's sha256)
         v
-data/runs/<date>/<run-id>/<device-slug>/   raw, never edited
-        |  execubench grade      (official graders, pinned)
-        |  execubench summarize  (schemas/summary.schema.json)
+restricted raw storage, outside this repository   (docs/DATA-POLICY.md)
+        |  execubench validate (schemas + semantic checks), then grading, then the
+        |  publication exporter (identifier rescan, per-dataset license rules: Multi-IF
+        |  prompts become a hash with replay: "restricted")
         v
-data/results/v1/*.json, docs/GRID.md, tables
+data/runs/ (publishable records), data/results/v1/*.json, docs/GRID.md
         |  release
         v
-Hugging Face dataset experimentalmachines/execubench-results (raw + summaries)
+Hugging Face dataset experimentalmachines/execubench-results (publishable records + summaries)
 ```
 
-Raw artifacts are committed only when small; large ones go to the results dataset with their
-sha256 in the repo. Dataset rows whose license forbids redistribution (Multi-IF's data is
-CC-BY-NC-2.0) are never committed; manifests carry IDs and hashes.
+Grading, the summariser and the exporter are P2 deliverables. Probe evidence, which has no
+dataset content, goes straight to `data/devices/probe/`. Dataset rows whose license forbids
+redistribution are never committed; manifests carry IDs and hashes.
 
 ## 9. Phases
 
@@ -482,3 +492,5 @@ whether the full quality selection runs on all four Tier A phones (Section 7.2).
 | 2026-10-04 | Codex gpt-6.1-sol (medium) | Whole repository, first draft (25 findings) | Stale cached temperatures used as readings; budget contradicted its inputs; scrubber left IMEIs and serials; schemas admitted unpublishable records; device ids ignored firmware; per-request peak RSS was a process high-water mark; cell key too coarse; 40-row agreement over-extrapolated; correlated requests treated as independent; throttling flag claimed a cause; a counter metric was called a frequency; runner clock is `CLOCK_REALTIME`; fp32 reference called contamination-immune; caps and eligibility underspecified; RetrievalQA truncation could remove the evidence; tool-decision metrics conflated; dataset numbers not reproducible locally; pulls could overwrite evidence and trusted archive paths; probe PASSED did not mean collection succeeded; unknown core designs counted as big; mixed provenance; catalogue-wide Exynos claim unsupported; grid expansions missing; artifact size limit ignored | Revised in commit `ad4847a`. Codex's second round judged 11 fixed and 14 partly fixed (next row) |
 | 2026-10-04 | Codex gpt-6.1-sol (medium) | Second round on `ad4847a` (14 findings) | Identifier redaction still missed MACs, other serial keys, unique numbers, fingerprint UID and camera fuse IDs; pull wrote the run record before refusing a used folder and let archives collide; successful requests validated with empty runner stats, null memory and no prompt; budget rounded jobs across models; speed workload and effective threads optional; a total-duration clock check cannot protect stage timings; long-context scope contradicted DATASETS and 2k sweep files could not hold the prompts; `answer_in_context` had no schema field; registry dropped older firmware builds; an all-A53 phone was labelled big.LITTLE; probe coverage overstated; the 68-file scan, FreshQA and MT-Eval counts and trial minutes had no local evidence; README still said a column never mixes provenance; the round-1 disposition overstated completion | Revised in `211a173`. Codex's third round judged 8 fixed (pulls, budget rounding, speed workload and threads, stage-clock specification, long-context scope, retained builds, architecture labels, local evidence) and 6 partly fixed (next row). Deriving the Hub change by script corrected one number: three repos, not four, moved to GPTQ |
 | 2026-10-04 | Codex gpt-6.1-sol (medium) | Third round on `211a173` (7 findings) | `ro.boot.cpuid` and a multi-line `ro.boot.chipid` survived redaction; BFCL step-limit wording differed from upstream's counting; thermal status could be null without a reason; RetrievalQA retention fields could be null and the subset split empty; probe coverage compared counts, not sets, and staging failures were unclassified; one BF16 explanation stayed universal (an earlier replacement had silently not applied); the review log said "all addressed" | Addressed in `8159cc5`; Codex's fourth round judged 5 fixed and 2 partly fixed (search-tool retention rules were prose only; this cell overstated closure). Both corrected in the commit after it: the schema now ties search-tool retention fields to an explicit `tool_called`, with tests. What `8159cc5` did: `cpuid`, `soc_id` and `board_id` keys, multi-line property parsing in both the scrubber and the parser, tests on the real formats plus an identifier scan independent of the key list, all five runs re-pulled; DATASETS now states upstream's exact step counting, with a P1 boundary test; thermal status needs a value or a reason; with-context requests need a boolean and at least one passage hash, a published split needs all four counts; probe v3.2 compares exact CPU sets with `cpu_present` (dry-run on four real dumps and one negative case, then run on Device Farm on a Pixel 11 and a Pixel 2 XL, 2 of 2 passed) and labels the Hub fetch optional; every edit script now asserts its target. Still open by design: everything marked P1 in Sections 6 and 11, and execuserve changes in Section 3.3 |
+| 2026-10-04 | Codex gpt-6.1-sol (medium, web search) | Full QA of `6b54928` and the ExecuTorch 1.5.x upgrade (26 findings) | Scrubbing rewrote every artifact, which would falsify content hashes; Android 1.5.1 does not forward `maxNewTokens`; `seqLen` is unsafe on these exports (sliding-window branch); `validate` ignored real records; schemas admitted impossible values; JNI UTF-8 buffering breaks first-callback timing; Device Farm metadata bypassed redaction; 1.4.0-to-1.5.1 compatibility unproven; no harness or contract; vendored GPL file without its license; incomplete pulls reported as success; no partial-pull recovery; no deadlines or retries; unbounded archives; unhashed dependencies; predictable temp paths; inventory test trusted a flag; a failed scan overwrote the inventory; no pilot pool, manifest or spend guard; no timing coordinates; optional publication fields; publication policy prose only; regeneration claims overstated; packaging; parser edge cases; repository controls | Verified the three runtime findings in the v1.5.1 sources ourselves, then addressed all 26 in `353e15a` (contract document, fail-closed pulls, semantic validator, host compatibility runs, locks, pilot manifest and the rest). Codex's verification round judged 9 fixed and 17 partly fixed, and found 17 further problems (next row) |
+| 2026-10-04 | Codex gpt-6.1-sol (medium, web search) | Verification of `353e15a` (17 findings) | A bundle without probe identity disabled the leak check; JSON-escaped identifiers survived metadata redaction; the harness returned success without running; impossible records still validated (negative percentiles, accuracy with no attempts, ok with an error, out-of-order host times, sampled over the cap); `finalized` could be omitted; retried `schedule_run` could start two runs; pull completeness ignored the job count and expected files, and failed pulls left no manifest; samples were associated by a mutable sequence number and lost raw readings; the client accepted cut and error streams and did not assemble tool calls; compatibility coverage and repeatability claims exceeded the evidence; archive bounds were per archive; socket timeouts were not deadlines and URL refresh relied on order; sampler shutdown raced the writer; the memory mean ignored edges; data policy and plan disagreed on the data flow; probe timing and signals; empty or conflicting inventory scans | All 17 addressed in the next commit, each with tests: identity required before any harness file is accepted; recursive sanitising plus an escaped-form scan; `run.py` exits 4 "orchestration not implemented"; new semantic and schema rules; complete jobs must be finalized and hashes are recomputed; `schedule_run` without retries plus a lookup by name after an ambiguous failure; job-count and expected-file reconciliation with a failure manifest; samples carry read intervals and raw thermal lines and are matched by host time; strict stream completion and tool-call assembly; the compatibility summary lists the full v1 grid and a repeat check backs the repeatability sentence; job-level bounds and non-regular member refusal; total download deadlines and refresh by artifact ARN; sampler stop waits and surfaces failures; step-function memory mean with coverage; one data flow in PLAN and DATA-POLICY; probe timing validation and terminating signal traps; empty, duplicate and conflicting scans refused. Explicitly not done: verified-entry resumption of a failed pull (a failed pull is moved aside and repeated instead), the harness orchestration, the exporter, grading and the summariser (P1 and P2) |

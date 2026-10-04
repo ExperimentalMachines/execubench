@@ -73,6 +73,21 @@ table shows the label per cell or splits the column by label. Definitions:
 | `data/datasets/stats.json` | Every dataset figure the docs cite, recomputed from pinned files with hashes |
 | `data/reference/` | Pinned third-party references (Linux `cputype.h` for MIDR names) |
 
+## Setup
+
+The tool runs from a checkout (it reads `schemas/`, `data/` and `docs/` beside the package).
+One environment, with the hash-pinned dependencies CI uses:
+
+```sh
+uv venv --python 3.12 .venv
+uv pip install --python .venv/bin/python --require-hashes -r requirements/dev.lock
+.venv/bin/python -m execubench validate
+```
+
+Host runs of `.pte` files need a separate environment from `requirements/host.lock`
+(ExecuTorch 1.5.1 and its torch), and dataset recounts add `requirements/datasets.lock`.
+`uv run --with-requirements requirements/dev.txt <command>` also works for one-off commands.
+
 ## Commands
 
 ```sh

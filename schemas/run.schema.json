@@ -240,7 +240,7 @@
         "partial",
         "failed"
       ],
-      "description": "partial: the job hit its time limit or lost the device; whatever was pulled is kept and labelled"
+      "description": "complete requires finalized: true; partial and failed jobs may be finalized with unverified staging"
     },
     "failure": {
       "type": [
@@ -356,7 +356,31 @@
             "required": [
               "sha256_verified_on_host",
               "sha256_verified_on_device"
-            ],
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "const": "complete"
+          }
+        },
+        "required": [
+          "outcome"
+        ]
+      },
+      "then": {
+        "required": [
+          "finalized"
+        ],
+        "properties": {
+          "finalized": {
+            "const": true
+          },
+          "staging": {
             "properties": {
               "sha256_verified_on_host": {
                 "const": true

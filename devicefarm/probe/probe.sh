@@ -25,7 +25,10 @@ OUT=${DEVICEFARM_LOG_DIR:?}/probe
 mkdir -p "$OUT"
 # Host scratch files live in a private directory, never at fixed /tmp paths.
 WORK=$(mktemp -d "${TMPDIR:-/tmp}/execubench-probe.XXXXXX") || exit 1
-trap 'rm -rf -- "$WORK"' EXIT INT TERM
+trap 'rm -rf -- "$WORK"' EXIT
+# A signal ends the probe (the EXIT trap still cleans up) instead of letting it carry on.
+trap 'exit 130' INT
+trap 'exit 143' TERM
 A() { adb -s "$UDID" "$@"; }
 S() { A shell "$@" 2>&1; }
 FAILED=()
@@ -155,9 +158,12 @@ t0=$(date +%s.%N); A push "$WORK/push.bin" /data/local/tmp/execubench/push.bin >
 tail -1 "$WORK/push.log" >> "$OUT/push.txt"
 size=$(S stat -c %s /data/local/tmp/execubench/push.bin | tr -d '\r')
 echo "push_exit=$code bytes_expected=$BYTES bytes_on_device=$size" >> "$OUT/push.txt"
-if [ $code -eq 0 ] && [ "$size" = "$BYTES" ]; then
-  echo "push_256MiB_seconds=$(echo "$t1 - $t0" | bc)" >> "$OUT/push.txt"
+seconds=$(echo "$t1 - $t0" | bc 2>/dev/null)
+# A rate needs a successful push of the right size and a positive, numeric duration.
+if [ $code -eq 0 ] && [ "$size" = "$BYTES" ] && [ -n "$seconds" ] && [ "$(echo "$seconds > 0" | bc)" = 1 ]; then
+  echo "push_256MiB_seconds=$seconds" >> "$OUT/push.txt"
 else
+  echo "push_timing_invalid code=$code size=$size seconds=${seconds:-none}" >> "$OUT/push.txt"
   FAILED+=("push.txt")
 fi
 S rm -f /data/local/tmp/execubench/push.bin >/dev/null
