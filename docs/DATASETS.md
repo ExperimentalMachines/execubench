@@ -154,6 +154,8 @@ RetrievalQA with a search tool offered (call, tool result, answer).
   2. **With context.** Question plus the budgeted passages.
   3. **Search tool offered.** One `search(query)` tool. If the model calls it, the host
      returns the budgeted passages as the tool result and asks for the answer (two turns).
+     Each request records `tool_called`; the retention fields are filled when it is true and
+     empty when it is false (`schemas/request.schema.json` enforces both).
 - Caps: 128 tokens for an answer; in search-tool mode, one tool call and one answer turn.
 - Graders: the upstream metric code
   ([`utils.py`](https://github.com/hyintell/RetrievalQA/blob/main/utils.py)), reporting its

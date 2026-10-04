@@ -113,6 +113,19 @@ def test_speed_records_need_their_workload():
     assert schemas.errors_for("request.schema.json", req) == []
 
 
+def test_search_tool_mode_ties_retention_to_the_call():
+    req = copy.deepcopy(_example("request.example.json"))
+    req["item"]["dataset"] = "retrievalqa/search-tool"
+    req["item"].update({"tool_called": True, "answer_in_context": None, "retained_passages": None})
+    assert schemas.errors_for("request.schema.json", req)
+    req["item"].update({"answer_in_context": False, "retained_passages": ["0" * 64]})
+    assert schemas.errors_for("request.schema.json", req) == []
+    req["item"].update({"tool_called": False})
+    assert schemas.errors_for("request.schema.json", req)
+    req["item"].update({"answer_in_context": None, "retained_passages": []})
+    assert schemas.errors_for("request.schema.json", req) == []
+
+
 def test_retrievalqa_requests_record_what_context_was_given():
     req = copy.deepcopy(_example("request.example.json"))
     req["item"]["dataset"] = "retrievalqa/with-context"

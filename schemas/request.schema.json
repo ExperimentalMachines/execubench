@@ -107,6 +107,13 @@
             "$ref": "common.schema.json#/$defs/sha256"
           },
           "description": "RetrievalQA: sha256 of each passage given, in order"
+        },
+        "tool_called": {
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "description": "RetrievalQA search-tool mode: whether the model called the search tool"
         }
       }
     },
@@ -740,10 +747,44 @@
         "properties": {
           "item": {
             "required": [
+              "tool_called",
               "answer_in_context",
               "retained_passages"
             ],
-            "description": "Search-tool mode: retained_passages is [] and answer_in_context is null when the model made no call; otherwise both are filled as in with-context mode"
+            "properties": {
+              "tool_called": {
+                "type": "boolean"
+              }
+            },
+            "if": {
+              "properties": {
+                "tool_called": {
+                  "const": true
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "answer_in_context": {
+                  "type": "boolean"
+                },
+                "retained_passages": {
+                  "type": "array",
+                  "minItems": 1
+                }
+              }
+            },
+            "else": {
+              "properties": {
+                "answer_in_context": {
+                  "const": null
+                },
+                "retained_passages": {
+                  "type": "array",
+                  "maxItems": 0
+                }
+              }
+            }
           }
         }
       }
