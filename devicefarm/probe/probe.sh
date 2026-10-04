@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
-# Device profile probe (v3.2): what the phone says about itself, read over adb from the Device
+# Device profile probe (v3.3): what the phone says about itself, read over adb from the Device
 # Farm test host. Nothing here is inferred; every file is a raw dump, and parsing happens
 # later on our own machine (`execubench devicefarm pull`), so a parser fix never needs a new
 # device run.
 #
 # The committed probe data came from the exact scripts archived beside it
-# (data/devices/probe/<run>/probe.sh). v3.2 checks core coverage as exact sets against
+# (data/devices/probe/<run>/probe.sh). v3.3 keeps host scratch files in a private mktemp
+# directory removed on exit, bounds the Hub fetch with timeouts and hashes it only on success,
+# and checks the push payload before timing it. v3.2 checks core coverage as exact sets against
 # cpu_present (v3.1 compared counts). v3.1 differs from v3 in treating the thermal
 # service as optional below Android 10, where it does not exist, in checking per-core
 # coverage, and in recording the exit codes of the time_in_state reads and the Hub fetch.
@@ -21,6 +23,9 @@ set -u
 UDID=${DEVICEFARM_DEVICE_UDID:?}
 OUT=${DEVICEFARM_LOG_DIR:?}/probe
 mkdir -p "$OUT"
+# Host scratch files live in a private directory, never at fixed /tmp paths.
+WORK=$(mktemp -d "${TMPDIR:-/tmp}/execubench-probe.XXXXXX") || exit 1
+trap 'rm -rf -- "$WORK"' EXIT INT TERM
 A() { adb -s "$UDID" "$@"; }
 S() { A shell "$@" 2>&1; }
 FAILED=()
@@ -37,7 +42,7 @@ run() {
 
 date -u +%Y-%m-%dT%H:%M:%SZ > "$OUT/_started_utc.txt"
 {
-  echo "probe_version=3.2"
+  echo "probe_version=3.3"
   echo "host_os=$(. /etc/os-release && echo "$PRETTY_NAME") ($(uname -r))"
   echo "adb=$(adb version | head -1)"
   echo "device_arn=${DEVICEFARM_DEVICE_ARN:-}"
@@ -142,10 +147,12 @@ grep -i -E 'mWakefulness|mIsPowered|mBatteryLevel|mScreenOn|Fixed|sustained|LowP
 # the size on the phone matches. Zeros are an upper bound on staging speed only if adb
 # compressed them; adb 1.0.39 on these hosts predates adb's compression support.
 BYTES=268435456
-head -c $BYTES /dev/urandom > /tmp/push.bin
+if ! head -c $BYTES /dev/urandom > "$WORK/push.bin" || [ "$(stat -c %s "$WORK/push.bin")" != "$BYTES" ]; then
+  echo "could not create the push payload" > "$OUT/push.txt"; FAILED+=("push.txt")
+fi
 S mkdir -p /data/local/tmp/execubench >/dev/null
-t0=$(date +%s.%N); A push /tmp/push.bin /data/local/tmp/execubench/push.bin > /tmp/push.log 2>&1; code=$?; t1=$(date +%s.%N)
-tail -1 /tmp/push.log > "$OUT/push.txt"
+t0=$(date +%s.%N); A push "$WORK/push.bin" /data/local/tmp/execubench/push.bin > "$WORK/push.log" 2>&1; code=$?; t1=$(date +%s.%N)
+tail -1 "$WORK/push.log" >> "$OUT/push.txt"
 size=$(S stat -c %s /data/local/tmp/execubench/push.bin | tr -d '\r')
 echo "push_exit=$code bytes_expected=$BYTES bytes_on_device=$size" >> "$OUT/push.txt"
 if [ $code -eq 0 ] && [ "$size" = "$BYTES" ]; then
@@ -154,15 +161,16 @@ else
   FAILED+=("push.txt")
 fi
 S rm -f /data/local/tmp/execubench/push.bin >/dev/null
-rm -f /tmp/push.bin /tmp/push.log
 
 # Host egress: can the host fetch from Hugging Face, and how fast (one public tokenizer). A
 # capability check, so a failure is recorded in the file but does not fail the job.
 URL=https://huggingface.co/experimentalmachines/Qwen3-0.6B-ExecuTorch/resolve/main/tokenizer.json
-curl -sS -L --fail -o /tmp/tok.json -w 'http=%{http_code} bytes=%{size_download} seconds=%{time_total} speed_Bps=%{speed_download}\n' "$URL" > "$OUT/hf_fetch.txt" 2>&1
-echo "curl_exit=$?" >> "$OUT/hf_fetch.txt"
-sha256sum /tmp/tok.json >> "$OUT/hf_fetch.txt" 2>&1
-echo "sha256_exit=$?" >> "$OUT/hf_fetch.txt"
+curl -sS -L --fail --connect-timeout 15 --max-time 120 -o "$WORK/tok.json" \
+  -w 'http=%{http_code} bytes=%{size_download} seconds=%{time_total} speed_Bps=%{speed_download}\n' "$URL" > "$OUT/hf_fetch.txt" 2>&1
+code=$?
+echo "curl_exit=$code" >> "$OUT/hf_fetch.txt"
+# Hash only a completed download, never a stale or partial file.
+if [ $code -eq 0 ]; then sha256sum "$WORK/tok.json" | cut -d' ' -f1 >> "$OUT/hf_fetch.txt"; fi
 
 date -u +%Y-%m-%dT%H:%M:%SZ > "$OUT/_finished_utc.txt"
 echo "probe done: $(ls "$OUT" | wc -l) files"

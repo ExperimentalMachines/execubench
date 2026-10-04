@@ -23,6 +23,7 @@
     },
     "seq": {
       "type": "integer",
+      "minimum": 0,
       "description": "Order within the job, from 0"
     },
     "track": {
@@ -162,42 +163,49 @@
           "type": [
             "integer",
             "null"
-          ]
+          ],
+          "minimum": 0
         },
         "decode_ms": {
           "type": [
             "integer",
             "null"
-          ]
+          ],
+          "minimum": 0
         },
         "e2e_ms": {
-          "type": "integer"
+          "type": "integer",
+          "minimum": 0
         },
         "client_ttft_ms": {
           "type": [
             "integer",
             "null"
-          ]
+          ],
+          "minimum": 0
         },
         "queue_ms": {
           "type": [
             "integer",
             "null"
-          ]
+          ],
+          "minimum": 0
         },
         "prefill_tps": {
           "type": [
             "number",
             "null"
           ],
-          "description": "null when ttft_ms < 50 (docs/METRICS.md validity rules)"
+          "description": "null when ttft_ms < 50 (docs/METRICS.md validity rules)",
+          "minimum": 0
         },
         "decode_tps": {
           "type": [
             "number",
             "null"
           ],
-          "description": "null when decode_ms < 250 or decode_steps < 16"
+          "description": "null when decode_ms < 250 or decode_steps < 16",
+          "minimum": 0
         },
         "clock_disagreement": {
           "type": "boolean",
@@ -214,13 +222,16 @@
           "additionalProperties": false,
           "properties": {
             "start_to_first_token_ms": {
-              "type": "number"
+              "type": "number",
+              "minimum": 0
             },
             "first_token_to_end_ms": {
-              "type": "number"
+              "type": "number",
+              "minimum": 0
             },
             "total_ms": {
-              "type": "number"
+              "type": "number",
+              "minimum": 0
             }
           }
         }
@@ -237,17 +248,21 @@
       "additionalProperties": false,
       "properties": {
         "prefill": {
-          "type": "integer"
+          "type": "integer",
+          "minimum": 0
         },
         "cached": {
-          "type": "integer"
+          "type": "integer",
+          "minimum": 0
         },
         "decode_steps": {
-          "type": "integer"
+          "type": "integer",
+          "minimum": 0
         },
         "sampled": {
           "type": "integer",
-          "description": "decode_steps + 1, including special and end-of-sequence tokens"
+          "description": "decode_steps + 1, including special and end-of-sequence tokens",
+          "minimum": 0
         }
       }
     },
@@ -264,31 +279,36 @@
           "type": [
             "number",
             "null"
-          ]
+          ],
+          "minimum": 0
         },
         "rss_mean_mib": {
           "type": [
             "number",
             "null"
-          ]
+          ],
+          "minimum": 0
         },
         "rss_anon_mib": {
           "type": [
             "number",
             "null"
-          ]
+          ],
+          "minimum": 0
         },
         "rss_file_mib": {
           "type": [
             "number",
             "null"
-          ]
+          ],
+          "minimum": 0
         },
         "pss_total_mib": {
           "type": [
             "number",
             "null"
-          ]
+          ],
+          "minimum": 0
         },
         "samples": {
           "type": "integer",
@@ -342,7 +362,9 @@
           "type": [
             "integer",
             "null"
-          ]
+          ],
+          "minimum": 0,
+          "maximum": 6
         },
         "thermal_event": {
           "type": "boolean",
@@ -490,6 +512,29 @@
             "boolean",
             "null"
           ]
+        }
+      }
+    },
+    "host": {
+      "type": "object",
+      "description": "Host monotonic timestamps (time.monotonic_ns) around the request, on the same clock as samples.jsonl",
+      "required": [
+        "sent_ns",
+        "done_ns"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "sent_ns": {
+          "type": "integer"
+        },
+        "first_byte_ns": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "done_ns": {
+          "type": "integer"
         }
       }
     }
@@ -645,8 +690,22 @@
                 ]
               }
             ]
+          },
+          "output": {
+            "properties": {
+              "finish_reason": {
+                "enum": [
+                  "stop",
+                  "length",
+                  "tool_calls"
+                ]
+              }
+            }
           }
-        }
+        },
+        "required": [
+          "host"
+        ]
       }
     },
     {

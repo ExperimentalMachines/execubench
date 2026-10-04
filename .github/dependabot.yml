@@ -1,0 +1,13 @@
+version: 2
+updates:
+  # The .txt files hold the direct pins; regenerate the .lock files after merging
+  # (uv pip compile requirements/<name>.txt --universal --generate-hashes --python-version 3.11).
+  - package-ecosystem: pip
+    directory: /requirements
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly

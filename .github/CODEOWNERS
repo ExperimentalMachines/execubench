@@ -1,0 +1,8 @@
+# Review is required from the maintainer for everything; these paths are listed so a reviewer
+# knows which changes carry publication or security weight.
+*                         @alpharomercoma
+/schemas/                 @alpharomercoma
+/execubench/devicefarm.py @alpharomercoma
+/devicefarm/              @alpharomercoma
+/docs/METRICS.md          @alpharomercoma
+/data/devices/            @alpharomercoma

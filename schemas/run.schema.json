@@ -263,6 +263,9 @@
         },
         "load_ms": {
           "type": "integer"
+        },
+        "sha256_verified_on_host": {
+          "type": "boolean"
         }
       }
     },
@@ -272,6 +275,99 @@
         "null"
       ],
       "description": "Size of the job's customer artifacts; Device Farm drops all of them above 1 GB"
+    },
+    "generation": {
+      "type": "object",
+      "description": "Every setting that changes what the model is asked to do",
+      "required": [
+        "temperature",
+        "thinking",
+        "max_tokens_policy",
+        "eos_policy",
+        "chat_template_sha256"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "temperature": {
+          "type": "number",
+          "minimum": 0
+        },
+        "thinking": {
+          "enum": [
+            "off",
+            "on",
+            "not_applicable"
+          ]
+        },
+        "max_tokens_policy": {
+          "type": "string",
+          "description": "How the output cap is enforced, e.g. 'native max_new_tokens' or 'server stop() after N callbacks'"
+        },
+        "eos_policy": {
+          "enum": [
+            "stop_on_eos",
+            "exclude_early_stop"
+          ]
+        },
+        "chat_template_sha256": {
+          "$ref": "common.schema.json#/$defs/sha256"
+        }
+      }
+    },
+    "config_sha256": {
+      "$ref": "common.schema.json#/$defs/sha256",
+      "description": "sha256 of the canonical JSON of model, runtime, generation and protocol: two jobs with the same hash ran the same configuration"
+    },
+    "finalized": {
+      "type": "boolean",
+      "description": "Set when the job record is complete; a finalized record must carry the fields a published number needs"
     }
-  }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "finalized": {
+            "const": true
+          }
+        },
+        "required": [
+          "finalized"
+        ]
+      },
+      "then": {
+        "required": [
+          "finished_utc",
+          "outcome",
+          "staging",
+          "generation",
+          "config_sha256"
+        ],
+        "properties": {
+          "finished_utc": {
+            "type": "string"
+          },
+          "protocol": {
+            "required": [
+              "protocol_sha256"
+            ]
+          },
+          "staging": {
+            "required": [
+              "sha256_verified_on_host",
+              "sha256_verified_on_device"
+            ],
+            "properties": {
+              "sha256_verified_on_host": {
+                "const": true
+              },
+              "sha256_verified_on_device": {
+                "const": true
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
 }

@@ -10,20 +10,31 @@ permissions:
 
 jobs:
   test:
-    # Lint, unit tests, and every generated file checked against its schema. No network,
-    # no device: Device Farm and Hub access happen only from a maintainer's machine.
+    # Lint, unit tests, shell checks, and every generated file checked against its schema and
+    # the semantic rules. No network beyond package installs and no device: Device Farm and
+    # Hub access happen only from a maintainer's machine.
     runs-on: blacksmith-2vcpu-ubuntu-2404-arm
+    strategy:
+      matrix:
+        # The oldest supported Python (pyproject requires-python) and the one used locally.
+        python: ["3.11", "3.12"]
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
-          python-version: "3.12"
+          python-version: ${{ matrix.python }}
           cache: pip
-          cache-dependency-path: requirements/*.txt
+          cache-dependency-path: requirements/*.lock
 
-      - run: python -m pip install -r requirements/dev.txt
+      # Fully resolved and hash-pinned: a changed or substituted package fails the install.
+      - run: python -m pip install --require-hashes --no-deps -r requirements/dev.lock
       - run: ruff check .
       - run: ruff format --check .
+      - run: bash -n devicefarm/probe/probe.sh devicefarm/carrier/build.sh
+      - run: command -v shellcheck || (sudo apt-get update -q && sudo apt-get install -y -q shellcheck)
+      - run: shellcheck -S warning devicefarm/probe/probe.sh devicefarm/carrier/build.sh
       - run: pytest -q
       - run: python -m execubench validate

@@ -13,7 +13,9 @@ uv run --with-requirements requirements/dev.txt pytest -q
 uv run --with-requirements requirements/dev.txt python -m execubench validate
 ```
 
-CI runs the same three. Device Farm (`us-west-2`) and Hugging Face commands run only from a
+CI runs the same three, plus shellcheck, on Python 3.11 and 3.12, installing
+`requirements/dev.lock` with `--require-hashes`. See `CONTRIBUTING.md` for regenerating derived
+files. Device Farm (`us-west-2`) and Hugging Face commands run only from a
 maintainer's machine, never in CI.
 
 ## Rules that are not visible in the code
@@ -39,8 +41,18 @@ maintainer's machine, never in CI.
 - **Dataset licenses.** Do not commit dataset rows. Manifests carry IDs and hashes.
 - **Prose style.** No em dashes or en dashes anywhere (a test enforces it). Recast the
   sentence with a comma, a colon or a full stop.
-- **Device minutes cost money.** $0.17 per device minute after the free trial. Probe on a
-  small pool first; never schedule a full pool to test a script change.
+- **Device minutes cost money.** $0.17 per device minute after the free trial. Every scheduling
+  command takes `--max-device-minutes` and refuses a run whose worst case (devices x job
+  timeout) exceeds it. Probe on a small pool first; never schedule a full pool to test a script
+  change.
+- **Runtime version.** `config/versions.env` pins ExecuTorch (1.5.1). Results from different
+  runtime versions are never pooled: the same `.pte` gives different greedy output under 1.4.0
+  and 1.5.1 (`data/runtime/`). Changing the pin means rechecking `docs/METRICS.md`'s timing
+  semantics in the new sources and re-running `host run`/`host compare`.
+- **Pulls are fail-closed.** Never weaken `execubench/devicefarm.py`'s rule that only probe dumps
+  are rewritten; the harness must not write identifiers anywhere.
+- **Edit scripts assert their targets.** A text replacement that matches nothing must fail, not
+  pass silently (one did, once, and left a wrong sentence in place).
 
 ## Git
 

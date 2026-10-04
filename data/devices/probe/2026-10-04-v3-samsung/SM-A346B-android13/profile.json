@@ -1,7 +1,8 @@
 {
+ "missing_dumps": [],
  "reported": {
   "manufacturer": "samsung",
-  "model": "<redacted>E",
+  "model": "SM-A346E",
   "device": "a34x",
   "soc_manufacturer": "Mediatek",
   "soc_model": "MT6877V/TTZA",

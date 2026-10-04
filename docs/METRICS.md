@@ -29,35 +29,58 @@ a third-party guess.
 
 ## Timing source
 
-The runtime under test is ExecuTorch's `TextLLMRunner` (C++), reached from Kotlin through the
-ExecuTorch Android AAR in ExecuServe. Facts checked in the v1.4.0 sources
-(`extension/llm/runner/text_llm_runner.cpp`, `text_token_generator.h`, `stats.h`, `util.h`;
-tag commit `3dd7ccd1d863fad22639dd2d918ae34a41ce45f0`):
+The runtime under test is ExecuTorch **1.5.1**'s `TextLLMRunner` (C++), reached from Kotlin
+through the ExecuTorch Android AAR (`org.pytorch:executorch-android:1.5.1`) in ExecuServe; the
+version is pinned in `config/versions.env`. Facts checked in the v1.5.1 sources
+(`extension/llm/runner/text_llm_runner.cpp`, `text_token_generator.h`, `stats.h`, `util.h`,
+`irunner.h`, `extension/android/jni/jni_layer_llama.cpp`; tag commit
+`3b60683923245cf472b7323426920e15623ba361`). The fields used below have the same meaning at
+v1.4.0 (`3dd7ccd1d863`). Between the two tags `stats.h` gained
+`aggregate_model_execution_time_ms` (time inside forward passes), and the stats JSON now also
+carries the existing `model_execution_start_ms` and `model_execution_end_ms`.
 
 - `time_in_ms()` returns integer milliseconds from **`CLOCK_REALTIME`** on Android, a wall
-  clock that time synchronisation may adjust mid-run. A total-duration check is not enough
-  (two opposite adjustments could cancel), so ExecuServe takes its own monotonic timestamps
-  (`SystemClock.elapsedRealtimeNanos()`) at three points: the runner call, the first token
-  callback and the runner's return, giving monotonic TTFT and decode durations. A request whose
-  runner and monotonic durations differ in **either** stage by more than 5 ms plus 1 percent is
-  flagged `clock_disagreement` and its timings are not published. The first token callback
-  fires just after the runner's `first_token_ms` (the token is decoded to text first), so the
-  tolerance covers that gap; P1 measures it. Until ExecuServe implements this, stage-clock
-  integrity is unresolved.
+  clock that time synchronisation may adjust mid-run. A total-duration check is not enough (two
+  opposite adjustments could cancel), and a Kotlin callback is not a token: the JNI buffers
+  pieces until they form valid UTF-8, so the first `onResult` can follow several sampled tokens.
+  ExecuServe therefore takes **native** monotonic timestamps (docs/EXECUSERVE-CONTRACT.md,
+  `native_monotonic`): at the runner call, in the native token callback for the first sampled
+  token (before UTF-8 buffering), and at the runner's return. A request whose runner and native
+  monotonic durations differ in either stage (TTFT, decode) by more than 5 ms plus 1 percent is
+  flagged `clock_disagreement` and its timings are not published. The time between the first
+  sampled token and the first Kotlin callback is buffering, recorded separately
+  (`first_callback_ns`) and never counted as clock disagreement. Until the ExecuServe benchmark
+  build exists, stage-clock integrity is unresolved and no timing is published.
 - `inference_start_ms` is read **before** the prompt is tokenized.
 - `first_token_ms` and `prompt_eval_end_ms` are two consecutive clock reads right after
   prefill returns the first sampled token and before that token is decoded to text. They are
   usually equal but not guaranteed to be.
 - The JSON the runner reports names the counts `prompt_tokens` and `generated_tokens`.
   `generated_tokens` counts decode-loop steps (forward passes) **after** the token prefill
-  sampled. A run that stops on an end-of-sequence token counts that step.
+  sampled. A run that stops on an end-of-sequence token counts that step. After a separate
+  prefill call, an empty-prompt `generate` reports `prompt_tokens` as the accumulated position,
+  not a timed suffix; the harness does not use that path.
 - Token callbacks run synchronously inside the decode loop, so the JNI hop into Kotlin is
   inside decode time: the cost a real app pays.
-- These semantics are identical at v1.4.0 and at `main` commit `c198fea509` (2026-10-03); a
-  runtime upgrade must recheck them before results are compared across versions.
+- **Output caps are not enforced by the stock Android API.** `LlmModule.generate(prompt,
+  config, callback)` does not forward `maxNewTokens` to the runner (1.4.0 and 1.5.1 alike), and
+  `seqLen` cannot stand in for it on these exports (next point). The contract requires a native
+  cap (`native_max_new_tokens`).
+- **The runtime does not guard the window on these exports.** Every v1 export has
+  `get_max_seq_len` 2,048 below `get_max_context_len` 8,192, which sends the runner down its
+  sliding-window branch: occupied positions are ignored when it resolves how many tokens may
+  follow, and only the new prompt is checked against the window. With a reused KV cache the
+  server must enforce capacity itself (`capacity_guard`).
+- Android's `LlmGenerationConfig` has no `ignore_eos`, so the speed track cannot force a fixed
+  number of decode steps; requests that stop early are excluded from speed cells with reason
+  `early_stop` (below).
+- A runtime upgrade changes results. The same 1.4.0 `.pte` files give different greedy text
+  under the 1.4.0 and 1.5.1 runtimes on the same host (`data/runtime/compat-1.4.0-vs-1.5.1/`),
+  while each runtime repeats itself exactly. The runtime version is part of every cell key, and
+  results are never pooled across runtime versions.
 
-P1 tests the adapter contract on four request shapes before any number is published: ordinary,
-stopped by end of sequence, served partly from the KV cache, and capped at one token.
+P1 tests the adapter contract (the acceptance tests in docs/EXECUSERVE-CONTRACT.md) before any
+number is published.
 
 ## Per-request timings
 
@@ -73,6 +96,12 @@ stopped by end of sequence, served partly from the KV cache, and capped at one t
 | `sampled_tokens` | `decode_steps + 1`: tokens sampled, including special and end-of-sequence tokens, not necessarily visible text | tokens |
 | `e2e_ms` | Host monotonic clock from request sent to last byte received, over adb forward | ms |
 | `client_ttft_ms` | Host monotonic clock from request sent to the first streamed content byte | ms |
+| `forward_ms` | `aggregate_model_execution_time_ms` (new in 1.5.1): time inside forward passes only, without sampling, tokenization or callbacks; kept in the raw runner stats, not yet a published column | ms |
+
+Every request also records the host's monotonic `sent_ns`, `first_byte_ns` and `done_ns`, on the
+same clock as `samples.jsonl`. A sample belongs to a request when its timestamp falls between
+that request's `sent_ns` and `done_ns`; samples at the boundary between two requests are
+assigned to neither.
 
 `ttft_ms` and `client_ttft_ms` are both kept: the first is what the runtime costs, the second
 adds HTTP, adb and template rendering, and the gap is itself reported.

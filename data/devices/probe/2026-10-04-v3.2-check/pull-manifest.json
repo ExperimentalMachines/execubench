@@ -1,0 +1,265 @@
+{
+ "complete": true,
+ "jobs": {
+  "GUJ0N-android17": {
+   "archives": 1,
+   "files": {
+    "probe/_coverage.txt": {
+     "bytes": 94,
+     "sha256": "d75296daf173db55a8967563efc6209fb40c29930874429419a70b03117e69a0"
+    },
+    "probe/_finished_utc.txt": {
+     "bytes": 21,
+     "sha256": "20af0c5dd13bf0d9603c3be65e2fc006ea3e759b4de9848e6a75cf2a8ff1d55f"
+    },
+    "probe/_host.txt": {
+     "bytes": 367,
+     "sha256": "f0a464f91516fd61aeb4c6ba69d849c0eadae161450a19d4f892840538dfca39"
+    },
+    "probe/_index.txt": {
+     "bytes": 494,
+     "sha256": "7407a4811a978103e9d8ec640fe0be41b1a0e1a03b3167f4f993352880ca4d9d"
+    },
+    "probe/_started_utc.txt": {
+     "bytes": 21,
+     "sha256": "23dfc9c1665e7dc14112f585e817212535b00b35f7bd5e5102c65ac19741c8e0"
+    },
+    "probe/battery.txt": {
+     "bytes": 678,
+     "sha256": "7f5d37508af6a4d5d907acbad8789a1e025b69749142a91fe6381b039bc2d8be"
+    },
+    "probe/capabilities.txt": {
+     "bytes": 748,
+     "sha256": "7e5426d757f6b55748900909eb453e6d0cbe8d5b17c53af2e4cb53110e8f330a"
+    },
+    "probe/cpu_present.txt": {
+     "bytes": 4,
+     "sha256": "75349fe664b8aec5f2431374311970b6590a3f2ce5e2ee682f7983a483850f15"
+    },
+    "probe/cpufreq_policies.txt": {
+     "bytes": 472,
+     "sha256": "f1f9172a4db6ba81511af3d0920c78b973d307a4e2322781ef5cbdeaa3ee1c23"
+    },
+    "probe/cpuinfo.txt": {
+     "bytes": 3185,
+     "sha256": "fcd6aefa0a4c5e66d9fb9b85d5126841edb115c9943ceed02782b0d9be24e464"
+    },
+    "probe/cpus.txt": {
+     "bytes": 3974,
+     "sha256": "bf24cad3b983a34b53bcf23a89f22a1a770e03cd46845bd4a00731d737e18487"
+    },
+    "probe/getprop.txt": {
+     "bytes": 45602,
+     "sha256": "da9ecc9764b0aa87fd9e81c6b864edb156e7a952bdc8303a28e8b7168bf3ccaa"
+    },
+    "probe/gpu_sysfs.txt": {
+     "bytes": 284,
+     "sha256": "4decb09ddf20df1ce72ea4c2666120b44e5aa9b4da8009f7aaa3a0f16f9512d6"
+    },
+    "probe/hf_fetch.txt": {
+     "bytes": 166,
+     "sha256": "e32d3ff52cee83f61861882504d7edf0b809e364520a77222d181c64034a4c91"
+    },
+    "probe/meminfo.txt": {
+     "bytes": 1402,
+     "sha256": "1612cfcd3c0ca67d866f41ca822537580e521366748e5d92e5c16eaea3f2d552"
+    },
+    "probe/meminfo_dumpsys.txt": {
+     "bytes": 277,
+     "sha256": "4036583ca9a72eb5d24089910bea8ca2ebf1b2761adbf8c717906b470c1b0d3e"
+    },
+    "probe/npu_dev.txt": {
+     "bytes": 172,
+     "sha256": "86db4747a47437d2d0eb87f88a257f2d7dccbcd2896ac9f57c066184f64413b9"
+    },
+    "probe/npu_libs.txt": {
+     "bytes": 685,
+     "sha256": "fbf0bc4d53f32c84751c8e28d9586889fa910ce7d1ae7a6115e084bbd630a26b"
+    },
+    "probe/power.txt": {
+     "bytes": 197,
+     "sha256": "77d240727e83728ac6ef2e635885b8d2b8741cb88ce0a36c3e27ac3bf7187253"
+    },
+    "probe/power_supply.txt": {
+     "bytes": 186,
+     "sha256": "eedd28feb392d380219d2b4c067afc9ce6044ceb1701c781e479aaf79166cfed"
+    },
+    "probe/push.txt": {
+     "bytes": 163,
+     "sha256": "0ccc1facee688834ee1c141de69b2bd8a5ea56eb75dab99a0f7395706ad9d33c"
+    },
+    "probe/simpleperf_idle.txt": {
+     "bytes": 109,
+     "sha256": "f27ddebfa694b86b57d738cd66a3c44db3c2a6997116d99eb94a3260151fff60"
+    },
+    "probe/simpleperf_idle_user.txt": {
+     "bytes": 75,
+     "sha256": "ca9d21002dc27969df9f478573b5e9a4c707c8a37726280aaf8aff37d63999ea"
+    },
+    "probe/simpleperf_list.txt": {
+     "bytes": 190,
+     "sha256": "e768c650fe7754a24acdbc51e1440070c8a5589c062507e8995a770323842cf7"
+    },
+    "probe/surfaceflinger_gles.txt": {
+     "bytes": 4489,
+     "sha256": "b4e9c98a0733928e2c9465d2cddbce3f39faaf0b74635a7bf4c64e7426cfef73"
+    },
+    "probe/thermal_zones.txt": {
+     "bytes": 16,
+     "sha256": "bf2ef42e72b31ccb1472e3102a910123cb4dac65a0309c999a56bc3adea91574"
+    },
+    "probe/thermalservice.txt": {
+     "bytes": 13913,
+     "sha256": "5e71a2addc82b1c083a020c55dd671cd70d608a4f5def757668bbe86bdc1780f"
+    },
+    "probe/time_in_state.txt": {
+     "bytes": 990,
+     "sha256": "2d702dfcdcb225b8f6929cfcd95fb2f7d9b878bae35a0e958c545ff3af7db8b4"
+    },
+    "probe/uname.txt": {
+     "bytes": 123,
+     "sha256": "0a72cc88497187c5030f2721a29a611a7256851264814eb315cdfaf31fc67f07"
+    },
+    "probe/vkjson.txt": {
+     "bytes": 201,
+     "sha256": "c034fd5b9466efed4098aa7761a02f8ac73841ea6f437d8f510cf9610fff9ef3"
+    }
+   },
+   "job": "00001",
+   "result": "PASSED",
+   "state": "complete",
+   "status": "COMPLETED"
+  },
+  "Google_Pixel_2_XL-android8.1.0": {
+   "archives": 1,
+   "files": {
+    "probe/_coverage.txt": {
+     "bytes": 100,
+     "sha256": "66277daa31e7a98dc1839c849e761cf5f4830af2b417a871013c430df36863d7"
+    },
+    "probe/_finished_utc.txt": {
+     "bytes": 21,
+     "sha256": "68fa268b6c2171a9397957882be9eef41163771f2261d5301f1c23f7111a02c1"
+    },
+    "probe/_host.txt": {
+     "bytes": 368,
+     "sha256": "46d77d105602fe4a8da40665f95a91f0db387d068ab480dfcf12803df1d8e533"
+    },
+    "probe/_index.txt": {
+     "bytes": 500,
+     "sha256": "e5a738b46a124bf77d0f3283e063cb9afc27d6f8b11e025de556e5f5a46ff636"
+    },
+    "probe/_started_utc.txt": {
+     "bytes": 21,
+     "sha256": "4976733531f1551d6817b5361bd3824376206db96316c599fdad1d62cdc08eb7"
+    },
+    "probe/battery.txt": {
+     "bytes": 308,
+     "sha256": "940a220132bf51bfb02e855144107d29609bddd0f2dcb660301761ae7cec030e"
+    },
+    "probe/capabilities.txt": {
+     "bytes": 752,
+     "sha256": "918563cca017a92f212f01a104025e6c7d937510db15cd2c060e7a524afd9b65"
+    },
+    "probe/cpu_present.txt": {
+     "bytes": 4,
+     "sha256": "68bd8f51bd4ae191549e051a0b542d13dc5fad2132a46ba5705e5db88837083c"
+    },
+    "probe/cpufreq_policies.txt": {
+     "bytes": 324,
+     "sha256": "55f3beb6dbf4dba4c647d01e39f7756102d519cce76339c23e5890ac1016246c"
+    },
+    "probe/cpuinfo.txt": {
+     "bytes": 1540,
+     "sha256": "7d852f8c36cfaaa62652c2f63ba1a8099cb465a0ee168f24527d6e42192761e9"
+    },
+    "probe/cpus.txt": {
+     "bytes": 4882,
+     "sha256": "7f0e5f69df821a71f966e5ed2be563bac2bd866463cf74afac072d83b5a661b6"
+    },
+    "probe/getprop.txt": {
+     "bytes": 16895,
+     "sha256": "aa3872210b6c60e74622d089fbefd32561158347156c0babc2fb96130c68a7ee"
+    },
+    "probe/gpu_sysfs.txt": {
+     "bytes": 284,
+     "sha256": "4decb09ddf20df1ce72ea4c2666120b44e5aa9b4da8009f7aaa3a0f16f9512d6"
+    },
+    "probe/hf_fetch.txt": {
+     "bytes": 166,
+     "sha256": "d32d180446b046bbd784b68cde75bad49ed991de31dd35b2d97c1701f2934a06"
+    },
+    "probe/meminfo.txt": {
+     "bytes": 1009,
+     "sha256": "609f9db8f2991dd34b609d6a869ef2bc46ccc0478a76cea61a152efdeb93dd32"
+    },
+    "probe/meminfo_dumpsys.txt": {
+     "bytes": 278,
+     "sha256": "19ddb97a916964634ab13ada5b19f732b47a1c176a73d86585a43f59592338e1"
+    },
+    "probe/npu_dev.txt": {
+     "bytes": 25,
+     "sha256": "602e8db9ba668c5ea94e0824e36994674d1ff8a9dc5bd7e54bc255755f9fabb1"
+    },
+    "probe/npu_libs.txt": {
+     "bytes": 148,
+     "sha256": "dc6a19bf061df57ec729f1a1bc9e67a44f118db0de786682181e8c81511a1f2f"
+    },
+    "probe/power.txt": {
+     "bytes": 275,
+     "sha256": "9b3f375dc055e5a153e934d7e30c547a7564609a21b3aa01c6f4f44f3b7cd48c"
+    },
+    "probe/power_supply.txt": {
+     "bytes": 195,
+     "sha256": "38d0445a7197045accf7d66fe7a81493cbafc2aa87ddf0d9f1651c37ba7124e2"
+    },
+    "probe/push.txt": {
+     "bytes": 164,
+     "sha256": "e2a64dcd21a759579288b97cb9568d21ad7f88b13096030837eaeed513d4e846"
+    },
+    "probe/simpleperf_idle.txt": {
+     "bytes": 38,
+     "sha256": "6920ba63ec1e2115672b72052dfe2faa049da13a6192b0a7cfbf1ae66dd8c5f8"
+    },
+    "probe/simpleperf_idle_user.txt": {
+     "bytes": 38,
+     "sha256": "6920ba63ec1e2115672b72052dfe2faa049da13a6192b0a7cfbf1ae66dd8c5f8"
+    },
+    "probe/simpleperf_list.txt": {
+     "bytes": 38,
+     "sha256": "6920ba63ec1e2115672b72052dfe2faa049da13a6192b0a7cfbf1ae66dd8c5f8"
+    },
+    "probe/surfaceflinger_gles.txt": {
+     "bytes": 98,
+     "sha256": "112f06d29414fe9827faba8c5ba03fed32d727106253753843e10cabf71015a5"
+    },
+    "probe/thermal_zones.txt": {
+     "bytes": 16,
+     "sha256": "bf2ef42e72b31ccb1472e3102a910123cb4dac65a0309c999a56bc3adea91574"
+    },
+    "probe/thermalservice.txt": {
+     "bytes": 0,
+     "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "probe/time_in_state.txt": {
+     "bytes": 762,
+     "sha256": "a498d6244d4345ed4864c31fa4121e42ade424538f27a0e10cb8a3ed613686aa"
+    },
+    "probe/uname.txt": {
+     "bytes": 89,
+     "sha256": "df3f65aeb84a40df72e4a77288685e2b46237081ad263f986c184f8a914a5927"
+    },
+    "probe/vkjson.txt": {
+     "bytes": 144,
+     "sha256": "578902119843116cd40b52deeffbcf24fd24bab47b268477979b68ae3576be34"
+    }
+   },
+   "job": "00000",
+   "result": "PASSED",
+   "state": "complete",
+   "status": "COMPLETED"
+  }
+ },
+ "run_arn": "arn:aws:devicefarm:us-west-2:<account>:run:733be749-de36-4847-ba64-a034b55b21dd/2115829a-061e-4683-918c-a3d2a0f94438",
+ "run_status": "COMPLETED"
+}

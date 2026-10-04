@@ -1,0 +1,83 @@
+# Phase P1 pilot (docs/PLAN.md section 9): three phones, two models, the experiments that settle
+# the protocol's open questions. Nothing here has run yet. tests/test_pilot.py checks every pin
+# against the inventory and the device registry, and that the worst case stays under the ceiling.
+
+runtime:
+  executorch: "1.5.1"           # config/versions.env; the phone build is ExecuServe on the 1.5.1 AAR
+  server: execuserve
+  server_contract: 1            # docs/EXECUSERVE-CONTRACT.md; the harness refuses a build without it
+
+# Spend ceiling for the whole pilot. Every scheduling call also passes --max-device-minutes.
+max_device_minutes: 900         # the account had 945.8 free trial minutes left (data/devicefarm/account-2026-10-04.json)
+
+devices:                        # one Device Farm device ARN each; the pool is exactly these
+  sm-s938u1-android15: arn:aws:devicefarm:us-west-2::device:DF55D3152CC94B6BAC3FA52333390D86
+  glbw0-android16: arn:aws:devicefarm:us-west-2::device:876125E44C784FCD9A31D40F1E37E11F
+  sm-x730-android16: arn:aws:devicefarm:us-west-2::device:465BC52EFDF448A587EB301FB32591AF
+
+models:                         # exported with ExecuTorch 1.4.0; run on the 1.5.1 runtime
+  smollm2-360m:
+    repo: experimentalmachines/SmolLM2-360M-Instruct-ExecuTorch
+    revision: 9758373c3e7b7b8639ab7ba03f08746cdc56da13
+    file: xnnpack/SmolLM2-360M-Instruct-8da4w-8k.pte
+    sha256: 9cd03484f9c942ea82560b9bfb1a0334d84ee758044ba91badb4e82b67e9c1f9
+    tokenizer: tokenizer.json
+    tokenizer_sha256: 9ca9acddb6525a194ec8ac7a87f24fbba7232a9a15ffa1af0c1224fcd888e47c
+    export_executorch: "1.4.0"
+  qwen3-1.7b:
+    repo: experimentalmachines/Qwen3-1.7B-ExecuTorch
+    revision: 0ed5d3de159dca82c836a0fbcf61e93e6cd38cc0
+    file: xnnpack/Qwen3-1.7B-8da4w-gptq-8k.pte
+    sha256: 23a507cad385ca95334736720611e40a14e8d5f3368d48286efba4167c2afece
+    tokenizer: tokenizer.json
+    tokenizer_sha256: aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4
+    export_executorch: "1.4.0"
+
+# Each experiment: which devices and models, how many jobs per (device, model, arm), the job
+# timeout, and the open question it answers (docs/PLAN.md section 11).
+experiments:
+  contract_acceptance:
+    question: "Does the ExecuServe benchmark build pass every acceptance test on a phone? (EXECUSERVE-CONTRACT.md)"
+    devices: [sm-s938u1-android15]
+    models: [smollm2-360m]
+    arms: [default]
+    jobs_per_cell: 1
+    job_timeout_min: 20
+  fixed_performance_ab:
+    question: "Does fixed performance mode narrow speed spread? (open question 1)"
+    devices: [sm-s938u1-android15, glbw0-android16, sm-x730-android16]
+    models: [smollm2-360m, qwen3-1.7b]
+    arms: [fixed_performance_on, fixed_performance_off]
+    jobs_per_cell: 1
+    job_timeout_min: 30
+  unit_spread:
+    question: "How far apart are units of one model? (open question 5)"
+    devices: [sm-s938u1-android15]
+    models: [qwen3-1.7b]
+    arms: [default]
+    jobs_per_cell: 5
+    job_timeout_min: 30
+  determinism:
+    question: "Are greedy outputs identical run to run and unit to unit? (open question 6)"
+    devices: [glbw0-android16]
+    models: [qwen3-1.7b]
+    arms: [default]
+    jobs_per_cell: 2
+    job_timeout_min: 30
+  sampling_overhead:
+    question: "What does sampling at 250 ms, 1 s or never cost the measurement?"
+    devices: [sm-s938u1-android15]
+    models: [smollm2-360m]
+    arms: [sample_250ms, sample_1s, sample_off]
+    jobs_per_cell: 1
+    job_timeout_min: 30
+  artifact_survival:
+    question: "Is every record pulled when a job hits its time limit mid-request? (Device Farm 1 GB cap and timeout)"
+    devices: [glbw0-android16]
+    models: [smollm2-360m]
+    arms: [killed_at_limit]
+    jobs_per_cell: 1
+    job_timeout_min: 10
+
+# Also measured in every job above, from the probe step: /proc/<pid>/status readability
+# (open question 2), per-process simpleperf counting (open question 3), time_in_state (7).

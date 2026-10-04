@@ -3,8 +3,14 @@
 #   ANDROID_SDK=<sdk dir> devicefarm/carrier/build.sh   (apksigner needs a JDK on PATH)
 set -eu
 SDK=${ANDROID_SDK:?set ANDROID_SDK to the Android SDK directory}
-BT=$(ls -d "$SDK"/build-tools/* | sort -V | tail -1)
-JAR=$(ls -d "$SDK"/platforms/android-36/android.jar)
+# Pinned, so two builds of this APK use the same tools; install them with sdkmanager if missing.
+BUILD_TOOLS=${BUILD_TOOLS:-37.0.0}
+PLATFORM=${PLATFORM:-android-36}
+BT="$SDK/build-tools/$BUILD_TOOLS"
+JAR="$SDK/platforms/$PLATFORM/android.jar"
+for tool in "$BT/aapt2" "$BT/zipalign" "$BT/apksigner" "$JAR"; do
+  [ -e "$tool" ] || { echo "missing $tool (sdkmanager 'build-tools;$BUILD_TOOLS' 'platforms;$PLATFORM')" >&2; exit 1; }
+done
 HERE=$(cd "$(dirname "$0")" && pwd)
 OUT=${OUT:-$HERE/carrier.apk}
 TMP=$(mktemp -d); trap 'rm -rf "$TMP"' EXIT

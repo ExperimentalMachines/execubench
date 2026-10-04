@@ -7,7 +7,8 @@
   "required": [
     "job_id",
     "t_ns",
-    "kind"
+    "kind",
+    "seq"
   ],
   "additionalProperties": false,
   "properties": {
@@ -19,7 +20,7 @@
         "integer",
         "null"
       ],
-      "description": "The request being served, if any"
+      "description": "The request being served when the sample was read; null between requests"
     },
     "t_ns": {
       "type": "integer",
@@ -81,5 +82,76 @@
         "null"
       ]
     }
-  }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "thermal"
+          }
+        }
+      },
+      "then": {
+        "anyOf": [
+          {
+            "required": [
+              "thermal_status"
+            ],
+            "properties": {
+              "thermal_status": {
+                "type": "integer"
+              }
+            }
+          },
+          {
+            "required": [
+              "temps_c"
+            ],
+            "properties": {
+              "temps_c": {
+                "type": "object",
+                "minProperties": 1
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "memory_clock"
+          }
+        }
+      },
+      "then": {
+        "anyOf": [
+          {
+            "required": [
+              "vm_rss_kib"
+            ],
+            "properties": {
+              "vm_rss_kib": {
+                "type": "integer",
+                "minimum": 0
+              }
+            }
+          },
+          {
+            "required": [
+              "cpu_cur_khz"
+            ],
+            "properties": {
+              "cpu_cur_khz": {
+                "type": "object",
+                "minProperties": 1
+              }
+            }
+          }
+        ]
+      }
+    }
+  ]
 }

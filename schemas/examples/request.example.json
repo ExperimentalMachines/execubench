@@ -8,7 +8,7 @@
     "conversation_id": null,
     "turn": 0,
     "max_tokens": 1024,
-    "prompt_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "prompt_sha256": "e787d2913e7dabe44f4f41e7111b32653f46a0ebbcd58c8b9b5a152038a805be",
     "eligible": true,
     "prompt_text": "EXAMPLE PROMPT"
   },
@@ -63,5 +63,10 @@
     "grader": "gsm8k-official@example",
     "correct": true,
     "format_failure": false
+  },
+  "host": {
+    "sent_ns": 0,
+    "first_byte_ns": 1050000000,
+    "done_ns": 5100000000
   }
 }

@@ -28,14 +28,29 @@ def errors_for(name: str, instance: dict) -> list[str]:
     return [f"{'/'.join(map(str, e.absolute_path)) or '<root>'}: {e.message}" for e in v.iter_errors(instance)]
 
 
-def validate_repo() -> list[str]:
-    """Every generated file that has a schema, checked. Returns readable error lines."""
+def validate_repo(root: Path = ROOT) -> list[str]:
+    """Every file that has a schema, checked, plus the semantic checks: device records,
+    schema examples, every collected job under data/runs/ (job.json, requests.jsonl,
+    samples.jsonl, with line numbers) and every summary under data/results/."""
+    from . import semantics
+
     out = []
-    devices = ROOT / "data" / "devices" / "devices.json"
+    device_ids: set[str] = set()
+    devices = root / "data" / "devices" / "devices.json"
     if devices.exists():
         for rec in json.loads(devices.read_text())["devices"]:
+            device_ids.add(rec.get("id"))
             out += [f"devices.json {rec.get('id')}: {e}" for e in errors_for("device.schema.json", rec)]
     for example in sorted((SCHEMAS / "examples").glob("*.json")):
         schema = example.name.split(".")[0] + ".schema.json"
-        out += [f"{example.name}: {e}" for e in errors_for(schema, json.loads(example.read_text()))]
+        instance = json.loads(example.read_text())
+        out += [f"{example.name}: {e}" for e in errors_for(schema, instance)]
+        check = {"request": semantics.request, "summary": semantics.summary}.get(schema.split(".")[0])
+        if check:
+            out += [f"{example.name}: {e}" for e in check(instance)]
+    for job in sorted((root / "data" / "runs").rglob("job.json")):
+        out += semantics.run_folder(job.parent, errors_for, device_ids)
+    for path in sorted((root / "data" / "results").rglob("*.json")):
+        rec = json.loads(path.read_text())
+        out += [f"{path}: {e}" for e in errors_for("summary.schema.json", rec) + semantics.summary(rec)]
     return out

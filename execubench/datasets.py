@@ -12,6 +12,7 @@ import hashlib
 import io
 import json
 import statistics
+import time
 import urllib.request
 from pathlib import Path
 
@@ -120,7 +121,7 @@ def stats() -> dict:
     bfcl = {"commit": BFCL_COMMIT, "categories": {}}
     for name in BFCL_FILES:
         url = BFCL_RAW.format(commit=BFCL_COMMIT, name=name)
-        blob = urllib.request.urlopen(url).read()
+        blob = urllib.request.urlopen(url, timeout=60).read()
         bfcl["categories"][name] = {
             "url": url,
             "sha256": hashlib.sha256(blob).hexdigest(),
@@ -139,7 +140,7 @@ def stats() -> dict:
         }
     out["mt_eval"] = mt
 
-    blob = urllib.request.urlopen(FRESHQA_CSV).read()
+    blob = urllib.request.urlopen(FRESHQA_CSV, timeout=60).read()
     lines = blob.decode().splitlines()
     # The export starts with a warning line and a blank line before the header row.
     header = next(i for i, line in enumerate(lines) if line.startswith("id,split,"))
@@ -148,6 +149,10 @@ def stats() -> dict:
     for r in fq:
         splits[r["split"]] = splits.get(r["split"], 0) + 1
     out["freshqa"] = {
+        # A live spreadsheet: these counts describe the bytes seen at observed_utc, which the
+        # hash identifies but cannot bring back. Recounting later may legitimately differ.
+        "mutable": True,
+        "observed_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "url": FRESHQA_CSV,
         "sha256": hashlib.sha256(blob).hexdigest(),
         "rows": len(fq),

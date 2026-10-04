@@ -11729,7 +11729,7 @@
    "identity": {
     "manufacturer": "samsung",
     "marketing_name": "Samsung Galaxy A34",
-    "model_code": "<redacted>E",
+    "model_code": "SM-A346E",
     "android": "13",
     "sdk": "33",
     "fingerprint": "samsung/a34xdxx/a34x:13/TP1A.220624.014/A346EXXU4AWG8:user/release-keys",
@@ -21028,7 +21028,7 @@
    "identity": {
     "manufacturer": "samsung",
     "marketing_name": "Samsung Galaxy Tab A9",
-    "model_code": "<redacted>",
+    "model_code": "SM-X110",
     "android": "13",
     "sdk": "33",
     "fingerprint": "samsung/gta9wifixx/gta9wifi:13/TP1A.220624.014/X110XXU1AWHH:user/release-keys",
@@ -21527,7 +21527,7 @@
    "identity": {
     "manufacturer": "samsung",
     "marketing_name": "Samsung Galaxy Tab S9",
-    "model_code": "<redacted>",
+    "model_code": "SM-X710",
     "android": "13",
     "sdk": "33",
     "fingerprint": "samsung/gts9wifixx/gts9wifi:13/TP1A.220624.014/X710XXU1AWG1:user/release-keys",

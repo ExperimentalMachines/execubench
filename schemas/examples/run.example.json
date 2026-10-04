@@ -57,5 +57,14 @@
   "outcome": "partial",
   "failure": null,
   "tokenizer_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
-  "artifact_bytes": null
+  "artifact_bytes": null,
+  "generation": {
+    "temperature": 0,
+    "thinking": "off",
+    "max_tokens_policy": "native max_new_tokens",
+    "eos_policy": "stop_on_eos",
+    "chat_template_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "config_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "finalized": false
 }

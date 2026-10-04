@@ -195,8 +195,11 @@ def test_committed_probe_data_has_no_identifier_shaped_values():
 def test_committed_probe_data_carries_no_identifiers():
     for f in PROBE.parent.rglob("getprop.txt"):
         props = devices.parse_getprop(f.read_text(errors="replace"))
+        products = [v for k, v in props.items() if devicefarm.PRODUCT_KEYS.match(k)]
         for key, value in props.items():
             if devicefarm.IDENTIFIER_KEYS.match(key.encode()) and len(value) >= 6:
+                if any(value in product for product in products):
+                    continue  # the model name, shared by every unit (see devicefarm.identify)
                 assert value.startswith(("unit-", "<redacted>")), (f, key)
 
 
@@ -205,3 +208,27 @@ def test_committed_profiles_are_current():
     for folder in sorted(d for run in PROBE.parent.iterdir() if run.is_dir() for d in run.iterdir() if d.is_dir()):
         stored = json.loads((folder / "profile.json").read_text())
         assert stored == devices.profile(folder / "artifacts" / "probe"), folder.name
+
+
+def test_a_truncated_probe_is_reported_not_guessed(tmp_path):
+    (tmp_path / "getprop.txt").write_text("[ro.product.model]: [X]\n")
+    p = devices.profile(tmp_path)
+    assert set(p["missing_dumps"]) == {"cpuinfo.txt", "meminfo.txt", "cpus.txt", "cpufreq_policies.txt"}
+    assert devices.push_rate("push_256MiB_seconds=0") is None
+
+
+def test_a_model_name_in_an_identifier_key_is_not_redacted():
+    files = {
+        "probe/getprop.txt": b"[ro.product.model]: [SM-X710]\n[ro.quick_start.device_id]: [SM-X710]\n"
+        b"[ro.serialno]: [R52W1234567]\n",
+        "probe/other.txt": b"model SM-X710 serial R52W1234567\n",
+    }
+    out, _ = devicefarm.scrub(files)
+    assert b"SM-X710" in out["probe/other.txt"]
+    assert b"R52W1234567" not in out["probe/other.txt"]
+
+
+def test_a_model_prefix_in_an_identifier_key_is_not_redacted():
+    files = {"probe/getprop.txt": b"[ro.product.model]: [SM-A346B]\n[ro.quick_start.device_id]: [SM-A346]\n"}
+    out, _ = devicefarm.scrub(files)
+    assert b"[SM-A346B]" in out["probe/getprop.txt"]

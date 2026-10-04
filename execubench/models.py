@@ -88,3 +88,31 @@ def scan(token: str | None = None) -> list[dict]:
                     }
                 )
     return out
+
+
+HEX64 = re.compile(r"[0-9a-f]{64}")
+HEX40 = re.compile(r"[0-9a-f]{40}")
+
+
+def problems(inv: list[dict]) -> list[str]:
+    """Every reason an inventory must not be accepted. The hashes are compared here, not read
+    from the `hashes_agree` flag, so a hand-edited flag cannot hide a mismatch."""
+    out = []
+    for f in inv:
+        where = f"{f.get('repo')}/{f.get('file')}"
+        for key, pattern in (
+            ("sha256", HEX64),
+            ("report_sha256", HEX64),
+            ("tokenizer_sha256", HEX64),
+            ("revision", HEX40),
+        ):
+            if not isinstance(f.get(key), str) or not pattern.fullmatch(f[key]):
+                out.append(f"{where}: {key} missing or malformed")
+        if f.get("sha256") != f.get("report_sha256"):
+            out.append(f"{where}: Hub sha256 differs from the export report's")
+        if bool(f.get("hashes_agree")) != (f.get("sha256") == f.get("report_sha256") and f.get("sha256") is not None):
+            out.append(f"{where}: hashes_agree flag does not match the hashes")
+        for key in ("tokenizer", "source_model", "source_revision", "executorch", "window"):
+            if not f.get(key):
+                out.append(f"{where}: {key} missing")
+    return out

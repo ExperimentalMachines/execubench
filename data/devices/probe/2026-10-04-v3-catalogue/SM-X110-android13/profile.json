@@ -1,7 +1,8 @@
 {
+ "missing_dumps": [],
  "reported": {
   "manufacturer": "samsung",
-  "model": "<redacted>",
+  "model": "SM-X110",
   "device": "gta9wifi",
   "soc_manufacturer": "Mediatek",
   "soc_model": "MT8781V/NA",

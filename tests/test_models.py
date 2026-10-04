@@ -1,8 +1,10 @@
 """The model inventory: every file pinned and its hashes in agreement."""
 
 import json
-import re
+import re  # noqa: F401
 from pathlib import Path
+
+from execubench import models
 
 INV = json.loads((Path(__file__).resolve().parent.parent / "data" / "models" / "xnnpack.json").read_text())["files"]
 
@@ -12,11 +14,15 @@ def test_inventory_is_not_empty():
 
 
 def test_every_file_is_pinned_and_hashes_agree():
-    for f in INV:
-        assert re.fullmatch(r"[0-9a-f]{40}", f["revision"]), f["file"]
-        assert re.fullmatch(r"[0-9a-f]{64}", f["sha256"]), f["file"]
-        assert f["hashes_agree"], f["file"]
-        assert re.fullmatch(r"[0-9a-f]{64}", f["tokenizer_sha256"]), f["file"]
+    # models.problems compares the hashes themselves; the hashes_agree flag is not trusted.
+    assert models.problems(INV) == []
+
+
+def test_a_tampered_entry_is_caught():
+    bad = dict(INV[0], report_sha256="0" * 64)  # flag still says the hashes agree
+    assert any("differs" in p for p in models.problems([bad]))
+    assert any("flag" in p for p in models.problems([bad]))
+    assert any("tokenizer_sha256" in p for p in models.problems([dict(INV[0], tokenizer_sha256=None)]))
 
 
 def test_windows_parse_from_names():

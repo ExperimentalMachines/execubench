@@ -3,8 +3,28 @@ name = "execubench"
 version = "0.1.0"
 description = "Benchmarks for compiled ExecuTorch models on real phones in AWS Device Farm: speed, memory, heat and answer quality, single and multi turn"
 requires-python = ">=3.11"
-license = "Apache-2.0"
-license-files = ["LICENSE"]
+# execubench is Apache-2.0; one vendored data file is GPL-2.0-only (THIRD_PARTY_NOTICES.md).
+license = "Apache-2.0 AND GPL-2.0-only"
+license-files = ["LICENSE", "LICENSES/*", "THIRD_PARTY_NOTICES.md"]
+# The tool runs from a checkout: it reads schemas/, data/ and docs/ relative to the
+# repository root, so these dependencies describe the checkout's needs, not a wheel.
+dependencies = [
+  "boto3==1.43.108",
+  "botocore[crt]==1.43.108",
+  "huggingface_hub==2.1.1",
+  "jsonschema==4.26.0",
+  "referencing==0.37.0",
+  "rfc3339-validator==0.1.4",
+  "pyyaml==6.0.3",
+]
+
+[project.optional-dependencies]
+datasets = ["pyarrow==25.0.1"]
+host = ["executorch==1.5.1", "torch==2.14.0"]
+dev = ["pytest==9.1.1", "ruff==0.16.10"]
+
+[project.scripts]
+execubench = "execubench.__main__:main"
 
 [tool.pytest.ini_options]
 pythonpath = ["."]

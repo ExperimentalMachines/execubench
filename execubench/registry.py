@@ -97,6 +97,11 @@ def record(job_dir: Path, specs: dict) -> dict:
     clusters = [{k: v for k, v in c.items() if k in CLUSTER_FIELDS} for c in cpu["clusters"]]
     gpu_name = prof["gpu"].get("vulkan_device")
     npu_tops = soc.get("npu_tops")
+    missing = [
+        k for k, v in (("fingerprint", rep.get("fingerprint")), ("MemTotal", prof["memory"]["mem_total_kib"])) if not v
+    ]
+    if missing or prof.get("missing_dumps"):
+        raise ValueError(f"{job_dir}: incomplete probe, missing {missing + prof.get('missing_dumps', [])}")
     mem_kib = prof["memory"]["mem_total_kib"]
     ddr = prof["memory"]["ddr"]
 

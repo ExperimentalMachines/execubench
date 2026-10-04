@@ -57,7 +57,8 @@
       "minItems": 1
     },
     "n": {
-      "type": "integer"
+      "type": "integer",
+      "minimum": 0
     },
     "excluded": {
       "type": "object",
@@ -80,39 +81,51 @@
           "type": [
             "number",
             "null"
-          ]
+          ],
+          "minimum": 0,
+          "maximum": 1
         },
         "ci95": {
           "type": "array",
           "items": {
-            "type": "number"
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
           },
           "minItems": 2,
           "maxItems": 2
         },
         "attempted": {
-          "type": "integer"
+          "type": "integer",
+          "minimum": 0
         },
         "correct": {
-          "type": "integer"
+          "type": "integer",
+          "minimum": 0
         },
         "format_failures": {
-          "type": "integer"
+          "type": "integer",
+          "minimum": 0
         },
         "truncated": {
-          "type": "integer"
+          "type": "integer",
+          "minimum": 0
         },
         "tool_call_valid_rate": {
           "type": [
             "number",
             "null"
-          ]
+          ],
+          "minimum": 0,
+          "maximum": 1
         },
         "tool_call_correct_rate": {
           "type": [
             "number",
             "null"
-          ]
+          ],
+          "minimum": 0,
+          "maximum": 1
         },
         "null_reason": {
           "type": [
@@ -124,25 +137,33 @@
           "type": [
             "number",
             "null"
-          ]
+          ],
+          "minimum": 0,
+          "maximum": 1
         },
         "tool_decision_vs_own_rate": {
           "type": [
             "number",
             "null"
-          ]
+          ],
+          "minimum": 0,
+          "maximum": 1
         },
         "retrieval_gain": {
           "type": [
             "number",
             "null"
-          ]
+          ],
+          "minimum": -1,
+          "maximum": 1
         },
         "eligible": {
-          "type": "integer"
+          "type": "integer",
+          "minimum": 0
         },
         "ineligible": {
-          "type": "integer"
+          "type": "integer",
+          "minimum": 0
         },
         "answer_in_context": {
           "type": [
@@ -325,7 +346,8 @@
         "type": "string",
         "format": "date"
       },
-      "description": "Distinct UTC dates of the jobs behind the cell"
+      "description": "Distinct UTC dates of the jobs behind the cell",
+      "minItems": 1
     },
     "interval": {
       "type": [

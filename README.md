@@ -35,10 +35,14 @@ table shows the label per cell or splits the column by label. Definitions:
   71 files in 16 repos at the last scan (SmolLM2, Qwen2.5, Qwen3, Llama 3.2, LFM2.5), pinned
   by revision and sha256 in [`data/models/xnnpack.json`](data/models/xnnpack.json). The Hub
   changes as execupack republishes, so results always name a file's sha256.
-- **Runtime:** [ExecuServe](https://github.com/ExperimentalMachines/execuserve) on the phone
-  (ExecuTorch 1.4.0 AAR, OpenAI-compatible API), driven by a harness on the Device Farm host
-  over `adb forward`, so multi-turn tool loops can execute real tool simulators between
-  turns.
+- **Runtime:** ExecuTorch **1.5.1** (`config/versions.env`), through
+  [ExecuServe](https://github.com/ExperimentalMachines/execuserve) on the phone
+  (OpenAI-compatible API), driven by a harness on the Device Farm host over `adb forward`, so
+  multi-turn tool loops can execute real tool simulators between turns. ExecuServe must first
+  meet the benchmark contract in [`docs/EXECUSERVE-CONTRACT.md`](docs/EXECUSERVE-CONTRACT.md):
+  the stock 1.5.1 Android API neither caps output nor guards the context window on these
+  exports. The files are 1.4.0 exports; their greedy output changes under the 1.5.1 runtime
+  (`data/runtime/`), so results are always tied to a runtime version.
 - **Datasets:** GSM8K, IFEval, Multi-IF, BFCL (v4 categories, including multi-turn) and
   RetrievalQA in closed-book, with-context and search-tool modes, plus a long-context probe
   and a controlled speed track. Why these, and why PopQA and FreshQA were folded in or
@@ -57,7 +61,13 @@ table shows the label per cell or splits the column by label. Definitions:
 | `schemas/` | JSON Schemas for phone, job, request and summary records, with examples |
 | `devicefarm/probe/` | The device probe: a shell script run on the Device Farm host against the phone over adb |
 | `devicefarm/carrier/` | A manifest-only carrier APK (minSdk 21) for Device Farm's app-based test types |
-| `execubench/` | Python package: Device Farm plumbing, probe parser, device registry, model inventory, schema validation |
+| `execubench/` | Python package: Device Farm plumbing (fail-closed pulls, spend guard), probe parser, device registry, model inventory, schema and semantic validation, host runtime runs |
+| `execubench/harness/` | The benchmark harness for the Device Farm host (unit-tested, not yet run on a phone) |
+| `docs/EXECUSERVE-CONTRACT.md`, `docs/DATA-POLICY.md` | What the phone server must provide; what is published and kept |
+| `data/pilot/p1.yaml` | The pinned P1 pilot: devices, models, experiments, spend ceiling |
+| `data/runtime/` | Host runs of the same files under two ExecuTorch versions, compared piece by piece |
+| `config/versions.env`, `requirements/*.lock` | The runtime pin; hash-pinned dependency sets |
+| `LICENSES/`, `THIRD_PARTY_NOTICES.md` | Licenses of third-party material (one GPL-2.0-only data file) |
 | `data/devices/` | Raw probe dumps, catalogue snapshot, published specs with sources (`specs.yaml`), the standard (`standard.yaml`), generated `devices.json` |
 | `data/models/xnnpack.json` | Generated model inventory |
 | `data/datasets/stats.json` | Every dataset figure the docs cite, recomputed from pinned files with hashes |
@@ -67,12 +77,13 @@ table shows the label per cell or splits the column by label. Definitions:
 
 ```sh
 uv run --with-requirements requirements/dev.txt pytest -q          # tests (no network)
-uv run --with-requirements requirements/dev.txt python -m execubench validate
+uv run --with-requirements requirements/dev.txt python -m execubench validate   # schemas + semantic checks
+python -m execubench host run <pte> <tokenizer> --out r.json       # in a venv from requirements/host.lock
 python -m execubench models scan                                   # re-pin the Hub inventory
 python -m execubench datasets stats                                # recount dataset figures (needs requirements/datasets.txt)
 python -m execubench budget                                        # the v1 device-minute budget
-python -m execubench devicefarm probe <project-arn> <pool-arn> --carrier-apk carrier.apk
-python -m execubench devicefarm pull <run-arn> data/devices/probe/<new folder>
+python -m execubench devicefarm probe <project-arn> <pool-arn> --carrier-apk carrier.apk --max-device-minutes 30
+python -m execubench devicefarm pull <run-arn> data/devices/probe/<new folder>   # exit 2 if incomplete
 python -m execubench devices build data/devices/probe/<run>...     # oldest first
 python -m execubench devices table                                 # regenerate the table in docs/DEVICES.md
 ```
@@ -83,5 +94,8 @@ the usual chain); nothing in this repo stores either.
 
 ## License
 
-Apache-2.0. Dataset rows are never redistributed here; manifests carry IDs and hashes, and
-each dataset's own license applies (Multi-IF's data is CC-BY-NC-2.0).
+Apache-2.0 for execubench's own code and documentation. One vendored file,
+`data/reference/linux-cputype.h`, is GPL-2.0-only and is distributed under that license
+(`LICENSES/GPL-2.0-only.txt`); see `THIRD_PARTY_NOTICES.md`. Dataset rows are never
+redistributed here; manifests carry IDs and hashes, and each dataset's own license applies
+(Multi-IF's data is CC-BY-NC-2.0).

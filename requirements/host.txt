@@ -1,0 +1,5 @@
+# Host runs of .pte files (`python -m execubench host run`): ExecuTorch's C++ TextLLMRunner via
+# its Python bindings. Versions must equal config/versions.env (tests/test_versions.py).
+# executorch 1.5.1 imports torch without declaring it, so torch is pinned explicitly.
+executorch==1.5.1
+torch==2.14.0

@@ -797,7 +797,7 @@
 [vendor.lge.rctd.rooted]: [false]
 [vendor.lge.ril.cscategory]: []
 [vendor.lge.ril.ecclist.autoprofile]: []
-[vendor.lge.ril.modem.uuid_info]: [{193B6177-A291-495E-B1BF-A897A54CEE4E}_20191017_1419]
+[vendor.lge.ril.modem.uuid_info]: [<redacted>]
 [vendor.lge.ril.modembsp.bootup]: [1]
 [vendor.lge.ril.sim_inserted.slot1]: [1]
 [vendor.lge.ril.vss.common_init]: [1]

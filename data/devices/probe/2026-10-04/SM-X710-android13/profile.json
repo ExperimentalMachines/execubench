@@ -1,7 +1,8 @@
 {
+ "missing_dumps": [],
  "reported": {
   "manufacturer": "samsung",
-  "model": "<redacted>",
+  "model": "SM-X710",
   "device": "gts9wifi",
   "soc_manufacturer": "QTI",
   "soc_model": "SM8550",

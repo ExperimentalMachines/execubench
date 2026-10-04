@@ -5,66 +5,253 @@
   "$defs": {
     "provenance": {
       "description": "Where a value came from. See docs/METRICS.md, 'Provenance classes'.",
-      "enum": ["measured", "reported", "published", "derived", "unknown"]
+      "enum": [
+        "measured",
+        "reported",
+        "published",
+        "derived",
+        "unknown"
+      ]
     },
     "sourced": {
       "description": "A value with its provenance. 'published' needs a URL and a retrieval date; 'derived' needs a formula; 'reported' and 'measured' need the artifact path that holds the raw reading.",
       "type": "object",
-      "required": ["value", "provenance"],
+      "required": [
+        "value",
+        "provenance"
+      ],
       "additionalProperties": false,
       "properties": {
-        "value": {"type": ["number", "string", "boolean", "null"]},
-        "unit": {"type": "string"},
-        "provenance": {"$ref": "#/$defs/provenance"},
-        "source": {"type": "string", "description": "URL for published values, artifact path for reported or measured ones"},
-        "retrieved": {"type": "string", "format": "date"},
-        "formula": {"type": "string"},
-        "secondary": {"type": "boolean", "description": "True when the source is not the chip or phone maker"},
-        "note": {"type": "string"}
+        "value": {
+          "type": [
+            "number",
+            "string",
+            "boolean",
+            "null"
+          ]
+        },
+        "unit": {
+          "type": "string"
+        },
+        "provenance": {
+          "$ref": "#/$defs/provenance"
+        },
+        "source": {
+          "type": "string",
+          "description": "URL for published values, artifact path for reported or measured ones"
+        },
+        "retrieved": {
+          "type": "string",
+          "format": "date"
+        },
+        "formula": {
+          "type": "string"
+        },
+        "secondary": {
+          "type": "boolean",
+          "description": "True when the source is not the chip or phone maker"
+        },
+        "note": {
+          "type": "string"
+        }
       },
       "allOf": [
-        {"if": {"properties": {"provenance": {"const": "published"}}}, "then": {"required": ["source", "retrieved"]}},
-        {"if": {"properties": {"provenance": {"const": "derived"}}}, "then": {"required": ["formula"]}},
-        {"if": {"properties": {"provenance": {"enum": ["reported", "measured"]}}}, "then": {"required": ["source"]}},
-        {"if": {"properties": {"provenance": {"const": "unknown"}}}, "then": {"properties": {"value": {"const": null}}}}
+        {
+          "if": {
+            "properties": {
+              "provenance": {
+                "const": "published"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "source",
+              "retrieved"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "provenance": {
+                "const": "derived"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "formula"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "provenance": {
+                "enum": [
+                  "reported",
+                  "measured"
+                ]
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "source"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "provenance": {
+                "const": "unknown"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "const": null
+              }
+            }
+          }
+        }
       ]
     },
-    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
-    "git_sha": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "git_sha": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
     "percentiles": {
       "description": "Type 7 (linear) percentiles. A cell is null when n is below its minimum (p25/p50/p75: 5, p95: 20, p99: 100).",
       "type": "object",
-      "required": ["n", "method", "p25", "p50", "p75", "p95", "p99"],
+      "required": [
+        "n",
+        "method",
+        "p25",
+        "p50",
+        "p75",
+        "p95",
+        "p99"
+      ],
       "additionalProperties": false,
       "properties": {
-        "n": {"type": "integer", "minimum": 0},
-        "method": {"const": "linear"},
-        "unit": {"type": "string"},
-        "mean": {"type": ["number", "null"]},
-        "min": {"type": ["number", "null"]},
-        "max": {"type": ["number", "null"]},
-        "p25": {"type": ["number", "null"]},
-        "p50": {"type": ["number", "null"]},
-        "p75": {"type": ["number", "null"]},
-        "p95": {"type": ["number", "null"]},
-        "p99": {"type": ["number", "null"]}
+        "n": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "method": {
+          "const": "linear"
+        },
+        "unit": {
+          "type": "string"
+        },
+        "mean": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "min": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "max": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "p25": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "p50": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "p75": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "p95": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "p99": {
+          "type": [
+            "number",
+            "null"
+          ]
+        }
       }
     },
     "model_ref": {
       "type": "object",
-      "required": ["repo", "revision", "file", "sha256"],
+      "required": [
+        "repo",
+        "revision",
+        "file",
+        "sha256"
+      ],
       "additionalProperties": false,
       "properties": {
-        "repo": {"type": "string", "description": "Hugging Face repo id, e.g. experimentalmachines/Qwen3-1.7B-ExecuTorch"},
-        "revision": {"$ref": "#/$defs/git_sha"},
-        "file": {"type": "string"},
-        "sha256": {"$ref": "#/$defs/sha256"},
-        "bytes": {"type": "integer"},
-        "backend": {"enum": ["xnnpack", "vulkan", "qnn", "mtk"]},
-        "qmode": {"type": "string"},
-        "window": {"type": "integer"},
-        "source_model": {"type": "string"},
-        "source_revision": {"$ref": "#/$defs/git_sha"}
+        "repo": {
+          "type": "string",
+          "description": "Hugging Face repo id, e.g. experimentalmachines/Qwen3-1.7B-ExecuTorch"
+        },
+        "revision": {
+          "$ref": "#/$defs/git_sha"
+        },
+        "file": {
+          "type": "string"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "bytes": {
+          "type": "integer"
+        },
+        "backend": {
+          "enum": [
+            "xnnpack",
+            "vulkan",
+            "qnn",
+            "mtk"
+          ]
+        },
+        "qmode": {
+          "type": "string"
+        },
+        "window": {
+          "type": "integer"
+        },
+        "source_model": {
+          "type": "string"
+        },
+        "source_revision": {
+          "$ref": "#/$defs/git_sha"
+        },
+        "export_executorch": {
+          "type": "string",
+          "description": "ExecuTorch version that exported the file (from its export report); the runtime version is recorded separately in the job's runtime block"
+        }
       }
     }
   }

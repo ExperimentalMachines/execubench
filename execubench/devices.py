@@ -85,10 +85,19 @@ def kernel_part_names(path: Path = CPUTYPE) -> dict[tuple[int, int], str]:
     return out
 
 
+# One getprop line is `[key]: [value]`, but a value can span lines (Redmi Note 10's
+# ro.boot.chipid ends in a newline), so a value runs to the "]" that closes it before the next
+# "[key]: [" line or the end of the dump. The scrubber in devicefarm.py uses this same pattern.
+GETPROP = re.compile(r"^\[([^\]\n]+)\]: \[(.*?)\]\s*(?=^\[[^\]\n]+\]: \[|\Z)", flags=re.M | re.S)
+
+
+def getprop_pairs(text: str) -> list[tuple[str, str]]:
+    """Every (key, raw value) pair in order; values keep their exact text, newlines included."""
+    return GETPROP.findall(text)
+
+
 def parse_getprop(text: str) -> dict[str, str]:
-    # Values can span lines; one runs to the "]" before the next "[key]: [" line.
-    pattern = r"^\[([^\]\n]+)\]: \[(.*?)\]\s*(?=^\[[^\]\n]+\]: \[|\Z)"
-    return {k: v.strip() for k, v in re.findall(pattern, text, flags=re.M | re.S)}
+    return {k: v.strip() for k, v in getprop_pairs(text)}
 
 
 def parse_meminfo(text: str) -> dict[str, int]:
@@ -263,11 +272,18 @@ def battery_temp_c(battery: str) -> float | None:
 
 def push_rate(push: str) -> float | None:
     m = re.search(r"push_256MiB_seconds=([\d.]+)", push)
-    return round(256 / float(m.group(1)), 1) if m else None
+    seconds = float(m.group(1)) if m else 0.0
+    # A zero or missing duration is a failed measurement, not an infinite rate.
+    return round(256 / seconds, 1) if seconds > 0 else None
+
+
+# Dumps without which a profile is not a device record (probe.sh treats them as required).
+REQUIRED_DUMPS = ("getprop.txt", "cpuinfo.txt", "meminfo.txt", "cpus.txt", "cpufreq_policies.txt")
 
 
 def profile(probe_dir: Path, names: dict | None = None) -> dict:
     names = names or kernel_part_names()
+    missing = [d for d in REQUIRED_DUMPS if not (probe_dir / d).is_file() or not (probe_dir / d).stat().st_size]
     props = parse_getprop(_read(probe_dir, "getprop.txt"))
     mem = parse_meminfo(_read(probe_dir, "meminfo.txt"))
     cores = parse_cpus(_read(probe_dir, "cpus.txt"))
@@ -288,6 +304,7 @@ def profile(probe_dir: Path, names: dict | None = None) -> dict:
     gles = re.search(r"GLES: ([^\n]+)", _read(probe_dir, "surfaceflinger_gles.txt"))
     caps = _read(probe_dir, "capabilities.txt")
     return {
+        "missing_dumps": missing,
         "reported": {
             "manufacturer": props.get("ro.product.manufacturer"),
             "model": props.get("ro.product.model"),

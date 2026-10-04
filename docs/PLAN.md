@@ -58,7 +58,8 @@ All XNNPACK exports published by
 [ExperimentalMachines/execupack](https://github.com/ExperimentalMachines/execupack) under
 the `experimentalmachines` Hugging Face org, pinned in `data/models/xnnpack.json`
 (`execubench models scan`). Scan of 2026-10-03T23:23Z (`scanned_utc` in that file): **71
-`.pte` files in 16 repos**, all ExecuTorch 1.4.0, 32 round-to-nearest (`8da4w`) and 39
+`.pte` files in 16 repos**, all exported with ExecuTorch 1.4.0 (export provenance, kept as
+recorded; the benchmark runtime is 1.5.1, Section 3.4), 32 round-to-nearest (`8da4w`) and 39
 GPTQ-solved (`8da4w-gptq`), int8 per-channel embeddings, group size 32, fp32 KV cache, prefill
 chunk 2,048 (the `recipe` field). For every file the Hub's LFS sha256 equals the sha256 its
 export report recorded, and every tokenizer is hashed.
@@ -130,9 +131,9 @@ is measured, not assumed.
 
 The phone runs **ExecuServe**
 ([ExperimentalMachines/execuserve](https://github.com/ExperimentalMachines/execuserve)): an
-Android foreground service that loads `.pte` files with the ExecuTorch 1.4.0 AAR
-(`LlmModule`, the C++ `TextLLMRunner` underneath) and answers the OpenAI chat API, with each
-family's chat template tested byte for byte against the model's own. Reasons:
+Android foreground service that loads `.pte` files through the ExecuTorch AAR (`LlmModule`, the
+C++ `TextLLMRunner` underneath) and answers the OpenAI chat API, with each family's chat
+template tested byte for byte against the model's own. Reasons:
 
 - **Multi-turn needs the host in the loop.** BFCL multi-turn executes tool calls in Python
   simulators between generations, and RetrievalQA's tool mode returns a search result. A
@@ -143,24 +144,49 @@ family's chat template tested byte for byte against the model's own. Reasons:
 - **It already reports the runner's stats** (`timings` per response) and exposes
   `/apply-template`, which gives the exact prompt bytes for every request.
 
-ExecuServe changes required before P1 (to be filed as issues in that repo, owned here):
-
-| Change | Why |
-|---|---|
-| Per-request `cache: "off"` (reset the runner before the request) | Single-turn and speed tracks must not reuse a KV prefix; ExecuServe reuses exact prefixes by default, which would make `prompt_tokens` the suffix only |
-| Return the runner's stats JSON verbatim, plus monotonic timestamps at the runner call, the first token callback and the runner's return | METRICS defines fields from raw runner timestamps; the runner's clock is `CLOCK_REALTIME`, so each stage needs a monotonic cross-check |
-| Report the effective thread count after load | Part of the cell key; the requested 0 means "runtime chooses" |
-| Return sampled token ids where the runtime can expose them | Lets output agreement be checked at the token level; optional, P1 decides |
-| Return the rendered prompt and keep it per request | Replay needs the exact bytes, not just their hash |
-| Report `/proc/self/status` memory fields on the status endpoint | Fallback if the shell cannot read another app's `/proc/<pid>/status` |
-| `profileable android:shell="true"` in the benchmark build | Lets P1 test per-process `simpleperf` counting |
-| A way to run exactly `N + 1` sampled tokens for the speed track | Controlled decode needs a known number of steps; whether the 1.4.0 Java `LlmModule` config exposes `ignore_eos` is **unverified**, and early stops are otherwise excluded |
-| A benchmark build flavour with a pinned APK hash | Every job records the APK sha256 |
+ExecuServe today uses the 1.4.0 AAR and cannot serve a benchmark as it stands. What it must
+provide, why, and the acceptance tests a build must pass are in
+**`docs/EXECUSERVE-CONTRACT.md`** (contract 1): the 1.5.1 AAR in a benchmark flavour with a
+pinned APK hash; per-request cache control; a **native** output cap, because the stock Android
+`generate` does not forward `maxNewTokens`; its own **context-capacity guard**, because on these
+exports the runtime's sliding-window branch ignores occupied positions; the raw runner stats;
+**native** monotonic timestamps, because JNI's UTF-8 buffering makes the first Kotlin callback
+an unreliable first-token time; the rendered prompt; the effective thread count; and
+`/proc/self/status` memory on its status endpoint. The harness refuses to run against a build
+that does not advertise the contract (`execubench/harness/run.py`).
 
 The alternative considered was an instrumentation test APK in the style of OpenWeights'
 `ExecuTorchBenchmarkEval` (no server, results written to app storage). It is simpler for
 single-turn rows but cannot run host-side tool simulators mid-conversation without
 reimplementing them on the phone, so it was rejected for v1.
+
+### 3.4 Runtime version: ExecuTorch 1.5.1
+
+The benchmark runtime is **ExecuTorch 1.5.1** (`config/versions.env`): the phone runs
+`org.pytorch:executorch-android:1.5.1` (Maven has no 1.5.0), and host runs use the PyPI wheel
+`executorch==1.5.1` with `torch==2.14.0`, the torch its `torch_pin.py` names (the wheel imports
+torch without declaring it; `requirements/host.lock` pins both with hashes). What moving from
+1.4.0 means:
+
+- **Timing semantics are unchanged** for every field `docs/METRICS.md` uses (checked in the
+  v1.5.1 sources); 1.5.1 adds `aggregate_model_execution_time_ms`, kept in the raw stats.
+- **The exports stay 1.4.0 exports.** Upstream's compatibility policy
+  ([`runtime/COMPATIBILITY.md`](https://github.com/pytorch/executorch/blob/v1.5.1/runtime/COMPATIBILITY.md))
+  promises that a program from one release loads and executes on the next non-patch release when
+  it was made with stable, non-experimental APIs; custom operators have no explicit guarantee,
+  and nothing in the policy promises identical outputs. So whether a
+  given file runs on 1.5.1 is checked, not assumed: `python -m execubench host run` and
+  `host compare` load each file under both runtimes on this machine and diff the greedy output
+  piece by piece (`data/runtime/compat-1.4.0-vs-1.5.1/`, results in `SUMMARY.md` there).
+- **Outputs change with the runtime.** Under each runtime a file repeats itself exactly, but the
+  same 1.4.0 file gives different greedy text under 1.4.0 and 1.5.1 for most files checked.
+  XNNPACK moved to a new commit between the tags (`1adaa7c` to `92a7ad5`), with custom SDPA and
+  weight-repacking changes beside it; which change causes a given difference has not been
+  isolated. Consequences: the runtime version is part of every cell key, 1.4.0 and 1.5.1 results
+  are never pooled, and OpenWeights-era 1.4.0 measurements are not comparable baselines.
+- **Re-exporting with 1.5.1** (an execupack change) would produce new files and hashes, not a
+  correction of these; until it happens the v1 grid runs the 1.4.0 exports on the 1.5.1 runtime
+  and records both versions (`model.export_executorch`, `runtime.executorch`).
 
 ## 4. Device standard
 
@@ -201,6 +227,13 @@ long-context probe as its own track.
 ## 6. Measurement protocol
 
 ### 6.1 Job anatomy
+
+The harness that runs a job lives in `execubench/harness/` (adb calls with bounded timeouts,
+staging with sha256 checks on host and phone, the state sampler, the streaming client with host
+monotonic timestamps, crash-safe JSONL records). It is unit-tested against stubs and has not run
+on a phone; it refuses to start against an ExecuServe build without contract 1. The P1 pilot is
+pinned in `data/pilot/p1.yaml`: three phones, two models, six experiments, a worst case of 690
+device minutes under a 900-minute ceiling (`tests/test_pilot.py` checks every pin and the sum).
 
 One Device Farm job is one device unit, one model file, one or more tracks, at most 150
 minutes (the service's hard limit). Custom test environment on the Amazon Linux 2 host
@@ -398,7 +431,7 @@ CC-BY-NC-2.0) are never committed; manifests carry IDs and hashes.
 | Phase | Goal | Exit criterion |
 |---|---|---|
 | **P0 Probe** (done 2026-10-04) | Know what Device Farm's phones are | Every arm64 Android model in the catalogue probed; findings in `docs/DEVICES.md` |
-| **P1 Pilot** | Prove the protocol on 3 phones and 2 models | Every field in `schemas/` filled from a real run; ExecuServe changes merged; adapter contract tested on the four request shapes; sampling overhead, fixed-performance A/B, unit spread, determinism, `/proc` readability, per-process counters and artifact survival measured; cost model inputs replaced by measured minutes |
+| **P1 Pilot** | Prove the protocol on 3 phones and 2 models (`data/pilot/p1.yaml`) | An ExecuServe build passes every contract-1 acceptance test (`docs/EXECUSERVE-CONTRACT.md`) on a phone of each Tier A vendor; every field in `schemas/` filled from a real run and `execubench validate` clean on it; ExecuServe changes merged; adapter contract tested on the four request shapes; sampling overhead, fixed-performance A/B, unit spread, determinism, `/proc` readability, per-process counters and artifact survival measured; cost model inputs replaced by measured minutes |
 | **P2 Freeze** | Freeze suite v1 | Model manifest and `suites/v1/*.ids.json` with hashes; eligibility per model; graders vendored and tested against upstream examples; host runs of all 16 models; Codex review of the frozen suite |
 | **P3 Collect** | Fill the v1 grid | `docs/GRID.md` shows no planned cell; failures carry reasons |
 | **P4 Publish** | Release | Results dataset, tables, methodology; Codex review of every table against the raw files |
@@ -421,6 +454,9 @@ whether the full quality selection runs on all four Tier A phones (Section 7.2).
 | Greedy outputs differ across CPUs or units | Quality not portable across phones | Quality published per device; agreement measured, never extrapolated |
 | 150-minute job limit and the 1 GB artifact cap | Shards or all artifacts lost | Shards sized with a 20 percent margin; artifact size tracked; S3 fallback |
 | Model templates differ from upstream | Unfair quality | Templates byte-tested in ExecuServe; the rendered prompt kept and hashed per request |
+| Runtime upgrades change outputs | 1.4.0 and 1.5.1 numbers mixed | Runtime version in every cell key; host compatibility reports per file (`data/runtime/`) |
+| Stock Android API cannot cap output or guard the window | Overlong replies; KV overflow in multi-turn | Contract 1 requires a native cap and a server-side capacity guard, tested before P1 |
+| Pulled artifacts contain identifiers | Leak on publication | Pulls refuse any identifier outside the probe dumps; publication exporter rescans (`docs/DATA-POLICY.md`) |
 
 ## 11. Open questions
 
@@ -428,8 +464,9 @@ whether the full quality selection runs on all four Tier A phones (Section 7.2).
 2. Can the shell read the server's `/proc/<pid>/status` on every phone? (P1)
 3. Does user-mode or per-process `simpleperf` counting work on a `profileable` build? (P1;
    probe v3 also records a user-mode system-wide attempt)
-4. Does the 1.4.0 Java `LlmModule` expose `ignore_eos`? If not, the speed track relies on
-   prompts that run to the step limit, and early stops are excluded. (P1)
+4. ~~Does the Java `LlmModule` expose `ignore_eos`?~~ Answered from the sources: neither 1.4.0
+   nor 1.5.1 does, and neither forwards `maxNewTokens`. The speed track excludes early stops and
+   the contract requires a native cap.
 5. How large is unit-to-unit spread on Device Farm compared with Test Lab? (P1)
 6. Are greedy outputs byte-identical across runs on one unit, across units of one model, and
    across SoCs, for the same `.pte`? (P1 determinism check, P3 agreement track)
