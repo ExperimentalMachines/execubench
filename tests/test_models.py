@@ -59,6 +59,8 @@ def _fake_hub(monkeypatch, tmp_path, reports: dict, pte_sha: str):
     files = {name: json.dumps(r) for name, r in reports.items()} | {"tokenizer.json": "{}"}
 
     class Api:
+        revisions: list = []
+
         def __init__(self, token=None):
             pass
 
@@ -66,6 +68,7 @@ def _fake_hub(monkeypatch, tmp_path, reports: dict, pte_sha: str):
             return [type("M", (), {"id": f"{author}/M-ExecuTorch"})()]
 
         def model_info(self, repo, files_metadata, revision=None):
+            Api.revisions.append(revision)
             return type("I", (), {"sha": "a" * 40, "siblings": siblings})()
 
     def download(repo, name, revision, token=None):
@@ -75,6 +78,7 @@ def _fake_hub(monkeypatch, tmp_path, reports: dict, pte_sha: str):
 
     monkeypatch.setattr(huggingface_hub, "HfApi", Api)
     monkeypatch.setattr(huggingface_hub, "hf_hub_download", download)
+    return Api
 
 
 def _report(sha, executorch="1.4.0"):
@@ -124,21 +128,29 @@ def test_reports_that_disagree_on_sizing_conflict(monkeypatch, tmp_path):
 
 def test_pins_are_checked_at_their_revision(monkeypatch, tmp_path):
     sha = "c" * 64
-    _fake_hub(monkeypatch, tmp_path, {"xnnpack/export-report-a.json": _report(sha)}, sha)
-    pin = {"repo": "experimentalmachines/M-ExecuTorch", "revision": "a" * 40, "tokenizer": "tokenizer.json"}
-    good = models.check_pins([{**pin, "file": "xnnpack/M-8da4w-8k.pte", "sha256": sha}])[0]
-    assert good["resolves"] and good["sha256_matches"] and good["tokenizer_present"]
-    moved = models.check_pins([{**pin, "file": "xnnpack/M-8da4w-8k.pte", "sha256": "d" * 64}])[0]
+    api = _fake_hub(monkeypatch, tmp_path, {"xnnpack/export-report-a.json": _report(sha)}, sha)
+    tok_sha = hashlib.sha256(b"{}").hexdigest()
+    pin = {"repo": "experimentalmachines/M-ExecuTorch", "revision": "e" * 40, "tokenizer": "tokenizer.json"}
+    pin |= {"file": "xnnpack/M-8da4w-8k.pte", "tokenizer_sha256": tok_sha}
+    good = models.check_pins([{**pin, "sha256": sha}])[0]
+    assert good["resolves"] and good["sha256_matches"] and good["tokenizer_matches"]
+    assert api.revisions == ["e" * 40]  # asked at the pinned revision, not the head
+    moved = models.check_pins([{**pin, "sha256": "d" * 64}])[0]
     assert moved["resolves"] and not moved["sha256_matches"]
+    other_tok = models.check_pins([{**pin, "sha256": sha, "tokenizer_sha256": "0" * 64}])[0]
+    assert not other_tok["tokenizer_matches"] and other_tok["tokenizer_sha256_observed"] == tok_sha
 
 
 def test_the_committed_pin_check_covers_the_inventory():
     check = json.loads(
         (Path(__file__).resolve().parent.parent / "data" / "models" / "pin-check-2026-10-04.json").read_text()
     )
-    rows = {(r["repo"], r["file"]): r for r in check["files"]}
-    assert set(rows) == {(f["repo"], f["file"]) for f in INV}
-    assert all(r["resolves"] and r["sha256_matches"] and r["tokenizer_present"] for r in rows.values())
+    rows = {(r["repo"], r["revision"], r["file"]): r for r in check["files"]}
+    assert set(rows) == {(f["repo"], f["revision"], f["file"]) for f in INV}
+    for f in INV:
+        r = rows[(f["repo"], f["revision"], f["file"])]
+        assert r["sha256_expected"] == f["sha256"] and r["tokenizer_sha256_expected"] == f["tokenizer_sha256"]
+        assert r["resolves"] and r["sha256_matches"] and r["tokenizer_matches"]
 
 
 def test_a_scan_that_loses_files_is_refused():

@@ -175,13 +175,12 @@ def summary(rec: dict) -> list[str]:
         return [f"malformed summary, semantic checks not possible: {type(error).__name__} {error}"]
 
 
-RATES = (
-    "accuracy",
-    "tool_call_valid_rate",
-    "tool_call_correct_rate",
-    "tool_decision_vs_label_rate",
-    "tool_decision_vs_own_rate",
-    "retrieval_gain",
+# (rate, numerator, denominator) in quality.counts; docs/METRICS.md "Quality" defines each.
+RATE_COUNTS = (
+    ("tool_call_valid_rate", "tool_call_valid", "tool_call_rows"),
+    ("tool_call_correct_rate", "tool_call_correct", "tool_call_rows"),
+    ("tool_decision_vs_label_rate", "tool_decision_matches_label", "tool_decision_rows"),
+    ("tool_decision_vs_own_rate", "tool_decision_matches_own", "tool_decision_own_rows"),
 )
 
 
@@ -190,11 +189,32 @@ def _summary(rec: dict) -> list[str]:
     q = rec.get("quality") or {}
     if q.get("attempted") == 0 and q.get("accuracy") is not None:
         out.append("quality.accuracy must be null when nothing was attempted")
-    # A rate needs a positive denominator: without one it cannot be checked or bounded, and over
-    # zero attempts it means nothing, so it must be null.
-    for rate in RATES:
-        if q.get(rate) is not None and not (isinstance(q.get("attempted"), int) and q["attempted"] > 0):
-            out.append(f"quality.{rate} published without a positive quality.attempted")
+    # Every rate needs its own positive denominator and must equal the ratio of its counts:
+    # without them it cannot be checked or bounded, and over zero rows it means nothing.
+    if q.get("accuracy") is not None and not (isinstance(q.get("attempted"), int) and q["attempted"] > 0):
+        out.append("quality.accuracy published without a positive quality.attempted")
+    counts = q.get("counts") or {}
+    for rate, numerator, denominator in RATE_COUNTS:
+        n, d = counts.get(numerator), counts.get(denominator)
+        if n is not None and d is not None and n > d:
+            out.append(f"quality.counts.{numerator} exceeds {denominator}")
+        if q.get(rate) is None:
+            continue
+        if not (isinstance(d, int) and d > 0 and isinstance(n, int)):
+            out.append(f"quality.{rate} published without a positive quality.counts.{denominator}")
+        elif not _close(q[rate], n / d):
+            out.append(f"quality.{rate} is not counts.{numerator} / counts.{denominator}")
+    if q.get("retrieval_gain") is not None:
+        d = counts.get("paired_rows")
+        a, b = counts.get("search_tool_correct_paired"), counts.get("closed_book_correct_paired")
+        if not (isinstance(d, int) and d > 0 and isinstance(a, int) and isinstance(b, int)):
+            out.append("quality.retrieval_gain published without paired counts")
+        elif max(a, b) > d:
+            out.append("quality.counts paired correct answers exceed paired_rows")
+        elif not abs(q["retrieval_gain"] - (a - b) / d) <= 1e-9 + RATE_TOLERANCE * abs((a - b) / d):
+            out.append(
+                "quality.retrieval_gain is not (search_tool_correct_paired - closed_book_correct_paired) / paired_rows"
+            )
     if q.get("accuracy") is not None and q.get("correct") is None:
         out.append("quality.accuracy published without quality.correct")
     if q.get("ci95") is not None:

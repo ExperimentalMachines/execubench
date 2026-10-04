@@ -137,3 +137,28 @@ def test_compat_evidence_is_checked_not_assumed(tmp_path):
     assert any("derives" in p for p in pilot.compat_problems(model, "1.5.1", tmp_path))
     assert any("missing" in p for p in pilot.compat_problems(dict(model, file="xnnpack/nothing.pte"), "1.5.1"))
     assert any("another .pte" in p for p in pilot.compat_problems(dict(model, sha256="0" * 64), "1.5.1"))
+
+
+def test_compat_evidence_must_show_execution(tmp_path):
+    import shutil
+
+    from execubench import pilot
+
+    model = PILOT["models"]["smollm2-360m"]
+    stem = Path(model["file"]).stem
+    for f in pilot.COMPAT.glob(f"{stem}.*"):
+        shutil.copy(f, tmp_path / f.name)
+    assert pilot.compat_problems(model, "1.5.1", tmp_path) == []
+    for v in ("1.4.0", "1.5.1"):
+        path = tmp_path / f"{stem}.executorch-{v}.json"
+        report = json.loads(path.read_text())
+        report["max_new_tokens"] = 0
+        for row in report["results"]:
+            row.update({"pieces": [], "stats": {}})
+        path.write_text(json.dumps(report))
+    problems = pilot.compat_problems(model, "1.5.1", tmp_path)
+    assert any("max_new_tokens" in p for p in problems) and any("completed generation" in p for p in problems)
+    (tmp_path / f"{stem}.executorch-1.4.0.json").write_text("[]")
+    assert pilot.compat_problems(model, "1.5.1", tmp_path) == [
+        "host compatibility evidence is not a set of JSON objects"
+    ]

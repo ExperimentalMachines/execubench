@@ -124,6 +124,16 @@ def test_impossible_statistics_are_rejected():
     assert any("positive quality.attempted" in e for e in semantics.summary(s))
     s["quality"] = {"attempted": 0, "tool_call_valid_rate": 1}
     assert any("tool_call_valid_rate" in e for e in semantics.summary(s))
+    # A positive overall count is not the metric's own population.
+    s["quality"] = {"attempted": 1, "tool_decision_vs_own_rate": 1, "retrieval_gain": 1}
+    errors = semantics.summary(s)
+    assert any("tool_decision_vs_own_rate" in e for e in errors) and any("retrieval_gain" in e for e in errors)
+    counts = {"paired_rows": 10, "search_tool_correct_paired": 7, "closed_book_correct_paired": 4}
+    counts |= {"tool_decision_own_rows": 10, "tool_decision_matches_own": 6}
+    s["quality"] = {"attempted": 10, "tool_decision_vs_own_rate": 0.6, "retrieval_gain": 0.3, "counts": counts}
+    assert semantics.summary(s) == [] and schemas.errors_for("summary.schema.json", s) == []
+    s["quality"]["retrieval_gain"] = 0.5
+    assert any("retrieval_gain is not" in e for e in semantics.summary(s))
     s = copy.deepcopy(SUMMARY)
     s["quality"] = {
         "answer_in_context": dict.fromkeys(
@@ -196,7 +206,7 @@ def test_structurally_invalid_lines_are_reported_not_crashed_on(tmp_path):
     assert "samples.jsonl:1: not a JSON object" in joined
 
 
-def _manifest(run, complete=True, kind="harness"):
+def _manifest(run, complete=True, kind="harness", **overrides):
     import hashlib
 
     files = {}
@@ -206,20 +216,51 @@ def _manifest(run, complete=True, kind="harness"):
                 "sha256": hashlib.sha256(f.read_bytes()).hexdigest(),
                 "bytes": f.stat().st_size,
             }
-    m = {"kind": kind, "complete": complete, "jobs": {"dev": {"files": files, "state": "complete"}}}
+    job = {"files": files, "state": "complete", "status": "COMPLETED", "missing": []}
+    m = {"kind": kind, "complete": complete, "run_status": "COMPLETED", "failure": None, "jobs_expected": 1}
+    m.update({"jobs_listed": 1, "jobs": {"dev": job}, **overrides})
     (run / "pull-manifest.json").write_text(json.dumps(m))
+
+
+def _complete_job():
+    staging = {"sha256_verified_on_host": True, "sha256_verified_on_device": True}
+    done = {"outcome": "complete", "staging": staging, "finalized": True, "finished_utc": "2026-10-04T00:00:00Z"}
+    base = json.loads((EXAMPLES / "run.example.json").read_text())
+    protocol = {**base["protocol"]}
+    protocol["protocol_sha256"] = records.protocol_sha256(protocol)
+    done["protocol"] = protocol
+    done["config_sha256"] = records.config_sha256({**base, **done})
+    return done
 
 
 def test_validate_runs_checks_a_pulled_run_against_its_manifest(tmp_path):
     run = tmp_path / "run"
     folder = run / "dev" / "artifacts"
-    folder.mkdir(parents=True)
-    _job_folder(folder, json.dumps(REQ) + "\n")
+    (folder / "probe").mkdir(parents=True)
+    for f in ("_host.txt", "getprop.txt"):
+        (folder / "probe" / f).write_text("x\n")
+    _job_folder(folder, json.dumps(REQ) + "\n", "", **_complete_job())
     # Without a manifest a pull is refused; standalone inspection is a separate, explicit mode.
     assert any("missing" in e for e in schemas.validate_runs(run))
     assert schemas.validate_runs(run, standalone=True) == []
     _manifest(run)
     assert schemas.validate_runs(run) == []
+    # Each claim of the manifest is checked, not only its summary flag.
+    for bad, needle in (
+        ({"run_status": "RUNNING"}, "run status"),
+        ({"failure": {"type": "X"}}, "records a failure"),
+        ({"jobs_expected": 3}, "job counts"),
+        ({"jobs": {"dev": {"files": {}, "state": "incomplete"}}}, "not complete"),
+        ({"jobs": {"dev": {"files": {}, "state": "complete", "status": "COMPLETED"}, "gone": {}}}, "folder missing"),
+    ):
+        _manifest(run, **bad)
+        assert any(needle in e for e in schemas.validate_runs(run)), needle
+    # A partial job belongs in standalone inspection, not in a complete pulled run.
+    _job_folder(folder, json.dumps(REQ) + "\n")
+    _manifest(run)
+    assert any("finalized, complete jobs" in e for e in schemas.validate_runs(run))
+    _job_folder(folder, json.dumps(REQ) + "\n", "", **_complete_job())
+    _manifest(run)
     (folder / "requests.jsonl").write_text(json.dumps({**REQ, "seq": 0}) + "\n\n")
     assert any("differs from the sha256" in e for e in schemas.validate_runs(run))
     (folder / "extra.txt").write_text("x")

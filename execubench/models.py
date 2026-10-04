@@ -105,32 +105,58 @@ def scan(token: str | None = None) -> list[dict]:
 
 
 def check_pins(inv: list[dict], token: str | None = None) -> list[dict]:
-    """For every pinned file, whether the Hub still serves it at its pinned revision with the
-    recorded sha256 (LFS metadata at that revision; nothing is downloaded), and its tokenizer."""
-    from huggingface_hub import HfApi
+    """For every pinned file, whether the Hub still serves it, and its tokenizer, at the pinned
+    revision with the recorded sha256. The .pte is checked through LFS metadata at that revision
+    (nothing large is downloaded); a tokenizer stored in git has no LFS hash, so its bytes at that
+    revision are downloaded and hashed. Expected and observed hashes are both kept."""
+    from huggingface_hub import HfApi, hf_hub_download
 
     api = HfApi(token=token)
-    out, cache = [], {}
+    out, listings, tokenizers = [], {}, {}
+
+    def retry(fn):
+        for attempt in range(3):
+            try:
+                return fn()
+            except Exception as error:  # noqa: BLE001 - recorded as unresolved, never skipped
+                last = error
+                time.sleep(2**attempt)
+        return {"__error__": type(last).__name__}
+
     for f in inv:
         key = (f["repo"], f["revision"])
-        for attempt in range(3):
-            if key in cache and "__error__" not in cache[key]:
-                break
-            try:
-                info = api.model_info(f["repo"], revision=f["revision"], files_metadata=True)
-                cache[key] = {s.rfilename: (s.lfs.sha256 if s.lfs else None) for s in info.siblings}
-            except Exception as error:  # noqa: BLE001 - recorded as unresolved, never skipped
-                cache[key] = {"__error__": type(error).__name__}
-                time.sleep(2**attempt)
-        files = cache[key]
+        if key not in listings or "__error__" in listings[key]:
+            listings[key] = retry(
+                lambda f=f: {
+                    s.rfilename: (s.lfs.sha256 if s.lfs else None)
+                    for s in api.model_info(f["repo"], revision=f["revision"], files_metadata=True).siblings
+                }
+            )
+        files = listings[key]
+        tok = f.get("tokenizer")
+        tok_sha = files.get(tok) if tok in files else None
+        if tok in files and tok_sha is None:
+            tkey = (f["repo"], f["revision"], tok)
+            if tkey not in tokenizers or isinstance(tokenizers[tkey], dict):
+                tokenizers[tkey] = retry(
+                    lambda f=f, tok=tok: hashlib.sha256(
+                        Path(hf_hub_download(f["repo"], tok, revision=f["revision"], token=token)).read_bytes()
+                    ).hexdigest()
+                )
+            tok_sha = tokenizers[tkey] if isinstance(tokenizers[tkey], str) else None
         out.append(
             {
                 "repo": f["repo"],
                 "revision": f["revision"],
                 "file": f["file"],
+                "sha256_expected": f["sha256"],
+                "sha256_observed": files.get(f["file"]),
+                "tokenizer": tok,
+                "tokenizer_sha256_expected": f.get("tokenizer_sha256"),
+                "tokenizer_sha256_observed": tok_sha,
                 "resolves": f["file"] in files,
                 "sha256_matches": files.get(f["file"]) == f["sha256"],
-                "tokenizer_present": f.get("tokenizer") in files,
+                "tokenizer_matches": tok_sha is not None and tok_sha == f.get("tokenizer_sha256"),
                 "error": files.get("__error__"),
             }
         )

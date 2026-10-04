@@ -355,16 +355,33 @@ class TrickleHandler(BaseHTTPRequestHandler):
 
 def test_a_trickle_without_newlines_stops_at_the_deadline():
     import time
+    from http.server import ThreadingHTTPServer
 
-    httpd = HTTPServer(("127.0.0.1", 0), TrickleHandler)
+    httpd = ThreadingHTTPServer(("127.0.0.1", 0), TrickleHandler)
+    httpd.daemon_threads = True
     threading.Thread(target=httpd.serve_forever, daemon=True).start()
-    started = time.monotonic()
     try:
+        started = time.monotonic()
         with pytest.raises(client.IncompleteStream, match="no completion within"):
             client.chat(f"http://127.0.0.1:{httpd.server_port}", "k", {}, timeout_s=0.3)
+        elapsed = time.monotonic() - started  # the client only, not the server's shutdown
     finally:
         httpd.shutdown()
-    assert time.monotonic() - started < 1.0
+    assert elapsed < 1.0
+
+
+def test_malformed_events_are_incomplete_streams_with_the_partial_reply(stream_server, monkeypatch):
+    first = {"choices": [{"delta": {"content": "Hi"}}]}
+    for bad in (
+        "[]",
+        '{"choices": [null]}',
+        '{"choices": [{"delta": []}]}',
+        '{"choices": [{"delta": {"tool_calls": [1]}}]}',
+    ):
+        monkeypatch.setattr(StreamHandler, "events", _sse(first, bad, "[DONE]"))
+        with pytest.raises(client.IncompleteStream) as caught:
+            client.chat(stream_server, "k", {})
+        assert caught.value.partial.text == "Hi", bad
 
 
 def test_the_deadline_branch_records_an_end_time(stream_server, monkeypatch):

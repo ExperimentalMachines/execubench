@@ -198,6 +198,66 @@
             "not_in_context_attempted",
             "not_in_context_correct"
           ]
+        },
+        "counts": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "description": "The populations behind each tool and retrieval rate; a rate is published only with its own positive denominator, and must equal the ratio of these counts",
+          "additionalProperties": false,
+          "properties": {
+            "tool_call_rows": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Rows where a tool call was expected (the denominator of both tool_call rates)"
+            },
+            "tool_call_valid": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Of those, outputs that parsed into a call with the declared schema"
+            },
+            "tool_call_correct": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Of those, calls the official checker accepts"
+            },
+            "tool_decision_rows": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "RetrievalQA search-tool rows with a label (denominator of tool_decision_vs_label_rate)"
+            },
+            "tool_decision_matches_label": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Of those, rows where the call decision matched the label"
+            },
+            "tool_decision_own_rows": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Search-tool rows paired with the model's own closed-book result on the same device id and build"
+            },
+            "tool_decision_matches_own": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Of those, rows where the model called exactly when its closed-book answer was wrong"
+            },
+            "paired_rows": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Rows run in both closed-book and search-tool mode (denominator of retrieval_gain)"
+            },
+            "closed_book_correct_paired": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Closed-book correct answers among the paired rows"
+            },
+            "search_tool_correct_paired": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Search-tool correct answers among the paired rows"
+            }
+          }
         }
       }
     },

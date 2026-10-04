@@ -70,6 +70,31 @@ def chat(base_url: str, key: str, body: dict, timeout_s: float = 900) -> Reply:
     return reply
 
 
+def _event(event) -> dict:
+    """An SSE event with the shapes the reader relies on, or ValueError (a malformed stream,
+    reported as IncompleteStream with the partial reply)."""
+    if not isinstance(event, dict):
+        raise ValueError("stream event is not a JSON object")
+    choices = event.get("choices") or []
+    if not isinstance(choices, list) or not all(isinstance(c, dict) for c in choices):
+        raise ValueError("stream event choices are not a list of objects")
+    for choice in choices:
+        delta = choice.get("delta") or {}
+        if not isinstance(delta, dict):
+            raise ValueError("stream delta is not an object")
+        if delta.get("content") is not None and not isinstance(delta["content"], str):
+            raise ValueError("stream delta content is not a string")
+        fragments = delta.get("tool_calls") or []
+        if not isinstance(fragments, list) or not all(
+            isinstance(f, dict) and isinstance(f.get("function") or {}, dict) for f in fragments
+        ):
+            raise ValueError("stream tool call fragments are malformed")
+    for key in ("usage", "x_execuserve"):
+        if event.get(key) is not None and not isinstance(event[key], dict):
+            raise ValueError(f"stream {key} is not an object")
+    return event
+
+
 def _lines(chunks):
     buf = b""
     for chunk in chunks:
@@ -96,12 +121,12 @@ def _read_stream(url: str, data: bytes, headers: dict, reply: Reply, calls: dict
             if payload == "[DONE]":
                 done = True
                 break
-            event = json.loads(payload)
+            event = _event(json.loads(payload))
             if "error" in event:
                 reply.done_ns = time.monotonic_ns()
                 raise IncompleteStream(f"server error event: {event['error']}", reply)
-            for choice in event.get("choices", []):
-                delta = choice.get("delta", {})
+            for choice in event.get("choices") or []:
+                delta = choice.get("delta") or {}
                 if delta.get("content"):
                     if reply.first_byte_ns is None:
                         reply.first_byte_ns = time.monotonic_ns()

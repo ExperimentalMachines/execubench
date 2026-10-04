@@ -301,14 +301,15 @@ def test_a_trickling_download_stops_at_the_deadline(tmp_path, monkeypatch):
 
     server, _ = _counting_server(trickle)
     monkeypatch.setattr(devicefarm, "DOWNLOAD_DEADLINE_S", 1)
-    monkeypatch.setattr(devicefarm, "_backoff", lambda *a: (_ for _ in ()).throw(TimeoutError("no retry")))
-    started = time.monotonic()
     try:
+        started = time.monotonic()
+        # A passed deadline is final (not retried), so one attempt runs into it.
         with pytest.raises(TimeoutError):
             devicefarm.http_get(f"http://127.0.0.1:{server.server_port}/a", tmp_path / "a", 10**6, timeout=5)
+        elapsed = time.monotonic() - started
     finally:
         server.shutdown()
-    assert time.monotonic() - started < 4
+    assert elapsed < 2.5
 
 
 ESCAPED = (
@@ -419,3 +420,30 @@ def test_pool_rules_are_exactly_the_manifest_devices():
     assert rules == [{"attribute": "ARN", "operator": "IN", "value": '["arn:a", "arn:b"]'}]
     with pytest.raises(ValueError):
         devicefarm.pool_rules(["arn:a", "arn:a"])
+
+
+def test_nested_json_escapes_are_found():
+    import json as _json
+
+    inner = _json.dumps({"raw": "SERIAL\\u00312345"})  # serialised output holding an escape
+    outer = _json.dumps({"note": inner}).encode()  # then serialised again into a record
+    assert b"SERIAL12345" not in outer and b"\\\\u0031" in outer  # two layers of escaping
+    with pytest.raises(devicefarm.LeakFound):
+        devicefarm.scrub({**PROBE, "requests.jsonl": outer})
+
+
+def test_a_forged_end_record_count_is_refused_before_parsing(tmp_path):
+    import struct
+
+    path = tmp_path / "forged.zip"
+    path.write_bytes(_zip({f"f{i}.txt": b"x" for i in range(5)}))
+    data = bytearray(path.read_bytes())
+    at = data.rfind(b"PK\x05\x06")
+    struct.pack_into("<HH", data, at + 8, 0, 0)  # declare zero entries
+    path.write_bytes(bytes(data))
+    with pytest.raises(ValueError, match="end record says 0"):
+        devicefarm.extract_archive(path, tmp_path / "x")
+    # A directory larger than the budget stops the walk itself.
+    path.write_bytes(_zip({f"f{i}.txt": b"x" for i in range(5)}))
+    with pytest.raises(ValueError, match="members"):
+        devicefarm.extract_archive(path, tmp_path / "y", devicefarm.JobBudget(members=2))

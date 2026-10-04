@@ -49,18 +49,56 @@ def _reconcile_pull(path: Path) -> list[str]:
     manifest = path / "pull-manifest.json"
     if not manifest.exists():
         return [f"{manifest}: missing; a pulled run is validated against its manifest (or use --job-folder)"]
+    from .devicefarm import EXPECTED_FILES
+
     m = json.loads(manifest.read_text())
+    if not isinstance(m, dict) or not isinstance(m.get("jobs"), dict):
+        return [f"{manifest}: not a pull manifest"]
     out = []
-    if not m.get("complete"):
+    # Every claim in the manifest is checked, not just its summary flag.
+    if m.get("complete") is not True:
         out.append(f"{manifest}: the pull is not complete")
     if m.get("kind") != "harness":
         out.append(f"{manifest}: pulled as {m.get('kind')!r}, not as a harness run")
-    jobs = m.get("jobs") or {}
+    if m.get("run_status") != "COMPLETED":
+        out.append(f"{manifest}: run status {m.get('run_status')!r}, not COMPLETED")
+    if m.get("failure") is not None:
+        out.append(f"{manifest}: records a failure")
+    jobs = m["jobs"]
     if not jobs:
         out.append(f"{manifest}: lists no jobs")
+    if m.get("jobs_listed") != len(jobs) or m.get("jobs_expected") not in (None, len(jobs)):
+        out.append(
+            f"{manifest}: job counts disagree (expected {m.get('jobs_expected')}, listed {m.get('jobs_listed')}, "
+            f"recorded {len(jobs)})"
+        )
     for name, job in sorted(jobs.items()):
         artifacts = path / name / "artifacts"
+        if not isinstance(job, dict):
+            out.append(f"{manifest}: job {name!r} is not an object")
+            continue
         listed = job.get("files") or {}
+        if job.get("state") != "complete" or job.get("status") != "COMPLETED" or job.get("missing"):
+            out.append(f"{manifest}: job {name!r} is not complete")
+        for needed in EXPECTED_FILES["harness"]:
+            if needed not in listed:
+                out.append(f"{manifest}: job {name!r} lacks {needed}")
+        if not artifacts.is_dir():
+            out.append(f"{artifacts}: job folder missing")
+            continue
+        job_json = artifacts / "job.json"
+        if job_json.is_file():
+            try:
+                record = json.loads(job_json.read_text())
+            except json.JSONDecodeError:
+                record = {}
+            if not (
+                isinstance(record, dict) and record.get("finalized") is True and record.get("outcome") == "complete"
+            ):
+                out.append(
+                    f"{job_json}: a complete pulled run needs finalized, complete jobs (use --job-folder to "
+                    "inspect a partial one)"
+                )
         present = {p.relative_to(artifacts).as_posix() for p in artifacts.rglob("*") if p.is_file()}
         for rel in sorted(present - set(listed)):
             out.append(f"{artifacts / rel}: not in the pull manifest")

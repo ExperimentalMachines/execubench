@@ -225,6 +225,11 @@ when a summary is computed both ways, and are never silently dropped.
 | `tool_decision_vs_own` | Same, judged against the model's own closed-book result on the same device id and build: called exactly when its closed-book answer was wrong |
 | `retrieval_gain` | Closed-book accuracy versus search-tool-mode accuracy on the same rows: whether retrieving actually helped |
 
+Each rate is published with its own population in `quality.counts` (rows a call was expected
+on, rows with a label, rows paired with the model's own closed-book result, rows run in both
+modes) and must equal the ratio of those counts; a rate without a positive denominator of its own
+is refused by `execubench validate`, whatever the cell's overall `attempted`.
+
 A model that cannot attempt a dataset at all (no tool syntax in its template) gets `null` with
 a reason, never zero.
 

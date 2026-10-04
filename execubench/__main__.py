@@ -75,7 +75,7 @@ def _models_pins(args) -> int:
 
     inv = json.loads(Path(args.inventory).read_text())["files"]
     rows = models.check_pins(inv)
-    bad = [r for r in rows if not (r["resolves"] and r["sha256_matches"] and r["tokenizer_present"])]
+    bad = [r for r in rows if not (r["resolves"] and r["sha256_matches"] and r["tokenizer_matches"])]
     out = {
         "checked_utc": datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "inventory": str(Path(args.inventory).relative_to(ROOT))
@@ -85,7 +85,7 @@ def _models_pins(args) -> int:
         "files": rows,
     }
     Path(args.out).write_text(json.dumps(out, indent=1) + "\n")
-    print(f"{len(rows) - len(bad)} of {len(rows)} pins resolve with their sha256 and tokenizer -> {args.out}")
+    print(f"{len(rows) - len(bad)} of {len(rows)} pins resolve with their sha256 and tokenizer sha256 -> {args.out}")
     return 1 if bad else 0
 
 

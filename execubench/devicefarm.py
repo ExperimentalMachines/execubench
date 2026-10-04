@@ -359,18 +359,30 @@ def _json_unescape(blob: bytes) -> bytes:
     return _JSON_ESCAPE.sub(one, blob)
 
 
+# How many layers of encoding are peeled: JSON string escapes and URL percent escapes, in any
+# order, up to this depth (a JSON document embedding serialised JSON that embeds a URL is three).
+DECODE_DEPTH = 4
+
+
 def _views(blob: bytes) -> list[bytes]:
-    """The forms an identifier can take in a text record: as written, with JSON string escapes
-    decoded (`SERIAL\\u00312345`), with URL percent escapes decoded, and both compositions (a
-    percent-escape inside a JSON string, or the reverse), all case-folded. Decoding more than the
-    writer meant can only add matches, so the check errs towards refusing."""
+    """The forms an identifier can take in a text record: as written, and with JSON string escapes
+    (`SERIAL\\u00312345`) and URL percent escapes peeled in every order up to DECODE_DEPTH layers
+    (raw output serialised into JSON that is serialised again), all case-folded. Decoding more than
+    the writer meant can only add matches, so the check errs towards refusing."""
     unquote = urllib.parse.unquote_to_bytes
-    json_once, url_once = _json_unescape(blob), unquote(blob)
-    return [v.lower() for v in (blob, json_once, url_once, unquote(json_once), _json_unescape(url_once))]
+    seen = {blob}
+    frontier = [blob]
+    for _ in range(DECODE_DEPTH):
+        frontier = [d for v in frontier for d in (_json_unescape(v), unquote(v)) if d not in seen]
+        if not frontier:
+            break
+        seen.update(frontier)
+    return [v.lower() for v in seen]
 
 
-# A needle byte can grow to 18 bytes when both encodings are applied (`%31` as `\u0025\u0033\u0031`).
-_MAX_EXPANSION = 18
+# A needle byte can grow sixfold per JSON layer (`\u0031`) and threefold per URL layer, so the
+# chunk overlap covers the largest DECODE_DEPTH-layer expansion.
+_MAX_EXPANSION = 6**DECODE_DEPTH
 
 
 def _holds(src: Blob, needles: list[bytes]) -> bool:
@@ -514,23 +526,55 @@ def _safe_member(name: str) -> str:
 MAX_CENTRAL_DIRECTORY_BYTES = 16 * 2**20
 
 
-def _central_directory_entries(path: Path) -> int:
-    """Entries the zip declares, read from its end-of-central-directory record. Zip64 archives
-    (over 65,535 entries or 4 GiB) are refused: no Device Farm job archive within our bounds needs
-    one, and the classic record cannot describe them."""
+def _central_directory_entries(path: Path, limit: int) -> int:
+    """The number of entries in the zip's central directory, counted by walking the directory's
+    own headers (never trusting the end record's count alone) before ZipFile parses and allocates
+    them; more than `limit` stops the walk.
+
+    Refused: a missing or inconsistent end record (comment length, single disk, directory inside
+    the file), zip64 archives (no Device Farm job archive within our bounds needs one, and the
+    classic record cannot describe them), a directory over MAX_CENTRAL_DIRECTORY_BYTES, and a
+    walked count that differs from the declared one.
+    """
     size = path.stat().st_size
     with open(path, "rb") as f:
-        f.seek(max(0, size - (22 + 65535)))
+        start = max(0, size - (22 + 65535))
+        f.seek(start)
         tail = f.read()
-    at = tail.rfind(b"PK\x05\x06")
-    if at < 0 or len(tail) - at < 22:
-        raise ValueError(f"{path.name}: not a zip archive (no end-of-central-directory record)")
-    entries, cd_bytes = struct.unpack("<HI", tail[at + 10 : at + 16])
-    if entries == 0xFFFF or cd_bytes == 0xFFFFFFFF or b"PK\x06\x07" in tail[max(0, at - 20) : at]:
-        raise ValueError(f"{path.name}: zip64 archives are refused")
-    if cd_bytes > MAX_CENTRAL_DIRECTORY_BYTES:
-        raise ValueError(f"{path.name}: central directory larger than {MAX_CENTRAL_DIRECTORY_BYTES} bytes")
-    return entries
+        at = tail.rfind(b"PK\x05\x06")
+        if at < 0 or len(tail) - at < 22:
+            raise ValueError(f"{path.name}: not a zip archive (no end-of-central-directory record)")
+        disk, cd_disk, on_disk, entries, cd_bytes, cd_offset, comment = struct.unpack(
+            "<HHHHIIH", tail[at + 4 : at + 22]
+        )
+        if at + 22 + comment != len(tail):
+            raise ValueError(f"{path.name}: end-of-central-directory comment length is inconsistent")
+        if disk or cd_disk or on_disk != entries:
+            raise ValueError(f"{path.name}: multi-disk archives are refused")
+        if (
+            0xFFFF in (entries, on_disk)
+            or 0xFFFFFFFF in (cd_bytes, cd_offset)
+            or b"PK\x06\x07" in tail[max(0, at - 20) : at]
+        ):
+            raise ValueError(f"{path.name}: zip64 archives are refused")
+        if cd_bytes > MAX_CENTRAL_DIRECTORY_BYTES:
+            raise ValueError(f"{path.name}: central directory larger than {MAX_CENTRAL_DIRECTORY_BYTES} bytes")
+        if cd_offset + cd_bytes > start + at:
+            raise ValueError(f"{path.name}: central directory lies outside the archive")
+        f.seek(cd_offset)
+        directory = f.read(cd_bytes)
+    walked, pos = 0, 0
+    while pos < len(directory):
+        if directory[pos : pos + 4] != b"PK\x01\x02" or pos + 46 > len(directory):
+            raise ValueError(f"{path.name}: malformed central directory")
+        name_len, extra_len, comment_len = struct.unpack("<HHH", directory[pos + 28 : pos + 34])
+        pos += 46 + name_len + extra_len + comment_len
+        walked += 1
+        if walked > limit:
+            raise ValueError(f"{path.name}: the job's archives hold more than {MAX_JOB_MEMBERS} members")
+    if pos != len(directory) or walked != entries:
+        raise ValueError(f"{path.name}: central directory holds {walked} entries, the end record says {entries}")
+    return walked
 
 
 @dataclass
@@ -551,9 +595,7 @@ def extract_archive(path: Path, into: Path, budget: JobBudget | None = None) -> 
     budget = budget or JobBudget()
     # The entry count comes from the end-of-central-directory record before ZipFile parses (and
     # holds in memory) the whole directory; directory entries count like files.
-    entries = _central_directory_entries(path)
-    if entries > budget.members:
-        raise ValueError(f"{path.name}: the job's archives hold more than {MAX_JOB_MEMBERS} members")
+    entries = _central_directory_entries(path, budget.members)
     into.mkdir(parents=True, exist_ok=True)
     files: dict[str, Path] = {}
     with zipfile.ZipFile(path) as z:

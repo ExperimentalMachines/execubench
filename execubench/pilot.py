@@ -38,6 +38,36 @@ def workload_problems(name: str, w: dict, root: Path = ROOT) -> list[str]:
     return out
 
 
+def _execution_problems(report: dict) -> list[str]:
+    """Evidence that the runner actually ran every prompt: the fixed output cap, and runner stats
+    with a positive prompt, at least one generated step and ordered timestamps. Empty text can be
+    a real answer; missing execution evidence cannot."""
+    from . import host
+
+    out = []
+    if report.get("max_new_tokens") != host.MAX_NEW_TOKENS:
+        out.append(f"max_new_tokens {report.get('max_new_tokens')!r}, not {host.MAX_NEW_TOKENS}")
+    rows = report.get("results")
+    if not isinstance(rows, list) or not rows:
+        return out + ["no results"]
+    for i, row in enumerate(rows):
+        stats = row.get("stats") if isinstance(row, dict) else None
+        if not isinstance(stats, dict) or not isinstance(row.get("pieces"), list):
+            out.append(f"prompt {i}: no pieces or runner stats")
+            continue
+        try:
+            ran = (
+                stats["prompt_tokens"] > 0
+                and 1 <= stats["generated_tokens"] <= host.MAX_NEW_TOKENS
+                and stats["inference_start_ms"] <= stats["prompt_eval_end_ms"] <= stats["inference_end_ms"]
+            )
+        except (KeyError, TypeError):
+            ran = False
+        if not ran:
+            out.append(f"prompt {i}: runner stats do not show a completed generation")
+    return out
+
+
 def compat_problems(model: dict, runtime: str, folder: Path = COMPAT) -> list[str]:
     """The model's host compatibility evidence, checked rather than assumed: both host reports
     exist, are for this exact file and tokenizer, ran the export runtime and the benchmark runtime
@@ -59,7 +89,11 @@ def compat_problems(model: dict, runtime: str, folder: Path = COMPAT) -> list[st
         a, b, c = (json.loads(paths[k].read_text()) for k in ("export", "runtime", "compare"))
     except json.JSONDecodeError as error:
         return [f"host compatibility evidence is not JSON: {error}"]
+    if not all(isinstance(x, dict) for x in (a, b, c)):
+        return ["host compatibility evidence is not a set of JSON objects"]
     out = []
+    for name, report in (("export", a), ("runtime", b)):
+        out += [f"{name} report: {p}" for p in _execution_problems(report)]
     for name, report, version in (("export", a, model["export_executorch"]), ("runtime", b, runtime)):
         if report.get("executorch") != version:
             out.append(f"{name} report ran executorch {report.get('executorch')}, not {version}")
