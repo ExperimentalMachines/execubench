@@ -44,7 +44,7 @@ MAX_JOB_MEMBERS = 20_000
 MAX_MEMBER_BYTES = 512 * 2**20
 MAX_JOB_EXPANDED_BYTES = 2 * 2**30
 MAX_DUMP_BYTES = 64 * 2**20  # a probe dump is read whole for redaction; real ones are under 2 MiB
-SCAN_CHUNK = 8 * 2**20
+SCAN_CHUNK = 2 * 2**20
 HTTP_TIMEOUT_S = 60
 HTTP_ATTEMPTS = 4
 # Total per operation across every attempt, backoff and URL refresh, enforced by a watchdog
@@ -364,33 +364,56 @@ def _json_unescape(blob: bytes) -> bytes:
 DECODE_DEPTH = 4
 
 
-def _views(blob: bytes) -> list[bytes]:
-    """The forms an identifier can take in a text record: as written, and with JSON string escapes
-    (`SERIAL\\u00312345`) and URL percent escapes peeled in every order up to DECODE_DEPTH layers
-    (raw output serialised into JSON that is serialised again), all case-folded. Decoding more than
-    the writer meant can only add matches, so the check errs towards refusing."""
+def _views(blob: bytes) -> tuple[list[bytes], bool]:
+    """The forms an identifier can take in a text record, and whether decoding was left unfinished.
+
+    Forms: as written, and with JSON string escapes (`SERIAL\\u00312345`) and URL percent escapes
+    peeled in every order up to DECODE_DEPTH layers (raw output serialised into JSON that is
+    serialised again), all case-folded, each distinct form decoded once. Decoding more than the
+    writer meant can only add matches, so the check errs towards refusing. If a further layer
+    would still change something, the depth limit is not clearance: the second value is True and
+    the caller refuses the content as undecidable.
+    """
     unquote = urllib.parse.unquote_to_bytes
     seen = {blob}
     frontier = [blob]
-    for _ in range(DECODE_DEPTH):
-        frontier = [d for v in frontier for d in (_json_unescape(v), unquote(v)) if d not in seen]
-        if not frontier:
-            break
-        seen.update(frontier)
-    return [v.lower() for v in seen]
+    for depth in range(DECODE_DEPTH + 1):
+        nxt = {d for v in frontier for d in (_json_unescape(v), unquote(v))} - seen
+        if not nxt:
+            return [v.lower() for v in seen], False
+        if depth == DECODE_DEPTH:
+            return [v.lower() for v in seen], True
+        seen |= nxt
+        frontier = list(nxt)
+    raise AssertionError("unreachable")
 
 
 # A needle byte can grow sixfold per JSON layer (`\u0031`) and threefold per URL layer, so the
-# chunk overlap covers the largest DECODE_DEPTH-layer expansion.
+# chunk overlap covers the largest DECODE_DEPTH-layer expansion. Cost, measured on an M-series Mac
+# with 8 MiB chunks: 0.5 s per 64 MiB of ordinary records, 10 s per 64 MiB of text dense with
+# escapes at every layer, so a job at the 2 GiB bound takes at most about five minutes to scan.
+# Chunks are 2 MiB so that the distinct views of one chunk stay in the tens of MiB.
 _MAX_EXPANSION = 6**DECODE_DEPTH
+
+
+# Needles are searched by their first MAX_NEEDLE_BYTES: a long property value (getprop values can
+# run to kilobytes) would otherwise make the chunk overlap, which grows 6**DECODE_DEPTH times the
+# needle length, larger than the chunks themselves. A prefix match still refuses, which is the
+# safe direction.
+MAX_NEEDLE_BYTES = 128
 
 
 def _holds(src: Blob, needles: list[bytes]) -> bool:
     if not needles:
         return False
-    folded = [n.lower() for n in needles]
+    folded = sorted({n[:MAX_NEEDLE_BYTES].lower() for n in needles})
     overlap = _MAX_EXPANSION * (max(map(len, folded)) + 1)
-    return any(n in view for chunk in _chunks(src, overlap) for view in _views(chunk) for n in folded)
+    for chunk in _chunks(src, overlap):
+        views, unresolved = _views(chunk)
+        # Encoding deeper than DECODE_DEPTH cannot be checked, so it is refused like a match.
+        if unresolved or any(n in view for view in views for n in folded):
+            return True
+    return False
 
 
 @dataclass
@@ -447,10 +470,10 @@ def scrub(
     In `probe/*.txt`: the unit's serial becomes `unit-<hash>`, every value of an
     IDENTIFIER_KEYS property becomes `<redacted>`, the account number becomes `<account>`, and
     adb's per-percent push progress lines are dropped. Any other file (harness records, logs,
-    binaries) or file name that contains one of those values, as written or escaped
-    (`_views`), raises LeakFound: those files carry content hashes, and the harness must never
-    write identifiers into them. LeakFound names offending files by position, never by a name
-    that may itself hold the identifier.
+    binaries) or file name that contains one of those values, as written or escaped, or whose
+    escaping goes deeper than DECODE_DEPTH layers (`_views`), raises LeakFound: those files carry
+    content hashes, and the harness must never write identifiers into them. LeakFound names
+    offending files by position, never by a name that may itself hold the identifier.
     """
     ident = ident or identify(files)
     if ident.serial is None:
@@ -559,8 +582,11 @@ def _central_directory_entries(path: Path, limit: int) -> int:
             raise ValueError(f"{path.name}: zip64 archives are refused")
         if cd_bytes > MAX_CENTRAL_DIRECTORY_BYTES:
             raise ValueError(f"{path.name}: central directory larger than {MAX_CENTRAL_DIRECTORY_BYTES} bytes")
-        if cd_offset + cd_bytes > start + at:
-            raise ValueError(f"{path.name}: central directory lies outside the archive")
+        # The directory must end exactly where the end record begins. ZipFile tolerates data
+        # prepended to an archive by shifting every offset; refusing any gap keeps this walk and
+        # ZipFile reading the same directory, never two different ones.
+        if cd_offset + cd_bytes != start + at:
+            raise ValueError(f"{path.name}: central directory does not end at the end record (prepended data?)")
         f.seek(cd_offset)
         directory = f.read(cd_bytes)
     walked, pos = 0, 0
@@ -767,7 +793,8 @@ def pull_run(
                 if unit:
                     _write_new(folder / "unit.txt", (unit + "\n").encode())
         stage, current = "reconcile", None
-        counts_match = run.get("totalJobs") in (None, len(all_jobs))
+        # A run that does not state its job count cannot be shown complete.
+        counts_match = isinstance(run.get("totalJobs"), int) and run["totalJobs"] == len(all_jobs)
         manifest["complete"] = (
             run["status"] == "COMPLETED"
             and counts_match

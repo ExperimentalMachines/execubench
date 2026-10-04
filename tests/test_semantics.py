@@ -130,8 +130,12 @@ def test_impossible_statistics_are_rejected():
     assert any("tool_decision_vs_own_rate" in e for e in errors) and any("retrieval_gain" in e for e in errors)
     counts = {"paired_rows": 10, "search_tool_correct_paired": 7, "closed_book_correct_paired": 4}
     counts |= {"tool_decision_own_rows": 10, "tool_decision_matches_own": 6}
+    counts |= {"tool_decision_rows": 10}
     s["quality"] = {"attempted": 10, "tool_decision_vs_own_rate": 0.6, "retrieval_gain": 0.3, "counts": counts}
     assert semantics.summary(s) == [] and schemas.errors_for("summary.schema.json", s) == []
+    s["quality"]["attempted"] = 0  # populations larger than the cell itself
+    assert any("exceeds quality.attempted" in e for e in semantics.summary(s))
+    s["quality"]["attempted"] = 10
     s["quality"]["retrieval_gain"] = 0.5
     assert any("retrieval_gain is not" in e for e in semantics.summary(s))
     s = copy.deepcopy(SUMMARY)
@@ -170,11 +174,40 @@ def test_run_folders_are_checked_line_by_line(tmp_path):
     assert not semantics.run_folder(tmp_path, schemas.errors_for, set()) == []
 
 
-def _job_folder(tmp_path, requests: str, samples: str = "", **overrides):
+def _samples_for_req(job_id: str = "example-00000") -> str:
+    """Samples that support REQ's memory and thermal figures: 20 memory reads 255 ms apart over its
+    5.1 s host interval, alternating 800 and 1,000 MiB (peak 1,000, mean 900), and one thermal read."""
+    rows = [
+        {
+            "job_id": job_id,
+            "seq": None,
+            "t_ns": k * 255_000_000,
+            "t_start_ns": k * 255_000_000,
+            "t_end_ns": k * 255_000_000,
+            "kind": "memory",
+            "vm_rss_kib": (800 if k % 2 else 1000) * 1024,
+        }
+        for k in range(20)
+    ]
+    rows.append(
+        {
+            "job_id": job_id,
+            "seq": None,
+            "t_ns": 10**9,
+            "t_start_ns": 10**9,
+            "t_end_ns": 10**9,
+            "kind": "thermal",
+            "thermal_status": 0,
+        }
+    )
+    return "".join(json.dumps(r) + "\n" for r in rows)
+
+
+def _job_folder(tmp_path, requests: str, samples: str | None = None, **overrides):
     job = {**json.loads((EXAMPLES / "run.example.json").read_text()), **overrides}
     (tmp_path / "job.json").write_text(json.dumps(job))
     (tmp_path / "requests.jsonl").write_text(requests)
-    (tmp_path / "samples.jsonl").write_text(samples)
+    (tmp_path / "samples.jsonl").write_text(_samples_for_req(job["job_id"]) if samples is None else samples)
     return job
 
 
@@ -194,6 +227,18 @@ def test_a_complete_job_needs_its_planned_requests(tmp_path):
     # A partial job may stop short, but never record more than it planned.
     _job_folder(tmp_path, json.dumps(REQ) + "\n" + json.dumps({**REQ, "seq": 1}) + "\n")
     assert any("more than the 1 planned" in e for e in semantics.run_folder(tmp_path, schemas.errors_for, set()))
+
+
+def test_memory_and_thermal_figures_must_come_from_the_samples(tmp_path):
+    job = _job_folder(tmp_path, json.dumps(REQ) + "\n")
+    assert semantics.run_folder(tmp_path, schemas.errors_for, {job["device_id"]}) == []
+    _job_folder(tmp_path, json.dumps(REQ) + "\n", "")  # the same request, no samples behind it
+    joined = "\n".join(semantics.run_folder(tmp_path, schemas.errors_for, {job["device_id"]}))
+    assert "memory.samples 20 but 0" in joined and "no thermal sample" in joined
+    inflated = copy.deepcopy(REQ)
+    inflated["memory"]["rss_sampled_peak_mib"] = 2000.0
+    _job_folder(tmp_path, json.dumps(inflated) + "\n")
+    assert any("rss_sampled_peak_mib" in e for e in semantics.run_folder(tmp_path, schemas.errors_for, set()))
 
 
 def test_structurally_invalid_lines_are_reported_not_crashed_on(tmp_path):
@@ -216,7 +261,9 @@ def _manifest(run, complete=True, kind="harness", **overrides):
                 "sha256": hashlib.sha256(f.read_bytes()).hexdigest(),
                 "bytes": f.stat().st_size,
             }
-    job = {"files": files, "state": "complete", "status": "COMPLETED", "missing": []}
+    job = {"job": "00000", "files": files, "state": "complete", "status": "COMPLETED", "missing": []}
+    (run / "devicefarm-run.json").write_text(json.dumps({"status": "COMPLETED", "totalJobs": 1}))
+    (run / "dev" / "devicefarm-job.json").write_text(json.dumps({"arn": "arn:x:job:p/r/00000", "status": "COMPLETED"}))
     m = {"kind": kind, "complete": complete, "run_status": "COMPLETED", "failure": None, "jobs_expected": 1}
     m.update({"jobs_listed": 1, "jobs": {"dev": job}, **overrides})
     (run / "pull-manifest.json").write_text(json.dumps(m))
@@ -239,7 +286,7 @@ def test_validate_runs_checks_a_pulled_run_against_its_manifest(tmp_path):
     (folder / "probe").mkdir(parents=True)
     for f in ("_host.txt", "getprop.txt"):
         (folder / "probe" / f).write_text("x\n")
-    _job_folder(folder, json.dumps(REQ) + "\n", "", **_complete_job())
+    _job_folder(folder, json.dumps(REQ) + "\n", **_complete_job())
     # Without a manifest a pull is refused; standalone inspection is a separate, explicit mode.
     assert any("missing" in e for e in schemas.validate_runs(run))
     assert schemas.validate_runs(run, standalone=True) == []
@@ -250,16 +297,21 @@ def test_validate_runs_checks_a_pulled_run_against_its_manifest(tmp_path):
         ({"run_status": "RUNNING"}, "run status"),
         ({"failure": {"type": "X"}}, "records a failure"),
         ({"jobs_expected": 3}, "job counts"),
+        ({"jobs_expected": None}, "job counts"),
         ({"jobs": {"dev": {"files": {}, "state": "incomplete"}}}, "not complete"),
         ({"jobs": {"dev": {"files": {}, "state": "complete", "status": "COMPLETED"}, "gone": {}}}, "folder missing"),
     ):
         _manifest(run, **bad)
         assert any(needle in e for e in schemas.validate_runs(run)), needle
+    # Device Farm's own run record must agree with the manifest.
+    _manifest(run)
+    (run / "devicefarm-run.json").write_text(json.dumps({"status": "COMPLETED", "totalJobs": 2}))
+    assert any("manifest has 1" in e for e in schemas.validate_runs(run))
     # A partial job belongs in standalone inspection, not in a complete pulled run.
     _job_folder(folder, json.dumps(REQ) + "\n")
     _manifest(run)
     assert any("finalized, complete jobs" in e for e in schemas.validate_runs(run))
-    _job_folder(folder, json.dumps(REQ) + "\n", "", **_complete_job())
+    _job_folder(folder, json.dumps(REQ) + "\n", **_complete_job())
     _manifest(run)
     (folder / "requests.jsonl").write_text(json.dumps({**REQ, "seq": 0}) + "\n\n")
     assert any("differs from the sha256" in e for e in schemas.validate_runs(run))

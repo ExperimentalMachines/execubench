@@ -372,13 +372,21 @@ def test_a_trickle_without_newlines_stops_at_the_deadline():
 
 def test_malformed_events_are_incomplete_streams_with_the_partial_reply(stream_server, monkeypatch):
     first = {"choices": [{"delta": {"content": "Hi"}}]}
-    for bad in (
+    # Each malformed event is followed by a valid finish and [DONE], so only the bad event can fail it.
+    finish = {"choices": [{"delta": {}, "finish_reason": "stop"}]}
+    bad_events = (
         "[]",
         '{"choices": [null]}',
         '{"choices": [{"delta": []}]}',
         '{"choices": [{"delta": {"tool_calls": [1]}}]}',
-    ):
-        monkeypatch.setattr(StreamHandler, "events", _sse(first, bad, "[DONE]"))
+        '{"choices": [{"delta": {"tool_calls": [{"index": [], "function": {"name": "f"}}]}}]}',
+        '{"choices": [{"delta": {"tool_calls": [{"index": 0, "function": {"arguments": 5}}]}}]}',
+        '{"choices": [{"delta": {}, "finish_reason": 3}]}',
+    )
+    monkeypatch.setattr(StreamHandler, "events", _sse(first, finish, "[DONE]"))
+    assert client.chat(stream_server, "k", {}).text == "Hi"  # the clean stream passes
+    for bad in bad_events:
+        monkeypatch.setattr(StreamHandler, "events", _sse(first, bad, finish, "[DONE]"))
         with pytest.raises(client.IncompleteStream) as caught:
             client.chat(stream_server, "k", {})
         assert caught.value.partial.text == "Hi", bad

@@ -67,11 +67,13 @@ def _reconcile_pull(path: Path) -> list[str]:
     jobs = m["jobs"]
     if not jobs:
         out.append(f"{manifest}: lists no jobs")
-    if m.get("jobs_listed") != len(jobs) or m.get("jobs_expected") not in (None, len(jobs)):
+    if m.get("jobs_listed") != len(jobs) or m.get("jobs_expected") != len(jobs):
         out.append(
             f"{manifest}: job counts disagree (expected {m.get('jobs_expected')}, listed {m.get('jobs_listed')}, "
             f"recorded {len(jobs)})"
         )
+    # The manifest's own claims are checked against Device Farm's records kept beside it.
+    out += _reconcile_devicefarm(path, jobs)
     for name, job in sorted(jobs.items()):
         artifacts = path / name / "artifacts"
         if not isinstance(job, dict):
@@ -112,6 +114,35 @@ def _reconcile_pull(path: Path) -> list[str]:
         rel = job_json.relative_to(path).parts
         if len(rel) != 3 or rel[0] not in jobs or rel[1] != "artifacts":
             out.append(f"{job_json}: not a job of the pull manifest")
+    return out
+
+
+def _reconcile_devicefarm(path: Path, jobs: dict) -> list[str]:
+    """devicefarm-run.json must say COMPLETED with exactly this many jobs, every job folder's
+    devicefarm-job.json must be the job the manifest names, finished, and no job folder may sit
+    outside the manifest."""
+    out = []
+    run_file = path / "devicefarm-run.json"
+    try:
+        run = json.loads(run_file.read_text())
+    except (OSError, json.JSONDecodeError):
+        return [f"{run_file}: missing or not JSON; the run's own record is needed to check completeness"]
+    if run.get("status") != "COMPLETED" or run.get("totalJobs") != len(jobs):
+        out.append(f"{run_file}: run {run.get('status')!r} with {run.get('totalJobs')} jobs, manifest has {len(jobs)}")
+    for name, job in sorted(jobs.items()):
+        job_file = path / name / "devicefarm-job.json"
+        try:
+            record = json.loads(job_file.read_text())
+        except (OSError, json.JSONDecodeError):
+            out.append(f"{job_file}: missing or not JSON")
+            continue
+        if not isinstance(job, dict) or str(record.get("arn", "")).rsplit("/", 1)[-1] != job.get("job"):
+            out.append(f"{job_file}: not the job the manifest names")
+        if record.get("status") != "COMPLETED":
+            out.append(f"{job_file}: job {record.get('status')!r}, not COMPLETED")
+    for job_file in sorted(path.glob("*/devicefarm-job.json")):
+        if job_file.parent.name not in jobs:
+            out.append(f"{job_file}: a job folder the manifest does not list")
     return out
 
 

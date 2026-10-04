@@ -51,19 +51,26 @@ def _execution_problems(report: dict) -> list[str]:
     if not isinstance(rows, list) or not rows:
         return out + ["no results"]
     for i, row in enumerate(rows):
-        stats = row.get("stats") if isinstance(row, dict) else None
-        if not isinstance(stats, dict) or not isinstance(row.get("pieces"), list):
+        if not isinstance(row, dict):
+            out.append(f"prompt {i}: not an object")
+            continue
+        stats, pieces = row.get("stats"), row.get("pieces")
+        if not isinstance(stats, dict) or not isinstance(pieces, list) or not pieces:
             out.append(f"prompt {i}: no pieces or runner stats")
             continue
-        try:
-            ran = (
-                stats["prompt_tokens"] > 0
-                and 1 <= stats["generated_tokens"] <= host.MAX_NEW_TOKENS
-                and stats["inference_start_ms"] <= stats["prompt_eval_end_ms"] <= stats["inference_end_ms"]
-            )
-        except (KeyError, TypeError):
-            ran = False
-        if not ran:
+        if not all(isinstance(p, str) for p in pieces):
+            out.append(f"prompt {i}: pieces are not strings")
+            continue
+        keys = ("prompt_tokens", "generated_tokens", "inference_start_ms", "prompt_eval_end_ms", "inference_end_ms")
+        # Integers only (booleans and floats are not token counts or the runner's millisecond clock).
+        if not all(type(stats.get(k)) is int for k in keys):
+            out.append(f"prompt {i}: runner stats are missing or not integers")
+            continue
+        if not (
+            stats["prompt_tokens"] > 0
+            and 1 <= stats["generated_tokens"] <= host.MAX_NEW_TOKENS
+            and stats["inference_start_ms"] <= stats["prompt_eval_end_ms"] <= stats["inference_end_ms"]
+        ):
             out.append(f"prompt {i}: runner stats do not show a completed generation")
     return out
 
@@ -94,6 +101,8 @@ def compat_problems(model: dict, runtime: str, folder: Path = COMPAT) -> list[st
     out = []
     for name, report in (("export", a), ("runtime", b)):
         out += [f"{name} report: {p}" for p in _execution_problems(report)]
+    if out:
+        return out  # structure first: nothing below runs on a malformed report
     for name, report, version in (("export", a, model["export_executorch"]), ("runtime", b, runtime)):
         if report.get("executorch") != version:
             out.append(f"{name} report ran executorch {report.get('executorch')}, not {version}")

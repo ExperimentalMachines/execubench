@@ -175,7 +175,10 @@ host monotonic start, end and midpoint. Every read writes a sample, with the raw
 the values were parsed from, or with a `read_error` (adb failure, or output that did not parse)
 and no values; a failed read never stops the other kinds of read, and a gap is never filled.
 A memory sample without a valid interval, from another job, or contradicting another read at
-the same instant stops the summary instead of being placed by guesswork.
+the same instant stops the summary instead of being placed by guesswork. `execubench validate`
+recomputes each successful request's memory figures and thermal status maximum from the samples
+inside its host interval and refuses a record that claims more than they show, or a null figure
+when samples exist.
 
 | Field | Source | Notes |
 |---|---|---|

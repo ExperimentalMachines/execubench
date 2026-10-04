@@ -70,6 +70,11 @@ def chat(base_url: str, key: str, body: dict, timeout_s: float = 900) -> Reply:
     return reply
 
 
+def _typed(obj: dict, key: str, kind: type) -> None:
+    if obj.get(key) is not None and not isinstance(obj[key], kind):
+        raise ValueError(f"stream field {key} is not a {kind.__name__}")
+
+
 def _event(event) -> dict:
     """An SSE event with the shapes the reader relies on, or ValueError (a malformed stream,
     reported as IncompleteStream with the partial reply)."""
@@ -79,16 +84,32 @@ def _event(event) -> dict:
     if not isinstance(choices, list) or not all(isinstance(c, dict) for c in choices):
         raise ValueError("stream event choices are not a list of objects")
     for choice in choices:
-        delta = choice.get("delta") or {}
+        # Missing is allowed; present-but-wrong (including falsey wrong values like [] or 0) is not.
+        _typed(choice, "finish_reason", str)
+        delta = choice.get("delta", {})
+        if delta is None:
+            delta = {}
         if not isinstance(delta, dict):
             raise ValueError("stream delta is not an object")
-        if delta.get("content") is not None and not isinstance(delta["content"], str):
-            raise ValueError("stream delta content is not a string")
-        fragments = delta.get("tool_calls") or []
-        if not isinstance(fragments, list) or not all(
-            isinstance(f, dict) and isinstance(f.get("function") or {}, dict) for f in fragments
-        ):
-            raise ValueError("stream tool call fragments are malformed")
+        _typed(delta, "content", str)
+        fragments = delta.get("tool_calls", [])
+        if fragments is None:
+            fragments = []
+        if not isinstance(fragments, list):
+            raise ValueError("stream tool_calls is not a list")
+        for fragment in fragments:
+            if not isinstance(fragment, dict):
+                raise ValueError("stream tool call fragment is not an object")
+            if "index" in fragment and (not isinstance(fragment["index"], int) or isinstance(fragment["index"], bool)):
+                raise ValueError("stream tool call index is not an integer")
+            _typed(fragment, "id", str)
+            fn = fragment.get("function", {})
+            if fn is None:
+                fn = {}
+            if not isinstance(fn, dict):
+                raise ValueError("stream tool call function is not an object")
+            _typed(fn, "name", str)
+            _typed(fn, "arguments", str)
     for key in ("usage", "x_execuserve"):
         if event.get(key) is not None and not isinstance(event[key], dict):
             raise ValueError(f"stream {key} is not an object")

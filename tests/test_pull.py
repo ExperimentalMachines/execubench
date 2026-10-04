@@ -447,3 +447,38 @@ def test_a_forged_end_record_count_is_refused_before_parsing(tmp_path):
     path.write_bytes(_zip({f"f{i}.txt": b"x" for i in range(5)}))
     with pytest.raises(ValueError, match="members"):
         devicefarm.extract_archive(path, tmp_path / "y", devicefarm.JobBudget(members=2))
+
+
+def test_an_archive_with_prepended_data_is_refused(tmp_path):
+    path = tmp_path / "shifted.zip"
+    path.write_bytes(b"MZ" + b"\0" * 1000 + _zip({"probe/_host.txt": b"x"}))  # ZipFile would accept this
+    with pytest.raises(ValueError, match="prepended"):
+        devicefarm.extract_archive(path, tmp_path / "x")
+
+
+def test_long_identifier_values_do_not_grow_the_scan_window(tmp_path, monkeypatch):
+    long_value = b"Z" * 100_000
+    seen = []
+    real = devicefarm._chunks
+    monkeypatch.setattr(devicefarm, "_chunks", lambda src, overlap: seen.append(overlap) or real(src, overlap))
+    staged = tmp_path / "r.jsonl"
+    staged.write_bytes(b"clean")
+    assert not devicefarm._holds(staged, [long_value])
+    assert seen and seen[0] < devicefarm.SCAN_CHUNK
+    staged.write_bytes(b"x" + long_value)  # a prefix match still refuses
+    assert devicefarm._holds(staged, [long_value])
+
+
+def test_encoding_deeper_than_the_budget_is_refused_not_cleared():
+    import json as _json
+
+    text = "SERIAL12345"
+    for _ in range(devicefarm.DECODE_DEPTH + 1):
+        text = _json.dumps(text.replace("1", "\\u0031") if text.startswith("SERIAL") else text)
+    record = text.encode()
+    assert b"SERIAL12345" not in record
+    with pytest.raises(devicefarm.LeakFound):
+        devicefarm.scrub({**PROBE, "requests.jsonl": record})
+    # Ordinary records with a little escaping still pass.
+    out, _ = devicefarm.scrub({**PROBE, "requests.jsonl": b'{"a": "caf\\u00e9 %20 \\\\n"}\n'})
+    assert out["requests.jsonl"]

@@ -118,6 +118,39 @@ def _connector(watchdog: _Watchdog, deadline: float, what: str):
     return create_connection
 
 
+class _WatchedContext(ssl.SSLContext):
+    """Verifying TLS whose sockets the watchdog holds before the handshake. Wrapping detaches the
+    plain socket (its descriptor moves to the TLS socket), so the TLS socket is what must be cut."""
+
+    watchdog: _Watchdog
+
+    def wrap_socket(self, sock, server_side=False, do_handshake_on_connect=True, *args, **kwargs):
+        tls = super().wrap_socket(sock, server_side, False, *args, **kwargs)
+        self.watchdog.attach(tls)
+        if do_handshake_on_connect:
+            tls.do_handshake()
+        return tls
+
+
+def _tls_context(watchdog: _Watchdog, cafile: str | None) -> ssl.SSLContext:
+    ctx = _WatchedContext(ssl.PROTOCOL_TLS_CLIENT)  # verifies certificates and host names
+    if cafile:
+        ctx.load_verify_locations(cafile)
+    else:
+        ctx.load_default_certs()
+    ctx.watchdog = watchdog
+    return ctx
+
+
+def _proxy_auth(proxy: urllib.parse.SplitResult) -> dict:
+    if proxy.username is None:
+        return {}
+    import base64
+
+    pair = f"{urllib.parse.unquote(proxy.username)}:{urllib.parse.unquote(proxy.password or '')}"
+    return {"Proxy-Authorization": "Basic " + base64.b64encode(pair.encode()).decode()}
+
+
 def _proxy_for(parts: urllib.parse.SplitResult) -> urllib.parse.SplitResult | None:
     if urllib.request.proxy_bypass(parts.hostname or ""):
         return None
@@ -134,6 +167,7 @@ def request(
     body=None,
     headers: dict | None = None,
     sock_timeout: float = 60.0,
+    cafile: str | None = None,
 ) -> Iterator[http.client.HTTPResponse]:
     """An HTTP(S) response whose every byte must arrive before `deadline` (time.monotonic()).
 
@@ -145,26 +179,29 @@ def request(
     port = parts.port or (443 if parts.scheme == "https" else 80)
     proxy = _proxy_for(parts)
     timeout = min(sock_timeout, remaining(deadline, what))
+    headers = dict(headers or {})
+    watchdog = _Watchdog(deadline)
     if parts.scheme == "https":
         conn: http.client.HTTPConnection = http.client.HTTPSConnection(
             proxy.hostname if proxy else parts.hostname,
             (proxy.port or 80) if proxy else port,
             timeout=timeout,
-            context=ssl.create_default_context(),
+            context=_tls_context(watchdog, cafile),
         )
         if proxy:
-            conn.set_tunnel(parts.hostname, port)
+            # Proxy credentials go on the CONNECT only, never into the tunnelled request.
+            conn.set_tunnel(parts.hostname, port, headers=_proxy_auth(proxy))
     else:
         conn = http.client.HTTPConnection(
             proxy.hostname if proxy else parts.hostname, (proxy.port or 80) if proxy else port, timeout=timeout
         )
         if proxy:
             target = url
-    watchdog = _Watchdog(deadline)
+            headers.update(_proxy_auth(proxy))
     conn._create_connection = _connector(watchdog, deadline, what)  # noqa: SLF001 - http.client's hook
     resp = None
     try:
-        conn.request(method, target, body=body, headers=headers or {})
+        conn.request(method, target, body=body, headers=headers)
         resp = conn.getresponse()
         yield resp
         if watchdog.fired or time.monotonic() >= deadline:

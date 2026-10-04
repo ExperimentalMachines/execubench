@@ -194,6 +194,15 @@ def _summary(rec: dict) -> list[str]:
     if q.get("accuracy") is not None and not (isinstance(q.get("attempted"), int) and q["attempted"] > 0):
         out.append("quality.accuracy published without a positive quality.attempted")
     counts = q.get("counts") or {}
+    # Every population is a subset of the cell's attempted rows; the own-result population is a
+    # subset of the labelled search-tool rows. (Deriving the counts from row IDs is the summariser's
+    # job, P2; this bounds what any summary can claim.)
+    for key in ("tool_call_rows", "tool_decision_rows", "tool_decision_own_rows", "paired_rows"):
+        if counts.get(key) is not None and (q.get("attempted") is None or counts[key] > q["attempted"]):
+            out.append(f"quality.counts.{key} exceeds quality.attempted")
+    own, rows = counts.get("tool_decision_own_rows"), counts.get("tool_decision_rows")
+    if own is not None and rows is not None and own > rows:
+        out.append("quality.counts.tool_decision_own_rows exceeds tool_decision_rows")
     for rate, numerator, denominator in RATE_COUNTS:
         n, d = counts.get(numerator), counts.get(denominator)
         if n is not None and d is not None and n > d:
@@ -358,9 +367,11 @@ def run_folder(folder: Path, schema_errors, device_ids: set[str], raw: bool = Fa
     if device_ids and job_.get("device_id") not in device_ids:
         out.append(f"{job_path}: device_id {job_.get('device_id')!r} not in devices.json")
     seqs: set[int] = set()
+    requests: list[tuple[str, dict]] = []
     req_path = folder / "requests.jsonl"
     if req_path.exists():
         for where, rec in _records(req_path, "request.schema.json", schema_errors, out):
+            requests.append((where, rec))
             out += [f"{where}: {e}" for e in request(rec, raw=raw)]
             if rec.get("job_id") != job_.get("job_id"):
                 out.append(f"{where}: job_id differs from job.json")
@@ -375,11 +386,57 @@ def run_folder(folder: Path, schema_errors, device_ids: set[str], raw: bool = Fa
     elif isinstance(planned, int) and len(seqs) > planned:
         out.append(f"{req_path}: {len(seqs)} requests, more than the {planned} planned")
     sample_path = folder / "samples.jsonl"
+    samples: list[dict] = []
     if sample_path.exists():
         for where, rec in _records(sample_path, "sample.schema.json", schema_errors, out):
             out += [f"{where}: {e}" for e in sample(rec)]
             if rec.get("job_id") != job_.get("job_id"):
                 out.append(f"{where}: job_id differs from job.json")
+            else:
+                samples.append(rec)
             if rec.get("seq") is not None and rec["seq"] not in seqs:
                 out.append(f"{where}: seq {rec['seq']} has no request")
+    for where, rec in requests:
+        out += [f"{where}: {e}" for e in sampled_state(rec, samples, job_.get("job_id"))]
+    return out
+
+
+def sampled_state(rec: dict, samples: list[dict], job_id) -> list[str]:
+    """A successful request's memory and thermal figures recomputed from the job's retained
+    samples inside its host interval (docs/METRICS.md "Memory"): a figure the samples do not
+    support is refused, and a null figure must not hide samples that exist."""
+    from .harness.run import BadSample, memory_summary
+
+    if rec.get("status") != "ok" or not rec.get("host"):
+        return []
+    out = []
+    sent, done = rec["host"]["sent_ns"], rec["host"]["done_ns"]
+    mem = rec.get("memory") or {}
+    try:
+        derived = memory_summary(samples, sent, done, job_id)
+    except BadSample as error:
+        return [f"memory samples cannot be placed: {error}"]
+    if mem.get("rss_sampled_peak_mib") is None:
+        if derived["samples"]:
+            out.append(f"memory is null but {derived['samples']} memory samples fall inside the request")
+    else:
+        if mem.get("samples") != derived["samples"]:
+            out.append(f"memory.samples {mem.get('samples')} but {derived['samples']} samples fall inside the request")
+        for key in ("rss_sampled_peak_mib", "rss_mean_mib", "coverage"):
+            if mem.get(key) is not None and (derived.get(key) is None or not _close(mem[key], derived[key])):
+                out.append(f"memory.{key} is not what the retained samples give ({derived.get(key)})")
+    statuses = [
+        s["thermal_status"]
+        for s in samples
+        if s.get("kind") == "thermal"
+        and not s.get("read_error")
+        and s.get("thermal_status") is not None
+        and s["t_start_ns"] >= sent
+        and s["t_end_ns"] <= done
+    ]
+    claimed = (rec.get("state") or {}).get("thermal_status_max")
+    if statuses and claimed != max(statuses):
+        out.append(f"state.thermal_status_max {claimed} but the samples inside the request give {max(statuses)}")
+    if not statuses and claimed is not None:
+        out.append("state.thermal_status_max is set but no thermal sample falls inside the request")
     return out

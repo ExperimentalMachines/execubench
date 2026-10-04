@@ -157,7 +157,15 @@ def test_compat_evidence_must_show_execution(tmp_path):
             row.update({"pieces": [], "stats": {}})
         path.write_text(json.dumps(report))
     problems = pilot.compat_problems(model, "1.5.1", tmp_path)
-    assert any("max_new_tokens" in p for p in problems) and any("completed generation" in p for p in problems)
+    assert any("max_new_tokens" in p for p in problems) and any("no pieces or runner stats" in p for p in problems)
+    for v in ("1.4.0", "1.5.1"):
+        path = tmp_path / f"{stem}.executorch-{v}.json"
+        report = json.loads((pilot.COMPAT / path.name).read_text())
+        report["results"][0]["stats"].update({"prompt_tokens": True, "generated_tokens": 2.5})
+        report["results"][1] = "not a row"
+        path.write_text(json.dumps(report))
+    problems = pilot.compat_problems(model, "1.5.1", tmp_path)
+    assert any("not integers" in p for p in problems) and any("not an object" in p for p in problems)
     (tmp_path / f"{stem}.executorch-1.4.0.json").write_text("[]")
     assert pilot.compat_problems(model, "1.5.1", tmp_path) == [
         "host compatibility evidence is not a set of JSON objects"
