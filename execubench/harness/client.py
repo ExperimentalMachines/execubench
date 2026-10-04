@@ -92,7 +92,8 @@ def _event(event) -> dict:
     if not isinstance(choices, list) or not all(isinstance(c, dict) for c in choices):
         raise ValueError("stream event choices are not a list of objects")
     for choice in choices:
-        if choice.get("finish_reason") is not None and choice["finish_reason"] not in FINISH_REASONS:
+        reason = choice.get("finish_reason")
+        if reason is not None and (not isinstance(reason, str) or reason not in FINISH_REASONS):
             raise ValueError(f"stream finish_reason {choice['finish_reason']!r} is not one the records accept")
         delta = choice.get("delta", {})
         if delta is None:

@@ -383,6 +383,8 @@ def test_malformed_events_are_incomplete_streams_with_the_partial_reply(stream_s
         '{"choices": [{"delta": {"tool_calls": [{"index": 0, "function": {"arguments": 5}}]}}]}',
         '{"choices": [{"delta": {}, "finish_reason": 3}]}',
         '{"choices": [{"delta": {}, "finish_reason": "banana"}]}',
+        '{"choices": [{"delta": {}, "finish_reason": []}]}',
+        '{"choices": [{"delta": {}, "finish_reason": {}}]}',
         '{"choices": {}}',
         '{"choices": false}',
         '{"choices": 0}',
@@ -393,7 +395,8 @@ def test_malformed_events_are_incomplete_streams_with_the_partial_reply(stream_s
         monkeypatch.setattr(StreamHandler, "events", _sse(first, bad, finish, "[DONE]"))
         with pytest.raises(client.IncompleteStream) as caught:
             client.chat(stream_server, "k", {})
-        assert caught.value.partial.text == "Hi", bad
+        partial = caught.value.partial
+        assert partial.text == "Hi" and partial.done_ns >= partial.sent_ns > 0, bad
 
 
 def test_the_deadline_branch_records_an_end_time(stream_server, monkeypatch):
