@@ -68,11 +68,14 @@ with those hashes (`execubench models pins`, `data/models/pin-check-2026-10-04.j
 `.pte` through its LFS metadata at the pinned revision, each git-stored tokenizer downloaded at
 that revision and hashed).
 
-**One export report is inconsistent.** The fp32 SmolLM2-360M reports carry the 8da4w recipe
-(`int4_codes` round-to-nearest, 8-bit embeddings) and the old 8da4w sizing table (1.33 GiB
-resident at 8k, below the 1.40 GiB file itself). The file size fits fp32 (about 360M parameters
-at 4 bytes), so the file is labelled fp32 from its `qmode` and its sizing is not quoted below;
-the report itself needs an execupack fix.
+**One export report was inconsistent, and is corrected.** The fp32 SmolLM2-360M reports carried
+the 8da4w recipe (`int4_codes` round-to-nearest, group size 32, "4-bit weights") and the 8da4w
+sizing (1.33 GiB resident at 8k, below the 1.40 GiB file itself). execupack now sizes and
+describes fp32 exports as fp32 (ExperimentalMachines/execupack#9), and its `correct-reports`
+command (#12) rewrote those five reports, their `config.json` and the README on the Hub at
+revision `06e462dc` without touching any `.pte`: all 27 LFS files kept their sha256, so the five
+entries in `xnnpack.json` changed only their revision, recipe and sizing. Each corrected report
+carries a `corrections` entry naming the fields and the execupack commit.
 
 **The inventory moves.** A preliminary scan on 2026-10-03 at 22:13Z
 (`data/models/scan-preliminary-2026-10-03.json`) found 68 files; 70 minutes later execupack's CI
@@ -126,7 +129,7 @@ the sizing model covers them.
 | Model | 2k | 4k | 8k | 16k | 32k |
 |---|---:|---:|---:|---:|---:|
 | SmolLM2-135M | 0.65 | 0.74 | 0.92 | 1.28 | 2.00 |
-| SmolLM2-360M (fp32) | not quoted: its report repeats the 8da4w sizing (Section 3.1) | | | | |
+| SmolLM2-360M (fp32) | 2.03 | 2.19 | 2.50 | 3.14 | 4.40 |
 | Qwen2.5-0.5B | 0.90 | 0.95 | 1.05 | 1.25 | 1.64 |
 | Qwen3-0.6B | 1.37 | 1.81 | 2.69 | 4.46 | 7.99 |
 | LFM2.5-1.2B | 1.44 | 1.49 | 1.59 | 1.78 | 2.17 |
@@ -194,11 +197,14 @@ torch without declaring it; `requirements/host.lock` pins both with hashes). Wha
   `host compare` load each file under both runtimes on this machine and diff the greedy output
   piece by piece (`data/runtime/compat-1.4.0-vs-1.5.1/`, results in `SUMMARY.md` there).
 - **Outputs change with the runtime.** The same 1.4.0 file gives different greedy text under
-  1.4.0 and 1.5.1 for most files: of the 9 current v1 files compared so far, 7 differ and only
-  LFM2.5-1.2B, base and heretic, gave identical output, and all 7 round-to-nearest files that the
-  2026-10-04 re-pin replaced (still listed in `SUMMARY.md` as other files compared) differed too.
-  The 7 files the re-pin added are marked "not run" there until their host runs finish
-  (`SUMMARY.md` lists every file and the first differing piece). Three files (Qwen2.5-Math-1.5B
+  1.4.0 and 1.5.1 for most files: all 16 current v1 files are compared, 13 differ, and 3 gave
+  identical output, LFM2.5-1.2B (base and heretic) and the fp32 SmolLM2-360M, the one file whose
+  linears are not quantized. All 7 round-to-nearest files that the 2026-10-04 re-pin replaced
+  (still listed in `SUMMARY.md` as other files compared) differed too. That fits the quantized
+  XNNPACK kernels being where the runtimes diverge, but one fp32 file does not show it
+  (`SUMMARY.md` lists every file and the first differing piece). The SmolLM2-360M reports name
+  revision `90950924`, from before its export reports were corrected; the file bytes are the same
+  at `06e462dc`. Three files (Qwen2.5-Math-1.5B
   8da4w and both LFM2.5 heretic files) were run from a local mirror of the Hub after downloads
   stalled; each file and tokenizer was checked against its pinned sha256 before running, and
   every report records the sha256 of the bytes it ran. Within one runtime, repeated runs of a file gave identical output in the two files

@@ -1,0 +1,40 @@
+{
+ "versions": [
+  "1.4.0",
+  "1.5.1"
+ ],
+ "pte": {
+  "name": "Qwen2.5-3B-Instruct-8da4w-gptq-8k.pte",
+  "sha256": "59f27073ed6c5d4f1ce6acb66086dc63f975d2e3fddd88965455652ce7c1a09f"
+ },
+ "identical": false,
+ "prompts": [
+  {
+   "prompt": "The capital of France is",
+   "identical": false,
+   "first_difference_at_piece": 5,
+   "pieces": [
+    48,
+    48
+   ]
+  },
+  {
+   "prompt": "Write one sentence about the sea.",
+   "identical": true,
+   "first_difference_at_piece": null,
+   "pieces": [
+    24,
+    24
+   ]
+  },
+  {
+   "prompt": "1, 2, 3, 4,",
+   "identical": true,
+   "first_difference_at_piece": null,
+   "pieces": [
+    48,
+    48
+   ]
+  }
+ ]
+}

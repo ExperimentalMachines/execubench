@@ -1,0 +1,40 @@
+{
+ "versions": [
+  "1.4.0",
+  "1.5.1"
+ ],
+ "pte": {
+  "name": "SmolLM2-360M-Instruct-fp32-8k.pte",
+  "sha256": "998c413144546e14301cfb4c5c42fe9301ef17b1a6adfcfe9e42ef5b3ad6fb5a"
+ },
+ "identical": true,
+ "prompts": [
+  {
+   "prompt": "The capital of France is",
+   "identical": true,
+   "first_difference_at_piece": null,
+   "pieces": [
+    48,
+    48
+   ]
+  },
+  {
+   "prompt": "Write one sentence about the sea.",
+   "identical": true,
+   "first_difference_at_piece": null,
+   "pieces": [
+    35,
+    35
+   ]
+  },
+  {
+   "prompt": "1, 2, 3, 4,",
+   "identical": true,
+   "first_difference_at_piece": null,
+   "pieces": [
+    48,
+    48
+   ]
+  }
+ ]
+}
