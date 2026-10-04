@@ -57,9 +57,7 @@ def run(
             runner = TextLLMRunner(str(pte), str(tokenizer))
             pieces: list[str] = []
             stats: dict = {}
-            config = GenerationConfig(
-                echo=False, max_new_tokens=max_new_tokens, temperature=0.0, num_bos=0, num_eos=0
-            )
+            config = GenerationConfig(echo=False, max_new_tokens=max_new_tokens, temperature=0.0, num_bos=0, num_eos=0)
             runner.generate(
                 prompt,
                 config,
@@ -159,4 +157,3 @@ def v1_files(inventory: Path) -> list[str]:
     """The v1 grid's file names: every 8k export in the inventory (docs/PLAN.md 3.2)."""
     files = json.loads(inventory.read_text())["files"]
     return sorted(Path(f["file"]).name for f in files if f["window"] == 8192)
-
