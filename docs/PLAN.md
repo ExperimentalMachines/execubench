@@ -192,8 +192,11 @@ torch without declaring it; `requirements/host.lock` pins both with hashes). Wha
   `host compare` load each file under both runtimes on this machine and diff the greedy output
   piece by piece (`data/runtime/compat-1.4.0-vs-1.5.1/`, results in `SUMMARY.md` there).
 - **Outputs change with the runtime.** The same 1.4.0 file gives different greedy text under
-  1.4.0 and 1.5.1 for most files checked (`SUMMARY.md` in the compatibility folder lists every
-  v1 file). Within one runtime, repeated runs of a file gave identical output in the two files
+  1.4.0 and 1.5.1 for 14 of the 16 v1 files; only LFM2.5-1.2B, base and heretic, gave identical
+  output (`SUMMARY.md` in the compatibility folder lists every file and the first differing
+  piece). Three of the 16 (Qwen2.5-Math-1.5B and both LFM2.5 heretic files) were run from a local
+  mirror of the Hub after downloads stalled; each file and tokenizer was checked against its
+  pinned sha256 before running, and every report records the sha256 of the bytes it ran. Within one runtime, repeated runs of a file gave identical output in the two files
   checked (`repeat-check/` there keeps every repetition's pieces and stats, and agreement is
   recomputed from them), and a second session hours later reproduced the first session's output
   exactly; that is evidence for those files on this host, not a general property.

@@ -1,0 +1,40 @@
+{
+ "versions": [
+  "1.4.0",
+  "1.5.1"
+ ],
+ "pte": {
+  "name": "LFM2.5-2.6B-heretic-8da4w-gptq-8k.pte",
+  "sha256": "ecebd46ffbb1e24545e92e4b324bbbae841dd9123223864ffd4ed3294a1dea0a"
+ },
+ "identical": false,
+ "prompts": [
+  {
+   "prompt": "The capital of France is",
+   "identical": true,
+   "first_difference_at_piece": null,
+   "pieces": [
+    3,
+    3
+   ]
+  },
+  {
+   "prompt": "Write one sentence about the sea.",
+   "identical": false,
+   "first_difference_at_piece": 4,
+   "pieces": [
+    48,
+    48
+   ]
+  },
+  {
+   "prompt": "1, 2, 3, 4,",
+   "identical": true,
+   "first_difference_at_piece": null,
+   "pieces": [
+    48,
+    48
+   ]
+  }
+ ]
+}
