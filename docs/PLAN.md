@@ -57,41 +57,42 @@ We intend to be cited. That sets the bar:
 All XNNPACK exports published by
 [ExperimentalMachines/execupack](https://github.com/ExperimentalMachines/execupack) under
 the `experimentalmachines` Hugging Face org, pinned in `data/models/xnnpack.json`
-(`execubench models scan`). Scan of 2026-10-03T23:23Z (`scanned_utc` in that file): **71
+(`execubench models scan`). Scan of 2026-10-04T08:48Z (`scanned_utc` in that file): **79
 `.pte` files in 16 repos**, all exported with ExecuTorch 1.4.0 (export provenance, kept as
-recorded; the benchmark runtime is 1.5.1, Section 3.4), 32 round-to-nearest (`8da4w`) and 39
-GPTQ-solved (`8da4w-gptq`), int8 per-channel embeddings, group size 32, fp32 KV cache, prefill
+recorded; the benchmark runtime is 1.5.1, Section 3.4): 70 GPTQ-solved (`8da4w-gptq`), 4
+round-to-nearest (`8da4w`, Qwen2.5-1.5B-Instruct only) and 5 fp32 (SmolLM2-360M-Instruct only).
+The quantized files share int8 per-channel embeddings, group size 32, fp32 KV cache and prefill
 chunk 2,048 (the `recipe` field). For every file the Hub's LFS sha256 equals the sha256 its
-export report recorded, and every tokenizer is hashed.
+export report recorded, and every tokenizer is hashed; all 79 pins resolve at their revisions
+with those hashes (`execubench models pins`, `data/models/pin-check-2026-10-04.json`: each
+`.pte` through its LFS metadata at the pinned revision, each git-stored tokenizer downloaded at
+that revision and hashed).
 
-**The inventory moves.** A preliminary scan 70 minutes earlier (`data/models/scan-preliminary-2026-10-03.json`,
-22:13Z) found 68 files (44 round-to-nearest, 24 GPTQ). In between, execupack's CI gave 11 of
-the 16 repos a new revision, and three of them (Qwen2.5-0.5B, Qwen3-0.6B, SmolLM2-135M) went
-from round-to-nearest to GPTQ and gained a 32k window: 68 less 12 round-to-nearest files plus
-15 GPTQ files is 71. So a result names the file's sha256, never just a repo or a model name,
-and P2 freezes a **model manifest** (repo, revision, file, sha256) that the v1 grid runs
-against, whatever the Hub holds by then.
+**One export report is inconsistent.** The fp32 SmolLM2-360M reports carry the 8da4w recipe
+(`int4_codes` round-to-nearest, 8-bit embeddings) and the old 8da4w sizing table (1.33 GiB
+resident at 8k, below the 1.40 GiB file itself). The file size fits fp32 (about 360M parameters
+at 4 bytes), so the file is labelled fp32 from its `qmode` and its sizing is not quoted below;
+the report itself needs an execupack fix.
 
-It moved again on 2026-10-04. The scan at 03:38Z (`data/models/xnnpack.rejected.json`) found 79
-files in the same 16 repos (70 GPTQ, 4 round-to-nearest, 5 fp32): 28 files of the accepted
-inventory are gone from the Hub's head, among them 7 of the 16 v1 8k files, including the
-pilot's `SmolLM2-360M-Instruct-8da4w-8k.pte` (that repo now publishes fp32 only); 36 files are
-new; the 43 files in both have unchanged sha256. `models scan` refused to replace the accepted
-inventory because files it lists went missing (`models.problems`), so `xnnpack.json` still
-holds the 2026-10-03 pins. All 71 pins still resolve at their pinned revisions with their
-recorded sha256 and tokenizer (`execubench models pins`, output in
-`data/models/pin-check-2026-10-04.json`: each `.pte` checked through its LFS metadata at the
-pinned revision, each git-stored tokenizer downloaded at that revision and hashed), so
-the pins, the compatibility runs and the pilot stay valid; whether v1 moves to the new exports is
-an owner decision before P2.
+**The inventory moves.** A preliminary scan on 2026-10-03 at 22:13Z
+(`data/models/scan-preliminary-2026-10-03.json`) found 68 files; 70 minutes later execupack's CI
+had given 11 of the 16 repos a new revision (71 files, `data/models/xnnpack-2026-10-03.json`).
+On 2026-10-04 at about 00:52Z it republished again: the scan at 03:38Z
+(`data/models/xnnpack.rejected.json`) found 28 of the 71 files gone from the Hub's head, 7 of
+them v1 8k files (six round-to-nearest files replaced by GPTQ exports, and SmolLM2-360M's 8da4w
+file replaced by an fp32 one), 36 new, and the 43 in both unchanged. `models scan` refused that scan because
+files went missing; the owner then chose to re-pin to the new head, which `models scan
+--allow-removed` did at 08:48Z with the same 79 files. So a result names the file's sha256, never
+just a repo or a model name, and P2 freezes a **model manifest** (repo, revision, file, sha256)
+that the v1 grid runs against, whatever the Hub holds by then.
 
-| Family | Repos | Windows published at the 23:23Z scan |
+| Family | Repos | Windows published at the 08:48Z scan |
 |---|---|---|
 | LFM2.5 | 1.2B-Instruct, 2.6B, and the two `heretic` (abliterated) variants | 2k to 32k |
-| Qwen3 | 0.6B (to 32k), 1.7B, 4B, 4B-Instruct-2507 | 2k to 16k |
-| Qwen2.5 | 0.5B (to 32k), 1.5B, 3B Instruct, Math-1.5B-Instruct (2k, 8k, 16k) | 2k to 16k |
-| Llama 3.2 | 1B (to 32k), 3B Instruct | 2k to 16k |
-| SmolLM2 | 135M (to 32k), 360M Instruct | 2k to 16k |
+| Qwen3 | 0.6B, 1.7B, 4B, 4B-Instruct-2507 | 2k to 32k |
+| Qwen2.5 | 0.5B, 3B Instruct and Math-1.5B-Instruct (2k to 32k); 1.5B Instruct (2k to 16k, round-to-nearest) | 2k to 32k |
+| Llama 3.2 | 1B, 3B Instruct | 2k to 32k |
+| SmolLM2 | 135M Instruct; 360M Instruct (fp32) | 2k to 32k |
 
 Excluded: `experimentalmachines/QwenGrad-Qwen3.5-2B-M1-DPO-v2-ExecuTorch-CPU` (no export
 report, so no provenance), and `alpharomercoma/Qwen3-1.7B-ExecuTorch` (a personal copy;
@@ -111,7 +112,8 @@ The window changes only the KV cache and masks, not the weights. v1 runs:
   (`tests/test_models.py` checks it), and multi-turn conversations plus RetrievalQA context
   need more than 4k.
 - **Speed track at 8k**, plus a **window sweep** over every published window of three models
-  (SmolLM2-360M, Qwen3-1.7B, LFM2.5-1.2B: 13 files) on the Galaxy S25 Ultra and the Pixel 10,
+  (SmolLM2-135M, Qwen3-1.7B, LFM2.5-1.2B, five windows each: 15 GPTQ files; SmolLM2-135M took
+  the place of SmolLM2-360M when that repo became fp32 only) on the Galaxy S25 Ultra and the Pixel 10,
   to measure whether the window alone moves prefill, decode or memory. The hypothesis is that
   decode speed does not depend on the window because ExecuTorch's custom SDPA attends only up
   to the current position; memory certainly does.
@@ -124,7 +126,7 @@ the sizing model covers them.
 | Model | 2k | 4k | 8k | 16k | 32k |
 |---|---:|---:|---:|---:|---:|
 | SmolLM2-135M | 0.65 | 0.74 | 0.92 | 1.28 | 2.00 |
-| SmolLM2-360M | 0.86 | 1.02 | 1.33 | 1.97 | 3.23 |
+| SmolLM2-360M (fp32) | not quoted: its report repeats the 8da4w sizing (Section 3.1) | | | | |
 | Qwen2.5-0.5B | 0.90 | 0.95 | 1.05 | 1.25 | 1.64 |
 | Qwen3-0.6B | 1.37 | 1.81 | 2.69 | 4.46 | 7.99 |
 | LFM2.5-1.2B | 1.44 | 1.49 | 1.59 | 1.78 | 2.17 |
@@ -192,11 +194,14 @@ torch without declaring it; `requirements/host.lock` pins both with hashes). Wha
   `host compare` load each file under both runtimes on this machine and diff the greedy output
   piece by piece (`data/runtime/compat-1.4.0-vs-1.5.1/`, results in `SUMMARY.md` there).
 - **Outputs change with the runtime.** The same 1.4.0 file gives different greedy text under
-  1.4.0 and 1.5.1 for 14 of the 16 v1 files; only LFM2.5-1.2B, base and heretic, gave identical
-  output (`SUMMARY.md` in the compatibility folder lists every file and the first differing
-  piece). Three of the 16 (Qwen2.5-Math-1.5B and both LFM2.5 heretic files) were run from a local
-  mirror of the Hub after downloads stalled; each file and tokenizer was checked against its
-  pinned sha256 before running, and every report records the sha256 of the bytes it ran. Within one runtime, repeated runs of a file gave identical output in the two files
+  1.4.0 and 1.5.1 for most files: of the 9 current v1 files compared so far, 7 differ and only
+  LFM2.5-1.2B, base and heretic, gave identical output, and all 7 round-to-nearest files that the
+  2026-10-04 re-pin replaced (still listed in `SUMMARY.md` as other files compared) differed too.
+  The 7 files the re-pin added are marked "not run" there until their host runs finish
+  (`SUMMARY.md` lists every file and the first differing piece). Three files (Qwen2.5-Math-1.5B
+  8da4w and both LFM2.5 heretic files) were run from a local mirror of the Hub after downloads
+  stalled; each file and tokenizer was checked against its pinned sha256 before running, and
+  every report records the sha256 of the bytes it ran. Within one runtime, repeated runs of a file gave identical output in the two files
   checked (`repeat-check/` there keeps every repetition's pieces and stats, and agreement is
   recomputed from them), and a second session hours later reproduced the first session's output
   exactly; that is evidence for those files on this host, not a general property.
@@ -384,7 +389,7 @@ second unit of the same model.
 | Track | Files | Devices | File by device combinations |
 |---|---|---|---|
 | Speed at 8k | 16 (one per repo) | 11 (the standard) | 176, each with 10 prompt-by-decode buckets |
-| Window sweep | 13 (three models, every published window) | 2 (S25 Ultra, Pixel 10) | 26 |
+| Window sweep | 15 (three models, every published window) | 2 (S25 Ultra, Pixel 10) | 30 |
 | Quality reference at 8k | 16 | 4 (Tier A) | 64, full selection |
 | Agreement at 8k | 16 | 7 (Tiers A+, B and C) | 112, 40 IDs per dataset and mode |
 | Long-context | 32 (the 8k file and the largest published window, per repo) | 2 (S25 Ultra, Pixel 10) | 64 |
@@ -407,11 +412,11 @@ minutes of overhead per job, 120 usable minutes per job, and 20 percent for retr
 | Quality reference | 67,200 | 576 |
 | Agreement | 15,600 | 160 |
 | Speed | 4,560 | 176 |
-| Window sweep | 390 | 26 |
+| Window sweep | 450 | 30 |
 | Long context | 1,280 | 64 |
-| Job overhead | 8,016 | |
-| **Total before contingency** | **97,046** | **1,002** |
-| **With 20 percent contingency** | **116,455** (about 1,941 device hours) | |
+| Job overhead | 8,048 | |
+| **Total before contingency** | **97,138** | **1,006** |
+| **With 20 percent contingency** | **116,566** (about 1,943 device hours) | |
 
 Jobs are rounded up per model and device, because a job holds one model file on one unit:
 leftover minutes of different models or devices cannot share a job.
@@ -419,9 +424,9 @@ leftover minutes of different models or devices cannot share a job.
 - **Metered** at **$0.17 per device minute**
   ([pricing](https://aws.amazon.com/device-farm/pricing/)): about **$19,800**.
 - **Unmetered** at **$250 per Android slot per month**, where a slot is one concurrent device of
-  any model: 1,941 hours is 2.7 slot-months at full use and 3.9 at 70 percent use, so about
+  any model: 1,943 hours is 2.7 slot-months at full use and 3.9 at 70 percent use, so about
   **$1,000** (for example four slots for one month).
-- The full quality selection on Tier A is about 69 percent of the work (67,200 of 97,046
+- The full quality selection on Tier A is about 69 percent of the work (67,200 of 97,138
   minutes), and the mid-range A56 alone is half of that, because it is assumed three times
   slower. The levers, if the budget must shrink, are a smaller
   frozen selection or fewer phones with the full selection.

@@ -30,7 +30,7 @@ class Assumptions:
     quality_devices: tuple[int, int] = (3, 1)  # Tier A: S25 Ultra, Pixel 10, Tab S11; A56
     agreement_devices: tuple[int, int] = (4, 3)  # A+ and C flagships; Tier B
     speed_devices: tuple[int, int] = (7, 4)
-    window_sweep_files: int = 13  # SmolLM2-360M 4 windows, Qwen3-1.7B 4, LFM2.5-1.2B 5
+    window_sweep_files: int = 15  # SmolLM2-135M, Qwen3-1.7B and LFM2.5-1.2B, 5 windows each (xnnpack.json)
     window_sweep_devices: int = 2  # S25 Ultra, Pixel 10
     long_context_files_per_model: int = 2  # the 8k file and the largest published window
     long_context_devices: int = 2  # S25 Ultra, Pixel 10

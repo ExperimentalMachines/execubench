@@ -32,7 +32,7 @@ table shows the label per cell or splits the column by label. Definitions:
 - **Models:** every XNNPACK `.pte` exported by
   [execupack](https://github.com/ExperimentalMachines/execupack) to the
   [`experimentalmachines`](https://huggingface.co/experimentalmachines) Hugging Face org:
-  71 files in 16 repos at the last scan (SmolLM2, Qwen2.5, Qwen3, Llama 3.2, LFM2.5), pinned
+  79 files in 16 repos at the last scan (SmolLM2, Qwen2.5, Qwen3, Llama 3.2, LFM2.5), pinned
   by revision and sha256 in [`data/models/xnnpack.json`](data/models/xnnpack.json). The Hub
   changes as execupack republishes, so results always name a file's sha256.
 - **Runtime:** ExecuTorch **1.5.1** (`config/versions.env`), through

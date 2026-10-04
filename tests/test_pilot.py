@@ -144,7 +144,7 @@ def test_compat_evidence_must_show_execution(tmp_path):
 
     from execubench import pilot
 
-    model = PILOT["models"]["smollm2-360m"]
+    model = PILOT["models"]["smollm2-135m"]
     stem = Path(model["file"]).stem
     for f in pilot.COMPAT.glob(f"{stem}.*"):
         shutil.copy(f, tmp_path / f.name)
