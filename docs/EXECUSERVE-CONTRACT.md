@@ -11,8 +11,10 @@ of this; the work belongs in the ExecuServe repository, against this document.
 - **ExecuTorch 1.5.1** (`org.pytorch:executorch-android:1.5.1`, the version in
   `config/versions.env`). Maven has no 1.5.0. In 1.5.1, `LlmModuleConfig`'s `dataPath` default
   changed from `""` to `null`; check ExecuServe's module construction against it.
-- The benchmark build is its own flavour with a pinned APK sha256, reported by the capabilities
-  endpoint and recorded in every job.
+- The benchmark build is its own flavour with a pinned APK sha256 (`runtime.apk_sha256` in the
+  pilot manifest), reported by the capabilities endpoint as `benchmark.apk_sha256` and recorded
+  in every job. The harness refuses to run when the manifest pins no hash or the server reports
+  another.
 
 ## Why the stock 1.5.1 Android API is not enough
 

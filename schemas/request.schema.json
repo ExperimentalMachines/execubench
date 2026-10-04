@@ -121,7 +121,7 @@
             "full",
             "restricted"
           ],
-          "description": "restricted: a publishable record whose prompt text was removed under the dataset's license (docs/DATA-POLICY.md); the prompt hash stays"
+          "description": "restricted: a publishable record whose prompt text was removed under the dataset's license (docs/DATA-POLICY.md); prompt_text must then be absent or null and the prompt hash stays. Raw records are never restricted (execubench validate --runs refuses it)"
         }
       }
     },
@@ -595,8 +595,19 @@
               "decode_ms",
               "e2e_ms",
               "monotonic",
-              "clock_disagreement"
-            ]
+              "clock_disagreement",
+              "native"
+            ],
+            "properties": {
+              "native": {
+                "required": [
+                  "call_start_ns",
+                  "first_sampled_token_ns",
+                  "first_callback_ns",
+                  "call_end_ns"
+                ]
+              }
+            }
           },
           "item": {
             "required": [
@@ -616,7 +627,13 @@
                 "replay"
               ]
             },
-            "then": {},
+            "then": {
+              "properties": {
+                "prompt_text": {
+                  "type": "null"
+                }
+              }
+            },
             "else": {
               "required": [
                 "prompt_text"

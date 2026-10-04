@@ -138,11 +138,25 @@ def test_archive_bounds(tmp_path, monkeypatch):
     path.write_bytes(_zip({"probe/big.txt": b"x" * 4096}))
     monkeypatch.setattr(devicefarm, "MAX_MEMBER_BYTES", 1024)
     with pytest.raises(ValueError, match="size bounds"):
-        devicefarm.read_archive(path)
+        devicefarm.extract_archive(path, tmp_path / "x1")
     monkeypatch.setattr(devicefarm, "MAX_MEMBER_BYTES", 1 << 20)
-    monkeypatch.setattr(devicefarm, "MAX_MEMBERS", 0)
+    # Member and byte budgets are per job: two archives share one budget.
+    budget = devicefarm.JobBudget(members=1, bytes=1 << 20)
+    devicefarm.extract_archive(path, tmp_path / "x2", budget)
     with pytest.raises(ValueError, match="members"):
-        devicefarm.read_archive(path)
+        devicefarm.extract_archive(path, tmp_path / "x3", budget)
+    budget = devicefarm.JobBudget(members=10, bytes=6000)
+    devicefarm.extract_archive(path, tmp_path / "x4", budget)
+    with pytest.raises(ValueError, match="size bounds"):
+        devicefarm.extract_archive(path, tmp_path / "x5", budget)
+
+
+def test_staged_members_are_scanned_across_chunk_boundaries(tmp_path, monkeypatch):
+    monkeypatch.setattr(devicefarm, "SCAN_CHUNK", 7)
+    staged = tmp_path / "requests.jsonl"
+    staged.write_bytes(b"x" * 5 + SERIAL.encode() + b"y" * 20)
+    with pytest.raises(devicefarm.LeakFound):
+        devicefarm.scrub({**PROBE, "requests.jsonl": staged})
 
 
 def test_spend_guard():
@@ -157,7 +171,8 @@ def test_a_bundle_without_identity_is_refused(tmp_path, fake_http):
     with pytest.raises(devicefarm.LeakFound, match="no unit identity"):
         devicefarm.pull_run(df, RUN_ARN, tmp_path / "run")
     manifest = json.loads((tmp_path / "run.partial" / "pull-manifest.json").read_text())
-    assert "no unit identity" in manifest["failure"] and not manifest["complete"]
+    assert "no unit identity" in manifest["failure"]["message"] and not manifest["complete"]
+    assert SERIAL not in json.dumps(manifest)
 
 
 def test_multiline_identifiers_cannot_hide_in_json_metadata(tmp_path, fake_http):
@@ -179,23 +194,144 @@ def test_a_missing_job_listing_is_incomplete(tmp_path, fake_http):
 def test_schedule_once_finds_a_run_created_by_an_ambiguous_call():
     import datetime
 
-    class Flaky:
-        def schedule_run(self, **kw):
-            raise TimeoutError("read timed out")
+    now = datetime.datetime.now(datetime.UTC)
+    kw = {"projectArn": "p", "name": "probe-x", "devicePoolArn": "pool", "appArn": "app"}
 
     class Lister:
+        """Lists `before` until the schedule call has been made, then `after`."""
+
+        def __init__(self, before, after):
+            self.before, self.after, self.called = before, after, False
+
+        def schedule_run(self, **_):
+            self.called = True
+            raise TimeoutError("read timed out")
+
         def list_runs(self, arn, **_):
-            now = datetime.datetime.now(datetime.UTC)
-            return {"runs": [{"name": "probe-x", "arn": "run-1", "created": now}]}
+            return {"runs": self.after if self.called else self.before}
 
-    assert devicefarm.schedule_once(Flaky(), Lister(), projectArn="p", name="probe-x")["arn"] == "run-1"
+    mine = {"name": "probe-x", "arn": "run-1", "created": now, "devicePoolArn": "pool", "appUpload": "app"}
+    df = Lister([], [mine])
+    assert devicefarm.schedule_once(df, df, **kw)["arn"] == "run-1"
 
-    class Empty:
-        def list_runs(self, arn, **_):
-            return {"runs": []}
-
+    df = Lister([], [])
     with pytest.raises(TimeoutError):
-        devicefarm.schedule_once(Flaky(), Empty(), projectArn="p", name="probe-x")
+        devicefarm.schedule_once(df, df, **kw)
+
+    # A name already in use is refused before anything is sent.
+    df = Lister([{**mine, "created": now - datetime.timedelta(minutes=5)}], [])
+    with pytest.raises(RuntimeError, match="already exists"):
+        devicefarm.schedule_once(df, df, **kw)
+    assert not df.called
+
+    # Another pool's run with the same name is not ours; two candidates are never guessed between.
+    df = Lister([], [{**mine, "devicePoolArn": "other"}])
+    with pytest.raises(TimeoutError):
+        devicefarm.schedule_once(df, df, **kw)
+    df = Lister([], [mine, {**mine, "arn": "run-2"}])
+    with pytest.raises(RuntimeError, match="2 runs match"):
+        devicefarm.schedule_once(df, df, **kw)
+    assert devicefarm.unique_run_name("probe") != devicefarm.unique_run_name("probe")
+
+
+def _counting_server(handler_body):
+    import http.server
+    import threading
+
+    hits = []
+
+    class Handler(http.server.BaseHTTPRequestHandler):
+        def do_POST(self):  # noqa: N802
+            hits.append(1)
+            self.rfile.read(int(self.headers.get("Content-Length", 0)))
+            handler_body(self)
+
+        do_GET = do_POST  # noqa: N815
+
+        def log_message(self, *_):
+            pass
+
+    server = http.server.ThreadingHTTPServer(("127.0.0.1", 0), Handler)
+    threading.Thread(target=server.serve_forever, daemon=True).start()
+    return server, hits
+
+
+def test_the_no_retry_client_sends_a_failing_call_once():
+    """Botocore's max_attempts counts retries; the no-retry client must send exactly one call."""
+    import boto3
+    import botocore.config
+
+    def fail(handler):
+        handler.send_response(500)
+        handler.send_header("Content-Length", "2")
+        handler.end_headers()
+        handler.wfile.write(b"{}")
+
+    server, hits = _counting_server(fail)
+    try:
+        df = boto3.client(
+            "devicefarm",
+            region_name="us-west-2",
+            endpoint_url=f"http://127.0.0.1:{server.server_port}",
+            aws_access_key_id="x",
+            aws_secret_access_key="x",
+            config=botocore.config.Config(retries=devicefarm.retry_config(False)),
+        )
+        with pytest.raises(Exception):  # noqa: B017 - any error; the count is the point
+            df.get_account_settings()
+    finally:
+        server.shutdown()
+    assert len(hits) == 1
+
+
+def test_a_trickling_download_stops_at_the_deadline(tmp_path, monkeypatch):
+    import time
+
+    def trickle(handler):
+        handler.send_response(200)
+        handler.send_header("Content-Length", "100000")
+        handler.end_headers()
+        try:
+            for _ in range(100):
+                handler.wfile.write(b"x")
+                handler.wfile.flush()
+                time.sleep(0.2)
+        except OSError:
+            pass
+
+    server, _ = _counting_server(trickle)
+    monkeypatch.setattr(devicefarm, "DOWNLOAD_DEADLINE_S", 1)
+    started = time.monotonic()
+    try:
+        with pytest.raises(TimeoutError):
+            devicefarm.http_get(f"http://127.0.0.1:{server.server_port}/a", tmp_path / "a", 10**6, timeout=5)
+    finally:
+        server.shutdown()
+    assert time.monotonic() - started < 4
+
+
+def test_escaped_and_case_folded_identifiers_refuse_the_pull():
+    for record in (b'{"x": "SERIAL\\u00312345"}', b'{"x": "serial12345"}', b"GET /a?u=SERIAL%312345"):
+        with pytest.raises(devicefarm.LeakFound):
+            devicefarm.scrub({**PROBE, "requests.jsonl": record})
+
+
+def test_a_refusal_never_writes_the_identifier_into_the_manifest(tmp_path, fake_http):
+    df = FakeDF([[_zip({**PROBE, f"{SERIAL}.log": b"hello"})]])
+    fake_http(df)
+    with pytest.raises(devicefarm.LeakFound):
+        devicefarm.pull_run(df, RUN_ARN, tmp_path / "run")
+    text = (tmp_path / "run.partial" / "pull-manifest.json").read_text()
+    assert SERIAL not in text and "file #" in text
+
+
+def test_archive_errors_are_recorded_without_their_text(tmp_path, fake_http):
+    df = FakeDF([[b"not a zip " + SERIAL.encode()]])
+    fake_http(df)
+    with pytest.raises(Exception):  # noqa: B017
+        devicefarm.pull_run(df, RUN_ARN, tmp_path / "run")
+    failure = json.loads((tmp_path / "run.partial" / "pull-manifest.json").read_text())["failure"]
+    assert failure["stage"] == "download" and failure["message"] is None
 
 
 def test_expired_urls_are_refreshed_by_artifact_arn(tmp_path, monkeypatch):
@@ -235,7 +371,7 @@ def test_non_regular_members_are_refused(tmp_path):
         info.external_attr = 0o010644 << 16  # a FIFO
         z.writestr(info, b"")
     with pytest.raises(ValueError, match="non-regular"):
-        devicefarm.read_archive(path)
+        devicefarm.extract_archive(path, tmp_path / "x")
 
 
 def test_pool_rules_are_exactly_the_manifest_devices():

@@ -47,14 +47,16 @@
       "items": {
         "type": "string"
       },
-      "minItems": 1
+      "minItems": 1,
+      "uniqueItems": true
     },
     "device_units": {
       "type": "array",
       "items": {
         "type": "string"
       },
-      "minItems": 1
+      "minItems": 1,
+      "uniqueItems": true
     },
     "n": {
       "type": "integer",
@@ -174,16 +176,20 @@
           "additionalProperties": false,
           "properties": {
             "in_context_attempted": {
-              "type": "integer"
+              "type": "integer",
+              "minimum": 0
             },
             "in_context_correct": {
-              "type": "integer"
+              "type": "integer",
+              "minimum": 0
             },
             "not_in_context_attempted": {
-              "type": "integer"
+              "type": "integer",
+              "minimum": 0
             },
             "not_in_context_correct": {
-              "type": "integer"
+              "type": "integer",
+              "minimum": 0
             }
           },
           "required": [
@@ -257,16 +263,19 @@
           "$ref": "common.schema.json#/$defs/percentiles"
         },
         "thermal_event_requests": {
-          "type": "integer"
+          "type": "integer",
+          "minimum": 0
         },
         "clock_drop_requests": {
-          "type": "integer"
+          "type": "integer",
+          "minimum": 0
         },
         "thermal_status_max": {
           "type": [
             "integer",
             "null"
-          ]
+          ],
+          "minimum": 0
         }
       }
     },
@@ -282,13 +291,16 @@
           "type": "string"
         },
         "identical_vs_reference": {
-          "type": "integer"
+          "type": "integer",
+          "minimum": 0
         },
         "identical_vs_host": {
-          "type": "integer"
+          "type": "integer",
+          "minimum": 0
         },
         "compared": {
-          "type": "integer"
+          "type": "integer",
+          "minimum": 0
         }
       }
     },
@@ -347,7 +359,8 @@
         "format": "date"
       },
       "description": "Distinct UTC dates of the jobs behind the cell",
-      "minItems": 1
+      "minItems": 1,
+      "uniqueItems": true
     },
     "interval": {
       "type": [
@@ -369,7 +382,8 @@
           "type": [
             "integer",
             "null"
-          ]
+          ],
+          "minimum": 1
         },
         "lo": {
           "type": [

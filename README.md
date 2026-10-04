@@ -61,7 +61,7 @@ table shows the label per cell or splits the column by label. Definitions:
 | `schemas/` | JSON Schemas for phone, job, request and summary records, with examples |
 | `devicefarm/probe/` | The device probe: a shell script run on the Device Farm host against the phone over adb |
 | `devicefarm/carrier/` | A manifest-only carrier APK (minSdk 21) for Device Farm's app-based test types |
-| `execubench/` | Python package: Device Farm plumbing (fail-closed pulls, spend guard), probe parser, device registry, model inventory, schema and semantic validation, host runtime runs |
+| `execubench/` | Python package: Device Farm plumbing (fail-closed pulls, spend guard and ledger, pilot gate), probe parser, device registry, model inventory, schema and semantic validation, host runtime runs |
 | `execubench/harness/` | The benchmark harness for the Device Farm host (unit-tested, not yet run on a phone) |
 | `docs/EXECUSERVE-CONTRACT.md`, `docs/DATA-POLICY.md` | What the phone server must provide; what is published and kept |
 | `data/pilot/p1.yaml` | The pinned P1 pilot: devices, models, experiments, spend ceiling |
@@ -97,8 +97,10 @@ python -m execubench host run <pte> <tokenizer> --out r.json       # in a venv f
 python -m execubench models scan                                   # re-pin the Hub inventory
 python -m execubench datasets stats                                # recount dataset figures (needs requirements/datasets.txt)
 python -m execubench budget                                        # the v1 device-minute budget
+python -m execubench pilot check data/pilot/p1.yaml                # what still blocks the P1 pilot
 python -m execubench devicefarm probe <project-arn> <pool-arn> --carrier-apk carrier.apk --max-device-minutes 30
 python -m execubench devicefarm pull <run-arn> data/devices/probe/<new folder>   # exit 2 if incomplete
+python -m execubench validate --runs <pulled harness run>          # restricted records, before grading
 python -m execubench devices build data/devices/probe/<run>...     # oldest first
 python -m execubench devices table                                 # regenerate the table in docs/DEVICES.md
 ```

@@ -321,6 +321,11 @@
     "finalized": {
       "type": "boolean",
       "description": "Set when the job record is complete; a finalized record must carry the fields a published number needs"
+    },
+    "planned_requests": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Requests the job's workload plans (warm-up excluded); a complete job recorded exactly this many in requests.jsonl"
     }
   },
   "allOf": [
@@ -341,7 +346,8 @@
           "outcome",
           "staging",
           "generation",
-          "config_sha256"
+          "config_sha256",
+          "planned_requests"
         ],
         "properties": {
           "finished_utc": {

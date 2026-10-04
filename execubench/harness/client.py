@@ -56,20 +56,26 @@ def chat(base_url: str, key: str, body: dict, timeout_s: float = 900) -> Reply:
     deadline = time.monotonic() + timeout_s
     try:
         _read_stream(req, reply, calls, deadline, timeout_s)
+    except IncompleteStream:
+        raise
     except (OSError, ValueError) as error:  # connection reset, timeout or a malformed event
-        reply.done_ns = time.monotonic_ns()
         raise IncompleteStream(f"stream failed: {type(error).__name__} {error}", reply) from error
-    reply.done_ns = time.monotonic_ns()
-    reply.tool_calls = [calls[i] for i in sorted(calls)]
+    finally:
+        # Every exit, clean or not, leaves the partial reply whole: its end time and the tool
+        # calls assembled so far (an IncompleteStream carries this same object).
+        reply.done_ns = reply.done_ns or time.monotonic_ns()
+        reply.tool_calls = [calls[i] for i in sorted(calls)]
     if reply.finish_reason is None:
         raise IncompleteStream("stream ended without a finish reason", reply)
     return reply
 
 
 def _read_stream(req, reply: Reply, calls: dict, deadline: float, timeout_s: float) -> None:
+    """Read SSE lines until [DONE]. Each blocking read is bounded by the socket timeout (at most
+    120 s), so the overall deadline is overrun by at most one socket timeout."""
     done = False
     with urllib.request.urlopen(req, timeout=min(timeout_s, 120)) as resp:
-        for raw in resp:
+        while raw := resp.readline():
             if time.monotonic() > deadline:
                 raise IncompleteStream(f"no completion within {timeout_s} s", reply)
             line = raw.decode("utf-8").strip()

@@ -1,7 +1,9 @@
 """Periodic readings of the server process and the phone, written to samples.jsonl.
 
-Every sample carries the host's monotonic clock and the request being served, so a request's
-samples can be selected by its host send and receive times (docs/METRICS.md, "Memory").
+Every sample carries the host's monotonic read interval, so a request's samples are selected by
+its host send and receive times afterwards (docs/METRICS.md, "Memory"). Every read writes one
+sample, whatever happened: the parsed values with the raw output they came from, or a
+`read_error` saying why there are none. A gap is recorded, never filled.
 """
 
 from __future__ import annotations
@@ -34,13 +36,15 @@ def parse_thermal(dump: str) -> dict:
     from ..devices import thermal_hal
 
     hal = thermal_hal(dump)
-    m = re.search(r"^Current temperatures from HAL:\n((?:\s+.*\n?)*)", dump, flags=re.M)
-    return {
-        "thermal_status": hal["status"],
-        "temps_c": {k: v["c"] for k, v in hal["current"].items()},
-        # The raw lines behind temps_c, so a parser change can be checked against the reading.
-        "raw": (m.group(1).strip() if m else None),
-    }
+    return {"thermal_status": hal["status"], "temps_c": {k: v["c"] for k, v in hal["current"].items()} or None}
+
+
+def _has_reading(kind: str, parsed: dict) -> bool:
+    if kind == "memory":
+        return parsed.get("vm_rss_kib") is not None
+    if kind == "clock":
+        return bool(parsed.get("cpu_cur_khz"))
+    return parsed.get("thermal_status") is not None or bool(parsed.get("temps_c"))
 
 
 FREQ_CMD = "for c in /sys/devices/system/cpu/cpu[0-9]*; do echo ${c##*/} $(cat $c/cpufreq/scaling_cur_freq); done"
@@ -56,7 +60,8 @@ class Sampler:
     Each sample records when its read started and ended (host monotonic), so a request's samples
     are selected by time afterwards; a read that straddles a request's start or end belongs to
     neither. `stop()` waits for the thread to finish before the writer may be closed, and raises
-    if the sampler failed in a way other than a missed adb read.
+    if the sampler failed in a way other than a missed or unparseable read (those are samples
+    with a `read_error`, counted in `missed`).
     """
 
     def __init__(self, adb: Adb, pid: int, writer: JsonlWriter, job_id: str, fast_s: float = 0.25, slow_s: float = 1.0):
@@ -79,9 +84,21 @@ class Sampler:
             raise SamplerFailed(f"sampler failed: {self.failure!r}") from self.failure
 
     def _read(self, kind: str, command: str, parse, timeout_s: float) -> None:
+        """One read, one sample. A failed or unparseable read is written as a `read_error` with
+        the raw output, and does not stop the other kinds of read."""
         t_start = time.monotonic_ns()
-        text = self.adb.shell(command, timeout_s=timeout_s)
+        text, error, parsed = None, None, {}
+        try:
+            text = self.adb.shell(command, timeout_s=timeout_s)
+        except AdbError as e:
+            error = f"adb: {e}"[:500]
+        if text is not None:
+            parsed = parse(text)
+            if not _has_reading(kind, parsed):
+                error, parsed = "unparseable", {}
         t_end = time.monotonic_ns()
+        if error:
+            self.missed += 1
         self.writer.write(
             {
                 "job_id": self.job_id,
@@ -90,7 +107,10 @@ class Sampler:
                 "t_start_ns": t_start,
                 "t_end_ns": t_end,
                 "kind": kind,
-                **parse(text),
+                **parsed,
+                # The output the values were parsed from, so a parser change can be checked.
+                "raw": text,
+                "read_error": error,
             }
         )
 
@@ -99,15 +119,11 @@ class Sampler:
         try:
             while not self._stop.is_set():
                 now = time.monotonic()
-                try:
-                    self._read("memory", f"cat /proc/{self.pid}/status", parse_status, 5)
-                    self._read("clock", FREQ_CMD, lambda t: {"cpu_cur_khz": parse_freqs(t) or None}, 5)
-                    if now >= next_slow:
-                        self._read("thermal", "dumpsys thermalservice", parse_thermal, 10)
-                        next_slow = now + self.slow_s
-                except AdbError:
-                    # A missed read is a gap, never an invented value; the count is reported.
-                    self.missed += 1
+                self._read("memory", f"cat /proc/{self.pid}/status", parse_status, 5)
+                self._read("clock", FREQ_CMD, lambda t: {"cpu_cur_khz": parse_freqs(t) or None}, 5)
+                if now >= next_slow:
+                    self._read("thermal", "dumpsys thermalservice", parse_thermal, 10)
+                    next_slow = now + self.slow_s
                 self._stop.wait(max(0.0, self.fast_s - (time.monotonic() - now)))
         except BaseException as error:  # noqa: BLE001 - surfaced through stop()
             self.failure = error

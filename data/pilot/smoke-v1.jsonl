@@ -1,0 +1,18 @@
+{"id": "s01", "turns": ["What is 17 multiplied by 23? Answer with the number only."]}
+{"id": "s02", "turns": ["Name the largest planet in the solar system in one word."]}
+{"id": "s03", "turns": ["Write one sentence that explains what a prime number is."]}
+{"id": "s04", "turns": ["List three colours of the rainbow, separated by commas."]}
+{"id": "s05", "turns": ["Translate 'good morning' into Spanish. Reply with the translation only."]}
+{"id": "s06", "turns": ["A train travels 120 km in 2 hours. What is its average speed in km per hour?"]}
+{"id": "s07", "turns": ["Write a Python function named add that returns the sum of two numbers."]}
+{"id": "s08", "turns": ["Give a two-sentence summary of why the sky looks blue during the day."]}
+{"id": "s09", "turns": ["Is 91 a prime number? Answer yes or no, then give one reason."]}
+{"id": "s10", "turns": ["Spell the word 'necessary' backwards."]}
+{"id": "s11", "turns": ["Write a haiku about rain on a tin roof."]}
+{"id": "s12", "turns": ["Convert 3.5 hours into minutes. Show the calculation in one line."]}
+{"id": "s13", "turns": ["What does the abbreviation CPU stand for?"]}
+{"id": "s14", "turns": ["Sort these numbers from smallest to largest: 42, 7, 19, 3, 88."]}
+{"id": "s15", "turns": ["Reply with a JSON object that has a key named status whose value is ok."]}
+{"id": "s16", "turns": ["Describe a bicycle to someone who has never seen one, in three sentences."]}
+{"id": "m01", "turns": ["My name is Ana and I have two cats. Remember that.", "How many cats do I have, and what is my name?"]}
+{"id": "m02", "turns": ["Let x be 12. What is x plus 30?", "Now double the result you just gave me."]}

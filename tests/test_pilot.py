@@ -59,3 +59,45 @@ def test_every_experiment_has_a_known_workload():
 def test_contract_acceptance_covers_every_tier_a_vendor():
     standard = yaml.safe_load((ROOT / "data" / "devices" / "standard.yaml").read_text())["tiers"]["A"]["devices"]
     assert set(PILOT["experiments"]["contract_acceptance"]["devices"]) == set(standard)
+
+
+def test_workloads_are_pinned_bytes():
+    from execubench import pilot
+
+    for name, w in PILOT["workloads"].items():
+        problems = pilot.workload_problems(name, w)
+        # Only the speed source text may still be open, and the gate reports it.
+        assert all("source text" in p for p in problems), problems
+
+
+def test_the_gate_lists_what_blocks_scheduling():
+    from execubench import pilot
+
+    blocked = pilot.blockers(PILOT)
+    assert any("apk_sha256" in b for b in blocked)
+    assert any("orchestration" in b for b in blocked)
+    assert pilot.worst_case_minutes(PILOT) <= PILOT["max_device_minutes"]
+
+
+def test_a_changed_prompt_file_is_caught(tmp_path):
+    from execubench import pilot
+
+    w = dict(PILOT["workloads"]["smoke-v1"])
+    (tmp_path / "data" / "pilot").mkdir(parents=True)
+    (tmp_path / w["prompts_file"]).write_text('{"id": "x", "turns": ["changed"]}\n')
+    assert any("prompts_sha256" in p for p in pilot.workload_problems("smoke-v1", w, tmp_path))
+
+
+def test_the_ledger_enforces_one_budget_across_runs(tmp_path):
+    import pytest
+
+    from execubench import ledger
+
+    path = tmp_path / "ledger.jsonl"
+    assert ledger.reserve(path, 100, "run-a", 60) == 60
+    with pytest.raises(ledger.OverBudget, match="above its budget"):
+        ledger.reserve(path, 100, "run-b", 60)
+    with pytest.raises(ledger.OverBudget, match="already holds"):
+        ledger.reserve(path, 1000, "run-a", 1)
+    assert ledger.reserve(path, 100, "run-c", 40) == 100
+    assert ledger.reserved(path) == 100

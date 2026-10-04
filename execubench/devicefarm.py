@@ -20,8 +20,11 @@ import re
 import tempfile
 import time
 import urllib.error
+import urllib.parse
 import urllib.request
+import uuid
 import zipfile
+from collections.abc import Iterator
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -31,15 +34,20 @@ REGION = "us-west-2"
 
 # Bounds. Device Farm drops every customer artifact of a job above 1 GB, so a larger archive
 # is either not Device Farm's or broken; members and totals are capped against zip bombs.
+# Member and byte budgets are per job, shared by all of its archives, and members are staged on
+# disk and scanned in chunks, so memory stays bounded by SCAN_CHUNK and the probe dumps.
 MAX_ARCHIVE_BYTES = 1_100_000_000
-MAX_MEMBERS = 20_000
+MAX_JOB_ARCHIVE_BYTES = 2 * MAX_ARCHIVE_BYTES
+MAX_JOB_MEMBERS = 20_000
 MAX_MEMBER_BYTES = 512 * 2**20
-MAX_EXPANDED_BYTES = 2 * 2**30
+MAX_JOB_EXPANDED_BYTES = 2 * 2**30
+MAX_DUMP_BYTES = 64 * 2**20  # a probe dump is read whole for redaction; real ones are under 2 MiB
+SCAN_CHUNK = 8 * 2**20
 HTTP_TIMEOUT_S = 60
 HTTP_ATTEMPTS = 4
-DOWNLOAD_DEADLINE_S = 30 * 60  # total, not per socket read: a trickling response still ends
-MAX_JOB_ARCHIVE_BYTES = 2 * MAX_ARCHIVE_BYTES
-MAX_JOB_EXPANDED_BYTES = 2 * 2**30
+# Total per operation across every attempt and backoff. Reads use read1(), which returns after
+# one socket read, so the deadline is overrun by at most one socket timeout.
+DOWNLOAD_DEADLINE_S = 30 * 60
 UPLOAD_DEADLINE_S = 30 * 60
 RUN_DEADLINE_S = 8 * 3600
 
@@ -52,6 +60,12 @@ class ExpiredURL(RuntimeError):
     """A presigned URL answered 403: list the artifacts again for a fresh one."""
 
 
+def retry_config(retries: bool) -> dict:
+    """Botocore retry settings. `total_max_attempts` counts the first call; `max_attempts`
+    counts only retries after it, so `max_attempts: 1` would still send a call twice."""
+    return {"total_max_attempts": 10, "mode": "adaptive"} if retries else {"total_max_attempts": 1, "mode": "standard"}
+
+
 def client(retries: bool = True):
     """A Device Farm client. `retries=False` is for calls that are not idempotent
     (`schedule_run` has no client token, so a blind retry can start a second run)."""
@@ -60,17 +74,22 @@ def client(retries: bool = True):
 
     # Adaptive retries back off on Device Farm's throttling (10 TPS for most calls, 1 TPS for
     # writes); explicit timeouts stop a dead connection from hanging a pull.
-    config = Config(
-        region_name=REGION,
-        retries={"max_attempts": 10, "mode": "adaptive"} if retries else {"max_attempts": 1, "mode": "standard"},
-        connect_timeout=10,
-        read_timeout=60,
-    )
+    config = Config(region_name=REGION, retries=retry_config(retries), connect_timeout=10, read_timeout=60)
     return boto3.client("devicefarm", config=config)
 
 
-def _backoff(attempt: int) -> None:
-    time.sleep(min(30.0, 2.0**attempt) * (0.5 + random.random() / 2))
+def _remaining(deadline: float, what: str) -> float:
+    left = deadline - time.monotonic()
+    if left <= 0:
+        raise TimeoutError(f"{what}: deadline passed")
+    return left
+
+
+def _backoff(attempt: int, deadline: float, what: str) -> None:
+    pause = min(30.0, 2.0**attempt) * (0.5 + random.random() / 2)
+    if pause >= _remaining(deadline, what):
+        raise TimeoutError(f"{what}: no time left to retry")
+    time.sleep(pause)
 
 
 def _transient(error: Exception) -> bool:
@@ -80,21 +99,24 @@ def _transient(error: Exception) -> bool:
 
 
 def http_get(url: str, dest: Path, max_bytes: int, timeout: int = HTTP_TIMEOUT_S) -> int:
-    """Stream `url` into `dest`, refusing more than `max_bytes`; retries transient failures.
+    """Stream `url` into `dest`, refusing more than `max_bytes`; retries transient failures, all
+    within DOWNLOAD_DEADLINE_S.
 
     Raises ExpiredURL on 403, so the caller can fetch a fresh presigned URL.
     """
+    deadline = time.monotonic() + DOWNLOAD_DEADLINE_S
     for attempt in range(HTTP_ATTEMPTS):
         try:
             total = 0
-            deadline = time.monotonic() + DOWNLOAD_DEADLINE_S
-            with urllib.request.urlopen(url, timeout=timeout) as resp, open(dest, "wb") as out:
-                while chunk := resp.read(1 << 20):
+            sock_timeout = min(timeout, _remaining(deadline, "download"))
+            with urllib.request.urlopen(url, timeout=sock_timeout) as resp, open(dest, "wb") as out:
+                # read1 returns after one socket read, so a trickle cannot hold one call open
+                # for longer than the socket timeout.
+                while chunk := resp.read1(1 << 20):
                     total += len(chunk)
                     if total > max_bytes:
                         raise ValueError(f"download exceeds {max_bytes} bytes")
-                    if time.monotonic() > deadline:
-                        raise TimeoutError(f"download not finished after {DOWNLOAD_DEADLINE_S} s")
+                    _remaining(deadline, "download")
                     out.write(chunk)
             return total
         except urllib.error.HTTPError as error:
@@ -105,24 +127,38 @@ def http_get(url: str, dest: Path, max_bytes: int, timeout: int = HTTP_TIMEOUT_S
         except (urllib.error.URLError, TimeoutError, ConnectionError):
             if attempt == HTTP_ATTEMPTS - 1:
                 raise
-        _backoff(attempt)
+        _backoff(attempt, deadline, "download")
     raise AssertionError("unreachable")
 
 
+class _DeadlineReader:
+    """A request body that refuses to hand over more bytes once the deadline has passed."""
+
+    def __init__(self, f, deadline: float):
+        self.f, self.deadline = f, deadline
+
+    def read(self, n: int = -1) -> bytes:
+        _remaining(self.deadline, "upload")
+        return self.f.read(n if n and n > 0 else 1 << 16)
+
+
 def http_put(url: str, path: Path, timeout: int = HTTP_TIMEOUT_S) -> None:
-    """PUT a file to a presigned URL, streamed rather than read into memory."""
+    """PUT a file to a presigned URL, streamed, every attempt within UPLOAD_DEADLINE_S."""
+    deadline = time.monotonic() + UPLOAD_DEADLINE_S
     for attempt in range(HTTP_ATTEMPTS):
         try:
-            with open(path, "rb") as body:
-                req = urllib.request.Request(url, data=body, method="PUT")
+            with open(path, "rb") as f:
+                req = urllib.request.Request(url, data=_DeadlineReader(f, deadline), method="PUT")
                 req.add_header("Content-Type", "application/octet-stream")
                 req.add_header("Content-Length", str(path.stat().st_size))
-                urllib.request.urlopen(req, timeout=timeout).read()
+                sock_timeout = min(timeout, _remaining(deadline, "upload"))
+                with urllib.request.urlopen(req, timeout=sock_timeout) as resp:
+                    resp.read1(1 << 16)
             return
         except Exception as error:  # noqa: BLE001 - classified just below
             if not _transient(error) or attempt == HTTP_ATTEMPTS - 1:
                 raise
-        _backoff(attempt)
+        _backoff(attempt, deadline, "upload")
 
 
 def upload(df, project_arn: str, path: Path, kind: str, name: str | None = None) -> str:
@@ -172,20 +208,45 @@ def customer_artifacts(df, job_arn: str) -> list[dict]:
     ]
 
 
+def unique_run_name(prefix: str) -> str:
+    """A run name no earlier run can share, so a run can be found again by its name alone."""
+    return f"{prefix}-{time.strftime('%Y%m%dT%H%M%SZ', time.gmtime())}-{uuid.uuid4().hex[:8]}"
+
+
+def _matches(run: dict, kwargs: dict, started: float) -> bool:
+    """A listed run is the one this call scheduled: same name, pool and app, created after it."""
+    created = run.get("created")
+    ts = created.timestamp() if hasattr(created, "timestamp") else None
+    return (
+        run.get("name") == kwargs["name"]
+        and run.get("devicePoolArn") in (None, kwargs.get("devicePoolArn"))
+        and (run.get("appUpload") in (None, kwargs.get("appArn")))
+        and ts is not None
+        and ts >= started - 60
+    )
+
+
 def schedule_once(df_no_retry, df, **kwargs) -> dict:
-    """Schedule a run exactly once. ScheduleRun has no idempotency token, so on an ambiguous
-    failure (timeout, connection reset) the project's runs are searched for one with this name
-    created in the last ten minutes before anything is retried; none found means it is safe to
-    report the failure and let the operator decide."""
+    """Schedule a run exactly once.
+
+    ScheduleRun has no idempotency token. So the name must be unused in the project before the
+    call (refused otherwise), the call is sent once (`df_no_retry`, one total attempt), and on an
+    ambiguous failure (timeout, connection reset) the project is searched for a run with that
+    name, pool and app created since the call started. One match is the run; none means the
+    failure stands; two or more is refused, never guessed.
+    """
+    project = kwargs["projectArn"]
+    if any(r.get("name") == kwargs["name"] for r in _pages(df.list_runs, "runs", arn=project)):
+        raise RuntimeError(f"a run named {kwargs['name']!r} already exists; use unique_run_name()")
     started = time.time()
     try:
         return df_no_retry.schedule_run(**kwargs)["run"]
     except Exception:
-        for run in _pages(df.list_runs, "runs", arn=kwargs["projectArn"]):
-            created = run.get("created")
-            ts = created.timestamp() if hasattr(created, "timestamp") else 0
-            if run.get("name") == kwargs["name"] and ts >= started - 600:
-                return run
+        found = [r for r in _pages(df.list_runs, "runs", arn=project) if _matches(r, kwargs, started)]
+        if len(found) == 1:
+            return found[0]
+        if len(found) > 1:
+            raise RuntimeError(f"{len(found)} runs match the ambiguous schedule call; inspect them by hand") from None
         raise
 
 
@@ -252,6 +313,62 @@ def _redactable(name: str) -> bool:
     return name.startswith("probe/") and name.endswith(".txt")
 
 
+# A pulled file is either bytes in memory (probe dumps, tests) or a member staged on disk.
+Blob = bytes | Path
+
+
+def _read_small(src: Blob, cap: int = MAX_DUMP_BYTES) -> bytes:
+    if isinstance(src, bytes):
+        data = src
+    else:
+        with open(src, "rb") as f:
+            data = f.read(cap + 1)
+    if len(data) > cap:
+        raise ValueError(f"a probe dump is larger than {cap} bytes")
+    return data
+
+
+def _chunks(src: Blob, overlap: int) -> Iterator[bytes]:
+    """The blob in SCAN_CHUNK windows that overlap by `overlap` bytes, so a needle split across a
+    boundary is still seen whole."""
+    if isinstance(src, bytes):
+        yield src
+        return
+    tail = b""
+    with open(src, "rb") as f:
+        while block := f.read(SCAN_CHUNK):
+            yield tail + block
+            tail = (tail + block)[-overlap:] if overlap else b""
+
+
+_JSON_ESCAPE = re.compile(rb'\\u([0-9a-fA-F]{4})|\\(["\\/bfnrt])')
+_SIMPLE_ESCAPES = dict(zip(b'"\\/bfnrt', b'"\\/\b\f\n\r\t', strict=True))
+
+
+def _json_unescape(blob: bytes) -> bytes:
+    def one(m: re.Match) -> bytes:
+        if m.group(1):
+            return chr(int(m.group(1), 16)).encode("utf-8", "surrogatepass")
+        return bytes([_SIMPLE_ESCAPES[m.group(2)[0]]])
+
+    return _JSON_ESCAPE.sub(one, blob)
+
+
+def _views(blob: bytes) -> list[bytes]:
+    """The forms an identifier can take in a text record: as written, with JSON string escapes
+    decoded (`SERIAL\\u00312345`), with URL percent escapes decoded, all case-folded. Decoding
+    more than the writer meant can only add matches, so the check errs towards refusing."""
+    return [v.lower() for v in (blob, _json_unescape(blob), urllib.parse.unquote_to_bytes(blob))]
+
+
+def _holds(src: Blob, needles: list[bytes]) -> bool:
+    if not needles:
+        return False
+    folded = [n.lower() for n in needles]
+    overlap = 6 * max(map(len, folded)) + 6  # a fully \u-escaped needle is six bytes per byte
+    return any(n in view for chunk in _chunks(src, overlap) for view in _views(chunk) for n in folded)
+
+
 @dataclass
 class Identity:
     serial: str | None = None
@@ -271,15 +388,15 @@ class Identity:
         return sorted(pairs, key=lambda p: len(p[0]), reverse=True)
 
 
-def identify(files: dict[str, bytes]) -> Identity:
+def identify(files: dict[str, Blob]) -> Identity:
     ident = Identity()
-    for name, blob in files.items():
+    for name, src in files.items():
         if name.endswith("probe/_host.txt"):
-            m = re.search(rb"^device_name=(\S+)$", blob, flags=re.M)
+            m = re.search(rb"^device_name=(\S+)$", _read_small(src), flags=re.M)
             if m:
                 ident.serial = ident.serial or m.group(1).decode()
         if name.endswith("probe/getprop.txt"):
-            text = blob.decode("utf-8", "surrogateescape")
+            text = _read_small(src).decode("utf-8", "surrogateescape")
             pairs = getprop_pairs(text)
             # Some identifier-shaped keys hold the model name (ro.quick_start.device_id is
             # "SM-X710" on a Galaxy Tab S9, "SM-A346" on a Galaxy A34 whose model is SM-A346B): a
@@ -298,35 +415,45 @@ def identify(files: dict[str, bytes]) -> Identity:
     return ident
 
 
-def scrub(files: dict[str, bytes], account: str | None = None) -> tuple[dict[str, bytes], str | None]:
+def scrub(
+    files: dict[str, Blob], account: str | None = None, ident: Identity | None = None
+) -> tuple[dict[str, Blob], str | None]:
     """Redact identifiers in the probe's text dumps; refuse any other file that holds one.
 
     In `probe/*.txt`: the unit's serial becomes `unit-<hash>`, every value of an
     IDENTIFIER_KEYS property becomes `<redacted>`, the account number becomes `<account>`, and
     adb's per-percent push progress lines are dropped. Any other file (harness records, logs,
-    binaries) or file name that contains one of those values raises LeakFound: those files
-    carry content hashes, and the harness must never write identifiers into them.
+    binaries) or file name that contains one of those values, as written or escaped
+    (`_views`), raises LeakFound: those files carry content hashes, and the harness must never
+    write identifiers into them. LeakFound names offending files by position, never by a name
+    that may itself hold the identifier.
     """
-    ident = identify(files)
+    ident = ident or identify(files)
     if ident.serial is None:
         # Without the probe's identity the leak check below has nothing to look for, so a
         # bundle without it is refused rather than passed through unchecked.
         raise LeakFound("no unit identity (probe/_host.txt or probe/getprop.txt): cannot check for identifiers")
-    needles = ident.needles(account)
-    out, leaks = {}, []
-    for name, blob in files.items():
-        if any(needle in name.encode() for needle, _ in needles):
-            leaks.append(f"file name {name!r}")
+    pairs = ident.needles(account)
+    needles = [n for n, _ in pairs]
+    out: dict[str, Blob] = {}
+    leaks: list[str] = []
+    for index, (name, src) in enumerate(sorted(files.items())):
+        bad_name = _holds(name.encode("utf-8", "surrogateescape"), needles)
+        if bad_name:
+            leaks.append(f"the name of file #{index}")
         if _redactable(name):
-            for needle, replacement in needles:
+            blob = _read_small(src)
+            for needle, replacement in pairs:
                 blob = blob.replace(needle, replacement)
             if name.endswith("push.txt"):
                 blob = PROGRESS.sub(b"", blob)
-        elif any(needle in blob for needle, _ in needles):
-            leaks.append(name)
-        out[name] = blob
+            out[name] = blob
+        else:
+            if _holds(src, needles):
+                leaks.append(f"file #{index}" if bad_name else repr(name))
+            out[name] = src
     if leaks:
-        raise LeakFound(f"identifiers outside the probe dumps, pull refused: {sorted(leaks)}")
+        raise LeakFound(f"identifiers outside the probe dumps, pull refused: {leaks}")
     return out, ident.unit
 
 
@@ -334,7 +461,7 @@ def sanitize(value, idents: list[Identity], account: str | None):
     """Redact identifiers in every string inside Device Farm's run and job records, before they
     are serialised (so an identifier holding a newline cannot hide behind JSON escaping)."""
     if isinstance(value, dict):
-        return {k: sanitize(v, idents, account) for k, v in value.items()}
+        return {sanitize(k, idents, account): sanitize(v, idents, account) for k, v in value.items()}
     if isinstance(value, list):
         return [sanitize(v, idents, account) for v in value]
     if isinstance(value, str):
@@ -349,13 +476,11 @@ def sanitize(value, idents: list[Identity], account: str | None):
 
 
 def dump_sanitized(record: dict, idents: list[Identity], account: str | None) -> bytes:
-    """JSON of a sanitised record, then checked again in serialised form, raw and escaped."""
+    """JSON of a sanitised record, then checked again in serialised form, as written and escaped."""
     text = json.dumps(sanitize(json.loads(json.dumps(record, default=str)), idents, account), indent=1, sort_keys=True)
-    for ident in idents:
-        for needle, _ in ident.needles(account):
-            raw = needle.decode("utf-8", "surrogateescape")
-            if raw in text or json.dumps(raw)[1:-1] in text:
-                raise LeakFound("an identifier survived metadata sanitising")
+    needles = [n for ident in idents for n, _ in ident.needles(account)]
+    if _holds(text.encode("utf-8", "surrogateescape"), needles):
+        raise LeakFound("an identifier survived metadata sanitising")
     return (text + "\n").encode()
 
 
@@ -366,42 +491,51 @@ def _safe_member(name: str) -> str:
     rel = name.split("$DEVICEFARM_LOG_DIR/", 1)[-1]
     parts = Path(rel).parts
     if not rel or Path(rel).is_absolute() or ".." in parts:
-        raise ValueError(f"refusing artifact path {name!r}")
+        raise ValueError("refusing an artifact path that escapes the job folder")
     return rel
 
 
-def read_archive(path: Path, budget: list[int] | None = None) -> dict[str, bytes]:
-    """Every regular file in a customer-artifact zip, within the size and count bounds.
+@dataclass
+class JobBudget:
+    """What one job's archives may still expand to, shared across all of them."""
 
-    `budget` is a one-element list of bytes still allowed for the whole job, shared across all
-    of its archives and decremented here.
+    members: int = MAX_JOB_MEMBERS
+    bytes: int = MAX_JOB_EXPANDED_BYTES
+
+
+def extract_archive(path: Path, into: Path, budget: JobBudget | None = None) -> dict[str, Path]:
+    """Stage every regular file of a customer-artifact zip on disk, within the bounds.
+
+    Members are written under numbered names (a member's own name is untrusted), and the cap is
+    enforced on the bytes actually inflated, because declared sizes can lie. Errors never quote a
+    member name: it may hold an identifier and has not been checked yet.
     """
-    files: dict[str, bytes] = {}
-    expanded = 0
-    budget = budget if budget is not None else [MAX_JOB_EXPANDED_BYTES]
+    budget = budget or JobBudget()
+    into.mkdir(parents=True, exist_ok=True)
+    files: dict[str, Path] = {}
     with zipfile.ZipFile(path) as z:
         members = [m for m in z.infolist() if not m.is_dir()]
-        if len(members) > MAX_MEMBERS:
-            raise ValueError(f"{path.name}: {len(members)} members, more than {MAX_MEMBERS}")
+        budget.members -= len(members)
+        if budget.members < 0:
+            raise ValueError(f"{path.name}: the job's archives hold more than {MAX_JOB_MEMBERS} members")
         for m in members:
             kind = (m.external_attr >> 16) & 0o170000
             # Zips written without Unix modes carry 0; anything else must be a regular file.
             if kind not in (0, 0o100000):
-                raise ValueError(f"{path.name}: non-regular member {m.filename!r} (mode {kind:o})")
+                raise ValueError(f"{path.name}: a non-regular member (mode {kind:o})")
             rel = _safe_member(m.filename)
             if rel in files:
-                raise ValueError(f"{path.name}: two entries for {rel}")
-            # Declared sizes can lie, so the cap is enforced on the bytes actually inflated.
-            chunks, size = [], 0
-            with z.open(m) as src:
+                raise ValueError(f"{path.name}: two entries for one path")
+            target = into / f"{path.stem}-{len(files):05d}.bin"
+            size = 0
+            with z.open(m) as src, open(target, "xb") as out:
                 while chunk := src.read(1 << 20):
                     size += len(chunk)
-                    expanded += len(chunk)
-                    budget[0] -= len(chunk)
-                    if size > MAX_MEMBER_BYTES or expanded > MAX_EXPANDED_BYTES or budget[0] < 0:
-                        raise ValueError(f"{path.name}: {rel} expands past the size bounds")
-                    chunks.append(chunk)
-            files[rel] = b"".join(chunks)
+                    budget.bytes -= len(chunk)
+                    if size > MAX_MEMBER_BYTES or budget.bytes < 0:
+                        raise ValueError(f"{path.name}: a member expands past the size bounds")
+                    out.write(chunk)
+            files[rel] = target
     return files
 
 
@@ -411,18 +545,24 @@ def slug(device: dict) -> str:
     return f"{model_id}-android{device['os']}"
 
 
-def _write_new(path: Path, data: bytes) -> None:
-    """Create a file that must not exist yet: a pull never replaces evidence."""
+def _write_new(path: Path, src: Blob) -> tuple[str, int]:
+    """Create a file that must not exist yet (a pull never replaces evidence); its sha256 and size."""
     path.parent.mkdir(parents=True, exist_ok=True)
-    with open(path, "xb") as f:
-        f.write(data)
+    digest, size = hashlib.sha256(), 0
+    with open(path, "xb") as out:
+        for chunk in _chunks(src, 0):
+            digest.update(chunk)
+            size += len(chunk)
+            out.write(chunk)
+    return digest.hexdigest(), size
 
 
-def _job_files(df, job: dict, scratch: Path) -> tuple[dict[str, bytes], int]:
-    """Download and read every customer-artifact archive of one job, within job-level bounds."""
-    files: dict[str, bytes] = {}
+def _job_files(df, job: dict, scratch: Path) -> tuple[dict[str, Path], int]:
+    """Download and stage every customer-artifact archive of one job, within job-level bounds."""
+    files: dict[str, Path] = {}
+    scratch.mkdir(parents=True, exist_ok=True)
     arts = customer_artifacts(df, job["arn"])
-    downloaded, budget = 0, [MAX_JOB_EXPANDED_BYTES]
+    downloaded, budget = 0, JobBudget()
     for index, art in enumerate(arts):
         archive = scratch / f"{index}.zip"
         try:
@@ -434,11 +574,11 @@ def _job_files(df, job: dict, scratch: Path) -> tuple[dict[str, bytes], int]:
                 raise
             downloaded += http_get(fresh[art["arn"]]["url"], archive, MAX_ARCHIVE_BYTES)
         if downloaded > MAX_JOB_ARCHIVE_BYTES:
-            raise ValueError(f"{job['arn']}: artifacts exceed {MAX_JOB_ARCHIVE_BYTES} bytes")
-        for rel, data in read_archive(archive, budget).items():
+            raise ValueError(f"the job's artifacts exceed {MAX_JOB_ARCHIVE_BYTES} bytes")
+        for rel, staged in extract_archive(archive, scratch / f"{index}.d", budget).items():
             if rel in files:
-                raise ValueError(f"{job['arn']}: two artifact entries for {rel}")
-            files[rel] = data
+                raise ValueError("two artifact archives hold one path")
+            files[rel] = staged
         archive.unlink()
     return files, len(arts)
 
@@ -449,6 +589,11 @@ EXPECTED_FILES = {
     "harness": ("probe/_host.txt", "probe/getprop.txt", "job.json", "requests.jsonl", "samples.jsonl"),
 }
 
+# Stages of a pull whose exception text cannot hold an unchecked identifier. Download and
+# archive errors can quote URLs or member names from before the identity was known, so the
+# manifest records only their type and stage.
+_QUOTABLE_STAGES = {"listing", "scrub", "write", "reconcile"}
+
 
 def pull_run(
     df, run_arn: str, dest: Path, allow_incomplete: bool = False, restart: bool = False, kind: str = "probe"
@@ -457,8 +602,9 @@ def pull_run(
 
     Everything is written to `<dest>.partial` first and renamed to `dest` only when every job
     has been read and checked. A failed pull leaves `<dest>.partial` with a
-    `pull-manifest.json` that says what failed; `restart=True` moves it aside to
-    `<dest>.failed-<time>` (never deleted) before trying again. `dest` itself must not exist.
+    `pull-manifest.json` that says what failed (sanitised, and without any text that could not
+    be checked); `restart=True` moves it aside to `<dest>.failed-<time>` (never deleted) before
+    trying again. `dest` itself must not exist.
 
     A job is complete when Device Farm finished it and its artifacts contain every file in
     EXPECTED_FILES[kind]; the run is complete when it is COMPLETED and its job listing matches
@@ -494,38 +640,46 @@ def pull_run(
         "failure": None,
     }
     idents: list[Identity] = []
+    stage, current = "listing", None
 
     def save_manifest() -> None:
-        target = partial / "pull-manifest.json"
-        target.write_text(json.dumps(manifest, indent=1, sort_keys=True) + "\n")
+        try:
+            data = dump_sanitized(manifest, idents, account)
+        except LeakFound:
+            # Never write what could not be cleaned: keep only the bare outcome.
+            data = dump_sanitized({"complete": False, "failure": {"stage": stage, "type": "LeakFound"}}, [], account)
+        (partial / "pull-manifest.json").write_bytes(data)
 
     try:
         with tempfile.TemporaryDirectory(dir=partial.parent) as tmp:
-            for job, name in zip(all_jobs, slugs, strict=True):
-                files, archives = _job_files(df, job, Path(tmp))
+            for number, (job, name) in enumerate(zip(all_jobs, slugs, strict=True)):
+                current = name
+                stage = "download"
+                files, archives = _job_files(df, job, Path(tmp) / f"job{number}")
+                stage = "scrub"
                 ident = identify(files) if files else Identity()
+                # Registered before scrubbing, so a refusal's diagnostics are cleaned with it too.
+                idents.append(ident)
+                unit = None
                 if files:
-                    files, unit = scrub(files, account)
-                    idents.append(ident)
-                else:
-                    unit = None
+                    files, unit = scrub(files, account, ident)
+                stage = "write"
+                folder = partial / name
+                written = {rel: _write_new(folder / "artifacts" / rel, src) for rel, src in files.items()}
                 missing = [f for f in expected if f not in files]
-                state = "complete" if not missing and job["status"] == "COMPLETED" else "incomplete"
                 manifest["jobs"][name] = {
                     "job": job["arn"].rsplit("/", 1)[-1],
                     "status": job["status"],
                     "result": job.get("result"),
                     "archives": archives,
                     "missing": missing,
-                    "state": state,
-                    "files": {r: {"sha256": hashlib.sha256(d).hexdigest(), "bytes": len(d)} for r, d in files.items()},
+                    "state": "complete" if not missing and job["status"] == "COMPLETED" else "incomplete",
+                    "files": {rel: {"sha256": h, "bytes": n} for rel, (h, n) in written.items()},
                 }
-                folder = partial / name
-                for rel, data in files.items():
-                    _write_new(folder / "artifacts" / rel, data)
-                _write_new(folder / "devicefarm-job.json", dump_sanitized(job, [ident] if files else idents, account))
+                _write_new(folder / "devicefarm-job.json", dump_sanitized(job, idents, account))
                 if unit:
                     _write_new(folder / "unit.txt", (unit + "\n").encode())
+        stage, current = "reconcile", None
         counts_match = run.get("totalJobs") in (None, len(all_jobs))
         manifest["complete"] = (
             run["status"] == "COMPLETED"
@@ -538,10 +692,15 @@ def pull_run(
                 f"incomplete pull: run {run['status']}, {len(all_jobs)} of {run.get('totalJobs')} jobs listed, "
                 f"incomplete jobs {[k for k, v in manifest['jobs'].items() if v['state'] != 'complete']}"
             )
-        manifest["run_arn"] = sanitize(run_arn, idents, account)
+        manifest["run_arn"] = run_arn
         _write_new(partial / "devicefarm-run.json", dump_sanitized(run, idents, account))
     except Exception as error:
-        manifest["failure"] = sanitize(f"{type(error).__name__}: {error}", idents, account)
+        manifest["failure"] = {
+            "stage": stage,
+            "job": current,
+            "type": type(error).__name__,
+            "message": str(error)[:2000] if stage in _QUOTABLE_STAGES else None,
+        }
         save_manifest()
         raise
     save_manifest()

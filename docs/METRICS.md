@@ -108,6 +108,12 @@ samples are matched to requests only on the host's clock. No mapping between the
 is assumed, so no phase inside a request (prefill versus decode) is assigned samples from host
 time alone.
 
+`execubench validate` recomputes every derived timing from its coordinates and refuses a record
+where they differ: `e2e_ms` and `client_ttft_ms` from the host timestamps, the `monotonic`
+durations from the four native timestamps (which must be in order), and `clock_disagreement`
+from the runner and native durations. A successful record without all four native timestamps
+is refused, as is a record whose `thermal_event` does not match its `thermal_status_max`.
+
 `ttft_ms` and `client_ttft_ms` are both kept: the first is what the runtime costs, the second
 adds HTTP, adb and template rendering, and the gap is itself reported.
 
@@ -164,8 +170,12 @@ the number of distinct units and the number of distinct days beside them.
 ## Memory
 
 Sampled by the host over adb from the server process every 250 ms during a request, plus once
-before and once after. Units are MiB (2^20 bytes) throughout; each sample carries a host
-monotonic timestamp.
+before and once after. Units are MiB (2^20 bytes) throughout; each sample carries its read's
+host monotonic start, end and midpoint. Every read writes a sample, with the raw command output
+the values were parsed from, or with a `read_error` (adb failure, or output that did not parse)
+and no values; a failed read never stops the other kinds of read, and a gap is never filled.
+A memory sample without a valid interval, from another job, or contradicting another read at
+the same instant stops the summary instead of being placed by guesswork.
 
 | Field | Source | Notes |
 |---|---|---|

@@ -21,10 +21,18 @@ STATS = {
 }
 EXT = {
     "runner_stats": STATS,
-    "monotonic": {"call_start_ns": 0, "first_sampled_token_ns": 400_000_000, "call_end_ns": 4_400_000_000},
+    "monotonic": {
+        "call_start_ns": 0,
+        "first_sampled_token_ns": 400_000_000,
+        "first_callback_ns": 401_000_000,
+        "call_end_ns": 4_400_000_000,
+    },
     "prompt_text": "<|user|>hi<|assistant|>",
     "cached_tokens": 0,
 }
+
+
+APK = "a" * 64
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -34,7 +42,7 @@ class Handler(BaseHTTPRequestHandler):
         pass
 
     def do_GET(self):
-        body = json.dumps({"benchmark": {"contract": 1, "features": self.features}}).encode()
+        body = json.dumps({"benchmark": {"contract": 1, "features": self.features, "apk_sha256": APK}}).encode()
         self.send_response(200)
         self.end_headers()
         self.wfile.write(body)
@@ -70,17 +78,14 @@ def test_client_streams_and_times(server):
 
 def test_a_record_built_from_a_reply_passes_schema_and_semantics(server):
     reply = client.chat(server, "k", {"model": "m", "messages": []})
-    samples = [
-        {"kind": "memory", "t_ns": reply.sent_ns, "vm_rss_kib": 1024 * 900},
-        {"kind": "memory", "t_ns": reply.done_ns, "vm_rss_kib": 1024 * 1000},
-    ]
+    samples = [_mem(reply.sent_ns, 900), _mem(reply.done_ns, 1000)]
     rec = run.request_record(
         "job",
         0,
         "quality",
         {"dataset": "gsm8k", "row_id": "1", "max_tokens": 128},
         reply,
-        run.memory_summary(samples, reply.sent_ns, reply.done_ns),
+        run.memory_summary(samples, reply.sent_ns, reply.done_ns, "job"),
         {
             "battery_temp_c_start": 30.0,
             "battery_temp_c_end": 31.0,
@@ -94,11 +99,18 @@ def test_a_record_built_from_a_reply_passes_schema_and_semantics(server):
     assert rec["timings"]["clock_disagreement"] is False
 
 
+def _mem(t, mib, job="job", **extra):
+    sample = {"job_id": job, "kind": "memory", "t_ns": t, "t_start_ns": t, "t_end_ns": t, "vm_rss_kib": mib * 1024}
+    return {**sample, **extra}
+
+
 def test_a_server_without_the_contract_is_refused(server, monkeypatch):
-    run.require_contract(server, "k")
+    run.require_contract(server, "k", APK)
+    with pytest.raises(run.ContractMissing, match="no pinned"):
+        run.require_contract(server, "k", None)
     monkeypatch.setattr(Handler, "features", ["cache_off"])
     with pytest.raises(run.ContractMissing, match="native_max_new_tokens"):
-        run.require_contract(server, "k")
+        run.require_contract(server, "k", APK)
 
 
 def test_sampler_parsers():
@@ -109,11 +121,61 @@ def test_sampler_parsers():
         "\tTemperature{mValue=41.5, mType=3, mName=SKIN, mStatus=0}\n"
     )
     parsed = sampler.parse_thermal(dump)
-    assert parsed["thermal_status"] == 1 and parsed["temps_c"] == {"SKIN": 41.5} and "SKIN" in parsed["raw"]
+    assert parsed["thermal_status"] == 1 and parsed["temps_c"] == {"SKIN": 41.5}
+
+
+class ScriptedAdb:
+    """Answers each command from a table; a missing entry is an adb failure."""
+
+    def __init__(self, answers):
+        self.answers = answers
+
+    def shell(self, command, timeout_s=None):
+        from execubench.harness.adb import AdbError
+
+        for key, value in self.answers.items():
+            if key in command:
+                return value
+        raise AdbError(f"no answer for {command}")
+
+
+def test_every_read_writes_a_sample_with_its_raw_output(tmp_path):
+    status = "VmRSS:\t  1234 kB\n"
+    adb = ScriptedAdb({"/status": status, "scaling_cur_freq": "garbage", "thermalservice": "Thermal Status: 2\n"})
+    writer = records.JsonlWriter(tmp_path / "s.jsonl")
+    s = sampler.Sampler(adb, 1, writer, "job")
+    s._read("memory", "cat /proc/1/status", sampler.parse_status, 5)
+    s._read("clock", sampler.FREQ_CMD, lambda t: {"cpu_cur_khz": sampler.parse_freqs(t) or None}, 5)
+    s._read("thermal", "dumpsys thermalservice", sampler.parse_thermal, 5)
+    s.adb = ScriptedAdb({})
+    s._read("memory", "cat /proc/1/status", sampler.parse_status, 5)
+    writer.close()
+    rows = [json.loads(line) for line in (tmp_path / "s.jsonl").read_text().splitlines()]
+    assert rows[0]["vm_rss_kib"] == 1234 and rows[0]["raw"] == status and rows[0]["read_error"] is None
+    assert rows[1]["read_error"] == "unparseable" and rows[1]["raw"] == "garbage" and "cpu_cur_khz" not in rows[1]
+    assert rows[2]["thermal_status"] == 2 and rows[2]["raw"].startswith("Thermal Status")
+    assert rows[3]["read_error"].startswith("adb:") and rows[3]["raw"] is None
+    assert s.missed == 2
+    for row in rows:
+        assert schemas.errors_for("sample.schema.json", row) == [], row
+        assert semantics.sample(row) == []
 
 
 def test_memory_summary_without_samples_says_why():
-    assert run.memory_summary([], 0, 10)["null_reason"] == "no_samples_in_window"
+    assert run.memory_summary([], 0, 10, "job")["null_reason"] == "no_samples_in_window"
+
+
+def test_memory_summary_refuses_samples_it_cannot_place():
+    with pytest.raises(run.BadSample, match="other"):
+        run.memory_summary([_mem(5, 1, job="other")], 0, 10, "job")
+    with pytest.raises(run.BadSample, match="out of order"):
+        run.memory_summary([_mem(5, 1, t_start_ns=8, t_end_ns=2)], 0, 10, "job")
+    with pytest.raises(run.BadSample, match="interval"):
+        run.memory_summary([{"job_id": "job", "kind": "memory", "t_ns": 5, "vm_rss_kib": 1}], 0, 10, "job")
+    with pytest.raises(run.BadSample, match="disagree"):
+        run.memory_summary([_mem(5, 1), _mem(5, 2)], 0, 10, "job")
+    failed = {**_mem(5, 1), "vm_rss_kib": None, "read_error": "unparseable"}
+    assert run.memory_summary([failed], 0, 10, "job")["samples"] == 0
 
 
 def test_records_survive_and_hash(tmp_path):
@@ -145,10 +207,13 @@ def test_push_checks_the_bytes_on_the_phone(tmp_path):
         staging.push(FakeAdb("0" * 64), f, "/sdcard/x/m.pte", good)
 
 
+MANIFEST = f"runtime: {{apk_sha256: '{APK}'}}\nmodels:\n  a: {{repo: r, revision: '0', file: f, sha256: '0'}}\n"
+
+
 def test_main_refuses_without_contract(tmp_path, monkeypatch, server):
     monkeypatch.setattr(Handler, "features", [])
     manifest = tmp_path / "m.yaml"
-    manifest.write_text("models:\n  a: {repo: r, revision: '0', file: f, sha256: '0'}\n")
+    manifest.write_text(MANIFEST)
     assert (
         run.main(["--manifest", str(manifest), "--model", "a", "--out", str(tmp_path / "out"), "--base-url", server])
         == 3
@@ -169,7 +234,7 @@ def test_contract_doc_and_code_list_the_same_required_features():
 
 def test_main_does_not_claim_success_without_orchestration(tmp_path, server):
     manifest = tmp_path / "m.yaml"
-    manifest.write_text("models:\n  a: {repo: r, revision: '0', file: f, sha256: '0'}\n")
+    manifest.write_text(MANIFEST)
     args = ["--manifest", str(manifest), "--model", "a", "--out", str(tmp_path / "out"), "--base-url", server]
     assert run.main(args) == 4
     assert json.loads((tmp_path / "out" / "job.json").read_text())["outcome"] == "failed"
@@ -177,18 +242,19 @@ def test_main_does_not_claim_success_without_orchestration(tmp_path, server):
 
 def test_memory_mean_is_a_step_function_with_coverage():
     samples = [
-        {"kind": "memory", "t_ns": 100, "t_start_ns": 100, "t_end_ns": 100, "vm_rss_kib": 1024},
-        {"kind": "memory", "t_ns": 100, "t_start_ns": 100, "t_end_ns": 100, "vm_rss_kib": 1024},
-        {"kind": "memory", "t_ns": 300, "t_start_ns": 300, "t_end_ns": 300, "vm_rss_kib": 3072},
-        {"kind": "memory", "t_ns": 5, "t_start_ns": -10, "t_end_ns": 20, "vm_rss_kib": 9999},  # straddles start
+        _mem(100, 1),
+        _mem(100, 1),
+        _mem(300, 3),
+        _mem(5, 9999, t_start_ns=-10, t_end_ns=20),  # straddles the start
     ]
-    m = run.memory_summary(samples, 0, 400)
+    m = run.memory_summary(samples, 0, 400, "job")
     assert m["samples"] == 2 and m["rss_mean_mib"] == (1 * 200 + 3 * 100) / 300
     assert m["coverage"] == 300 / 400 and m["rss_sampled_peak_mib"] == 3
 
 
 class StreamHandler(BaseHTTPRequestHandler):
     events: list = []
+    delay = 0.0
 
     def log_message(self, *args):
         pass
@@ -197,8 +263,12 @@ class StreamHandler(BaseHTTPRequestHandler):
         self.rfile.read(int(self.headers.get("Content-Length", 0)))  # an unread body makes close() reset
         self.send_response(200)
         self.end_headers()
+        import time
+
         for e in self.events:
             self.wfile.write(e.encode())
+            self.wfile.flush()
+            time.sleep(self.delay)
 
 
 @pytest.fixture
@@ -218,6 +288,18 @@ def test_a_cut_stream_is_not_a_reply(stream_server, monkeypatch):
     with pytest.raises(client.IncompleteStream) as caught:
         client.chat(stream_server, "k", {})
     assert caught.value.partial.text == "Hi"
+
+
+def test_a_failed_stream_keeps_its_partial_tool_calls_and_end_time(stream_server, monkeypatch):
+    frag = {"index": 0, "id": "c1", "function": {"name": "search", "arguments": '{"q":'}}
+    for tail in ([], _sse({"error": {"message": "boom"}})):
+        events = _sse({"choices": [{"delta": {"tool_calls": [frag]}}]}) + tail
+        monkeypatch.setattr(StreamHandler, "events", events)
+        with pytest.raises(client.IncompleteStream) as caught:
+            client.chat(stream_server, "k", {})
+        partial = caught.value.partial
+        assert partial.tool_calls and partial.tool_calls[0]["id"] == "c1"
+        assert partial.done_ns >= partial.sent_ns > 0
 
 
 def test_an_error_event_is_not_a_reply(stream_server, monkeypatch):
@@ -245,3 +327,11 @@ def test_streamed_tool_calls_are_assembled(stream_server, monkeypatch):
 def test_an_unpinned_build_is_refused(server):
     with pytest.raises(run.ContractMissing, match="not the pinned"):
         run.require_contract(server, "k", "f" * 64)
+
+
+def test_the_deadline_branch_records_an_end_time(stream_server, monkeypatch):
+    monkeypatch.setattr(StreamHandler, "events", _sse({"choices": [{"delta": {"content": "x"}}]}) * 5)
+    monkeypatch.setattr(StreamHandler, "delay", 0.2)
+    with pytest.raises(client.IncompleteStream, match="no completion within") as caught:
+        client.chat(stream_server, "k", {}, timeout_s=0.3)
+    assert caught.value.partial.done_ns > caught.value.partial.sent_ns

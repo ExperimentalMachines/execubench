@@ -1,6 +1,7 @@
-# Phase P1 pilot (docs/PLAN.md section 9): three phones, two models, the experiments that settle
+# Phase P1 pilot (docs/PLAN.md section 9): four phones, two models, the experiments that settle
 # the protocol's open questions. Nothing here has run yet. tests/test_pilot.py checks every pin
 # against the inventory and the device registry, and that the worst case stays under the ceiling.
+# `python -m execubench pilot check data/pilot/p1.yaml` lists what still blocks scheduling.
 
 runtime:
   executorch: "1.5.1"           # config/versions.env; the phone build is ExecuServe on the 1.5.1 AAR
@@ -8,8 +9,11 @@ runtime:
   server_contract: 1            # docs/EXECUSERVE-CONTRACT.md; the harness refuses a build without it
   apk_sha256: null              # set to the benchmark build's hash before scheduling; the harness checks it
 
-# Spend ceiling for the whole pilot. Every scheduling call also passes --max-device-minutes.
+# Spend ceiling for the whole pilot, enforced across runs and retries by reserving each run's
+# worst case in the ledger below (execubench/ledger.py). Every scheduling call also passes
+# --max-device-minutes for the run itself.
 max_device_minutes: 900         # the account had 945.8 free trial minutes left (data/devicefarm/account-2026-10-04.json)
+ledger: data/pilot/p1-ledger.jsonl
 
 devices:                        # one Device Farm device ARN each; the pool is exactly these
   sm-s938u1-android15: arn:aws:devicefarm:us-west-2::device:DF55D3152CC94B6BAC3FA52333390D86
@@ -43,11 +47,35 @@ workloads:
     tests: docs/EXECUSERVE-CONTRACT.md   # every row of the acceptance table, once
   smoke-v1:
     kind: requests
-    prompts: 20
+    prompts_file: data/pilot/smoke-v1.jsonl   # 16 single-turn rows and 2 two-turn conversations
+    prompts_sha256: c2a5c0d3fbc0c0457dff3f3261a1d1db9104944df00ebc27d25de29729a6b17b
+    requests: 20                # one per user turn; a conversation's second turn reuses the KV cache
+    repeat_each: 1
     max_tokens: 128
     warmup: 3
+  smoke-v1-x2:                  # determinism: every request twice in one job, run to run
+    kind: requests
+    prompts_file: data/pilot/smoke-v1.jsonl
+    prompts_sha256: c2a5c0d3fbc0c0457dff3f3261a1d1db9104944df00ebc27d25de29729a6b17b
+    requests: 40
+    repeat_each: 2
+    max_tokens: 128
+    warmup: 3
+  smoke-v1-until-killed:        # artifact survival: loop until Device Farm stops the job
+    kind: requests
+    prompts_file: data/pilot/smoke-v1.jsonl
+    prompts_sha256: c2a5c0d3fbc0c0457dff3f3261a1d1db9104944df00ebc27d25de29729a6b17b
+    loop_until_killed: true     # no planned count: the job is meant to hit job_timeout_min
+    max_tokens: 128
+    warmup: 3
+    expect:                     # what the pull must hold for the experiment to pass
+      job_finalized: false
+      every_record_line_parses: true
+      requests_at_least: 1
   speed-v1:
     kind: speed
+    source_text: null           # the public-domain text the buckets are cut from (PLAN 6.3); pinned before scheduling
+    source_text_sha256: null
     prompt_tokens: [128, 512, 1024, 2048, 4096]
     decode_steps: [64, 256]
     repetitions: 10
@@ -82,7 +110,10 @@ experiments:
     job_timeout_min: 30
   determinism:
     question: "Are greedy outputs identical run to run and unit to unit? (open question 6)"
-    workload: smoke-v1
+    workload: smoke-v1-x2
+    # Device Farm cannot be asked for two different units. Run to run is measured inside each job;
+    # unit to unit is reported only if the two jobs' device_unit hashes differ.
+    unit_comparison: only_if_units_differ
     devices: [glbw0-android16]
     models: [qwen3-1.7b]
     arms: [default]
@@ -98,7 +129,7 @@ experiments:
     job_timeout_min: 30
   artifact_survival:
     question: "Is every record pulled when a job hits its time limit mid-request? (Device Farm 1 GB cap and timeout)"
-    workload: smoke-v1
+    workload: smoke-v1-until-killed
     devices: [glbw0-android16]
     models: [smollm2-360m]
     arms: [killed_at_limit]

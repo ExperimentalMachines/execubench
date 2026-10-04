@@ -18,7 +18,7 @@ import urllib.request
 from datetime import UTC, datetime
 from pathlib import Path
 
-from ..semantics import DECODE_MIN_MS, DECODE_MIN_STEPS, PREFILL_MIN_MS
+from ..semantics import DECODE_MIN_MS, DECODE_MIN_STEPS, PREFILL_MIN_MS, clock_ok
 from .records import config_sha256, write_json_atomic
 
 # Features the ExecuServe benchmark build must advertise (docs/EXECUSERVE-CONTRACT.md).
@@ -30,16 +30,20 @@ REQUIRED_FEATURES = {
     "native_monotonic",
     "prompt_echo",
 }
-CLOCK_TOLERANCE_MS, CLOCK_TOLERANCE_REL = 5.0, 0.01
+# False until staging, start, cooldown, warm-up, the request loop and finalisation are wired
+# (docs/PLAN.md 6.1); execubench.pilot refuses to schedule while it is.
+ORCHESTRATION_IMPLEMENTED = False
 
 
 class ContractMissing(RuntimeError):
     pass
 
 
-def require_contract(base_url: str, key: str, apk_sha256: str | None = None) -> dict:
+def require_contract(base_url: str, key: str, apk_sha256: str | None) -> dict:
     """The server's benchmark capabilities, or a refusal: no device minutes on a build that
-    cannot report what METRICS needs."""
+    cannot report what METRICS needs, or on a build nobody pinned."""
+    if not apk_sha256:
+        raise ContractMissing("no pinned ExecuServe APK sha256 (runtime.apk_sha256 in the manifest)")
     req = urllib.request.Request(
         base_url.rstrip("/") + "/v1/execuserve/capabilities", headers={"Authorization": f"Bearer {key}"}
     )
@@ -51,13 +55,9 @@ def require_contract(base_url: str, key: str, apk_sha256: str | None = None) -> 
     missing = REQUIRED_FEATURES - set(bench.get("features", []))
     if bench.get("contract") != 1 or missing:
         raise ContractMissing(f"ExecuServe build lacks benchmark contract 1 features: {sorted(missing)}")
-    if apk_sha256 and bench.get("apk_sha256") != apk_sha256:
+    if bench.get("apk_sha256") != apk_sha256:
         raise ContractMissing(f"ExecuServe build {bench.get('apk_sha256')} is not the pinned {apk_sha256}")
     return caps
-
-
-def _clock_ok(runner_ms: float, mono_ms: float) -> bool:
-    return abs(runner_ms - mono_ms) <= CLOCK_TOLERANCE_MS + CLOCK_TOLERANCE_REL * max(runner_ms, mono_ms)
 
 
 def request_record(job_id: str, seq: int, track: str, item: dict, reply, memory: dict, state: dict) -> dict:
@@ -94,7 +94,7 @@ def request_record(job_id: str, seq: int, track: str, item: dict, reply, memory:
                 for k in ("call_start_ns", "first_sampled_token_ns", "first_callback_ns", "call_end_ns")
                 if k in mono
             },
-            "clock_disagreement": not (_clock_ok(ttft_ms, mono_ttft) and _clock_ok(decode_ms, mono_decode)),
+            "clock_disagreement": not (clock_ok(ttft_ms, mono_ttft) and clock_ok(decode_ms, mono_decode)),
             "prefill_tps": None if prefill_ms < PREFILL_MIN_MS else run["prompt_tokens"] / (prefill_ms / 1000),
             "decode_tps": None if decode_ms < DECODE_MIN_MS or steps < DECODE_MIN_STEPS else steps / (decode_ms / 1000),
         },
@@ -113,27 +113,42 @@ def request_record(job_id: str, seq: int, track: str, item: dict, reply, memory:
     }
 
 
-def memory_summary(samples: list[dict], sent_ns: int, done_ns: int) -> dict:
-    """Sampled peak and time-weighted mean of VmRSS over one request.
+class BadSample(ValueError):
+    """A sample that cannot be placed in time, or that contradicts another."""
 
-    Only memory reads that started and ended inside [sent_ns, done_ns] count (a read that
-    straddles a boundary belongs to neither request). The mean treats VmRSS as constant from
-    each read to the next, and the last read as holding until done_ns; the part of the request
-    before the first read is not covered, and `coverage` says what fraction was.
+
+def memory_summary(samples: list[dict], sent_ns: int, done_ns: int, job_id: str) -> dict:
+    """Sampled peak and time-weighted mean of VmRSS over one request of job `job_id`.
+
+    Only this job's successful memory reads that started and ended inside [sent_ns, done_ns]
+    count (a read that straddles a boundary belongs to neither request). The mean treats VmRSS
+    as constant from each read to the next, and the last read as holding until done_ns; the part
+    of the request before the first read is not covered, and `coverage` says what fraction was.
+    A memory sample without a valid read interval, from another job, or contradicting another
+    read at the same instant raises BadSample: it is never placed by guesswork.
     """
-    window = sorted(
-        (
-            s
-            for s in samples
-            if s.get("kind") == "memory"
-            and s.get("vm_rss_kib") is not None
-            and s.get("t_start_ns", s["t_ns"]) >= sent_ns
-            and s.get("t_end_ns", s["t_ns"]) <= done_ns
-        ),
-        key=lambda s: s["t_ns"],
-    )
-    # Two reads with one timestamp carry no duration between them; keep the later one.
-    deduped: dict[int, dict] = {s["t_ns"]: s for s in window}
+    window = []
+    for s in samples:
+        if s.get("kind") != "memory" or s.get("read_error") or s.get("vm_rss_kib") is None:
+            continue
+        if s.get("job_id") != job_id:
+            raise BadSample(f"memory sample from job {s.get('job_id')!r}, not {job_id!r}")
+        try:
+            t0, t, t1 = s["t_start_ns"], s["t_ns"], s["t_end_ns"]
+        except KeyError as error:
+            raise BadSample(f"memory sample without its read interval: {error}") from error
+        if not t0 <= t <= t1:
+            raise BadSample(f"memory sample interval out of order: {t0} <= {t} <= {t1} fails")
+        if t0 >= sent_ns and t1 <= done_ns:
+            window.append(s)
+    window.sort(key=lambda s: s["t_ns"])
+    # Two reads with one timestamp carry no duration between them; agreeing ones collapse.
+    deduped: dict[int, dict] = {}
+    for s in window:
+        seen = deduped.get(s["t_ns"])
+        if seen is not None and seen["vm_rss_kib"] != s["vm_rss_kib"]:
+            raise BadSample(f"two memory reads at {s['t_ns']} disagree")
+        deduped[s["t_ns"]] = s
     window = [deduped[t] for t in sorted(deduped)]
     if not window or done_ns <= sent_ns:
         return {"rss_sampled_peak_mib": None, "rss_mean_mib": None, "samples": 0, "null_reason": "no_samples_in_window"}

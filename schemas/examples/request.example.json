@@ -32,6 +32,12 @@
       "start_to_first_token_ms": 1001.0,
       "first_token_to_end_ms": 4001.0,
       "total_ms": 5002.0
+    },
+    "native": {
+      "call_start_ns": 0,
+      "first_sampled_token_ns": 1001000000,
+      "first_callback_ns": 1001000000,
+      "call_end_ns": 5002000000
     }
   },
   "tokens": {

@@ -35,17 +35,14 @@ def scan(token: str | None = None) -> list[dict]:
                     reports[s.rfilename] = json.loads(Path(path).read_text())
             by_file: dict[str, tuple] = {}
             conflicts: set[str] = set()
-            for name, r in reports.items():
+            for name, r in sorted(reports.items()):
                 for entry in r.get("files", []):
                     previous = by_file.get(entry["path"])
-                    # Two reports naming one file must agree on its hash; otherwise neither is trusted.
-                    if (
-                        previous
-                        and next(e["sha256"] for e in previous[1]["files"] if e["path"] == entry["path"])
-                        != entry["sha256"]
-                    ):
+                    # Two reports naming one file must agree on everything that defines it (hash,
+                    # source, toolchain, tokenizer, recipe); otherwise neither is trusted.
+                    if previous and provenance(previous[1], entry["path"]) != provenance(r, entry["path"]):
                         conflicts.add(entry["path"])
-                    by_file[entry["path"]] = (name, r)
+                    by_file.setdefault(entry["path"], (name, r))
             lfs = {x.rfilename: x.lfs.sha256 for x in info.siblings if x.lfs}
             plain = {x.rfilename for x in info.siblings}
             # Small tokenizers are stored in git, not LFS, so the Hub gives no sha256: hash them.
@@ -103,16 +100,40 @@ def scan(token: str | None = None) -> list[dict]:
     return out
 
 
+def provenance(report: dict, path: str) -> tuple:
+    """What a report says defines one file; two reports naming the file must give the same."""
+    entry = next((e for e in report.get("files", []) if e.get("path") == path), {})
+    return (
+        entry.get("sha256"),
+        json.dumps(report.get("source", {}), sort_keys=True),
+        json.dumps(report.get("toolchain", {}), sort_keys=True),
+        report.get("tokenizer"),
+        json.dumps(report.get("recipe", {}), sort_keys=True),
+    )
+
+
 HEX64 = re.compile(r"[0-9a-f]{64}")
 HEX40 = re.compile(r"[0-9a-f]{40}")
 
 
-def problems(inv: list[dict]) -> list[str]:
+def problems(inv: list[dict], accepted: list[dict] | None = None) -> list[str]:
     """Every reason an inventory must not be accepted. The hashes are compared here, not read
-    from the `hashes_agree` flag, so a hand-edited flag cannot hide a mismatch."""
+    from the `hashes_agree` flag, so a hand-edited flag cannot hide a mismatch.
+
+    With `accepted` (the inventory in use), a file it lists that the scan lost is a problem: a
+    shrinking inventory must be accepted on purpose (`models scan --allow-removed`), never by
+    accident. Every repo must also keep its 8k file, the window every track runs at.
+    """
     if not inv:
         return ["the scan found no files"]
     out = []
+    if accepted is not None:
+        now = {(f.get("repo"), f.get("file")) for f in inv}
+        for f in accepted:
+            if (f.get("repo"), f.get("file")) not in now:
+                out.append(f"{f.get('repo')}/{f.get('file')}: in the accepted inventory, missing from the scan")
+    for repo in sorted({f.get("repo") for f in inv} - {f.get("repo") for f in inv if f.get("window") == 8192}):
+        out.append(f"{repo}: no 8k file")
     seen: set[tuple] = set()
     for f in inv:
         where = f"{f.get('repo')}/{f.get('file')}"

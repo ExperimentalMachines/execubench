@@ -72,6 +72,16 @@ from round-to-nearest to GPTQ and gained a 32k window: 68 less 12 round-to-neare
 and P2 freezes a **model manifest** (repo, revision, file, sha256) that the v1 grid runs
 against, whatever the Hub holds by then.
 
+It moved again on 2026-10-04. The scan at 03:38Z (`data/models/xnnpack.rejected.json`) found 79
+files in the same 16 repos (70 GPTQ, 4 round-to-nearest, 5 fp32): 28 files of the accepted
+inventory are gone from the Hub's head, among them 7 of the 16 v1 8k files, including the
+pilot's `SmolLM2-360M-Instruct-8da4w-8k.pte` (that repo now publishes fp32 only); 36 files are
+new; the 43 files in both have unchanged sha256. `models scan` refused to replace the accepted
+inventory because files it lists went missing (`models.problems`), so `xnnpack.json` still
+holds the 2026-10-03 pins. Every pinned revision still downloads with its recorded sha256
+(checked for both pilot models on 2026-10-04), so the pins, the compatibility runs and the
+pilot stay valid; whether v1 moves to the new exports is an owner decision before P2.
+
 | Family | Repos | Windows published at the 23:23Z scan |
 |---|---|---|
 | LFM2.5 | 1.2B-Instruct, 2.6B, and the two `heretic` (abliterated) variants | 2k to 32k |
@@ -235,11 +245,20 @@ The harness lives in `execubench/harness/` and is **scaffolding**: its parts (ad
 bounded timeouts, staging with sha256 checks on host and phone, the state sampler, the streaming
 client with host monotonic timestamps, crash-safe JSONL records) are unit-tested against stubs,
 but the orchestration that runs a job end to end is not written and nothing has run on a phone.
-`run.py` refuses an ExecuServe build without contract 1 (or with another APK hash than the
-pinned one) and otherwise exits with "orchestration not implemented", never success. The P1
-pilot is pinned in `data/pilot/p1.yaml`: four phones (one per Tier A vendor for the contract
-tests), two models, six experiments with their workloads, a worst case of 750 device minutes
-under a 900-minute ceiling (`tests/test_pilot.py` checks every pin and the sum).
+`run.py` refuses to start without a pinned APK hash, refuses an ExecuServe build without
+contract 1 or with another APK hash, and otherwise exits with "orchestration not implemented",
+never success. The P1 pilot is pinned in `data/pilot/p1.yaml`: four phones (one per Tier A
+vendor for the contract tests), two models, six experiments with their workloads, a worst case
+of 750 device minutes under a 900-minute ceiling (`tests/test_pilot.py` checks every pin and the
+sum). The smoke workload's 20 requests (16 single-turn prompts and two two-turn conversations,
+written for this repository) are pinned by sha256 in `data/pilot/smoke-v1.jsonl`; the
+determinism experiment repeats each request in the same job and compares units only if Device
+Farm happens to assign different ones; the artifact-survival experiment loops until the job's
+time limit and states what the pull must hold. Two controls bound spending beyond one run:
+`execubench pilot check` lists every blocker (today: no pinned APK, no orchestration, the speed
+track's source text not chosen), and each run's worst case is reserved in a ledger
+(`execubench/ledger.py`, `--ledger` on scheduling commands) that refuses a reservation past the
+pilot's 900 minutes, across experiments and retries.
 
 One Device Farm job is one device unit, one model file, one or more tracks, at most 150
 minutes (the service's hard limit). Custom test environment on the Amazon Linux 2 host
@@ -422,7 +441,8 @@ Device Farm job ($DEVICEFARM_LOG_DIR)
         |   lists every file's sha256)
         v
 restricted raw storage, outside this repository   (docs/DATA-POLICY.md)
-        |  execubench validate (schemas + semantic checks), then grading, then the
+        |  execubench validate --runs <pulled run> (schemas + semantic checks with the
+        |  raw-record rules; refuses an incomplete pull or a folder with no job), then grading, then the
         |  publication exporter (identifier rescan, per-dataset license rules: Multi-IF
         |  prompts become a hash with replay: "restricted")
         v
@@ -441,7 +461,7 @@ redistribution are never committed; manifests carry IDs and hashes.
 | Phase | Goal | Exit criterion |
 |---|---|---|
 | **P0 Probe** (done 2026-10-04) | Know what Device Farm's phones are | Every arm64 Android model in the catalogue probed; findings in `docs/DEVICES.md` |
-| **P1 Pilot** | Prove the protocol on 3 phones and 2 models (`data/pilot/p1.yaml`) | An ExecuServe build passes every contract-1 acceptance test (`docs/EXECUSERVE-CONTRACT.md`) on a phone of each Tier A vendor; every field in `schemas/` filled from a real run and `execubench validate` clean on it; ExecuServe changes merged; adapter contract tested on the four request shapes; sampling overhead, fixed-performance A/B, unit spread, determinism, `/proc` readability, per-process counters and artifact survival measured; cost model inputs replaced by measured minutes |
+| **P1 Pilot** | Prove the protocol on 4 phones and 2 models (`data/pilot/p1.yaml`) | `execubench pilot check` reports no blocker before the first job; an ExecuServe build passes every contract-1 acceptance test (`docs/EXECUSERVE-CONTRACT.md`) on a phone of each Tier A vendor; every field in `schemas/` filled from a real run and `execubench validate --runs` clean on it; ExecuServe changes merged; adapter contract tested on the four request shapes; sampling overhead, fixed-performance A/B, unit spread, determinism, `/proc` readability, per-process counters and artifact survival measured; cost model inputs replaced by measured minutes |
 | **P2 Freeze** | Freeze suite v1 | Model manifest and `suites/v1/*.ids.json` with hashes; eligibility per model; graders vendored and tested against upstream examples; host runs of all 16 models; Codex review of the frozen suite |
 | **P3 Collect** | Fill the v1 grid | `docs/GRID.md` shows no planned cell; failures carry reasons |
 | **P4 Publish** | Release | Results dataset, tables, methodology; Codex review of every table against the raw files |

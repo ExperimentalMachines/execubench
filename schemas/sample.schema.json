@@ -26,7 +26,8 @@
     },
     "t_ns": {
       "type": "integer",
-      "description": "Midpoint of the read, host monotonic (time.monotonic_ns)"
+      "description": "Midpoint of the read, host monotonic (time.monotonic_ns)",
+      "minimum": 0
     },
     "kind": {
       "enum": [
@@ -86,17 +87,27 @@
       ]
     },
     "t_start_ns": {
-      "type": "integer"
+      "type": "integer",
+      "minimum": 0
     },
     "t_end_ns": {
-      "type": "integer"
+      "type": "integer",
+      "minimum": 0
     },
     "raw": {
       "type": [
         "string",
         "null"
       ],
-      "description": "Raw lines the thermal reading was parsed from"
+      "description": "The command output the values were parsed from (status file, clock listing or the whole thermalservice dump); null when the command itself failed"
+    },
+    "read_error": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "maxLength": 500,
+      "description": "Why this read has no values: an adb failure or output that did not parse. null when the read succeeded"
     }
   },
   "allOf": [
@@ -105,8 +116,14 @@
         "properties": {
           "kind": {
             "const": "thermal"
+          },
+          "read_error": {
+            "type": "null"
           }
-        }
+        },
+        "required": [
+          "kind"
+        ]
       },
       "then": {
         "anyOf": [
@@ -139,8 +156,14 @@
         "properties": {
           "kind": {
             "const": "memory"
+          },
+          "read_error": {
+            "type": "null"
           }
-        }
+        },
+        "required": [
+          "kind"
+        ]
       },
       "then": {
         "required": [
@@ -159,8 +182,14 @@
         "properties": {
           "kind": {
             "const": "clock"
+          },
+          "read_error": {
+            "type": "null"
           }
-        }
+        },
+        "required": [
+          "kind"
+        ]
       },
       "then": {
         "required": [
