@@ -108,10 +108,13 @@ RetrievalQA with a search tool offered (call, tool result, answer).
   Device Farm host between generations**, because tool results must be fed back before the
   next turn. Every call, simulator result and simulator state is kept in the request's
   `tool_trace`, so a multi-turn score can be re-graded offline.
-- Caps: 512 tokens per assistant step. Multi-turn: at most 20 model steps per user turn,
-  upstream's own `MAXIMUM_STEP_LIMIT = 20`
-  (`bfcl_eval/constants/default_prompts.py` at the pinned commit); a turn that reaches it is
-  forced to quit and scored as upstream scores it.
+- Caps: 512 tokens per assistant step. Multi-turn: the turn loop follows the pinned upstream
+  handler exactly (`bfcl_eval/model_handler/base_handler.py` with `MAXIMUM_STEP_LIMIT = 20`
+  from `bfcl_eval/constants/default_prompts.py`): a step counter rises after each executed tool
+  step, and the turn is forced to quit only when the counter **exceeds** 20, so a twentieth tool
+  step can still be followed by an answer and a twenty-first forces the quit; an empty or
+  unparseable model response ends the turn before the counter moves. P1 tests the boundary
+  (twenty tool steps then an answer; a twenty-first tool step) against the upstream handler.
 - Prompting: each model's own chat template with the tools rendered the way that template
   renders them (ExecuServe applies the template; `/apply-template` records the exact prompt).
   Tool calls are parsed on the host from the raw text, so a parse failure is visible as one.

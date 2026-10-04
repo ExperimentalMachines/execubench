@@ -164,7 +164,13 @@
             "not_in_context_correct": {
               "type": "integer"
             }
-          }
+          },
+          "required": [
+            "in_context_attempted",
+            "in_context_correct",
+            "not_in_context_attempted",
+            "not_in_context_correct"
+          ]
         }
       }
     },

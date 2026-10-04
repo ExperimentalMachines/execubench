@@ -1,8 +1,8 @@
 # Devices: the standard, and what the phones say about themselves
 
 On 2026-10-04 every arm64 Android model in AWS Device Farm's catalogue was probed: 83 models
-in four runs, plus a two-phone check of the revised probe script (`data/devices/probe/README.md`
-lists all five). There are 85 device records because two models were seen on two firmware
+in four runs, plus two two-phone checks of the revised probe script (`data/devices/probe/README.md`
+lists all six runs). There are 86 device records because three models were seen on two firmware
 builds. The catalogue itself is snapshotted in
 `data/devices/catalogue/2026-10-04.json` (181 devices, 106 of them Android entries; one, the
 32-bit Galaxy Tab A 10.1, was skipped). Everything in the "reported" columns comes from the
@@ -204,7 +204,8 @@ Device Farm runs a job on any free unit of a model. Across the first two probes,
 models landed on a different physical unit** (only the Pixel 10 Pro and the Tab S11 repeated),
 and **two models differed in firmware between their units**: the Redmi Note 13 Pro+ 5G
 (HyperOS `OS2.0.201.0` against `OS2.0.206.0`) and the Galaxy S24 Ultra (`S928U1UES2AXE4`
-against `S928U1UES4AXKF`). `adb push` throughput also varies by unit: on the S24 Ultra, 28
+against `S928U1UES4AXKF`). The two later script checks found the same on the Pixel 2 XL
+(`OPM2.171026.006.C1` against `.H1`). `adb push` throughput also varies by unit: on the S24 Ultra, 28
 MiB/s on one unit and 82 on the other. Every result therefore carries the unit hash and the
 build fingerprint, and the device id changes with the build.
 

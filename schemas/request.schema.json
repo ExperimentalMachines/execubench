@@ -96,7 +96,7 @@
             "boolean",
             "null"
           ],
-          "description": "RetrievalQA: whether any gold answer string appears in the passages actually given"
+          "description": "RetrievalQA with-context and search-tool modes: whether any gold answer string appears in the passages actually given; null only in search-tool mode when no call was made. Absent in closed-book mode"
         },
         "retained_passages": {
           "type": [
@@ -582,30 +582,59 @@
             ]
           },
           "state": {
-            "anyOf": [
+            "allOf": [
               {
-                "properties": {
-                  "battery_temp_c_start": {
-                    "type": "number"
+                "anyOf": [
+                  {
+                    "properties": {
+                      "battery_temp_c_start": {
+                        "type": "number"
+                      },
+                      "battery_temp_c_end": {
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "battery_temp_c_start",
+                      "battery_temp_c_end"
+                    ]
                   },
-                  "battery_temp_c_end": {
-                    "type": "number"
+                  {
+                    "properties": {
+                      "null_reason": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    },
+                    "required": [
+                      "null_reason"
+                    ]
                   }
-                },
-                "required": [
-                  "battery_temp_c_start",
-                  "battery_temp_c_end"
                 ]
               },
               {
-                "properties": {
-                  "null_reason": {
-                    "type": "string",
-                    "minLength": 1
+                "anyOf": [
+                  {
+                    "properties": {
+                      "thermal_status_max": {
+                        "type": "integer"
+                      }
+                    },
+                    "required": [
+                      "thermal_status_max"
+                    ]
+                  },
+                  {
+                    "properties": {
+                      "null_reason": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    },
+                    "required": [
+                      "null_reason"
+                    ]
                   }
-                },
-                "required": [
-                  "null_reason"
                 ]
               }
             ]
@@ -646,14 +675,24 @@
     {
       "if": {
         "properties": {
+          "status": {
+            "const": "ok"
+          },
           "item": {
             "properties": {
               "dataset": {
-                "pattern": "^retrievalqa/"
+                "const": "retrievalqa/with-context"
               }
-            }
+            },
+            "required": [
+              "dataset"
+            ]
           }
-        }
+        },
+        "required": [
+          "status",
+          "item"
+        ]
       },
       "then": {
         "properties": {
@@ -661,7 +700,50 @@
             "required": [
               "answer_in_context",
               "retained_passages"
+            ],
+            "properties": {
+              "answer_in_context": {
+                "type": "boolean"
+              },
+              "retained_passages": {
+                "type": "array",
+                "minItems": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "ok"
+          },
+          "item": {
+            "properties": {
+              "dataset": {
+                "const": "retrievalqa/search-tool"
+              }
+            },
+            "required": [
+              "dataset"
             ]
+          }
+        },
+        "required": [
+          "status",
+          "item"
+        ]
+      },
+      "then": {
+        "properties": {
+          "item": {
+            "required": [
+              "answer_in_context",
+              "retained_passages"
+            ],
+            "description": "Search-tool mode: retained_passages is [] and answer_in_context is null when the model made no call; otherwise both are filled as in with-context mode"
           }
         }
       }

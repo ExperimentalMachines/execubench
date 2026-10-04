@@ -56,11 +56,16 @@ def test_device_ids_change_with_the_build():
     assert len(set(ids)) == len(ids)
     for rec in DEVICES:
         assert rec["id"].startswith(rec["device_model_id"] + "-")
-    # Two models changed firmware between the first two probes; both builds are kept.
+    # Three models were seen on two firmware builds (two across the first two probes, the
+    # Pixel 2 XL across the two script checks); every build is kept.
     by_model: dict[str, list] = {}
     for rec in DEVICES:
         by_model.setdefault(rec["device_model_id"], []).append(rec)
-    assert {m for m, recs in by_model.items() if len(recs) > 1} == {"sm-s928u1-android14", "23090ra98g-android15"}
+    assert {m for m, recs in by_model.items() if len(recs) > 1} == {
+        "sm-s928u1-android14",
+        "23090ra98g-android15",
+        "google-pixel-2-xl-android8-1-0",
+    }
     assert all(sum(r["latest_for_model"] for r in recs) == 1 for recs in by_model.values())
 
 

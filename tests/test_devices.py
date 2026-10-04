@@ -123,6 +123,10 @@ def test_scrub_replaces_serial_everywhere_and_drops_progress():
         "ro.boot.ddr_serial",
         "ro.ril.miui.imei0",
         "gsm.sim.preiccid_0",
+        "ro.boot.cpuid",
+        "sys.boot.cpuid",
+        "vendor.modem.soc_id",
+        "ro.boot.board_id",
     ],
 )
 def test_identifier_keys_found_in_real_dumps_are_redacted(key):
@@ -135,6 +139,18 @@ def test_identifier_keys_found_in_real_dumps_are_redacted(key):
 )
 def test_shared_or_flag_keys_are_kept(key):
     assert not devicefarm.IDENTIFIER_KEYS.match(key.encode())
+
+
+def test_multiline_property_values_are_redacted():
+    files = {
+        "probe/getprop.txt": b"[ro.serialno]: [SER123456]\n[ro.boot.chipid]: [0xABCDEF012345\n\n]\n"
+        b"[ro.boot.cpuid]: [0x1234567890ab]\n[ro.build.uuid]: [kept-build]\n",
+        "probe/other.txt": b"chip 0xABCDEF012345 cpu 0x1234567890ab\n",
+    }
+    out, _ = devicefarm.scrub(files)
+    joined = b"".join(out.values())
+    assert b"0xABCDEF012345" not in joined and b"0x1234567890ab" not in joined
+    assert b"kept-build" in joined
 
 
 def test_artifact_paths_cannot_escape():
@@ -160,6 +176,20 @@ def test_thermal_reading_comes_from_current_not_cached():
     t = devices.thermal_hal(dump)
     assert t["current"]["BIG"]["c"] == 40.0
     assert t["cached"]["BIG"]["c"] == 90.0
+
+
+def test_committed_probe_data_has_no_identifier_shaped_values():
+    """Independent of IDENTIFIER_KEYS: no MAC address (other than the shared Qualcomm Bluetooth
+    config bytes) and no 15-digit IMEI-shaped number next to an imei key, in any dump."""
+    import re
+
+    mac = re.compile(rb"([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}")
+    for f in PROBE.parent.rglob("artifacts/probe/*"):
+        for line in f.read_bytes().splitlines():
+            if mac.search(line):
+                assert b"bluetooth.fmd_" in line, (f, line[:60])
+            if b"imei" in line.lower():
+                assert not re.search(rb"\b\d{15}\b", line), (f, line[:40])
 
 
 def test_committed_probe_data_carries_no_identifiers():

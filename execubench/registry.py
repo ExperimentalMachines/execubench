@@ -195,7 +195,9 @@ def record(job_dir: Path, specs: dict) -> dict:
         },
         "compute": {
             "bf16_tflops": _unknown(
-                "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+                "No BF16 TFLOPS figure for CPU, GPU or NPU in the maker sources reviewed; see docs/DEVICES.md"
+                if soc
+                else "Maker sources not reviewed for this chip"
             ),
         },
         "probe": {

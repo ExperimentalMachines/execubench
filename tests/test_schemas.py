@@ -83,6 +83,14 @@ def test_a_successful_request_without_evidence_is_rejected(change):
     assert schemas.errors_for("request.schema.json", rec)
 
 
+def test_thermal_status_needs_a_value_or_a_reason():
+    rec = copy.deepcopy(_example("request.example.json"))
+    rec["state"]["thermal_status_max"] = None
+    assert schemas.errors_for("request.schema.json", rec)
+    rec["state"]["null_reason"] = "thermalservice_absent_before_android_10"
+    assert schemas.errors_for("request.schema.json", rec) == []
+
+
 def test_missing_measurements_are_allowed_with_a_reason():
     rec = copy.deepcopy(_example("request.example.json"))
     rec["memory"] = {
@@ -109,5 +117,12 @@ def test_retrievalqa_requests_record_what_context_was_given():
     req = copy.deepcopy(_example("request.example.json"))
     req["item"]["dataset"] = "retrievalqa/with-context"
     assert schemas.errors_for("request.schema.json", req)
+    req["item"].update({"answer_in_context": None, "retained_passages": None})
+    assert schemas.errors_for("request.schema.json", req)
     req["item"].update({"answer_in_context": True, "retained_passages": ["0" * 64]})
     assert schemas.errors_for("request.schema.json", req) == []
+    summary = copy.deepcopy(_example("summary.example.json"))
+    summary["track"], summary["dataset"] = "quality", "retrievalqa/with-context"
+    summary.pop("prompt_bucket"), summary.pop("decode_target")
+    summary["quality"] = {"answer_in_context": {}}
+    assert schemas.errors_for("summary.schema.json", summary)

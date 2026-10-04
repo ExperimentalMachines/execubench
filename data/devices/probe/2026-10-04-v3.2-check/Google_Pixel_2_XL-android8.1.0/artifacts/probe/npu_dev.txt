@@ -1,0 +1,3 @@
+adsprpc-smd
+input
+uinput

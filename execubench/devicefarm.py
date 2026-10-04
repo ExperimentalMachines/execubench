@@ -97,11 +97,14 @@ IDENTIFIER_KEYS = re.compile(
     rb"|.*mac(addr)?"  # ro.ril.oem.btmac, ro.vendor.oem.wifimac
     rb"|.*uniqueno|.*\.fp\.uid|.*fuseid.*"  # hardware unique numbers, fingerprint module, camera fuses
     rb"|.*\.psno|.*\.sno"  # product serial numbers
-    rb"|ro\.boot\.chipid|ro\.boot\.vbmeta\.device|ro\.quick_start\.device_id"
+    rb"|.*cpuid|.*soc_id"  # ro.boot.cpuid, sys.boot.cpuid, vendor.modem.soc_id (one value per unit)
+    rb"|ro\.boot\.chipid|ro\.boot\.board_id|ro\.boot\.vbmeta\.device|ro\.quick_start\.device_id"
     rb")$",
     flags=re.IGNORECASE,
 )
-GETPROP_LINE = re.compile(rb"^\[([^\]]+)\]: \[(.*)\]$", flags=re.M)
+# A property value can span lines (Redmi Note 10's ro.boot.chipid ends in a newline), so a value
+# runs to the "]" that closes it before the next "[key]: [" line or the end of the dump.
+GETPROP_LINE = re.compile(rb"^\[([^\]\n]+)\]: \[(.*?)\]\s*(?=^\[[^\]\n]+\]: \[|\Z)", flags=re.M | re.S)
 
 
 def scrub(files: dict[str, bytes], account: str | None = None) -> tuple[dict[str, bytes], str | None]:
@@ -127,8 +130,10 @@ def scrub(files: dict[str, bytes], account: str | None = None) -> tuple[dict[str
                     serial = serial or value.decode()
                 # Values shorter than six bytes ("0", "1", "") are flags, not identifiers,
                 # and replacing them everywhere would corrupt unrelated text.
-                if IDENTIFIER_KEYS.match(key) and len(value) >= 6:
+                if IDENTIFIER_KEYS.match(key) and len(value.strip()) >= 6:
                     secrets.add(value)
+                    # Replace the trimmed value too, in case another file prints it on one line.
+                    secrets.add(value.strip())
     out = {}
     for name, blob in files.items():
         if serial:

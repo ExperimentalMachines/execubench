@@ -5,6 +5,7 @@
   "data/devices/probe/2026-10-04-v3-samsung",
   "data/devices/probe/2026-10-04-v3-catalogue",
   "data/devices/probe/2026-10-04-v3.1-check",
+  "data/devices/probe/2026-10-04-v3.2-check",
   "data/devices/specs.yaml"
  ],
  "devices": [
@@ -262,7 +263,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "Maker sources not reviewed for this chip"
     }
    },
    "probe": {
@@ -554,7 +555,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "No BF16 TFLOPS figure for CPU, GPU or NPU in the maker sources reviewed; see docs/DEVICES.md"
     }
    },
    "probe": {
@@ -852,7 +853,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "No BF16 TFLOPS figure for CPU, GPU or NPU in the maker sources reviewed; see docs/DEVICES.md"
     }
    },
    "probe": {
@@ -1120,7 +1121,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "No BF16 TFLOPS figure for CPU, GPU or NPU in the maker sources reviewed; see docs/DEVICES.md"
     }
    },
    "probe": {
@@ -1385,7 +1386,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "No BF16 TFLOPS figure for CPU, GPU or NPU in the maker sources reviewed; see docs/DEVICES.md"
     }
    },
    "probe": {
@@ -1613,7 +1614,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "Maker sources not reviewed for this chip"
     }
    },
    "probe": {
@@ -1836,7 +1837,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "Maker sources not reviewed for this chip"
     }
    },
    "probe": {
@@ -2059,7 +2060,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "Maker sources not reviewed for this chip"
     }
    },
    "probe": {
@@ -2340,7 +2341,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "Maker sources not reviewed for this chip"
     }
    },
    "probe": {
@@ -2632,7 +2633,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "No BF16 TFLOPS figure for CPU, GPU or NPU in the maker sources reviewed; see docs/DEVICES.md"
     }
    },
    "probe": {
@@ -2934,7 +2935,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "No BF16 TFLOPS figure for CPU, GPU or NPU in the maker sources reviewed; see docs/DEVICES.md"
     }
    },
    "probe": {
@@ -3226,7 +3227,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "No BF16 TFLOPS figure for CPU, GPU or NPU in the maker sources reviewed; see docs/DEVICES.md"
     }
    },
    "probe": {
@@ -3507,7 +3508,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "Maker sources not reviewed for this chip"
     }
    },
    "probe": {
@@ -3758,7 +3759,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "Maker sources not reviewed for this chip"
     }
    },
    "probe": {
@@ -4008,7 +4009,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "Maker sources not reviewed for this chip"
     }
    },
    "probe": {
@@ -4258,7 +4259,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "Maker sources not reviewed for this chip"
     }
    },
    "probe": {
@@ -4546,7 +4547,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "No BF16 TFLOPS figure for CPU, GPU or NPU in the maker sources reviewed; see docs/DEVICES.md"
     }
    },
    "probe": {
@@ -4826,7 +4827,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "Maker sources not reviewed for this chip"
     }
    },
    "probe": {
@@ -5128,7 +5129,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "No BF16 TFLOPS figure for CPU, GPU or NPU in the maker sources reviewed; see docs/DEVICES.md"
     }
    },
    "probe": {
@@ -5348,7 +5349,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "Maker sources not reviewed for this chip"
     }
    },
    "probe": {
@@ -5362,6 +5363,226 @@
      "perf_event_paranoid": 3
     },
     "adb_push_mib_s": 10.3
+   },
+   "latest_for_model": false
+  },
+  {
+   "id": "google-pixel-2-xl-android8-1-0-fd1e99ee",
+   "device_model_id": "google-pixel-2-xl-android8-1-0",
+   "provider": {
+    "name": "aws-device-farm",
+    "region": "us-west-2",
+    "device_arn": "arn:aws:devicefarm:us-west-2::device:F070C2816A9A444EB28ED624EDE7F789",
+    "catalogue": {
+     "arn": "arn:aws:devicefarm:us-west-2::device:F070C2816A9A444EB28ED624EDE7F789",
+     "cpu": {
+      "architecture": "arm64-v8a",
+      "clock": 1900.8,
+      "frequency": "MHz"
+     },
+     "fleetType": "PUBLIC",
+     "formFactor": "PHONE",
+     "heapSize": 512000000,
+     "image": "F070C2816A9A444EB28ED624EDE7F789",
+     "manufacturer": "Google",
+     "memory": 64000000000,
+     "model": "Pixel 2 XL",
+     "modelId": "Google Pixel 2 XL",
+     "name": "Google Pixel 2 XL",
+     "os": "8.1.0",
+     "platform": "ANDROID",
+     "remoteAccessEnabled": false,
+     "resolution": {
+      "height": 2880,
+      "width": 1440
+     }
+    }
+   },
+   "identity": {
+    "manufacturer": "Google",
+    "marketing_name": "Google Pixel 2 XL",
+    "model_code": "Pixel 2 XL",
+    "android": "8.1.0",
+    "sdk": "27",
+    "fingerprint": "google/taimen/taimen:8.1.0/OPM2.171026.006.H1/4833802:user/release-keys",
+    "security_patch": "2018-07-05",
+    "form_factor": "phone",
+    "abilist": "arm64-v8a,armeabi-v7a,armeabi",
+    "arm64_userspace": true
+   },
+   "soc": {
+    "reported_manufacturer": null,
+    "reported_model": null,
+    "platform": "msm8998",
+    "marketing_name": {
+     "value": null,
+     "provenance": "unknown"
+    },
+    "process_node": {
+     "value": null,
+     "provenance": "unknown"
+    }
+   },
+   "cpu": {
+    "count": 8,
+    "topology": "4+4",
+    "tiers": "4+4",
+    "cluster_count": 2,
+    "all_big_cores": null,
+    "architecture": "core classes unknown, dual-cluster",
+    "vendor_description": {
+     "value": null,
+     "provenance": "unknown"
+    },
+    "max_mhz": 2457.6,
+    "features": [
+     "aes",
+     "asimd",
+     "crc32",
+     "evtstrm",
+     "fp",
+     "pmull",
+     "sha1",
+     "sha2"
+    ],
+    "clusters": [
+     {
+      "cores": 4,
+      "cpus": [
+       4,
+       5,
+       6,
+       7
+      ],
+      "implementer": null,
+      "part": null,
+      "design": null,
+      "design_source": "unlisted in linux cputype.h",
+      "max_mhz": 2457.6,
+      "efficiency_class": false,
+      "core_class": "unknown"
+     },
+     {
+      "cores": 4,
+      "cpus": [
+       0,
+       1,
+       2,
+       3
+      ],
+      "implementer": null,
+      "part": null,
+      "design": null,
+      "design_source": "unlisted in linux cputype.h",
+      "max_mhz": 1900.8,
+      "efficiency_class": false,
+      "core_class": "unknown"
+     }
+    ],
+    "clock_domains": [
+     {
+      "policy": "policy4",
+      "cpus": [
+       4,
+       5,
+       6,
+       7
+      ],
+      "max_mhz": 2457.6,
+      "governor": "schedutil",
+      "designs": [
+       "?"
+      ]
+     },
+     {
+      "policy": "policy0",
+      "cpus": [
+       0,
+       1,
+       2,
+       3
+      ],
+      "max_mhz": 1900.8,
+      "governor": "schedutil",
+      "designs": [
+       "?"
+      ]
+     }
+    ]
+   },
+   "gpu": {
+    "name": {
+     "value": "Adreno (TM) 540",
+     "provenance": "reported",
+     "source": "data/devices/probe/2026-10-04-v3.2-check/Google_Pixel_2_XL-android8.1.0/artifacts/probe/vkjson.txt (Vulkan deviceName)"
+    },
+    "renderer": "Qualcomm, Adreno (TM) 540, OpenGL ES 3.2 V@258.0 (GIT@594927b, I916dfac403) (Date:10/11/17)",
+    "vulkan_api": null
+   },
+   "npu": {
+    "name": {
+     "value": null,
+     "provenance": "unknown"
+    },
+    "int8_tops": {
+     "value": null,
+     "provenance": "unknown",
+     "note": "Maker sources not reviewed for this chip"
+    },
+    "runtimes_present": [
+     "qualcomm-qnn-snpe"
+    ]
+   },
+   "memory": {
+    "mem_total_gib": {
+     "value": 3.56,
+     "provenance": "reported",
+     "source": "data/devices/probe/2026-10-04-v3.2-check/Google_Pixel_2_XL-android8.1.0/artifacts/probe/meminfo.txt (MemTotal)",
+     "unit": "GiB"
+    },
+    "capacity_gb": {
+     "value": null,
+     "provenance": "unknown"
+    },
+    "type": {
+     "value": null,
+     "provenance": "unknown",
+     "note": "Phone maker does not state it; the chip's supported types are not the fitted type"
+    },
+    "data_rate_mtps": {
+     "value": null,
+     "provenance": "unknown",
+     "note": "The phone maker does not state the fitted DRAM speed; the chip's supported maximum is not it"
+    },
+    "bus_width_bits": {
+     "value": null,
+     "provenance": "unknown",
+     "note": "Maker sources not reviewed for this chip"
+    },
+    "bandwidth_gbps": {
+     "value": null,
+     "provenance": "unknown",
+     "note": "Not derivable: needs a sourced data rate and a sourced bus width"
+    }
+   },
+   "compute": {
+    "bf16_tflops": {
+     "value": null,
+     "provenance": "unknown",
+     "note": "Maker sources not reviewed for this chip"
+    }
+   },
+   "probe": {
+    "run_arn": "arn:aws:devicefarm:us-west-2:<account>:run:733be749-de36-4847-ba64-a034b55b21dd/2115829a-061e-4683-918c-a3d2a0f94438",
+    "artifact_dir": "data/devices/probe/2026-10-04-v3.2-check/Google_Pixel_2_XL-android8.1.0/artifacts/probe",
+    "date": "2026-10-04",
+    "fixed_performance_mode": "exit=255 Unknown command: set-fixed-performance-mode-enabled",
+    "simpleperf": {
+     "present": true,
+     "version": null,
+     "perf_event_paranoid": 3
+    },
+    "adb_push_mib_s": 8.4
    },
    "latest_for_model": true
   },
@@ -5598,7 +5819,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "Maker sources not reviewed for this chip"
     }
    },
    "probe": {
@@ -5848,7 +6069,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "Maker sources not reviewed for this chip"
     }
    },
    "probe": {
@@ -6080,7 +6301,7 @@
     "name": {
      "value": "PowerVR C-Series CXTP-48-1536 MC1",
      "provenance": "reported",
-     "source": "data/devices/probe/2026-10-04-v2/GUJ0N-android17/artifacts/probe/vkjson.txt (Vulkan deviceName)"
+     "source": "data/devices/probe/2026-10-04-v3.2-check/GUJ0N-android17/artifacts/probe/vkjson.txt (Vulkan deviceName)"
     },
     "renderer": null,
     "vulkan_api": null
@@ -6105,7 +6326,7 @@
     "mem_total_gib": {
      "value": 11.37,
      "provenance": "reported",
-     "source": "data/devices/probe/2026-10-04-v2/GUJ0N-android17/artifacts/probe/meminfo.txt (MemTotal)",
+     "source": "data/devices/probe/2026-10-04-v3.2-check/GUJ0N-android17/artifacts/probe/meminfo.txt (MemTotal)",
      "unit": "GiB"
     },
     "capacity_gb": {
@@ -6118,7 +6339,7 @@
     "type": {
      "value": "LPDDR5",
      "provenance": "reported",
-     "source": "data/devices/probe/2026-10-04-v2/GUJ0N-android17/artifacts/probe/getprop.txt (ro.boot.hardware.ddr)"
+     "source": "data/devices/probe/2026-10-04-v3.2-check/GUJ0N-android17/artifacts/probe/getprop.txt (ro.boot.hardware.ddr)"
     },
     "data_rate_mtps": {
      "value": null,
@@ -6140,12 +6361,12 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "No BF16 TFLOPS figure for CPU, GPU or NPU in the maker sources reviewed; see docs/DEVICES.md"
     }
    },
    "probe": {
-    "run_arn": "arn:aws:devicefarm:us-west-2:<account>:run:733be749-de36-4847-ba64-a034b55b21dd/7af87807-ce27-4e13-872a-6ef48ed066fe",
-    "artifact_dir": "data/devices/probe/2026-10-04-v2/GUJ0N-android17/artifacts/probe",
+    "run_arn": "arn:aws:devicefarm:us-west-2:<account>:run:733be749-de36-4847-ba64-a034b55b21dd/2115829a-061e-4683-918c-a3d2a0f94438",
+    "artifact_dir": "data/devices/probe/2026-10-04-v3.2-check/GUJ0N-android17/artifacts/probe",
     "date": "2026-10-04",
     "fixed_performance_mode": "accepted",
     "simpleperf": {
@@ -6153,7 +6374,7 @@
      "version": "1.build.15938155",
      "perf_event_paranoid": -1
     },
-    "adb_push_mib_s": 48.3
+    "adb_push_mib_s": 78.9
    },
    "latest_for_model": true
   },
@@ -6442,7 +6663,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "No BF16 TFLOPS figure for CPU, GPU or NPU in the maker sources reviewed; see docs/DEVICES.md"
     }
    },
    "probe": {
@@ -6732,7 +6953,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "No BF16 TFLOPS figure for CPU, GPU or NPU in the maker sources reviewed; see docs/DEVICES.md"
     }
    },
    "probe": {
@@ -6982,7 +7203,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "Maker sources not reviewed for this chip"
     }
    },
    "probe": {
@@ -7270,7 +7491,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "No BF16 TFLOPS figure for CPU, GPU or NPU in the maker sources reviewed; see docs/DEVICES.md"
     }
    },
    "probe": {
@@ -7557,7 +7778,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "No BF16 TFLOPS figure for CPU, GPU or NPU in the maker sources reviewed; see docs/DEVICES.md"
     }
    },
    "probe": {
@@ -7753,7 +7974,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "Maker sources not reviewed for this chip"
     }
    },
    "probe": {
@@ -7971,7 +8192,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "Maker sources not reviewed for this chip"
     }
    },
    "probe": {
@@ -8199,7 +8420,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "Maker sources not reviewed for this chip"
     }
    },
    "probe": {
@@ -8422,7 +8643,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "Maker sources not reviewed for this chip"
     }
    },
    "probe": {
@@ -8645,7 +8866,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "Maker sources not reviewed for this chip"
     }
    },
    "probe": {
@@ -8873,7 +9094,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "Maker sources not reviewed for this chip"
     }
    },
    "probe": {
@@ -9123,7 +9344,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "Maker sources not reviewed for this chip"
     }
    },
    "probe": {
@@ -9373,7 +9594,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "Maker sources not reviewed for this chip"
     }
    },
    "probe": {
@@ -9623,7 +9844,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "Maker sources not reviewed for this chip"
     }
    },
    "probe": {
@@ -9851,7 +10072,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "Maker sources not reviewed for this chip"
     }
    },
    "probe": {
@@ -10079,7 +10300,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "Maker sources not reviewed for this chip"
     }
    },
    "probe": {
@@ -10307,7 +10528,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "Maker sources not reviewed for this chip"
     }
    },
    "probe": {
@@ -10535,7 +10756,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "Maker sources not reviewed for this chip"
     }
    },
    "probe": {
@@ -10772,7 +10993,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "No BF16 TFLOPS figure for CPU, GPU or NPU in the maker sources reviewed; see docs/DEVICES.md"
     }
    },
    "probe": {
@@ -11000,7 +11221,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "Maker sources not reviewed for this chip"
     }
    },
    "probe": {
@@ -11228,7 +11449,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "Maker sources not reviewed for this chip"
     }
    },
    "probe": {
@@ -11456,7 +11677,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "Maker sources not reviewed for this chip"
     }
    },
    "probe": {
@@ -11684,7 +11905,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "Maker sources not reviewed for this chip"
     }
    },
    "probe": {
@@ -11912,7 +12133,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "Maker sources not reviewed for this chip"
     }
    },
    "probe": {
@@ -12151,7 +12372,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "No BF16 TFLOPS figure for CPU, GPU or NPU in the maker sources reviewed; see docs/DEVICES.md"
     }
    },
    "probe": {
@@ -12370,7 +12591,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "Maker sources not reviewed for this chip"
     }
    },
    "probe": {
@@ -12598,7 +12819,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "Maker sources not reviewed for this chip"
     }
    },
    "probe": {
@@ -12826,7 +13047,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "Maker sources not reviewed for this chip"
     }
    },
    "probe": {
@@ -13054,7 +13275,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "Maker sources not reviewed for this chip"
     }
    },
    "probe": {
@@ -13348,7 +13569,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "No BF16 TFLOPS figure for CPU, GPU or NPU in the maker sources reviewed; see docs/DEVICES.md"
     }
    },
    "probe": {
@@ -13576,7 +13797,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "Maker sources not reviewed for this chip"
     }
    },
    "probe": {
@@ -13814,7 +14035,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "Maker sources not reviewed for this chip"
     }
    },
    "probe": {
@@ -14037,7 +14258,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "Maker sources not reviewed for this chip"
     }
    },
    "probe": {
@@ -14258,7 +14479,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "Maker sources not reviewed for this chip"
     }
    },
    "probe": {
@@ -14507,7 +14728,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "Maker sources not reviewed for this chip"
     }
    },
    "probe": {
@@ -14757,7 +14978,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "Maker sources not reviewed for this chip"
     }
    },
    "probe": {
@@ -15007,7 +15228,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "Maker sources not reviewed for this chip"
     }
    },
    "probe": {
@@ -15257,7 +15478,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "Maker sources not reviewed for this chip"
     }
    },
    "probe": {
@@ -15507,7 +15728,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "Maker sources not reviewed for this chip"
     }
    },
    "probe": {
@@ -15778,7 +15999,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "Maker sources not reviewed for this chip"
     }
    },
    "probe": {
@@ -16049,7 +16270,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "Maker sources not reviewed for this chip"
     }
    },
    "probe": {
@@ -16320,7 +16541,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "Maker sources not reviewed for this chip"
     }
    },
    "probe": {
@@ -16612,7 +16833,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "No BF16 TFLOPS figure for CPU, GPU or NPU in the maker sources reviewed; see docs/DEVICES.md"
     }
    },
    "probe": {
@@ -16904,7 +17125,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "No BF16 TFLOPS figure for CPU, GPU or NPU in the maker sources reviewed; see docs/DEVICES.md"
     }
    },
    "probe": {
@@ -17196,7 +17417,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "No BF16 TFLOPS figure for CPU, GPU or NPU in the maker sources reviewed; see docs/DEVICES.md"
     }
    },
    "probe": {
@@ -17500,7 +17721,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "No BF16 TFLOPS figure for CPU, GPU or NPU in the maker sources reviewed; see docs/DEVICES.md"
     }
    },
    "probe": {
@@ -17804,7 +18025,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "No BF16 TFLOPS figure for CPU, GPU or NPU in the maker sources reviewed; see docs/DEVICES.md"
     }
    },
    "probe": {
@@ -18108,7 +18329,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "No BF16 TFLOPS figure for CPU, GPU or NPU in the maker sources reviewed; see docs/DEVICES.md"
     }
    },
    "probe": {
@@ -18415,7 +18636,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "No BF16 TFLOPS figure for CPU, GPU or NPU in the maker sources reviewed; see docs/DEVICES.md"
     }
    },
    "probe": {
@@ -18679,7 +18900,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "No BF16 TFLOPS figure for CPU, GPU or NPU in the maker sources reviewed; see docs/DEVICES.md"
     }
    },
    "probe": {
@@ -18940,7 +19161,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "No BF16 TFLOPS figure for CPU, GPU or NPU in the maker sources reviewed; see docs/DEVICES.md"
     }
    },
    "probe": {
@@ -19204,7 +19425,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "No BF16 TFLOPS figure for CPU, GPU or NPU in the maker sources reviewed; see docs/DEVICES.md"
     }
    },
    "probe": {
@@ -19482,7 +19703,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "No BF16 TFLOPS figure for CPU, GPU or NPU in the maker sources reviewed; see docs/DEVICES.md"
     }
    },
    "probe": {
@@ -19757,7 +19978,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "No BF16 TFLOPS figure for CPU, GPU or NPU in the maker sources reviewed; see docs/DEVICES.md"
     }
    },
    "probe": {
@@ -20035,7 +20256,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "No BF16 TFLOPS figure for CPU, GPU or NPU in the maker sources reviewed; see docs/DEVICES.md"
     }
    },
    "probe": {
@@ -20256,7 +20477,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "Maker sources not reviewed for this chip"
     }
    },
    "probe": {
@@ -20505,7 +20726,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "Maker sources not reviewed for this chip"
     }
    },
    "probe": {
@@ -20755,7 +20976,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "Maker sources not reviewed for this chip"
     }
    },
    "probe": {
@@ -20983,7 +21204,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "Maker sources not reviewed for this chip"
     }
    },
    "probe": {
@@ -21254,7 +21475,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "Maker sources not reviewed for this chip"
     }
    },
    "probe": {
@@ -21549,7 +21770,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "No BF16 TFLOPS figure for CPU, GPU or NPU in the maker sources reviewed; see docs/DEVICES.md"
     }
    },
    "probe": {
@@ -21843,7 +22064,7 @@
     "bf16_tflops": {
      "value": null,
      "provenance": "unknown",
-     "note": "No chip maker publishes a BF16 TFLOPS figure for CPU, GPU or NPU; see docs/DEVICES.md"
+     "note": "No BF16 TFLOPS figure for CPU, GPU or NPU in the maker sources reviewed; see docs/DEVICES.md"
     }
    },
    "probe": {

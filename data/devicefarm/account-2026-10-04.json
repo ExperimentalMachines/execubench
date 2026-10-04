@@ -1,9 +1,9 @@
 {
- "retrieved_utc": "2026-10-03T23:58:05Z",
- "note": "aws devicefarm get-account-settings after all five probe runs, account number masked",
+ "retrieved_utc": "2026-10-04T00:14:00Z",
+ "note": "aws devicefarm get-account-settings after all six probe runs, account number masked",
  "trialMinutes": {
   "total": 1000.0,
-  "remaining": 947.02
+  "remaining": 945.8
  },
  "maxJobTimeoutMinutes": 150,
  "defaultJobTimeoutMinutes": 150,

@@ -86,7 +86,9 @@ def kernel_part_names(path: Path = CPUTYPE) -> dict[tuple[int, int], str]:
 
 
 def parse_getprop(text: str) -> dict[str, str]:
-    return dict(re.findall(r"^\[([^\]]+)\]: \[(.*)\]$", text, flags=re.M))
+    # Values can span lines; one runs to the "]" before the next "[key]: [" line.
+    pattern = r"^\[([^\]\n]+)\]: \[(.*?)\]\s*(?=^\[[^\]\n]+\]: \[|\Z)"
+    return {k: v.strip() for k, v in re.findall(pattern, text, flags=re.M | re.S)}
 
 
 def parse_meminfo(text: str) -> dict[str, int]:
