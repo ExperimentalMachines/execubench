@@ -127,8 +127,16 @@ def _reconcile_devicefarm(path: Path, jobs: dict) -> list[str]:
         run = json.loads(run_file.read_text())
     except (OSError, json.JSONDecodeError):
         return [f"{run_file}: missing or not JSON; the run's own record is needed to check completeness"]
+    if not isinstance(run, dict) or not isinstance(run.get("arn"), str) or ":run:" not in run["arn"]:
+        return [f"{run_file}: not a Device Farm run record"]
+    manifest_run = json.loads((path / "pull-manifest.json").read_text()).get("run_arn")
+    if manifest_run != run["arn"]:
+        out.append(f"{run_file}: run {run['arn']!r} is not the manifest's run {manifest_run!r}")
     if run.get("status") != "COMPLETED" or run.get("totalJobs") != len(jobs):
         out.append(f"{run_file}: run {run.get('status')!r} with {run.get('totalJobs')} jobs, manifest has {len(jobs)}")
+    # A job ARN is the run ARN with ":run:" read as ":job:", then "/<job id>".
+    job_prefix = run["arn"].replace(":run:", ":job:", 1) + "/"
+    seen: set[str] = set()
     for name, job in sorted(jobs.items()):
         job_file = path / name / "devicefarm-job.json"
         try:
@@ -136,7 +144,14 @@ def _reconcile_devicefarm(path: Path, jobs: dict) -> list[str]:
         except (OSError, json.JSONDecodeError):
             out.append(f"{job_file}: missing or not JSON")
             continue
-        if not isinstance(job, dict) or str(record.get("arn", "")).rsplit("/", 1)[-1] != job.get("job"):
+        arn = record.get("arn") if isinstance(record, dict) else None
+        if not isinstance(arn, str) or not arn.startswith(job_prefix):
+            out.append(f"{job_file}: not a job of run {run['arn']!r}")
+            continue
+        if arn in seen:
+            out.append(f"{job_file}: the same job as another folder")
+        seen.add(arn)
+        if not isinstance(job, dict) or arn[len(job_prefix) :] != job.get("job"):
             out.append(f"{job_file}: not the job the manifest names")
         if record.get("status") != "COMPLETED":
             out.append(f"{job_file}: job {record.get('status')!r}, not COMPLETED")

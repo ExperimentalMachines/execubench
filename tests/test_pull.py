@@ -323,7 +323,7 @@ ESCAPED = (
 
 def test_escaped_and_case_folded_identifiers_refuse_the_pull():
     for record in ESCAPED:
-        with pytest.raises(devicefarm.LeakFound):
+        with pytest.raises(devicefarm.LeakFound, match="an identifier"):
             devicefarm.scrub({**PROBE, "requests.jsonl": record})
 
 
@@ -477,7 +477,7 @@ def test_encoding_deeper_than_the_budget_is_refused_not_cleared():
         text = _json.dumps(text.replace("1", "\\u0031") if text.startswith("SERIAL") else text)
     record = text.encode()
     assert b"SERIAL12345" not in record
-    with pytest.raises(devicefarm.LeakFound):
+    with pytest.raises(devicefarm.LeakFound, match="encoding deeper than"):
         devicefarm.scrub({**PROBE, "requests.jsonl": record})
     # Ordinary records with a little escaping still pass.
     out, _ = devicefarm.scrub({**PROBE, "requests.jsonl": b'{"a": "caf\\u00e9 %20 \\\\n"}\n'})

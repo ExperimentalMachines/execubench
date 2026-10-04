@@ -15,7 +15,14 @@
 `execubench validate --runs <pulled run>` checks a pull in restricted storage before anything is
 graded: the pull manifest must say complete and harness, every job folder is checked against the
 schemas and the semantic rules, and raw records must carry their prompt text (only the exporter
-may remove it). A folder with no job in it is an error, not an empty success.
+may remove it). A folder with no job in it is an error, not an empty success. The manifest is reconciled with
+Device Farm's own records kept beside it: the run must be the manifest's run, completed, with as
+many jobs as the manifest lists, and every job folder must hold a distinct job of that run.
+
+At pull time, content whose escaping goes deeper than four layers is refused as uncheckable,
+named as such rather than as an identifier. A prompt that legitimately contains such text (for
+example a question about repeated URL encoding) would stop its job's pull; the operator sees the
+reason and the file, and the harness must not write deeper encodings of its own.
 
 ## The publication exporter
 

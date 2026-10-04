@@ -382,6 +382,10 @@ def test_malformed_events_are_incomplete_streams_with_the_partial_reply(stream_s
         '{"choices": [{"delta": {"tool_calls": [{"index": [], "function": {"name": "f"}}]}}]}',
         '{"choices": [{"delta": {"tool_calls": [{"index": 0, "function": {"arguments": 5}}]}}]}',
         '{"choices": [{"delta": {}, "finish_reason": 3}]}',
+        '{"choices": [{"delta": {}, "finish_reason": "banana"}]}',
+        '{"choices": {}}',
+        '{"choices": false}',
+        '{"choices": 0}',
     )
     monkeypatch.setattr(StreamHandler, "events", _sse(first, finish, "[DONE]"))
     assert client.chat(stream_server, "k", {}).text == "Hi"  # the clean stream passes

@@ -303,6 +303,14 @@ class _Invalid(str):
     pass
 
 
+# The values each kind of sample carries, as its parser produces them from the raw output.
+SAMPLE_FIELDS = {
+    "memory": ("vm_rss_kib", "rss_anon_kib", "rss_file_kib", "vm_hwm_kib"),
+    "clock": ("cpu_cur_khz",),
+    "thermal": ("thermal_status", "temps_c"),
+}
+
+
 def sample(rec: dict) -> list[str]:
     out = []
     t0, t, t1 = rec.get("t_start_ns"), rec.get("t_ns"), rec.get("t_end_ns")
@@ -312,7 +320,28 @@ def sample(rec: dict) -> list[str]:
         rec.get(k) is not None for k in ("vm_rss_kib", "cpu_cur_khz", "thermal_status", "temps_c")
     ):
         out.append("a failed read carries values")
+    if not rec.get("read_error") and rec.get("kind") in SAMPLE_FIELDS:
+        # The values must be what the retained raw output parses to; a value with no raw output
+        # behind it, or one that contradicts it, is refused.
+        raw = rec.get("raw")
+        if not isinstance(raw, str) or not raw:
+            out.append("a successful read without its raw output")
+        else:
+            reparsed = _reparse(rec["kind"], raw)
+            for key in SAMPLE_FIELDS[rec["kind"]]:
+                if rec.get(key) != reparsed.get(key):
+                    out.append(f"{key} {rec.get(key)!r} is not what the raw output gives ({reparsed.get(key)!r})")
     return out
+
+
+def _reparse(kind: str, raw: str) -> dict:
+    from .harness import sampler
+
+    if kind == "memory":
+        return sampler.parse_status(raw)
+    if kind == "clock":
+        return {"cpu_cur_khz": sampler.parse_freqs(raw) or None}
+    return sampler.parse_thermal(raw)
 
 
 def job(rec: dict) -> list[str]:
@@ -416,15 +445,18 @@ def sampled_state(rec: dict, samples: list[dict], job_id) -> list[str]:
         derived = memory_summary(samples, sent, done, job_id)
     except BadSample as error:
         return [f"memory samples cannot be placed: {error}"]
-    if mem.get("rss_sampled_peak_mib") is None:
-        if derived["samples"]:
-            out.append(f"memory is null but {derived['samples']} memory samples fall inside the request")
-    else:
-        if mem.get("samples") != derived["samples"]:
-            out.append(f"memory.samples {mem.get('samples')} but {derived['samples']} samples fall inside the request")
-        for key in ("rss_sampled_peak_mib", "rss_mean_mib", "coverage"):
-            if mem.get(key) is not None and (derived.get(key) is None or not _close(mem[key], derived[key])):
-                out.append(f"memory.{key} is not what the retained samples give ({derived.get(key)})")
+    # Every field on its own, nullness included: a value needs samples behind it, and samples
+    # need their value. The RSS split and coverage may be left out, but never contradict.
+    if mem.get("samples") != derived["samples"]:
+        out.append(f"memory.samples {mem.get('samples')} but {derived['samples']} samples fall inside the request")
+    for key in ("rss_sampled_peak_mib", "rss_mean_mib", "rss_anon_mib", "rss_file_mib", "coverage"):
+        if key not in mem and key not in ("rss_sampled_peak_mib", "rss_mean_mib"):
+            continue
+        claimed, want = mem.get(key), derived.get(key)
+        if (claimed is None) != (want is None) or (claimed is not None and not _close(claimed, want)):
+            out.append(f"memory.{key} is {claimed}, the retained samples give {want}")
+    if not derived["samples"] and not mem.get("null_reason"):
+        out.append("no memory samples fall inside the request and memory.null_reason does not say why")
     statuses = [
         s["thermal_status"]
         for s in samples

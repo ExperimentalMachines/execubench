@@ -45,6 +45,14 @@ def _execution_problems(report: dict) -> list[str]:
     from . import host
 
     out = []
+    for key, kind in (("executorch", str), ("pte", dict), ("tokenizer", dict), ("results", list)):
+        if not isinstance(report.get(key), kind):
+            out.append(f"{key} is missing or not a {kind.__name__}")
+    for key in ("pte", "tokenizer"):
+        if isinstance(report.get(key), dict) and not isinstance(report[key].get("sha256"), str):
+            out.append(f"{key}.sha256 is missing")
+    if out:
+        return out
     if report.get("max_new_tokens") != host.MAX_NEW_TOKENS:
         out.append(f"max_new_tokens {report.get('max_new_tokens')!r}, not {host.MAX_NEW_TOKENS}")
     rows = report.get("results")
@@ -69,7 +77,7 @@ def _execution_problems(report: dict) -> list[str]:
         if not (
             stats["prompt_tokens"] > 0
             and 1 <= stats["generated_tokens"] <= host.MAX_NEW_TOKENS
-            and stats["inference_start_ms"] <= stats["prompt_eval_end_ms"] <= stats["inference_end_ms"]
+            and 0 <= stats["inference_start_ms"] <= stats["prompt_eval_end_ms"] <= stats["inference_end_ms"]
         ):
             out.append(f"prompt {i}: runner stats do not show a completed generation")
     return out

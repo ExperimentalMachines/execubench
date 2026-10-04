@@ -56,11 +56,18 @@ def test_impossible_summaries_are_rejected():
 SAMPLE = {"job_id": "example-00000", "seq": None, "t_ns": 5, "t_start_ns": 0, "t_end_ns": 10}
 
 
+def _mem_raw(kib: int) -> str:
+    return f"VmRSS:\t {kib} kB\n"
+
+
+THERMAL_0 = "Thermal Status: 0\n"
+
+
 def test_a_thermal_sample_needs_a_reading():
     # Otherwise valid: the only thing missing is the reading, so the thermal rule is what fails.
-    good = {**SAMPLE, "kind": "thermal", "thermal_status": 0}
+    good = {**SAMPLE, "kind": "thermal", "thermal_status": 0, "temps_c": None, "raw": THERMAL_0}
     assert schemas.errors_for("sample.schema.json", good) == []
-    assert schemas.errors_for("sample.schema.json", {**SAMPLE, "kind": "thermal"})
+    assert schemas.errors_for("sample.schema.json", {**SAMPLE, "kind": "thermal", "raw": THERMAL_0})
     # A failed read needs no reading, but must say why and carry no values.
     failed = {**SAMPLE, "kind": "thermal", "read_error": "unparseable", "raw": "x"}
     assert schemas.errors_for("sample.schema.json", failed) == [] and semantics.sample(failed) == []
@@ -68,7 +75,7 @@ def test_a_thermal_sample_needs_a_reading():
 
 
 def test_sample_intervals_must_hold_their_midpoint():
-    good = {**SAMPLE, "kind": "memory", "vm_rss_kib": 1}
+    good = {**SAMPLE, "kind": "memory", "vm_rss_kib": 1, "raw": _mem_raw(1)}
     assert semantics.sample(good) == []
     assert semantics.sample({**good, "t_start_ns": 8, "t_end_ns": 2})  # reversed
     assert semantics.sample({**good, "t_start_ns": 0, "t_end_ns": 100, "t_ns": 0})  # inside, not the midpoint
@@ -163,7 +170,7 @@ def test_run_folders_are_checked_line_by_line(tmp_path):
     other["job_id"] = "someone-else"
     (tmp_path / "requests.jsonl").write_text("\n".join(json.dumps(r) for r in (good, dup, other)) + "\n")
     (tmp_path / "samples.jsonl").write_text(
-        json.dumps({**SAMPLE, "job_id": "x", "kind": "memory", "seq": 9, "vm_rss_kib": 1}) + "\n"
+        json.dumps({**SAMPLE, "job_id": "x", "kind": "memory", "seq": 9, "vm_rss_kib": 1, "raw": _mem_raw(1)}) + "\n"
     )
     errors = semantics.run_folder(tmp_path, schemas.errors_for, {job["device_id"]})
     joined = "\n".join(errors)
@@ -176,30 +183,15 @@ def test_run_folders_are_checked_line_by_line(tmp_path):
 
 def _samples_for_req(job_id: str = "example-00000") -> str:
     """Samples that support REQ's memory and thermal figures: 20 memory reads 255 ms apart over its
-    5.1 s host interval, alternating 800 and 1,000 MiB (peak 1,000, mean 900), and one thermal read."""
-    rows = [
-        {
-            "job_id": job_id,
-            "seq": None,
-            "t_ns": k * 255_000_000,
-            "t_start_ns": k * 255_000_000,
-            "t_end_ns": k * 255_000_000,
-            "kind": "memory",
-            "vm_rss_kib": (800 if k % 2 else 1000) * 1024,
-        }
-        for k in range(20)
-    ]
-    rows.append(
-        {
-            "job_id": job_id,
-            "seq": None,
-            "t_ns": 10**9,
-            "t_start_ns": 10**9,
-            "t_end_ns": 10**9,
-            "kind": "thermal",
-            "thermal_status": 0,
-        }
-    )
+    5.1 s host interval, alternating 800 and 1,000 MiB (peak 1,000, mean 900), and one thermal read,
+    each with the raw output its values parse from."""
+    rows = []
+    for k in range(20):
+        kib, t = (800 if k % 2 else 1000) * 1024, k * 255_000_000
+        point = {"t_ns": t, "t_start_ns": t, "t_end_ns": t}
+        rows.append({"job_id": job_id, "seq": None, **point, "kind": "memory", "vm_rss_kib": kib, "raw": _mem_raw(kib)})
+    point = {"t_ns": 10**9, "t_start_ns": 10**9, "t_end_ns": 10**9}
+    rows.append({"job_id": job_id, "seq": None, **point, "kind": "thermal", "thermal_status": 0, "raw": THERMAL_0})
     return "".join(json.dumps(r) + "\n" for r in rows)
 
 
@@ -227,6 +219,30 @@ def test_a_complete_job_needs_its_planned_requests(tmp_path):
     # A partial job may stop short, but never record more than it planned.
     _job_folder(tmp_path, json.dumps(REQ) + "\n" + json.dumps({**REQ, "seq": 1}) + "\n")
     assert any("more than the 1 planned" in e for e in semantics.run_folder(tmp_path, schemas.errors_for, set()))
+
+
+def test_sample_values_must_match_their_raw_output():
+    good = {**SAMPLE, "kind": "memory", "vm_rss_kib": 1024, "raw": _mem_raw(1024)}
+    assert semantics.sample(good) == []
+    assert any("raw output gives" in e for e in semantics.sample({**good, "vm_rss_kib": 1024000}))
+    assert schemas.errors_for("sample.schema.json", {**good, "raw": None})  # a success needs its raw output
+
+
+def test_memory_fields_are_checked_one_by_one(tmp_path):
+    job = _job_folder(tmp_path, json.dumps(REQ) + "\n", "")
+    # No samples: a mean, a count or a coverage without a peak still needs samples behind it.
+    claimed = copy.deepcopy(REQ)
+    claimed["memory"] = {"rss_sampled_peak_mib": None, "rss_mean_mib": 900.0, "samples": 20, "coverage": 1.0}
+    claimed["memory"]["null_reason"] = "proc_status_unreadable"  # passes the schema; the samples refute it
+    _job_folder(tmp_path, json.dumps(claimed) + "\n", "")
+    joined = "\n".join(semantics.run_folder(tmp_path, schemas.errors_for, {job["device_id"]}))
+    assert "memory.rss_mean_mib is 900.0" in joined and "memory.samples 20 but 0" in joined
+    assert "memory.coverage is 1.0" in joined
+    # Samples that support a mean: a null mean is refused too.
+    nulled = copy.deepcopy(REQ)
+    nulled["memory"].update({"rss_mean_mib": None, "null_reason": "mean not computed"})
+    _job_folder(tmp_path, json.dumps(nulled) + "\n")
+    assert any("rss_mean_mib is None" in e for e in semantics.run_folder(tmp_path, schemas.errors_for, set()))
 
 
 def test_memory_and_thermal_figures_must_come_from_the_samples(tmp_path):
@@ -262,9 +278,12 @@ def _manifest(run, complete=True, kind="harness", **overrides):
                 "bytes": f.stat().st_size,
             }
     job = {"job": "00000", "files": files, "state": "complete", "status": "COMPLETED", "missing": []}
-    (run / "devicefarm-run.json").write_text(json.dumps({"status": "COMPLETED", "totalJobs": 1}))
-    (run / "dev" / "devicefarm-job.json").write_text(json.dumps({"arn": "arn:x:job:p/r/00000", "status": "COMPLETED"}))
+    run_arn = "arn:aws:devicefarm:us-west-2:<account>:run:p/r"
+    (run / "devicefarm-run.json").write_text(json.dumps({"arn": run_arn, "status": "COMPLETED", "totalJobs": 1}))
+    job_arn = run_arn.replace(":run:", ":job:") + "/00000"
+    (run / "dev" / "devicefarm-job.json").write_text(json.dumps({"arn": job_arn, "status": "COMPLETED"}))
     m = {"kind": kind, "complete": complete, "run_status": "COMPLETED", "failure": None, "jobs_expected": 1}
+    m["run_arn"] = run_arn
     m.update({"jobs_listed": 1, "jobs": {"dev": job}, **overrides})
     (run / "pull-manifest.json").write_text(json.dumps(m))
 
@@ -305,8 +324,27 @@ def test_validate_runs_checks_a_pulled_run_against_its_manifest(tmp_path):
         assert any(needle in e for e in schemas.validate_runs(run)), needle
     # Device Farm's own run record must agree with the manifest.
     _manifest(run)
-    (run / "devicefarm-run.json").write_text(json.dumps({"status": "COMPLETED", "totalJobs": 2}))
+    run_record = json.loads((run / "devicefarm-run.json").read_text())
+    (run / "devicefarm-run.json").write_text(json.dumps({**run_record, "totalJobs": 2}))
     assert any("manifest has 1" in e for e in schemas.validate_runs(run))
+    # Jobs must belong to the manifest's run, and two folders cannot hold one job.
+    _manifest(run)
+    (run / "dev" / "devicefarm-job.json").write_text(
+        json.dumps({"arn": "arn:aws:devicefarm:us-west-2:<account>:job:p/other/00000", "status": "COMPLETED"})
+    )
+    assert any("not a job of run" in e for e in schemas.validate_runs(run))
+    _manifest(run)
+    m = json.loads((run / "pull-manifest.json").read_text())
+    (run / "twin" / "artifacts").mkdir(parents=True, exist_ok=True)
+    (run / "twin" / "devicefarm-job.json").write_text((run / "dev" / "devicefarm-job.json").read_text())
+    m["jobs"]["twin"] = {**m["jobs"]["dev"], "files": {}}
+    m.update({"jobs_expected": 2, "jobs_listed": 2})
+    (run / "pull-manifest.json").write_text(json.dumps(m))
+    (run / "devicefarm-run.json").write_text(json.dumps({**run_record, "totalJobs": 2}))
+    assert any("the same job as another folder" in e for e in schemas.validate_runs(run))
+    import shutil
+
+    shutil.rmtree(run / "twin")
     # A partial job belongs in standalone inspection, not in a complete pulled run.
     _job_folder(folder, json.dumps(REQ) + "\n")
     _manifest(run)

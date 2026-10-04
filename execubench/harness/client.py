@@ -70,6 +70,10 @@ def chat(base_url: str, key: str, body: dict, timeout_s: float = 900) -> Reply:
     return reply
 
 
+# The finish reasons a request record accepts (schemas/request.schema.json, output.finish_reason).
+FINISH_REASONS = {"stop", "length", "tool_calls"}
+
+
 def _typed(obj: dict, key: str, kind: type) -> None:
     if obj.get(key) is not None and not isinstance(obj[key], kind):
         raise ValueError(f"stream field {key} is not a {kind.__name__}")
@@ -80,12 +84,16 @@ def _event(event) -> dict:
     reported as IncompleteStream with the partial reply)."""
     if not isinstance(event, dict):
         raise ValueError("stream event is not a JSON object")
-    choices = event.get("choices") or []
+    # Missing or null is allowed; present-but-wrong (falsey wrong values like {}, 0 or false
+    # included) is not.
+    choices = event.get("choices")
+    if choices is None:
+        choices = []
     if not isinstance(choices, list) or not all(isinstance(c, dict) for c in choices):
         raise ValueError("stream event choices are not a list of objects")
     for choice in choices:
-        # Missing is allowed; present-but-wrong (including falsey wrong values like [] or 0) is not.
-        _typed(choice, "finish_reason", str)
+        if choice.get("finish_reason") is not None and choice["finish_reason"] not in FINISH_REASONS:
+            raise ValueError(f"stream finish_reason {choice['finish_reason']!r} is not one the records accept")
         delta = choice.get("delta", {})
         if delta is None:
             delta = {}
@@ -146,7 +154,7 @@ def _read_stream(url: str, data: bytes, headers: dict, reply: Reply, calls: dict
             if "error" in event:
                 reply.done_ns = time.monotonic_ns()
                 raise IncompleteStream(f"server error event: {event['error']}", reply)
-            for choice in event.get("choices") or []:
+            for choice in event.get("choices") or []:  # validated by _event
                 delta = choice.get("delta") or {}
                 if delta.get("content"):
                     if reply.first_byte_ns is None:

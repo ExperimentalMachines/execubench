@@ -99,7 +99,7 @@
         "string",
         "null"
       ],
-      "description": "The command output the values were parsed from (status file, clock listing or the whole thermalservice dump); null when the command itself failed"
+      "description": "The command output the values were parsed from (status file, clock listing or the whole thermalservice dump); required for a successful read, which validation re-parses; null when the command itself failed"
     },
     "read_error": {
       "type": [
@@ -200,6 +200,26 @@
           "cpu_cur_khz": {
             "type": "object",
             "minProperties": 1
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "read_error": {
+            "type": "null"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "raw"
+        ],
+        "properties": {
+          "raw": {
+            "type": "string",
+            "minLength": 1
           }
         }
       }

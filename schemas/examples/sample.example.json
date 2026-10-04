@@ -8,5 +8,7 @@
   "vm_rss_kib": 1024000,
   "rss_anon_kib": 900000,
   "rss_file_kib": 124000,
-  "vm_hwm_kib": 1100000
+  "vm_hwm_kib": 1100000,
+  "raw": "VmHWM:\t 1100000 kB\nVmRSS:\t 1024000 kB\nRssAnon:\t  900000 kB\nRssFile:\t  124000 kB\n",
+  "read_error": null
 }

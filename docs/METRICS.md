@@ -177,8 +177,10 @@ and no values; a failed read never stops the other kinds of read, and a gap is n
 A memory sample without a valid interval, from another job, or contradicting another read at
 the same instant stops the summary instead of being placed by guesswork. `execubench validate`
 recomputes each successful request's memory figures and thermal status maximum from the samples
-inside its host interval and refuses a record that claims more than they show, or a null figure
-when samples exist.
+inside its host interval, field by field and nullness included (peak, mean, the RSS split,
+coverage, count), and refuses a record that claims more than they show, or a null figure when
+samples exist. Each successful sample must keep its raw output, and validation re-parses it: a
+parsed value that the raw text does not give is refused.
 
 | Field | Source | Notes |
 |---|---|---|

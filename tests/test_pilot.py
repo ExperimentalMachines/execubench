@@ -166,6 +166,17 @@ def test_compat_evidence_must_show_execution(tmp_path):
         path.write_text(json.dumps(report))
     problems = pilot.compat_problems(model, "1.5.1", tmp_path)
     assert any("not integers" in p for p in problems) and any("not an object" in p for p in problems)
+    for v in ("1.4.0", "1.5.1"):
+        path = tmp_path / f"{stem}.executorch-{v}.json"
+        report = json.loads((pilot.COMPAT / path.name).read_text())
+        report["pte"] = []
+        for row in report["results"]:
+            row["stats"].update({"inference_start_ms": -5, "prompt_eval_end_ms": -3, "inference_end_ms": -1})
+        path.write_text(json.dumps(report))
+    assert any("pte is missing" in p for p in pilot.compat_problems(model, "1.5.1", tmp_path))
+    report["pte"] = {"name": "x", "sha256": model["sha256"]}
+    path.write_text(json.dumps(report))
+    assert any("completed generation" in p for p in pilot.compat_problems(model, "1.5.1", tmp_path))
     (tmp_path / f"{stem}.executorch-1.4.0.json").write_text("[]")
     assert pilot.compat_problems(model, "1.5.1", tmp_path) == [
         "host compatibility evidence is not a set of JSON objects"

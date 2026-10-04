@@ -403,17 +403,22 @@ _MAX_EXPANSION = 6**DECODE_DEPTH
 MAX_NEEDLE_BYTES = 128
 
 
-def _holds(src: Blob, needles: list[bytes]) -> bool:
+def _holds(src: Blob, needles: list[bytes]) -> str:
+    """Why the content must be refused ("an identifier", or "encoding deeper than DECODE_DEPTH
+    layers"), or "" when it is clean. The second is not evidence of an identifier: it means the
+    content cannot be checked, and the operator sees which of the two stopped the pull."""
     if not needles:
-        return False
+        return ""
     folded = sorted({n[:MAX_NEEDLE_BYTES].lower() for n in needles})
     overlap = _MAX_EXPANSION * (max(map(len, folded)) + 1)
     for chunk in _chunks(src, overlap):
         views, unresolved = _views(chunk)
-        # Encoding deeper than DECODE_DEPTH cannot be checked, so it is refused like a match.
-        if unresolved or any(n in view for view in views for n in folded):
-            return True
-    return False
+        if any(n in view for view in views for n in folded):
+            return "an identifier"
+        # Encoding deeper than DECODE_DEPTH cannot be checked, so it is refused, under its own name.
+        if unresolved:
+            return f"encoding deeper than {DECODE_DEPTH} layers"
+    return ""
 
 
 @dataclass
@@ -486,8 +491,9 @@ def scrub(
     leaks: list[str] = []
     for index, (name, src) in enumerate(sorted(files.items())):
         bad_name = _holds(name.encode("utf-8", "surrogateescape"), needles)
+        label = f"file #{index}" if bad_name else repr(name)
         if bad_name:
-            leaks.append(f"the name of file #{index}")
+            leaks.append(f"the name of file #{index}: {bad_name}")
         if _redactable(name):
             blob = _read_small(src)
             for needle, replacement in pairs:
@@ -496,15 +502,15 @@ def scrub(
                 blob = PROGRESS.sub(b"", blob)
             # Redaction replaces the literal forms (any case); an escaped form that survives it is
             # refused like anywhere else, never published.
-            if _holds(blob, needles):
-                leaks.append(f"file #{index} after redaction" if bad_name else f"{name!r} after redaction")
+            if reason := _holds(blob, needles):
+                leaks.append(f"{label} after redaction: {reason}")
             out[name] = blob
         else:
-            if _holds(src, needles):
-                leaks.append(f"file #{index}" if bad_name else repr(name))
+            if reason := _holds(src, needles):
+                leaks.append(f"{label}: {reason}")
             out[name] = src
     if leaks:
-        raise LeakFound(f"identifiers outside the probe dumps, pull refused: {leaks}")
+        raise LeakFound(f"pull refused, identifiers or uncheckable content outside the probe dumps: {leaks}")
     return out, ident.unit
 
 
