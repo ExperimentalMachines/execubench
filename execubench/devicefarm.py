@@ -14,20 +14,22 @@ silently edited, because harness records carry content hashes that an edit would
 from __future__ import annotations
 
 import hashlib
+import http.client
 import json
+import math
 import random
 import re
+import struct
 import tempfile
 import time
-import urllib.error
 import urllib.parse
-import urllib.request
 import uuid
 import zipfile
 from collections.abc import Iterator
 from dataclasses import dataclass, field
 from pathlib import Path
 
+from . import netio
 from .devices import getprop_pairs
 
 REGION = "us-west-2"
@@ -45,8 +47,8 @@ MAX_DUMP_BYTES = 64 * 2**20  # a probe dump is read whole for redaction; real on
 SCAN_CHUNK = 8 * 2**20
 HTTP_TIMEOUT_S = 60
 HTTP_ATTEMPTS = 4
-# Total per operation across every attempt and backoff. Reads use read1(), which returns after
-# one socket read, so the deadline is overrun by at most one socket timeout.
+# Total per operation across every attempt, backoff and URL refresh, enforced by a watchdog
+# that cuts the connection off (execubench/netio.py).
 DOWNLOAD_DEADLINE_S = 30 * 60
 UPLOAD_DEADLINE_S = 30 * 60
 RUN_DEADLINE_S = 8 * 3600
@@ -78,11 +80,7 @@ def client(retries: bool = True):
     return boto3.client("devicefarm", config=config)
 
 
-def _remaining(deadline: float, what: str) -> float:
-    left = deadline - time.monotonic()
-    if left <= 0:
-        raise TimeoutError(f"{what}: deadline passed")
-    return left
+_remaining = netio.remaining
 
 
 def _backoff(attempt: int, deadline: float, what: str) -> None:
@@ -92,68 +90,66 @@ def _backoff(attempt: int, deadline: float, what: str) -> None:
     time.sleep(pause)
 
 
+class HTTPStatus(RuntimeError):
+    def __init__(self, status: int):
+        super().__init__(f"HTTP {status}")
+        self.status = status
+
+
 def _transient(error: Exception) -> bool:
-    if isinstance(error, urllib.error.HTTPError):
-        return error.code >= 500 or error.code == 429
-    return isinstance(error, urllib.error.URLError | TimeoutError | ConnectionError)
+    if isinstance(error, HTTPStatus):
+        return error.status >= 500 or error.status == 429
+    # A passed deadline is final; retrying cannot help.
+    return isinstance(error, OSError | http.client.HTTPException) and not isinstance(error, TimeoutError)
 
 
-def http_get(url: str, dest: Path, max_bytes: int, timeout: int = HTTP_TIMEOUT_S) -> int:
+def _check_status(status: int) -> None:
+    if status == 403:
+        raise ExpiredURL("HTTP 403")
+    if not 200 <= status < 300:
+        raise HTTPStatus(status)
+
+
+def http_get(url: str, dest: Path, max_bytes: int, timeout: int = HTTP_TIMEOUT_S, deadline: float | None = None) -> int:
     """Stream `url` into `dest`, refusing more than `max_bytes`; retries transient failures, all
-    within DOWNLOAD_DEADLINE_S.
+    before `deadline` (default: DOWNLOAD_DEADLINE_S from now). A watchdog cuts off whatever is in
+    progress at the deadline (execubench/netio.py), so a trickling server cannot extend it.
 
-    Raises ExpiredURL on 403, so the caller can fetch a fresh presigned URL.
+    Raises ExpiredURL on 403, so the caller can fetch a fresh presigned URL within the same deadline.
     """
-    deadline = time.monotonic() + DOWNLOAD_DEADLINE_S
+    deadline = deadline if deadline is not None else time.monotonic() + DOWNLOAD_DEADLINE_S
     for attempt in range(HTTP_ATTEMPTS):
         try:
             total = 0
-            sock_timeout = min(timeout, _remaining(deadline, "download"))
-            with urllib.request.urlopen(url, timeout=sock_timeout) as resp, open(dest, "wb") as out:
-                # read1 returns after one socket read, so a trickle cannot hold one call open
-                # for longer than the socket timeout.
-                while chunk := resp.read1(1 << 20):
-                    total += len(chunk)
-                    if total > max_bytes:
-                        raise ValueError(f"download exceeds {max_bytes} bytes")
-                    _remaining(deadline, "download")
-                    out.write(chunk)
+            with netio.request("GET", url, deadline, "download", sock_timeout=timeout) as resp:
+                _check_status(resp.status)
+                with open(dest, "wb") as out:
+                    for chunk in netio.read_chunks(resp, deadline, "download"):
+                        total += len(chunk)
+                        if total > max_bytes:
+                            raise ValueError(f"download exceeds {max_bytes} bytes")
+                        out.write(chunk)
             return total
-        except urllib.error.HTTPError as error:
-            if error.code == 403:
-                raise ExpiredURL(str(error)) from error
+        except Exception as error:  # noqa: BLE001 - classified just below
             if not _transient(error) or attempt == HTTP_ATTEMPTS - 1:
-                raise
-        except (urllib.error.URLError, TimeoutError, ConnectionError):
-            if attempt == HTTP_ATTEMPTS - 1:
                 raise
         _backoff(attempt, deadline, "download")
     raise AssertionError("unreachable")
 
 
-class _DeadlineReader:
-    """A request body that refuses to hand over more bytes once the deadline has passed."""
-
-    def __init__(self, f, deadline: float):
-        self.f, self.deadline = f, deadline
-
-    def read(self, n: int = -1) -> bytes:
-        _remaining(self.deadline, "upload")
-        return self.f.read(n if n and n > 0 else 1 << 16)
-
-
 def http_put(url: str, path: Path, timeout: int = HTTP_TIMEOUT_S) -> None:
     """PUT a file to a presigned URL, streamed, every attempt within UPLOAD_DEADLINE_S."""
     deadline = time.monotonic() + UPLOAD_DEADLINE_S
+    headers = {"Content-Type": "application/octet-stream", "Content-Length": str(path.stat().st_size)}
     for attempt in range(HTTP_ATTEMPTS):
         try:
-            with open(path, "rb") as f:
-                req = urllib.request.Request(url, data=_DeadlineReader(f, deadline), method="PUT")
-                req.add_header("Content-Type", "application/octet-stream")
-                req.add_header("Content-Length", str(path.stat().st_size))
-                sock_timeout = min(timeout, _remaining(deadline, "upload"))
-                with urllib.request.urlopen(req, timeout=sock_timeout) as resp:
-                    resp.read1(1 << 16)
+            with (
+                open(path, "rb") as body,
+                netio.request("PUT", url, deadline, "upload", body=body, headers=headers, sock_timeout=timeout) as resp,
+            ):
+                _check_status(resp.status)
+                for _ in netio.read_chunks(resp, deadline, "upload"):
+                    pass
             return
         except Exception as error:  # noqa: BLE001 - classified just below
             if not _transient(error) or attempt == HTTP_ATTEMPTS - 1:
@@ -263,9 +259,18 @@ def pool_devices(df, pool_arn: str, app_arn: str, test_type: str) -> list[dict]:
     return [d["device"] for d in result.get("compatibleDevices", [])]
 
 
+def finite_positive(value: float, what: str) -> float:
+    """Refuse NaN, infinities and non-positive amounts: a NaN ceiling makes every comparison false."""
+    value = float(value)
+    if not math.isfinite(value) or value <= 0:
+        raise ValueError(f"{what} must be a finite positive number, not {value!r}")
+    return value
+
+
 def spend_guard(devices: int, job_timeout_min: int, max_device_minutes: float) -> float:
     """Worst-case metered minutes of a run, refusing it above the operator's ceiling."""
-    worst = float(devices * job_timeout_min)
+    finite_positive(max_device_minutes, "the device-minute ceiling")
+    worst = finite_positive(devices * job_timeout_min, "the run's worst case")
     if worst > max_device_minutes:
         raise RuntimeError(
             f"{devices} devices x {job_timeout_min} min = {worst:.0f} worst-case device minutes, "
@@ -356,16 +361,23 @@ def _json_unescape(blob: bytes) -> bytes:
 
 def _views(blob: bytes) -> list[bytes]:
     """The forms an identifier can take in a text record: as written, with JSON string escapes
-    decoded (`SERIAL\\u00312345`), with URL percent escapes decoded, all case-folded. Decoding
-    more than the writer meant can only add matches, so the check errs towards refusing."""
-    return [v.lower() for v in (blob, _json_unescape(blob), urllib.parse.unquote_to_bytes(blob))]
+    decoded (`SERIAL\\u00312345`), with URL percent escapes decoded, and both compositions (a
+    percent-escape inside a JSON string, or the reverse), all case-folded. Decoding more than the
+    writer meant can only add matches, so the check errs towards refusing."""
+    unquote = urllib.parse.unquote_to_bytes
+    json_once, url_once = _json_unescape(blob), unquote(blob)
+    return [v.lower() for v in (blob, json_once, url_once, unquote(json_once), _json_unescape(url_once))]
+
+
+# A needle byte can grow to 18 bytes when both encodings are applied (`%31` as `\u0025\u0033\u0031`).
+_MAX_EXPANSION = 18
 
 
 def _holds(src: Blob, needles: list[bytes]) -> bool:
     if not needles:
         return False
     folded = [n.lower() for n in needles]
-    overlap = 6 * max(map(len, folded)) + 6  # a fully \u-escaped needle is six bytes per byte
+    overlap = _MAX_EXPANSION * (max(map(len, folded)) + 1)
     return any(n in view for chunk in _chunks(src, overlap) for view in _views(chunk) for n in folded)
 
 
@@ -444,9 +456,13 @@ def scrub(
         if _redactable(name):
             blob = _read_small(src)
             for needle, replacement in pairs:
-                blob = blob.replace(needle, replacement)
+                blob = re.sub(re.escape(needle), lambda _, r=replacement: r, blob, flags=re.IGNORECASE)
             if name.endswith("push.txt"):
                 blob = PROGRESS.sub(b"", blob)
+            # Redaction replaces the literal forms (any case); an escaped form that survives it is
+            # refused like anywhere else, never published.
+            if _holds(blob, needles):
+                leaks.append(f"file #{index} after redaction" if bad_name else f"{name!r} after redaction")
             out[name] = blob
         else:
             if _holds(src, needles):
@@ -495,6 +511,28 @@ def _safe_member(name: str) -> str:
     return rel
 
 
+MAX_CENTRAL_DIRECTORY_BYTES = 16 * 2**20
+
+
+def _central_directory_entries(path: Path) -> int:
+    """Entries the zip declares, read from its end-of-central-directory record. Zip64 archives
+    (over 65,535 entries or 4 GiB) are refused: no Device Farm job archive within our bounds needs
+    one, and the classic record cannot describe them."""
+    size = path.stat().st_size
+    with open(path, "rb") as f:
+        f.seek(max(0, size - (22 + 65535)))
+        tail = f.read()
+    at = tail.rfind(b"PK\x05\x06")
+    if at < 0 or len(tail) - at < 22:
+        raise ValueError(f"{path.name}: not a zip archive (no end-of-central-directory record)")
+    entries, cd_bytes = struct.unpack("<HI", tail[at + 10 : at + 16])
+    if entries == 0xFFFF or cd_bytes == 0xFFFFFFFF or b"PK\x06\x07" in tail[max(0, at - 20) : at]:
+        raise ValueError(f"{path.name}: zip64 archives are refused")
+    if cd_bytes > MAX_CENTRAL_DIRECTORY_BYTES:
+        raise ValueError(f"{path.name}: central directory larger than {MAX_CENTRAL_DIRECTORY_BYTES} bytes")
+    return entries
+
+
 @dataclass
 class JobBudget:
     """What one job's archives may still expand to, shared across all of them."""
@@ -511,14 +549,19 @@ def extract_archive(path: Path, into: Path, budget: JobBudget | None = None) -> 
     member name: it may hold an identifier and has not been checked yet.
     """
     budget = budget or JobBudget()
+    # The entry count comes from the end-of-central-directory record before ZipFile parses (and
+    # holds in memory) the whole directory; directory entries count like files.
+    entries = _central_directory_entries(path)
+    if entries > budget.members:
+        raise ValueError(f"{path.name}: the job's archives hold more than {MAX_JOB_MEMBERS} members")
     into.mkdir(parents=True, exist_ok=True)
     files: dict[str, Path] = {}
     with zipfile.ZipFile(path) as z:
-        members = [m for m in z.infolist() if not m.is_dir()]
-        budget.members -= len(members)
-        if budget.members < 0:
+        infos = z.infolist()
+        budget.members -= len(infos)
+        if budget.members < 0 or len(infos) != entries:
             raise ValueError(f"{path.name}: the job's archives hold more than {MAX_JOB_MEMBERS} members")
-        for m in members:
+        for m in (m for m in infos if not m.is_dir()):
             kind = (m.external_attr >> 16) & 0o170000
             # Zips written without Unix modes carry 0; anything else must be a regular file.
             if kind not in (0, 0o100000):
@@ -565,14 +608,16 @@ def _job_files(df, job: dict, scratch: Path) -> tuple[dict[str, Path], int]:
     downloaded, budget = 0, JobBudget()
     for index, art in enumerate(arts):
         archive = scratch / f"{index}.zip"
+        # One deadline per archive, kept across a URL refresh.
+        deadline = time.monotonic() + DOWNLOAD_DEADLINE_S
         try:
-            downloaded += http_get(art["url"], archive, MAX_ARCHIVE_BYTES)
+            downloaded += http_get(art["url"], archive, MAX_ARCHIVE_BYTES, deadline=deadline)
         except ExpiredURL:
             # Presigned URLs expire: list again and take the same artifact, matched by its ARN.
             fresh = {a["arn"]: a for a in customer_artifacts(df, job["arn"])}
             if art["arn"] not in fresh:
                 raise
-            downloaded += http_get(fresh[art["arn"]]["url"], archive, MAX_ARCHIVE_BYTES)
+            downloaded += http_get(fresh[art["arn"]]["url"], archive, MAX_ARCHIVE_BYTES, deadline=deadline)
         if downloaded > MAX_JOB_ARCHIVE_BYTES:
             raise ValueError(f"the job's artifacts exceed {MAX_JOB_ARCHIVE_BYTES} bytes")
         for rel, staged in extract_archive(archive, scratch / f"{index}.d", budget).items():

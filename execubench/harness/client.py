@@ -8,10 +8,12 @@ raises IncompleteStream with whatever text arrived, so a cut stream is never sco
 
 from __future__ import annotations
 
+import http.client
 import json
 import time
-import urllib.request
 from dataclasses import dataclass, field
+
+from .. import netio
 
 
 class IncompleteStream(RuntimeError):
@@ -45,20 +47,18 @@ def _merge_tool_call(calls: dict[int, dict], fragment: dict) -> None:
 
 def chat(base_url: str, key: str, body: dict, timeout_s: float = 900) -> Reply:
     body = {**body, "stream": True, "stream_options": {"include_usage": True}}
-    req = urllib.request.Request(
-        base_url.rstrip("/") + "/v1/chat/completions",
-        data=json.dumps(body).encode(),
-        headers={"Content-Type": "application/json", "Authorization": f"Bearer {key}"},
-        method="POST",
-    )
+    data = json.dumps(body).encode()
+    headers = {"Content-Type": "application/json", "Authorization": f"Bearer {key}", "Content-Length": str(len(data))}
     reply = Reply(sent_ns=time.monotonic_ns())
     calls: dict[int, dict] = {}
     deadline = time.monotonic() + timeout_s
     try:
-        _read_stream(req, reply, calls, deadline, timeout_s)
+        _read_stream(base_url.rstrip("/") + "/v1/chat/completions", data, headers, reply, calls, deadline)
     except IncompleteStream:
         raise
-    except (OSError, ValueError) as error:  # connection reset, timeout or a malformed event
+    except TimeoutError as error:  # the watchdog cut the connection at the deadline
+        raise IncompleteStream(f"no completion within {timeout_s} s", reply) from error
+    except (OSError, ValueError, http.client.HTTPException) as error:  # reset, refused or a malformed event
         raise IncompleteStream(f"stream failed: {type(error).__name__} {error}", reply) from error
     finally:
         # Every exit, clean or not, leaves the partial reply whole: its end time and the tool
@@ -70,14 +70,25 @@ def chat(base_url: str, key: str, body: dict, timeout_s: float = 900) -> Reply:
     return reply
 
 
-def _read_stream(req, reply: Reply, calls: dict, deadline: float, timeout_s: float) -> None:
-    """Read SSE lines until [DONE]. Each blocking read is bounded by the socket timeout (at most
-    120 s), so the overall deadline is overrun by at most one socket timeout."""
+def _lines(chunks):
+    buf = b""
+    for chunk in chunks:
+        buf += chunk
+        while b"\n" in buf:
+            line, buf = buf.split(b"\n", 1)
+            yield line
+    if buf:
+        yield buf
+
+
+def _read_stream(url: str, data: bytes, headers: dict, reply: Reply, calls: dict, deadline: float) -> None:
+    """Read SSE lines until [DONE], everything (connect, headers, body) before `deadline`: a
+    watchdog cuts the connection off then, however slowly the bytes trickle (execubench/netio.py)."""
     done = False
-    with urllib.request.urlopen(req, timeout=min(timeout_s, 120)) as resp:
-        while raw := resp.readline():
-            if time.monotonic() > deadline:
-                raise IncompleteStream(f"no completion within {timeout_s} s", reply)
+    with netio.request("POST", url, deadline, "stream", body=data, headers=headers, sock_timeout=120) as resp:
+        if resp.status != 200:
+            raise ValueError(f"HTTP {resp.status}")
+        for raw in _lines(netio.read_chunks(resp, deadline, "stream", 1 << 16)):
             line = raw.decode("utf-8").strip()
             if not line.startswith("data:"):
                 continue

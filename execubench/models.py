@@ -10,6 +10,7 @@ from __future__ import annotations
 import hashlib
 import json
 import re
+import time
 from pathlib import Path
 
 ORGS = ("experimentalmachines",)
@@ -36,6 +37,9 @@ def scan(token: str | None = None) -> list[dict]:
             by_file: dict[str, tuple] = {}
             conflicts: set[str] = set()
             for name, r in sorted(reports.items()):
+                paths = [e.get("path") for e in r.get("files", [])]
+                # One report listing a path twice contradicts itself (its entries may differ).
+                conflicts.update(p for p in paths if paths.count(p) > 1)
                 for entry in r.get("files", []):
                     previous = by_file.get(entry["path"])
                     # Two reports naming one file must agree on everything that defines it (hash,
@@ -100,8 +104,42 @@ def scan(token: str | None = None) -> list[dict]:
     return out
 
 
+def check_pins(inv: list[dict], token: str | None = None) -> list[dict]:
+    """For every pinned file, whether the Hub still serves it at its pinned revision with the
+    recorded sha256 (LFS metadata at that revision; nothing is downloaded), and its tokenizer."""
+    from huggingface_hub import HfApi
+
+    api = HfApi(token=token)
+    out, cache = [], {}
+    for f in inv:
+        key = (f["repo"], f["revision"])
+        for attempt in range(3):
+            if key in cache and "__error__" not in cache[key]:
+                break
+            try:
+                info = api.model_info(f["repo"], revision=f["revision"], files_metadata=True)
+                cache[key] = {s.rfilename: (s.lfs.sha256 if s.lfs else None) for s in info.siblings}
+            except Exception as error:  # noqa: BLE001 - recorded as unresolved, never skipped
+                cache[key] = {"__error__": type(error).__name__}
+                time.sleep(2**attempt)
+        files = cache[key]
+        out.append(
+            {
+                "repo": f["repo"],
+                "revision": f["revision"],
+                "file": f["file"],
+                "resolves": f["file"] in files,
+                "sha256_matches": files.get(f["file"]) == f["sha256"],
+                "tokenizer_present": f.get("tokenizer") in files,
+                "error": files.get("__error__"),
+            }
+        )
+    return out
+
+
 def provenance(report: dict, path: str) -> tuple:
-    """What a report says defines one file; two reports naming the file must give the same."""
+    """What a report says defines one file, including the sizing table the inventory republishes;
+    two reports naming the file must give the same."""
     entry = next((e for e in report.get("files", []) if e.get("path") == path), {})
     return (
         entry.get("sha256"),
@@ -109,6 +147,7 @@ def provenance(report: dict, path: str) -> tuple:
         json.dumps(report.get("toolchain", {}), sort_keys=True),
         report.get("tokenizer"),
         json.dumps(report.get("recipe", {}), sort_keys=True),
+        json.dumps(report.get("window", {}), sort_keys=True),
     )
 
 

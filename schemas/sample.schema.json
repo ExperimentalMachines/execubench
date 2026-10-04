@@ -107,7 +107,8 @@
         "null"
       ],
       "maxLength": 500,
-      "description": "Why this read has no values: an adb failure or output that did not parse. null when the read succeeded"
+      "description": "Why this read has no values: an adb failure or output that did not parse. null when the read succeeded",
+      "minLength": 1
     }
   },
   "allOf": [

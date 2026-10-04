@@ -75,7 +75,12 @@ def _timing(t: dict, host: dict) -> list[str]:
 def _request(rec: dict, raw: bool = False) -> list[str]:
     out: list[str] = []
     item = rec.get("item") or {}
-    if raw and rec.get("status") == "ok" and (item.get("replay") == "restricted" or not item.get("prompt_text")):
+    # The restricted marker is a publication marker: no raw record may carry it, whatever its
+    # status. A successful raw record also needs its prompt (a failed one may have none, if it
+    # failed before the prompt was rendered).
+    if raw and item.get("replay") == "restricted":
+        out.append("a raw record cannot be replay restricted; only the publication exporter sets it")
+    if raw and rec.get("status") == "ok" and not item.get("prompt_text"):
         out.append("a raw record must carry its prompt_text; only the publication exporter removes it")
     if item.get("replay") == "restricted" and item.get("prompt_text") is not None:
         out.append("replay restricted but prompt_text is still present")
@@ -185,10 +190,11 @@ def _summary(rec: dict) -> list[str]:
     q = rec.get("quality") or {}
     if q.get("attempted") == 0 and q.get("accuracy") is not None:
         out.append("quality.accuracy must be null when nothing was attempted")
-    # A rate without its denominator cannot be checked or bounded, so it is not publishable.
+    # A rate needs a positive denominator: without one it cannot be checked or bounded, and over
+    # zero attempts it means nothing, so it must be null.
     for rate in RATES:
-        if q.get(rate) is not None and q.get("attempted") is None:
-            out.append(f"quality.{rate} published without quality.attempted")
+        if q.get(rate) is not None and not (isinstance(q.get("attempted"), int) and q["attempted"] > 0):
+            out.append(f"quality.{rate} published without a positive quality.attempted")
     if q.get("accuracy") is not None and q.get("correct") is None:
         out.append("quality.accuracy published without quality.correct")
     if q.get("ci95") is not None:
@@ -271,8 +277,8 @@ class _Invalid(str):
 def sample(rec: dict) -> list[str]:
     out = []
     t0, t, t1 = rec.get("t_start_ns"), rec.get("t_ns"), rec.get("t_end_ns")
-    if None not in (t0, t, t1) and not t0 <= t <= t1:
-        out.append("t_ns is not inside [t_start_ns, t_end_ns]")
+    if None not in (t0, t, t1) and (t0 > t1 or t != (t0 + t1) // 2):
+        out.append("t_ns is not the midpoint of [t_start_ns, t_end_ns]")
     if rec.get("read_error") and any(
         rec.get(k) is not None for k in ("vm_rss_kib", "cpu_cur_khz", "thermal_status", "temps_c")
     ):

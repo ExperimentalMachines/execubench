@@ -101,3 +101,39 @@ def test_the_ledger_enforces_one_budget_across_runs(tmp_path):
         ledger.reserve(path, 1000, "run-a", 1)
     assert ledger.reserve(path, 100, "run-c", 40) == 100
     assert ledger.reserved(path) == 100
+    for budget, worst in ((float("nan"), 1), (100, float("nan")), (float("inf"), 1), (100, 0)):
+        with pytest.raises(ValueError):
+            ledger.reserve(tmp_path / "other.jsonl", budget, "x", worst)
+    (tmp_path / "bad.jsonl").write_text('{"name": "a", "worst_minutes": NaN}\n')
+    with pytest.raises(ValueError):
+        ledger.reserved(tmp_path / "bad.jsonl")
+
+
+def test_the_cli_refuses_nonfinite_minutes():
+    import argparse
+
+    import pytest
+
+    from execubench.__main__ import finite_minutes
+
+    for bad in ("nan", "inf", "-1", "0"):
+        with pytest.raises(argparse.ArgumentTypeError):
+            finite_minutes(bad)
+    assert finite_minutes("30") == 30
+
+
+def test_compat_evidence_is_checked_not_assumed(tmp_path):
+    import shutil
+
+    from execubench import pilot
+
+    model = PILOT["models"]["qwen3-1.7b"]
+    assert pilot.compat_problems(model, "1.5.1") == []
+    stem = Path(model["file"]).stem
+    for f in pilot.COMPAT.glob(f"{stem}.*"):
+        shutil.copy(f, tmp_path / f.name)
+    compare = tmp_path / f"{stem}.compare.json"
+    compare.write_text(compare.read_text().replace('"identical": false', '"identical": true', 1))
+    assert any("derives" in p for p in pilot.compat_problems(model, "1.5.1", tmp_path))
+    assert any("missing" in p for p in pilot.compat_problems(dict(model, file="xnnpack/nothing.pte"), "1.5.1"))
+    assert any("another .pte" in p for p in pilot.compat_problems(dict(model, sha256="0" * 64), "1.5.1"))

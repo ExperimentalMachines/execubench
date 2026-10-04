@@ -84,8 +84,26 @@ def test_repeat_check_backs_the_repeatability_sentence():
     import json
 
     folder = ROOT / "data" / "runtime" / "compat-1.4.0-vs-1.5.1" / "repeat-check"
+    from execubench import host
+
     reports = sorted(folder.glob("*.json"))
     assert len(reports) == 4
     for path in reports:
         report = json.loads(path.read_text())
-        assert all(r["repeats"] == 2 and r["repeats_identical"] for r in report["results"]), path.name
+        # Agreement is recomputed from the retained repetitions, on the fixed prompts.
+        assert [r["prompt"] for r in report["results"]] == list(host.PROMPTS), path.name
+        assert all(len(r["repetitions"]) >= 2 for r in report["results"]), path.name
+        assert all(host.repeat_agreement(report)), path.name
+
+
+def test_repeat_agreement_needs_retained_evidence():
+    import pytest
+
+    from execubench import host
+
+    with pytest.raises(ValueError):
+        host.repeat_agreement({"results": []})
+    with pytest.raises(ValueError):
+        host.repeat_agreement({"results": [{"prompt": "p", "pieces": ["a"], "repeats_identical": True}]})
+    rows = [{"prompt": "p", "pieces": ["a"], "repetitions": [{"pieces": ["a"]}, {"pieces": ["b"]}]}]
+    assert host.repeat_agreement({"results": rows}) == [False]

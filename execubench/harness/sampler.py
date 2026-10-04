@@ -91,7 +91,8 @@ class Sampler:
         try:
             text = self.adb.shell(command, timeout_s=timeout_s)
         except AdbError as e:
-            error = f"adb: {e}"[:500]
+            # Only the fixed code: adb's message can carry the device serial.
+            error = f"adb_{e.code}"
         if text is not None:
             parsed = parse(text)
             if not _has_reading(kind, parsed):

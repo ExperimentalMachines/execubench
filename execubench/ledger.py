@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import fcntl
 import json
+import math
 import os
 from datetime import UTC, datetime
 from pathlib import Path
@@ -19,10 +20,21 @@ class OverBudget(RuntimeError):
     pass
 
 
+def _finite_positive(value, what: str) -> float:
+    if isinstance(value, bool) or not isinstance(value, int | float) or not math.isfinite(value) or value <= 0:
+        raise ValueError(f"{what} must be a finite positive number, not {value!r}")
+    return float(value)
+
+
+def _entries(text: str) -> list[dict]:
+    entries = [json.loads(line) for line in text.splitlines() if line.strip()]
+    for entry in entries:
+        _finite_positive(entry.get("worst_minutes"), f"ledger entry {entry.get('name')!r}")
+    return entries
+
+
 def reserved(path: Path) -> float:
-    if not path.exists():
-        return 0.0
-    return sum(json.loads(line)["worst_minutes"] for line in path.read_text().splitlines() if line.strip())
+    return sum(e["worst_minutes"] for e in _entries(path.read_text())) if path.exists() else 0.0
 
 
 def reserve(path: Path, budget_minutes: float, name: str, worst_minutes: float) -> float:
@@ -31,13 +43,13 @@ def reserve(path: Path, budget_minutes: float, name: str, worst_minutes: float) 
     The ledger is locked while it is read and appended, so two scheduling commands cannot both
     spend the last minutes.
     """
-    if worst_minutes <= 0:
-        raise ValueError("a reservation must be positive")
+    _finite_positive(budget_minutes, "the ledger budget")
+    _finite_positive(worst_minutes, "a reservation")
     path.parent.mkdir(parents=True, exist_ok=True)
     with open(path, "a+", encoding="utf-8") as f:
         fcntl.flock(f, fcntl.LOCK_EX)
         f.seek(0)
-        lines = [json.loads(line) for line in f.read().splitlines() if line.strip()]
+        lines = _entries(f.read())
         if any(entry["name"] == name for entry in lines):
             raise OverBudget(f"{name!r} already holds a reservation in {path}")
         total = sum(entry["worst_minutes"] for entry in lines) + worst_minutes
@@ -47,7 +59,7 @@ def reserve(path: Path, budget_minutes: float, name: str, worst_minutes: float) 
                 f"{total:.0f}, above its budget of {budget_minutes:.0f}"
             )
         entry = {"name": name, "worst_minutes": worst_minutes, "utc": datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")}
-        f.write(json.dumps(entry, sort_keys=True) + "\n")
+        f.write(json.dumps(entry, sort_keys=True, allow_nan=False) + "\n")
         f.flush()
         os.fsync(f.fileno())
     return total

@@ -136,7 +136,7 @@ class ScriptedAdb:
         for key, value in self.answers.items():
             if key in command:
                 return value
-        raise AdbError(f"no answer for {command}")
+        raise AdbError(f"error: device 'SERIAL12345' not found ({command})", "exit_1")
 
 
 def test_every_read_writes_a_sample_with_its_raw_output(tmp_path):
@@ -154,7 +154,8 @@ def test_every_read_writes_a_sample_with_its_raw_output(tmp_path):
     assert rows[0]["vm_rss_kib"] == 1234 and rows[0]["raw"] == status and rows[0]["read_error"] is None
     assert rows[1]["read_error"] == "unparseable" and rows[1]["raw"] == "garbage" and "cpu_cur_khz" not in rows[1]
     assert rows[2]["thermal_status"] == 2 and rows[2]["raw"].startswith("Thermal Status")
-    assert rows[3]["read_error"].startswith("adb:") and rows[3]["raw"] is None
+    assert rows[3]["read_error"] == "adb_exit_1" and rows[3]["raw"] is None
+    assert "SERIAL12345" not in (tmp_path / "s.jsonl").read_text()
     assert s.missed == 2
     for row in rows:
         assert schemas.errors_for("sample.schema.json", row) == [], row
@@ -174,6 +175,8 @@ def test_memory_summary_refuses_samples_it_cannot_place():
         run.memory_summary([{"job_id": "job", "kind": "memory", "t_ns": 5, "vm_rss_kib": 1}], 0, 10, "job")
     with pytest.raises(run.BadSample, match="disagree"):
         run.memory_summary([_mem(5, 1), _mem(5, 2)], 0, 10, "job")
+    with pytest.raises(run.BadSample, match="disagree"):
+        run.memory_summary([_mem(5, 1, rss_anon_kib=10), _mem(5, 1, rss_anon_kib=20)], 0, 10, "job")
     failed = {**_mem(5, 1), "vm_rss_kib": None, "read_error": "unparseable"}
     assert run.memory_summary([failed], 0, 10, "job")["samples"] == 0
 
@@ -327,6 +330,41 @@ def test_streamed_tool_calls_are_assembled(stream_server, monkeypatch):
 def test_an_unpinned_build_is_refused(server):
     with pytest.raises(run.ContractMissing, match="not the pinned"):
         run.require_contract(server, "k", "f" * 64)
+
+
+class TrickleHandler(BaseHTTPRequestHandler):
+    """Headers, then one byte every 50 ms and never a newline."""
+
+    def log_message(self, *args):
+        pass
+
+    def do_POST(self):
+        import time
+
+        self.rfile.read(int(self.headers.get("Content-Length", 0)))
+        self.send_response(200)
+        self.end_headers()
+        try:
+            for _ in range(200):
+                self.wfile.write(b"x")
+                self.wfile.flush()
+                time.sleep(0.05)
+        except OSError:
+            pass
+
+
+def test_a_trickle_without_newlines_stops_at_the_deadline():
+    import time
+
+    httpd = HTTPServer(("127.0.0.1", 0), TrickleHandler)
+    threading.Thread(target=httpd.serve_forever, daemon=True).start()
+    started = time.monotonic()
+    try:
+        with pytest.raises(client.IncompleteStream, match="no completion within"):
+            client.chat(f"http://127.0.0.1:{httpd.server_port}", "k", {}, timeout_s=0.3)
+    finally:
+        httpd.shutdown()
+    assert time.monotonic() - started < 1.0
 
 
 def test_the_deadline_branch_records_an_end_time(stream_server, monkeypatch):

@@ -1,0 +1,40 @@
+{
+ "versions": [
+  "1.4.0",
+  "1.5.1"
+ ],
+ "pte": {
+  "name": "Llama-3.2-1B-Instruct-8da4w-8k.pte",
+  "sha256": "642f4cc2167603d112fc90ccc0e40fc81f50e88e29f79ec4a3c9edfdcca526a9"
+ },
+ "identical": false,
+ "prompts": [
+  {
+   "prompt": "The capital of France is",
+   "identical": true,
+   "first_difference_at_piece": null,
+   "pieces": [
+    48,
+    48
+   ]
+  },
+  {
+   "prompt": "Write one sentence about the sea.",
+   "identical": false,
+   "first_difference_at_piece": 0,
+   "pieces": [
+    10,
+    18
+   ]
+  },
+  {
+   "prompt": "1, 2, 3, 4,",
+   "identical": true,
+   "first_difference_at_piece": null,
+   "pieces": [
+    48,
+    48
+   ]
+  }
+ ]
+}

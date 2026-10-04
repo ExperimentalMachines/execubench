@@ -33,23 +33,61 @@ def _device_ids(root: Path) -> set[str]:
     return {rec.get("id") for rec in json.loads(devices.read_text())["devices"]} if devices.exists() else set()
 
 
-def validate_runs(path: Path, root: Path = ROOT) -> list[str]:
-    """A pulled harness run as collected (restricted storage, outside this repository): every
-    job folder's records with the raw-record rules, and the pull manifest must say complete.
+def _sha256(path: Path) -> str:
+    import hashlib
 
-    Accepts the pull layout (`<run>/<device>/artifacts/job.json`) or any folder holding job.json
-    files. Finding no job at all is an error, never an empty success.
+    h = hashlib.sha256()
+    with open(path, "rb") as f:
+        for chunk in iter(lambda: f.read(1 << 20), b""):
+            h.update(chunk)
+    return h.hexdigest()
+
+
+def _reconcile_pull(path: Path) -> list[str]:
+    """The pull manifest must exist, say complete and harness, and match the folder exactly:
+    every job it lists present with every file at its recorded sha256 and size, nothing else."""
+    manifest = path / "pull-manifest.json"
+    if not manifest.exists():
+        return [f"{manifest}: missing; a pulled run is validated against its manifest (or use --job-folder)"]
+    m = json.loads(manifest.read_text())
+    out = []
+    if not m.get("complete"):
+        out.append(f"{manifest}: the pull is not complete")
+    if m.get("kind") != "harness":
+        out.append(f"{manifest}: pulled as {m.get('kind')!r}, not as a harness run")
+    jobs = m.get("jobs") or {}
+    if not jobs:
+        out.append(f"{manifest}: lists no jobs")
+    for name, job in sorted(jobs.items()):
+        artifacts = path / name / "artifacts"
+        listed = job.get("files") or {}
+        present = {p.relative_to(artifacts).as_posix() for p in artifacts.rglob("*") if p.is_file()}
+        for rel in sorted(present - set(listed)):
+            out.append(f"{artifacts / rel}: not in the pull manifest")
+        for rel, meta in sorted(listed.items()):
+            f = artifacts / rel
+            if not f.is_file():
+                out.append(f"{f}: listed in the pull manifest but missing")
+            elif f.stat().st_size != meta.get("bytes") or _sha256(f) != meta.get("sha256"):
+                out.append(f"{f}: differs from the sha256 or size in the pull manifest")
+    for job_json in sorted(path.rglob("job.json")):
+        rel = job_json.relative_to(path).parts
+        if len(rel) != 3 or rel[0] not in jobs or rel[1] != "artifacts":
+            out.append(f"{job_json}: not a job of the pull manifest")
+    return out
+
+
+def validate_runs(path: Path, root: Path = ROOT, standalone: bool = False) -> list[str]:
+    """A pulled harness run as collected (restricted storage, outside this repository).
+
+    The pull manifest is required and reconciled with the folder (`_reconcile_pull`), then every
+    job folder's records are checked with the raw-record rules. `standalone=True` skips the
+    manifest, for inspecting a job folder that did not come from a pull (`--job-folder`); it never
+    stands in for a pulled run. Finding no job at all is an error, never an empty success.
     """
     from . import semantics
 
-    out = []
-    manifest = path / "pull-manifest.json"
-    if manifest.exists():
-        m = json.loads(manifest.read_text())
-        if not m.get("complete"):
-            out.append(f"{manifest}: the pull is not complete")
-        if m.get("kind") != "harness":
-            out.append(f"{manifest}: pulled as {m.get('kind')!r}, not as a harness run")
+    out = [] if standalone else _reconcile_pull(path)
     job_dirs = sorted({job.parent for job in path.rglob("job.json")})
     if not job_dirs:
         return out + [f"{path}: no job.json found; nothing was validated"]

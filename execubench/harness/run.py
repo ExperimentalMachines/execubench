@@ -143,10 +143,11 @@ def memory_summary(samples: list[dict], sent_ns: int, done_ns: int, job_id: str)
             window.append(s)
     window.sort(key=lambda s: s["t_ns"])
     # Two reads with one timestamp carry no duration between them; agreeing ones collapse.
+    fields = ("vm_rss_kib", "rss_anon_kib", "rss_file_kib", "vm_hwm_kib")
     deduped: dict[int, dict] = {}
     for s in window:
         seen = deduped.get(s["t_ns"])
-        if seen is not None and seen["vm_rss_kib"] != s["vm_rss_kib"]:
+        if seen is not None and any(seen.get(k) != s.get(k) for k in fields):
             raise BadSample(f"two memory reads at {s['t_ns']} disagree")
         deduped[s["t_ns"]] = s
     window = [deduped[t] for t in sorted(deduped)]

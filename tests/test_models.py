@@ -65,7 +65,7 @@ def _fake_hub(monkeypatch, tmp_path, reports: dict, pte_sha: str):
         def list_models(self, author):
             return [type("M", (), {"id": f"{author}/M-ExecuTorch"})()]
 
-        def model_info(self, repo, files_metadata):
+        def model_info(self, repo, files_metadata, revision=None):
             return type("I", (), {"sha": "a" * 40, "siblings": siblings})()
 
     def download(repo, name, revision, token=None):
@@ -103,6 +103,42 @@ def test_scan_flags_reports_that_disagree_on_anything_but_the_hash(monkeypatch, 
     inv = models.scan()
     assert inv[0]["report_conflict"]
     assert any("disagree" in p for p in models.problems(inv))
+
+
+def test_a_report_that_lists_a_file_twice_is_a_conflict(monkeypatch, tmp_path):
+    sha = "c" * 64
+    report = _report(sha)
+    report["files"].append({"path": "xnnpack/M-8da4w-8k.pte", "sha256": "d" * 64})
+    _fake_hub(monkeypatch, tmp_path, {"xnnpack/export-report-a.json": report}, sha)
+    assert models.scan()[0]["report_conflict"]
+
+
+def test_reports_that_disagree_on_sizing_conflict(monkeypatch, tmp_path):
+    sha = "c" * 64
+    a, b = _report(sha), _report(sha)
+    a["window"] = {"table": [{"context": 8192, "device_resident_bytes": 1}]}
+    b["window"] = {"table": [{"context": 8192, "device_resident_bytes": 2}]}
+    _fake_hub(monkeypatch, tmp_path, {"xnnpack/export-report-a.json": a, "xnnpack/export-report-b.json": b}, sha)
+    assert models.scan()[0]["report_conflict"]
+
+
+def test_pins_are_checked_at_their_revision(monkeypatch, tmp_path):
+    sha = "c" * 64
+    _fake_hub(monkeypatch, tmp_path, {"xnnpack/export-report-a.json": _report(sha)}, sha)
+    pin = {"repo": "experimentalmachines/M-ExecuTorch", "revision": "a" * 40, "tokenizer": "tokenizer.json"}
+    good = models.check_pins([{**pin, "file": "xnnpack/M-8da4w-8k.pte", "sha256": sha}])[0]
+    assert good["resolves"] and good["sha256_matches"] and good["tokenizer_present"]
+    moved = models.check_pins([{**pin, "file": "xnnpack/M-8da4w-8k.pte", "sha256": "d" * 64}])[0]
+    assert moved["resolves"] and not moved["sha256_matches"]
+
+
+def test_the_committed_pin_check_covers_the_inventory():
+    check = json.loads(
+        (Path(__file__).resolve().parent.parent / "data" / "models" / "pin-check-2026-10-04.json").read_text()
+    )
+    rows = {(r["repo"], r["file"]): r for r in check["files"]}
+    assert set(rows) == {(f["repo"], f["file"]) for f in INV}
+    assert all(r["resolves"] and r["sha256_matches"] and r["tokenizer_present"] for r in rows.values())
 
 
 def test_a_scan_that_loses_files_is_refused():

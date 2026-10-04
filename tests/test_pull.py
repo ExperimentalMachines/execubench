@@ -64,7 +64,7 @@ class FakeDF:
 @pytest.fixture
 def fake_http(monkeypatch):
     def install(df):
-        def get(url, dest, max_bytes, timeout=60):
+        def get(url, dest, max_bytes, timeout=60, deadline=None):
             i, k = map(int, url.removeprefix("fake://").split("/"))
             data = df.archives[i][k]
             dest.write_bytes(data)
@@ -301,6 +301,7 @@ def test_a_trickling_download_stops_at_the_deadline(tmp_path, monkeypatch):
 
     server, _ = _counting_server(trickle)
     monkeypatch.setattr(devicefarm, "DOWNLOAD_DEADLINE_S", 1)
+    monkeypatch.setattr(devicefarm, "_backoff", lambda *a: (_ for _ in ()).throw(TimeoutError("no retry")))
     started = time.monotonic()
     try:
         with pytest.raises(TimeoutError):
@@ -310,10 +311,49 @@ def test_a_trickling_download_stops_at_the_deadline(tmp_path, monkeypatch):
     assert time.monotonic() - started < 4
 
 
+ESCAPED = (
+    b'{"x": "SERIAL\\u00312345"}',
+    b'{"x": "serial12345"}',
+    b"GET /a?u=SERIAL%312345",
+    b'{"x": "SERIAL%\\u003312345"}',  # a percent-escape inside a JSON string
+    b"u=SERIAL%5Cu00312345",  # a JSON escape inside a percent-escaped value
+)
+
+
 def test_escaped_and_case_folded_identifiers_refuse_the_pull():
-    for record in (b'{"x": "SERIAL\\u00312345"}', b'{"x": "serial12345"}', b"GET /a?u=SERIAL%312345"):
+    for record in ESCAPED:
         with pytest.raises(devicefarm.LeakFound):
             devicefarm.scrub({**PROBE, "requests.jsonl": record})
+
+
+def test_probe_dumps_are_rescanned_after_redaction():
+    out, _ = devicefarm.scrub({**PROBE, "probe/extra.txt": b"x serial12345 y"})
+    assert b"serial12345" not in out["probe/extra.txt"].lower()
+    with pytest.raises(devicefarm.LeakFound, match="after redaction"):
+        devicefarm.scrub({**PROBE, "probe/extra.txt": b'{"x": "SERIAL\\u00312345"}'})
+
+
+def test_composed_escapes_are_found_across_chunk_boundaries(tmp_path, monkeypatch):
+    monkeypatch.setattr(devicefarm, "SCAN_CHUNK", 5)
+    staged = tmp_path / "r.jsonl"
+    staged.write_bytes(b"x" * 3 + ESCAPED[3] + b"y" * 40)
+    with pytest.raises(devicefarm.LeakFound):
+        devicefarm.scrub({**PROBE, "requests.jsonl": staged})
+
+
+def test_directory_entries_spend_the_member_budget(tmp_path):
+    path = tmp_path / "dirs.zip"
+    with zipfile.ZipFile(path, "w") as z:
+        for i in range(5):
+            z.writestr(f"Host_Machine_Files/$DEVICEFARM_LOG_DIR/d{i}/", b"")
+    with pytest.raises(ValueError, match="members"):
+        devicefarm.extract_archive(path, tmp_path / "x", devicefarm.JobBudget(members=3))
+
+
+def test_nonfinite_ceilings_are_refused():
+    for bad in (float("nan"), float("inf"), 0, -5):
+        with pytest.raises(ValueError):
+            devicefarm.spend_guard(1, 15, bad)
 
 
 def test_a_refusal_never_writes_the_identifier_into_the_manifest(tmp_path, fake_http):
@@ -338,7 +378,7 @@ def test_expired_urls_are_refreshed_by_artifact_arn(tmp_path, monkeypatch):
     calls = []
     data = _zip(PROBE)
 
-    def get(url, dest, max_bytes, timeout=60):
+    def get(url, dest, max_bytes, timeout=60, deadline=None):
         calls.append(url)
         if url == "fake://old":
             raise devicefarm.ExpiredURL("403")

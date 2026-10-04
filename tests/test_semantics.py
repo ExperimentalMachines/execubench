@@ -68,7 +68,11 @@ def test_a_thermal_sample_needs_a_reading():
 
 
 def test_sample_intervals_must_hold_their_midpoint():
-    assert semantics.sample({**SAMPLE, "kind": "memory", "vm_rss_kib": 1, "t_start_ns": 8, "t_end_ns": 2})
+    good = {**SAMPLE, "kind": "memory", "vm_rss_kib": 1}
+    assert semantics.sample(good) == []
+    assert semantics.sample({**good, "t_start_ns": 8, "t_end_ns": 2})  # reversed
+    assert semantics.sample({**good, "t_start_ns": 0, "t_end_ns": 100, "t_ns": 0})  # inside, not the midpoint
+    assert schemas.errors_for("sample.schema.json", {**good, "vm_rss_kib": None, "read_error": ""})
 
 
 def test_timings_are_rederived_from_their_coordinates():
@@ -108,12 +112,18 @@ def test_restricted_replay_rules():
     assert schemas.errors_for("request.schema.json", rec) == []
     assert any("raw record" in e for e in semantics.request(rec, raw=True))
     assert semantics.request(REQ, raw=True) == []
+    # Not on a failed raw record either.
+    failed = {**copy.deepcopy(REQ), "status": "error", "error": "load failed"}
+    failed["item"] = {**failed["item"], "replay": "restricted", "prompt_text": None}
+    assert any("cannot be replay restricted" in e for e in semantics.request(failed, raw=True))
 
 
 def test_impossible_statistics_are_rejected():
     s = copy.deepcopy(SUMMARY)
     s["quality"] = {"accuracy": 1}
-    assert any("without quality.attempted" in e for e in semantics.summary(s))
+    assert any("positive quality.attempted" in e for e in semantics.summary(s))
+    s["quality"] = {"attempted": 0, "tool_call_valid_rate": 1}
+    assert any("tool_call_valid_rate" in e for e in semantics.summary(s))
     s = copy.deepcopy(SUMMARY)
     s["quality"] = {
         "answer_in_context": dict.fromkeys(
@@ -186,12 +196,35 @@ def test_structurally_invalid_lines_are_reported_not_crashed_on(tmp_path):
     assert "samples.jsonl:1: not a JSON object" in joined
 
 
-def test_validate_runs_checks_a_pulled_run(tmp_path):
-    folder = tmp_path / "run" / "dev" / "artifacts"
+def _manifest(run, complete=True, kind="harness"):
+    import hashlib
+
+    files = {}
+    for f in sorted((run / "dev" / "artifacts").rglob("*")):
+        if f.is_file():
+            files[f.relative_to(run / "dev" / "artifacts").as_posix()] = {
+                "sha256": hashlib.sha256(f.read_bytes()).hexdigest(),
+                "bytes": f.stat().st_size,
+            }
+    m = {"kind": kind, "complete": complete, "jobs": {"dev": {"files": files, "state": "complete"}}}
+    (run / "pull-manifest.json").write_text(json.dumps(m))
+
+
+def test_validate_runs_checks_a_pulled_run_against_its_manifest(tmp_path):
+    run = tmp_path / "run"
+    folder = run / "dev" / "artifacts"
     folder.mkdir(parents=True)
-    job = _job_folder(folder, json.dumps(REQ) + "\n")
-    assert schemas.validate_runs(tmp_path / "run") == [], job
-    (tmp_path / "run" / "pull-manifest.json").write_text(json.dumps({"kind": "probe", "complete": False}))
-    errors = schemas.validate_runs(tmp_path / "run")
+    _job_folder(folder, json.dumps(REQ) + "\n")
+    # Without a manifest a pull is refused; standalone inspection is a separate, explicit mode.
+    assert any("missing" in e for e in schemas.validate_runs(run))
+    assert schemas.validate_runs(run, standalone=True) == []
+    _manifest(run)
+    assert schemas.validate_runs(run) == []
+    (folder / "requests.jsonl").write_text(json.dumps({**REQ, "seq": 0}) + "\n\n")
+    assert any("differs from the sha256" in e for e in schemas.validate_runs(run))
+    (folder / "extra.txt").write_text("x")
+    assert any("not in the pull manifest" in e for e in schemas.validate_runs(run))
+    _manifest(run, complete=False, kind="probe")
+    errors = schemas.validate_runs(run)
     assert any("not complete" in e for e in errors) and any("not as a harness run" in e for e in errors)
-    assert schemas.validate_runs(tmp_path / "empty") != []
+    assert schemas.validate_runs(tmp_path / "empty", standalone=True) != []

@@ -41,8 +41,10 @@ def run(
 ) -> dict:
     """One fresh runner per prompt and repetition, so no KV or recurrent state carries over.
 
-    With `repeat` > 1 each prompt runs that many times; `repeats_identical` records whether every
-    repetition gave the same pieces, and `pieces` keeps the first."""
+    `pieces` and `stats` are the first run's. With `repeat` > 1 each prompt runs that many times
+    and `repetitions` keeps every run's pieces and stats, so agreement is computed from the
+    evidence (`repeat_agreement`), never recorded as a bare flag. With `repeat` 1 the report is
+    unchanged from earlier versions."""
     import importlib.metadata
 
     # The custom and quantized kernels register themselves on import; the runner needs them.
@@ -67,8 +69,7 @@ def run(
             runs.append((pieces, stats))
         row = {"prompt": prompt, "pieces": runs[0][0], "stats": runs[0][1]}
         if repeat > 1:
-            row["repeats"] = repeat
-            row["repeats_identical"] = all(r[0] == runs[0][0] for r in runs)
+            row["repetitions"] = [{"pieces": p, "stats": s} for p, s in runs]
         results.append(row)
     return {
         "executorch": importlib.metadata.version("executorch"),
@@ -81,6 +82,20 @@ def run(
         "max_new_tokens": max_new_tokens,
         "results": results,
     }
+
+
+def repeat_agreement(report: dict) -> list[bool]:
+    """Per prompt, whether every retained repetition gave the same pieces as the first. A report
+    without at least two repetitions per prompt is not repeat evidence and raises."""
+    if not report.get("results"):
+        raise ValueError("a report without results is not repeat evidence")
+    out = []
+    for row in report["results"]:
+        reps = row.get("repetitions") or []
+        if len(reps) < 2 or reps[0]["pieces"] != row["pieces"]:
+            raise ValueError(f"prompt {row.get('prompt')!r} has no retained repetitions")
+        out.append(all(r["pieces"] == reps[0]["pieces"] for r in reps))
+    return out
 
 
 def compare(a: dict, b: dict) -> dict:
