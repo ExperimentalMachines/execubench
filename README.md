@@ -1,4 +1,11 @@
-# execubench
+<div align="center">
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/brand/lockup-dark.svg">
+  <img src="docs/brand/lockup.svg" width="380" alt="ExecuBench">
+</picture>
+
+</div>
 
 **Benchmarks for compiled ExecuTorch models on real phones.** Speed, memory, heat and answer
 quality, single turn and multi turn, measured on AWS Device Farm, with every number traceable
@@ -11,7 +18,8 @@ to a raw file from a device run.
 > pilot (P1) is next. See [`docs/PLAN.md`](docs/PLAN.md).
 
 An independent project by [Experimental Machines](https://experimentalmachines.org). Not
-affiliated with, endorsed by or sponsored by the PyTorch Foundation, Meta or Amazon.
+affiliated with, endorsed by or sponsored by the PyTorch Foundation, Meta or Amazon. Brand kit:
+[`docs/brand`](docs/brand).
 
 ## What it measures
 
@@ -72,6 +80,7 @@ table shows the label per cell or splits the column by label. Definitions:
 | `data/models/xnnpack.json` | Generated model inventory |
 | `data/datasets/stats.json` | Every dataset figure the docs cite, recomputed from pinned files with hashes |
 | `data/reference/` | Pinned third-party references (Linux `cputype.h` for MIDR names) |
+| `docs/brand/`, `tools/design/` | The ExecuBench mark and lockups, and the script that draws them |
 
 ## Setup
 
@@ -113,6 +122,7 @@ the usual chain); nothing in this repo stores either.
 
 Apache-2.0 for execubench's own code and documentation. One vendored file,
 `data/reference/linux-cputype.h`, is GPL-2.0-only and is distributed under that license
-(`LICENSES/GPL-2.0-only.txt`); see `THIRD_PARTY_NOTICES.md`. Dataset rows are never
+(`LICENSES/GPL-2.0-only.txt`), and the wordmark font, `tools/design/fonts/RedHatDisplay-Bold.ttf`,
+is under the SIL Open Font License 1.1 (`LICENSES/OFL-1.1.txt`); see `THIRD_PARTY_NOTICES.md`. Dataset rows are never
 redistributed here; manifests carry IDs and hashes, and each dataset's own license applies
 (Multi-IF's data is CC-BY-NC-2.0).
