@@ -7,4 +7,4 @@ referencing==0.37.0
 rfc3339-validator==0.1.4
 pyyaml==6.0.3
 pytest==9.1.1
-ruff==0.16.10
+ruff==0.17.1
